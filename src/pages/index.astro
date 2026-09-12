@@ -1,0 +1,249 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroDoor from "../components/HeroDoor.astro";
+import TrustBar from "../components/TrustBar.astro";
+import PathSteps from "../components/PathSteps.astro";
+import BeforeAfterTable from "../components/BeforeAfterTable.astro";
+import CompareTable from "../components/CompareTable.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import LeadMagnetForm from "../components/LeadMagnetForm.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import { entity } from "../data/entity";
+
+const audienceRouterItems = [
+  { title: "Doctors", href: "/for/doctors" },
+  { title: "Lawyers", href: "/for/lawyers" },
+  { title: "CEOs & Founders", href: "/for/ceos-and-founders" },
+  { title: "IT Leaders", href: "/for/it-leaders" },
+  { title: "Consultants", href: "/for/consultants" },
+  { title: "Coaches", href: "/for/coaches" },
+  { title: "Nurses", href: "/for/nurses" },
+  { title: "Therapists", href: "/for/therapists" },
+  { title: "Financial Advisors", href: "/for/financial-advisors" },
+  { title: "Speakers", href: "/for/speakers" },
+  { title: "Educators", href: "/for/educators" },
+  { title: "Retired Executives", href: "/for/retired-executives" },
+];
+
+const faqs = [
+  {
+    question: "How much does it cost to publish a book with a partner publisher?",
+    answer:
+      "It depends on the scope, but partnership publishing requires a real investment, typically more than self-publishing and less than the years traditional publishing can take to even say yes. We publish an honest, itemized cost guide instead of hiding the number behind a call. Payment plans are available. See the full breakdown on the pricing and cost page.",
+  },
+  {
+    question: "How long does it take?",
+    answer:
+      "Most authors move from idea to published book in 6 to 12 months, working the process in this order: position the book, extract the manuscript through structured sessions, then hand editing, publishing, and launch to the team. The writing is rarely the slow part. The sequence is.",
+  },
+  {
+    question: "Do I keep my rights and royalties?",
+    answer:
+      "Yes, 100% of them. That is the entire point of partnership publishing: you get the reach of a publisher without signing away what traditional deals take. Your name, your rights, your royalties, everywhere books are sold.",
+  },
+  {
+    question: "I'm not a writer. Can this still work?",
+    answer:
+      "Most of our authors did not think of themselves as writers either. The manuscript is extracted through structured sessions built around your voice and your calendar, not squeezed out of you alone at a blank page. You talk. We structure. You review every word before it ships.",
+  },
+  {
+    question: "Will editing change my voice?",
+    answer:
+      "No. We edit with you, not over you. Your coined language, your phrases, your way of explaining things: that is your intellectual property, and it stays yours. This is the Voice Preservation promise, and it is named because too many authors have been burned by editors who flattened it elsewhere.",
+  },
+  {
+    question: "How do I know you're not a vanity press?",
+    answer:
+      "Check us before you trust us: our contract highlights are published in plain language, our BBB and Trustpilot profiles are linked, and our founders are verifiable public figures. The one-line test: if anyone offers to publish your book without involving you, run. Read the full trust page for the specifics.",
+  },
+];
+---
+
+<BaseLayout
+  title="How Experts Actually Write and Publish a Book"
+  description="We help doctors, lawyers, executives, and consultants write, publish, and launch the book that opens doors. You keep 100% of your rights and royalties."
+>
+  <!-- Section 1: Hero -->
+  <HeroDoor
+    eyebrow="FOR PROFESSIONALS WITH A BOOK INSIDE THEM"
+    heading="People keep telling you to write a book. Here's how experts actually do it."
+    subhead="We help doctors, lawyers, executives, and consultants write, publish, and launch the book that opens doors: clients, stages, and authority. You keep 100% of your rights and royalties. We carry the process."
+    microTrust={`${entity.proofBank.authorsCount} authors across ${entity.proofBank.countriesCount} countries · Founded by USA Today and Wall Street Journal bestselling authors`}
+    ctaId="home-hero"
+  />
+
+  <!-- Section 2: Trust bar -->
+  <TrustBar />
+
+  <!-- Section 3: Empathy block -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h2>You're not short on expertise. You're short on a path.</h2>
+      <p class="mt-6 text-lg leading-relaxed">
+        Most experts sit on a book for years. Some for decades. One of our authors first thought about hers
+        in high school and waited 51 years. The problem was never talent or material. It was the same three
+        walls everyone hits: how to structure decades of knowledge, how to find the time, and what happens
+        after the manuscript. This site exists to take down all three.
+      </p>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/guides/where-to-start" class="card p-5" data-cta="empathy-where-to-start">
+          <p class="font-semibold italic">&ldquo;Where do I even start?&rdquo;</p>
+          <p class="mt-2 text-sm font-semibold text-navy-700">The map &rarr;</p>
+        </a>
+        <a href="/guides/finish-your-book" class="card p-5" data-cta="empathy-finish-book">
+          <p class="font-semibold italic">&ldquo;I keep rewriting chapter three.&rdquo;</p>
+          <p class="mt-2 text-sm font-semibold text-navy-700">The finish line &rarr;</p>
+        </a>
+        <a href="/guides/manuscript-ready-now-what" class="card p-5" data-cta="empathy-now-what">
+          <p class="font-semibold italic">&ldquo;I finished the book. Now what?&rdquo;</p>
+          <p class="mt-2 text-sm font-semibold text-navy-700">The launch &rarr;</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Audience router -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center">Built for experts like you</h2>
+      <p class="mt-3 text-center text-slate-500">Pick your world. The advice changes when the reader is you.</p>
+      <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {audienceRouterItems.map((item) => (
+          <a href={item.href} class="card bg-white p-4 text-center font-semibold hover:text-gold-500" data-cta={`audience-${item.href.split("/").pop()}`}>
+            {item.title}
+          </a>
+        ))}
+        <a href="/start" class="card bg-navy-900 text-offwhite-100 p-4 text-center font-semibold sm:col-span-2 flex items-center justify-center" data-cta="audience-start">
+          Don't see your field? The path still fits. Start here &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: The path -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center mb-12">The EPIC Publishing Path: from expertise to a book that works</h2>
+      <PathSteps />
+      <p class="text-center mt-10">
+        <a href="/book-a-call" class="font-semibold text-navy-700 hover:text-gold-500" data-cta="path-call">See how it works on a call &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 6: Before/After -->
+  <BeforeAfterTable
+    heading="The same expertise. A different weight."
+    rows={[
+      { before: "Explained one client at a time", after: "Working while you sleep, everywhere at once" },
+      { before: '"Trust me, I\'ve done this for 20 years"', after: "A book on the table that proves it before you speak" },
+      { before: "Competing on credentials like everyone else", after: "The only one in the room who wrote the book on it" },
+      { before: "Ideas scattered across talks, notes, and decks", after: "One organized body of work with your name on the spine" },
+      { before: "Waiting to be invited on stages", after: "The speaker one-sheet that gets you invited" },
+    ]}
+  />
+
+  <!-- Section 7: Honest comparison -->
+  <CompareTable
+    heading="Three ways to publish. One honest table."
+    rowLabels={["Who owns your rights", "Who keeps royalties", "Who does the work", "Speed", "Marketing support", "Upfront cost"]}
+    columns={[
+      { label: "Self-publishing alone" },
+      { label: "Traditional publishing" },
+      { label: "Partnership publishing", highlighted: true },
+    ]}
+    cells={[
+      ["You", "The publisher, usually", "You"],
+      ["You", "You (split with the publisher)", "You, split with the publisher"],
+      ["You, all of it", "You, all of it"],
+      ["Fast to publish, slow to learn the craft alone", "Often 12 to 24 months, if accepted at all", "6 to 12 months, guided"],
+      ["None built in", "Minimal past launch week", "Built into the process"],
+      ["Low cash, high time cost", "Low cash, low control", "A real investment; itemized and honest"],
+    ]}
+    compareHref="/compare/partnership-vs-self-publishing"
+  />
+
+  <!-- Section 8: Services overview -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center mb-12">Three doors, one team</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/services/book-writing" class="card bg-white p-6" data-cta="services-writing">
+          <p class="font-serif font-semibold text-lg">Book Writing</p>
+          <p class="mt-2 text-sm text-slate-500">From blank page or half-draft to manuscript, in your voice.</p>
+        </a>
+        <a href="/services/book-publishing" class="card bg-white p-6" data-cta="services-publishing">
+          <p class="font-serif font-semibold text-lg">Book Publishing</p>
+          <p class="mt-2 text-sm text-slate-500">The partnership model. 100% yours.</p>
+        </a>
+        <a href="/services/book-marketing" class="card bg-white p-6" data-cta="services-marketing">
+          <p class="font-serif font-semibold text-lg">Book Marketing</p>
+          <p class="mt-2 text-sm text-slate-500">Launch and relaunch systems.</p>
+        </a>
+      </div>
+      <a href="/services/book-relaunch" class="mt-4 card bg-navy-900 text-offwhite-100 p-4 flex items-center justify-center font-semibold" data-cta="services-rescue">
+        Already published but not selling? Book Rescue &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- Section 9: Proof -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center mb-10">Authors who walked this path</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <TestimonialCard status="placeholder" />
+        <TestimonialCard status="placeholder" />
+        <TestimonialCard status="placeholder" />
+      </div>
+      <div class="mt-8 text-center">
+        <p class="font-serif text-xl font-semibold">
+          {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}
+        </p>
+        <p class="mt-2 text-sm text-slate-500">
+          <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 10: Founders -->
+  <section class="bg-navy-700 text-offwhite-100">
+    <div class="mx-auto max-w-5xl px-4 py-16 grid sm:grid-cols-[220px_1fr] gap-10 items-center">
+      <div class="w-full aspect-square rounded-2xl bg-navy-800 border border-navy-600 flex items-center justify-center text-xs opacity-60 text-center p-4">
+        [Photo placeholder: Sush Dutta &amp; Ash Goel, real photo pending]
+      </div>
+      <div>
+        <h2 class="on-navy mb-4">The people behind 700+ books</h2>
+        <p class="opacity-90 leading-relaxed">
+          Sush Dutta and Ash Goel built Global Book Publishing in {entity.founded} after learning the
+          industry's lessons the hard way with their own first books. Between them: USA Today and Wall
+          Street Journal bestsellers, 14 TEDx talks, and over a million students taught. They read every
+          application personally, because the next author on this page might be you.
+        </p>
+        <a href="/about" class="inline-block mt-5 font-semibold text-gold-300 hover:text-gold-500" data-cta="founders-about">Meet the founders &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 11: Lead magnet -->
+  <section class="bg-gold-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h2>Not ready to talk? Take the Blueprint.</h2>
+      <p class="mt-4 text-lg leading-relaxed">
+        The Expert Book Blueprint is a free, plain-English guide: how professionals structure a book around
+        a full calendar, what publishing actually costs, and the three decisions to make before you write a word.
+      </p>
+      <div class="mt-8">
+        <LeadMagnetForm formId="home-blueprint" segmentTag="blueprint-general" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 12: FAQ -->
+  <FAQAccordion faqs={faqs} />
+
+  <!-- Section 13: Final door -->
+  <FinalDoorCTA />
+</BaseLayout>

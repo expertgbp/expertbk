@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PersonSchema from "../components/schema/PersonSchema.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import { entity } from "../data/entity";
+
+const [sush, ash] = entity.founders;
+---
+
+<BaseLayout
+  title="About Sush Dutta and Ash Goel, Founders of Global Book Publishing"
+  description="The founding story behind Global Book Publishing: two bestselling authors, 700+ authors published since, and why the company exists."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "About", path: "/about" }]} />
+    <PersonSchema name="Susmita Dutta" />
+    <PersonSchema name="Ash Goel" />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 text-center">
+      <p class="eyebrow mb-4">ABOUT GLOBAL BOOK PUBLISHING</p>
+      <h1 class="on-navy">The People Behind {entity.proofBank.authorsCount} Books</h1>
+      <p class="mt-6 text-lg leading-relaxed opacity-95">
+        {entity.legalName} was founded in {entity.founded} by Susmita "Sush" Dutta and Ash Goel. Since
+        then, {entity.proofBank.authorsCount} authors across {entity.proofBank.countriesCount} countries
+        have used the EPIC Publishing Path to write, publish, and launch books that opened doors: clients,
+        stages, and authority they didn't have before.
+      </p>
+    </div>
+  </section>
+
+  <!-- Founding story -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Why this company exists</h2>
+      <p class="leading-relaxed">
+        Sush and Ash didn't start as publishers. They started as authors who lived through the industry's
+        lessons the hard way with their own first books: the confusion about what to write, the fear of
+        losing control of the manuscript, and the discovery that a published book with no plan behind it
+        sells quietly and then stops. [NEEDS CONFIRMATION: specific first-book details to publish here]
+      </p>
+      <p class="mt-4 leading-relaxed">
+        Global Book Publishing was built in {entity.founded} to fix what they'd lived through: a publishing
+        path built for experts, entrepreneurs, coaches, and consultants who have decades of knowledge and
+        no time to become full-time writers or publishing professionals. The positioning line stuck because
+        it's true: {entity.positioningLine}
+      </p>
+      <p class="mt-4 leading-relaxed">
+        The company runs on one method for every author: {entity.method.name}. Engineer the positioning
+        first. Produce the manuscript through structured extraction. Ignite it with real publishing. Compound
+        it with a launch system that doesn't stop after week one.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sush Dutta -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-14 grid sm:grid-cols-[220px_1fr] gap-10 items-center">
+      <div class="w-full aspect-square rounded-2xl bg-navy-800 border border-navy-600 flex items-center justify-center text-xs opacity-60 text-center p-4 text-offwhite-100">
+        [Photo placeholder: Sush Dutta &mdash; real photo pending]
+      </div>
+      <div>
+        <h2 class="mb-2">Susmita "Sush" Dutta</h2>
+        <p class="text-sm font-semibold text-navy-700 mb-4">{sush.jobTitle}</p>
+        <ul class="space-y-1.5">
+          {sush.credentials.map((c) => (
+            <li class="pl-4 door-rule">{c}</li>
+          ))}
+        </ul>
+        <p class="mt-4 leading-relaxed text-slate-500">
+          Sush co-built the EPIC Publishing Path and reads applications from prospective authors personally,
+          because she remembers being one. [NEEDS CONFIRMATION: extended bio, LinkedIn URL, TEDx talk URL]
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ash Goel -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 pb-14 grid sm:grid-cols-[220px_1fr] gap-10 items-center">
+      <div class="w-full aspect-square rounded-2xl bg-navy-800 border border-navy-600 flex items-center justify-center text-xs opacity-60 text-center p-4 text-offwhite-100 sm:order-2">
+        [Photo placeholder: Ash Goel &mdash; real photo pending]
+      </div>
+      <div class="sm:order-1">
+        <h2 class="mb-2">Ash Goel</h2>
+        <p class="text-sm font-semibold text-navy-700 mb-4">{ash.jobTitle}</p>
+        <ul class="space-y-1.5">
+          {ash.credentials.map((c) => (
+            <li class="pl-4 door-rule">{c}</li>
+          ))}
+        </ul>
+        <p class="mt-4 leading-relaxed text-slate-500">
+          Ash has delivered {entity.proofBank.tedxAshSolo} TEDx talks solo, on top of the
+          {entity.proofBank.tedxJoint} he and Sush have delivered together, and has taught alongside her
+          toward the {entity.proofBank.studentsTaught} students the two have reached combined.
+          [NEEDS CONFIRMATION: extended bio, LinkedIn URL, TEDx talk URL]
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credentials strip -->
+  <section class="bg-navy-700 text-offwhite-100">
+    <div class="mx-auto max-w-5xl px-4 py-14">
+      <h2 class="on-navy text-center mb-10">What the numbers say</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div>
+          <p class="font-serif text-3xl font-bold text-gold-300">{entity.proofBank.authorsCount}</p>
+          <p class="mt-1 text-sm opacity-80">authors published</p>
+        </div>
+        <div>
+          <p class="font-serif text-3xl font-bold text-gold-300">{entity.proofBank.countriesCount}</p>
+          <p class="mt-1 text-sm opacity-80">countries</p>
+        </div>
+        <div>
+          <p class="font-serif text-3xl font-bold text-gold-300">{entity.proofBank.tedxAshSolo}</p>
+          <p class="mt-1 text-sm opacity-80">TEDx talks, Ash solo</p>
+        </div>
+        <div>
+          <p class="font-serif text-3xl font-bold text-gold-300">{entity.proofBank.studentsTaught}</p>
+          <p class="mt-1 text-sm opacity-80">students taught</p>
+        </div>
+      </div>
+      <p class="mt-8 text-center text-sm opacity-80">
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Verifiability -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 text-center">
+      <h2 class="mb-4">Don't take our word for it</h2>
+      <p class="leading-relaxed">
+        Sush and Ash are public figures with a public record: bestseller lists, TEDx stages, and a company
+        built in the open since {entity.founded}. Check the contract terms, the reviews, and the warning
+        signs of a vanity press at <a href="/trust" class="underline font-semibold">/trust</a> before you
+        ever book a call.
+      </p>
+    </div>
+  </section>
+
+  <FinalDoorCTA
+    heading="Ready to talk to the people who read every application?"
+    body="One call. A real read on your idea, your positioning, and your path, whether or not we work together."
+  />
+</BaseLayout>

@@ -1,0 +1,148 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import ServiceSchema from "../components/schema/ServiceSchema.astro";
+import { entity } from "../data/entity";
+
+interface Props {
+  entry: CollectionEntry<"services">;
+}
+const { entry } = Astro.props;
+const s = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={s.title} description={s.answerBlock.slice(0, 150)}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Services", path: "/services" }, { name: s.title, path: Astro.url.pathname }]} />
+    <ServiceSchema name={s.title} description={s.answerBlock} />
+  </Fragment>
+
+  <!-- 1. Outcome promise + 2. direct answer -->
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+      <h1 class="on-navy">{s.title}</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">{s.answerBlock}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="service-hero-call">{s.cta.primaryLabel}</a>
+        <a href={s.cta.leadMagnetSlug} class="btn-secondary on-navy" data-cta="service-hero-blueprint">{s.cta.leadMagnetLabel}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Who it's for / not for -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 grid sm:grid-cols-2 gap-8">
+      <div>
+        <h2 class="text-xl mb-4">This is for you if</h2>
+        <ul class="space-y-2">
+          {s.whoForNotFor.for.map((item) => (<li class="pl-4 door-rule">{item}</li>))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-xl mb-4">This isn't for you if</h2>
+        <ul class="space-y-2 text-slate-500">
+          {s.whoForNotFor.notFor.map((item) => (<li>{item}</li>))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Exactly what's included -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Exactly what's included</h2>
+      <ul class="space-y-3">
+        {s.deliverables.map((d) => (
+          <li class="flex gap-3 items-start">
+            <svg width="18" height="18" viewBox="0 0 18 18" class="mt-1 shrink-0 text-success-600" aria-hidden="true"><path d="M3 9l4 4 8-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{d}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Process with timeline -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-8">The process</h2>
+      <ol class="space-y-6">
+        {s.process.map((step, i) => (
+          <li class="flex gap-4">
+            <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">{i + 1}</span>
+            <div>
+              <p class="font-semibold">{step.step}</p>
+              <p class="text-sm text-slate-500">{step.timeline}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 6. Before/after table -->
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="on-navy mb-8 text-center">Before and after</h2>
+      <table class="w-full border-collapse">
+        <tbody>
+          {s.beforeAfter.map((row) => (
+            <tr class="border-b border-navy-700">
+              <td class="py-3 pr-4 opacity-70 align-top">{row.before}</td>
+              <td class="py-3 pl-4 font-medium align-top border-l border-navy-700">{row.after}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7. Proof -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Proof</h2>
+      <TestimonialCard {...s.proof} />
+    </div>
+  </section>
+
+  <!-- 8. Investment -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Investment</h2>
+      <p class="text-lg font-semibold">{s.investmentRange}</p>
+      <p class="text-slate-500 mt-2">{s.paymentPlansNote}</p>
+      <p class="text-sm text-slate-500 mt-4">
+        A book done wrong costs the same money twice.
+        <a href="/pricing-and-cost" class="underline font-semibold">See the full honest cost guide &rarr;</a>
+      </p>
+      <p class="text-xs text-slate-500 mt-2">
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 9. Guarantee -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-10">
+      <div class="card p-6 border-gold-300 border-2">
+        <h2 class="text-xl mb-2">The guarantee</h2>
+        <p class="text-slate-500">{s.guarantee}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy-100 prose prose-lg max-w-3xl mx-auto px-4 py-6">
+    <Content />
+  </section>
+
+  <!-- 10. FAQ -->
+  <FAQAccordion faqs={s.faqs} />
+
+  <!-- 11. CTA band -->
+  <FinalDoorCTA secondaryLabel={s.cta.leadMagnetLabel} secondaryHref={s.cta.leadMagnetSlug} />
+</BaseLayout>

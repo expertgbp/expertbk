@@ -1,0 +1,63 @@
+---
+import {
+  professionGroups,
+  bookTypeGroups,
+  serviceLinks,
+  resourceLinks,
+  companyLinks,
+  legalLinks,
+} from "../data/nav";
+import { entity } from "../data/entity";
+
+const allProfessions = professionGroups.flatMap((g) => g.items);
+const allBookTypes = bookTypeGroups.flatMap((g) => g.items);
+---
+
+<footer class="bg-navy-900 text-offwhite-100 mt-24">
+  <div class="mx-auto max-w-7xl px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+    <div>
+      <p class="eyebrow mb-3">For Experts</p>
+      <ul class="space-y-1.5 opacity-90">
+        {allProfessions.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow mb-3">Your Book</p>
+      <ul class="space-y-1.5 opacity-90">
+        {allBookTypes.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow mb-3">Services &amp; Resources</p>
+      <ul class="space-y-1.5 opacity-90">
+        {serviceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+      <ul class="space-y-1.5 opacity-90 mt-3">
+        {resourceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow mb-3">Company</p>
+      <ul class="space-y-1.5 opacity-90">
+        {companyLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+      <ul class="space-y-1.5 opacity-90 mt-3">
+        {legalLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-navy-700">
+    <div class="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs opacity-80">
+      <p>
+        {entity.legalName} ({entity.legalNameShort}), founded {entity.founded}.
+        {entity.address.locality}, {entity.address.region}.
+      </p>
+      <div class="flex gap-4">
+        <!-- [NEEDS CONFIRMATION: real social links go in src/data/entity.ts `sameAs`] -->
+        <a href="/trust" class="hover:text-gold-300">Trust</a>
+        <a href="/contact" class="hover:text-gold-300">Talk to a real person</a>
+      </div>
+    </div>
+  </div>
+</footer>

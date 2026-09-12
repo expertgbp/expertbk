@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entity } from "../data/entity";
+---
+
+<BaseLayout
+  title="Terms of Service"
+  description="The terms that govern your use of this website and your engagement with Global Book Publishing's services."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">LEGAL</p>
+      <h1 class="on-navy">Terms of Service</h1>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 leading-relaxed">
+      <div class="card p-5 border-dashed bg-gold-100 border-gold-500 mb-10">
+        <p class="font-semibold">
+          This is a draft starting point. Have a lawyer review this page before it governs real
+          transactions. [NEEDS CONFIRMATION: legal review]
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-500 mb-8">Last updated: [NEEDS CONFIRMATION: publish date]</p>
+
+      <h2>Who these terms cover</h2>
+      <p class="mt-4">
+        These terms apply to anyone using this website, {entity.brandName}, operated by {entity.legalName}
+        ({entity.legalNameShort}), and to anyone engaging {entity.legalNameShort} for book writing,
+        publishing, marketing, or related services. Using this site or working with us means you accept
+        these terms.
+      </p>
+
+      <h2 class="mt-10">What this website is</h2>
+      <p class="mt-4">
+        This site provides information about writing and publishing a book, free resources like the Expert
+        Book Blueprint and the newsletter, and a way to book a call or purchase services. Content on this
+        site is general information, not a guarantee of any specific outcome for your book. See our
+        <a href="/disclaimer" class="underline font-semibold">disclaimer</a> for the specifics on results and
+        guarantees.
+      </p>
+
+      <h2 class="mt-10">Services and separate agreements</h2>
+      <p class="mt-4">
+        Any paid engagement (writing, publishing, marketing, or related services) is governed by its own
+        signed agreement, which will spell out deliverables, timelines, pricing, and rights in detail. These
+        general terms don't replace that agreement; where the two conflict, your signed service agreement
+        controls. [NEEDS CONFIRMATION: link or reference to the standard service agreement template once
+        finalized].
+      </p>
+
+      <h2 class="mt-10">Intellectual property</h2>
+      <p class="mt-4">
+        You keep 100% of the rights, royalties, and intellectual property in the book you write with us.
+        Content on this website itself (the text, design, and resources we publish, like the Blueprint)
+        belongs to {entity.legalNameShort} and may not be reproduced without permission.
+      </p>
+
+      <h2 class="mt-10">Acceptable use</h2>
+      <p class="mt-4">
+        Don't use this site to submit false information, attempt to compromise its security, or scrape its
+        content for unauthorized reuse. Forms exist for real inquiries from real people.
+      </p>
+
+      <h2 class="mt-10">No guarantee of results</h2>
+      <p class="mt-4">
+        Nothing on this site is a promise of income, sales, or any specific result for your book. Any
+        revenue or results example described anywhere on this site is a description of what happened for us
+        or a specific client, not a projection for you. The only guarantee that applies to any engagement is
+        the specific, scoped guarantee described in writing on that service's own page and in your signed
+        agreement, never a general promise of a "guaranteed bestseller." See the full
+        <a href="/disclaimer" class="underline font-semibold">disclaimer</a>.
+      </p>
+
+      <h2 class="mt-10">Limitation of liability</h2>
+      <p class="mt-4">
+        [NEEDS CONFIRMATION: standard limitation-of-liability language, to be drafted or reviewed by
+        counsel for your jurisdiction].
+      </p>
+
+      <h2 class="mt-10">Governing law</h2>
+      <p class="mt-4">
+        These terms are governed by the laws of {entity.address.region}, {entity.address.country}.
+        [NEEDS CONFIRMATION: confirm final governing law and venue with counsel].
+      </p>
+
+      <h2 class="mt-10">Contact</h2>
+      <p class="mt-4">
+        Questions about these terms can go to {entity.contactEmail || "[NEEDS CONFIRMATION: legal contact email]"}
+        or through our <a href="/contact" class="underline font-semibold">contact page</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

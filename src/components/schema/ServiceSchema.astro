@@ -1,0 +1,23 @@
+---
+import { entity } from "../../data/entity";
+
+interface Props {
+  name: string;
+  description: string;
+}
+const { name, description } = Astro.props;
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name,
+  description,
+  provider: {
+    "@type": "Organization",
+    name: entity.legalName,
+    alternateName: entity.brandName,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

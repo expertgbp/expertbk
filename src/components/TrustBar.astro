@@ -1,0 +1,21 @@
+---
+import { entity } from "../data/entity";
+
+const stats = [
+  { value: entity.proofBank.authorsCount, label: "authors" },
+  { value: entity.proofBank.countriesCount, label: "countries" },
+  { value: `${entity.proofBank.tedxAshSolo} TEDx`, label: "Ash, solo" },
+  { value: entity.proofBank.studentsTaught, label: "students taught" },
+];
+---
+
+<section class="bg-navy-700 text-offwhite-100">
+  <div class="mx-auto max-w-7xl px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    {stats.map((s) => (
+      <div>
+        <p class="font-serif text-3xl md:text-4xl font-bold text-gold-300">{s.value}</p>
+        <p class="text-sm opacity-80 mt-1">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>

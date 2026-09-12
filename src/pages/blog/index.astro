@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+const clusters = [...new Set(posts.map((p) => p.data.cluster))];
+---
+
+<BaseLayout
+  title="The Author's Field Notes"
+  description="Answers to the real questions professionals ask before writing and publishing their first book, sourced from real intake conversations."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="on-navy">The Author's Field Notes</h1>
+      <p class="mt-4 text-lg opacity-90">
+        Every article here answers one real question, asked by one real prospect, before any keyword tool got involved.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-14">
+      {clusters.length === 0 && (
+        <p class="text-slate-500">New articles are on the way. Meanwhile, the pillar guides at <a href="/guides" class="underline font-semibold">/guides</a> cover the full path.</p>
+      )}
+      <div class="flex flex-wrap gap-2 mb-8" role="tablist" aria-label="Filter by cluster">
+        {clusters.map((c) => (
+          <a href={`#${c.toLowerCase().replace(/\s+/g, "-")}`} class="text-sm px-3 py-1.5 rounded-full border border-navy-100 hover:border-gold-300 hover:text-gold-500">{c}</a>
+        ))}
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {posts.map((post) => (
+          <a href={`/blog/${post.id}`} class="card p-5 flex flex-col gap-2" id={post.data.cluster.toLowerCase().replace(/\s+/g, "-")}>
+            <span class="eyebrow">{post.data.cluster}</span>
+            <span class="font-serif font-semibold text-lg text-navy-900">{post.data.title}</span>
+            <p class="text-sm text-slate-500">{post.data.description}</p>
+            <span class="text-xs text-slate-500 mt-auto">By {post.data.author} &middot; {post.data.publishDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

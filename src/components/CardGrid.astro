@@ -1,0 +1,25 @@
+---
+interface CardItem {
+  title: string;
+  description?: string;
+  href: string;
+}
+interface Props {
+  items: CardItem[];
+  columns?: 2 | 3 | 4;
+}
+const { items, columns = 3 } = Astro.props;
+const colClass = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-2 lg:grid-cols-3", 4: "sm:grid-cols-2 lg:grid-cols-4" }[columns];
+---
+
+<div class={`grid grid-cols-1 ${colClass} gap-4`}>
+  {items.map((item) => (
+    <a href={item.href} class="card p-5 flex flex-col gap-2 group">
+      <span class="door-rule pl-4 font-serif font-semibold text-lg text-navy-900 group-hover:text-navy-700">
+        {item.title}
+      </span>
+      {item.description && <p class="text-sm text-slate-500 pl-4">{item.description}</p>}
+      <span class="pl-4 mt-auto text-sm font-semibold text-navy-700 group-hover:text-gold-500">Read more &rarr;</span>
+    </a>
+  ))}
+</div>

@@ -1,0 +1,37 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+
+interface Props {
+  entry: CollectionEntry<"guides">;
+}
+const { entry } = Astro.props;
+const g = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={g.title} description={g.description.slice(0, 150)}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Guides", path: "/guides" }, { name: g.title, path: Astro.url.pathname }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">Guide &middot; {g.stage}</p>
+      <h1 class="on-navy">{g.title}</h1>
+      <p class="mt-4 text-lg opacity-90">{g.description}</p>
+      <p class="mt-6 text-xs opacity-60">Updated {g.updatedDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</p>
+    </div>
+  </section>
+
+  <article class="bg-ivory-50 prose prose-lg max-w-3xl mx-auto px-4 py-14">
+    <Content />
+  </article>
+
+  {g.faqs.length > 0 && <FAQAccordion faqs={g.faqs} />}
+
+  <FinalDoorCTA />
+</BaseLayout>

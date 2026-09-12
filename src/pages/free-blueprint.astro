@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LeadMagnetForm from "../components/LeadMagnetForm.astro";
+---
+
+<BaseLayout
+  title="Get the Expert Book Blueprint (Free)"
+  description="A free, plain-English guide: how professionals structure a book around a full calendar, what publishing actually costs, and the three decisions to make before you write a word."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-5xl px-4 py-16 grid md:grid-cols-[1fr_360px] gap-10 items-start">
+      <div>
+        <p class="eyebrow mb-4">FREE GUIDE</p>
+        <h1 class="on-navy">The Expert Book Blueprint</h1>
+        <p class="mt-4 text-lg opacity-90">
+          A free, plain-English guide: how professionals structure a book around a full calendar, what
+          publishing actually costs, and the three decisions to make before you write a word.
+        </p>
+        <ul class="mt-8 space-y-3">
+          <li class="flex gap-3"><span class="text-gold-300">&bull;</span><span>The three walls that stop most experts, and how to take each one down.</span></li>
+          <li class="flex gap-3"><span class="text-gold-300">&bull;</span><span>An honest look at what publishing actually costs, no hidden number.</span></li>
+          <li class="flex gap-3"><span class="text-gold-300">&bull;</span><span>The three decisions to make before you write a single word.</span></li>
+        </ul>
+      </div>
+      <div class="card bg-white p-6">
+        <LeadMagnetForm formId="free-blueprint-page" segmentTag="blueprint-general" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

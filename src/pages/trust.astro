@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../data/entity";
+
+const contractHighlights = [
+  {
+    title: "A written agreement, before any payment is due",
+    body: "You get the full agreement to read before you commit to anything. Nothing here runs on a handshake or a verbal promise.",
+  },
+  {
+    title: "Your rights and royalties, named explicitly",
+    body: "The agreement states, in plain language, that you keep 100% of your rights and 100% of your royalties. If a contract doesn't say this clearly, don't sign it, anywhere.",
+  },
+  {
+    title: "Scope and deliverables, itemized",
+    body: "What you're paying for is listed out, the same way it's listed on every service page here. Vague scope is where trust dies.",
+  },
+  {
+    title: "Timeline commitments",
+    body: "The stages of the process and the expected timeframe for each are stated in writing, not just implied on a call.",
+  },
+];
+// [NEEDS CONFIRMATION: exact clause list and cancellation/refund terms to publish verbatim]
+
+const faqs = [
+  {
+    question: "How do I know you're not a vanity press?",
+    answer:
+      "A vanity press profits from selling you services regardless of whether the book is any good, and some quietly take rights while calling it a publishing deal. We keep our contract highlights public, our rights policy stated plainly, and our founders publicly verifiable. The one-line test that works everywhere: " +
+      entity.vanityPressWarning,
+  },
+  {
+    question: "What's the difference between a hybrid publisher and a traditional publisher?",
+    answer:
+      "A traditional publisher pays you an advance, but takes a large share of rights and royalties, and can take a year or more just to say yes. A hybrid, or partnership, publisher charges an upfront fee but leaves your rights and royalties with you, 100%. Neither is a scam by default; the scam risk shows up in publishers, of either kind, that hide their terms.",
+  },
+  {
+    question: "Can I see reviews from real authors?",
+    answer:
+      "Yes. Links to our BBB and Trustpilot profiles belong here, and we'd rather show you the real number than claim one. [NEEDS CONFIRMATION: BBB profile URL] [NEEDS CONFIRMATION: Trustpilot profile URL] Aggregated reviews also live at /reviews.",
+  },
+  {
+    question: "Who are Sush Dutta and Ash Goel, actually?",
+    answer:
+      "Public figures with a public record. Both are USA Today and Wall Street Journal bestselling authors. Jointly they've delivered 5X TEDx talks; Ash alone has delivered 9X. Read the full story at /about, or search for them yourself. We'd rather you verify us than take our word for it.",
+  },
+];
+---
+
+<BaseLayout
+  title="Check Us Before You Trust Us"
+  description="Contract highlights in plain language, our rights policy, the vanity-press warning, and how to verify our founders before you ever book a call."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Trust", path: "/trust" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+      <p class="eyebrow mb-4">CHECK US BEFORE YOU TRUST US</p>
+      <h1 class="on-navy">Check Us Before You Trust Us</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        About 1 in 6 of our buyers told us they wondered, at least once, if this was a scam, and bought
+        anyway once they checked. That's the right instinct. This page is built for the checking: our
+        contract highlights, our rights policy, the warning signs of a vanity press, and how to verify our
+        founders yourself, not just from what we tell you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contract highlights -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Contract highlights, in plain language</h2>
+      <div class="space-y-4">
+        {contractHighlights.map((item) => (
+          <div class="card p-5">
+            <p class="font-semibold">{item.title}</p>
+            <p class="mt-2 text-slate-500">{item.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-sm text-slate-500">
+        [NEEDS CONFIRMATION: the exact cancellation window, refund terms, and full clause list to publish
+        verbatim here]
+      </p>
+    </div>
+  </section>
+
+  <!-- Rights policy -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Rights policy: 100% yours, always</h2>
+      <p class="leading-relaxed">
+        You keep 100% of your rights. You keep 100% of your royalties. On every book, in every format, for
+        as long as the book exists. This is the entire premise of partnership publishing, and it does not
+        change based on scope, price, or how the launch goes.
+      </p>
+      <p class="mt-4 leading-relaxed">
+        If a publisher, of any kind, won't put that in writing before you pay them, that's your answer.
+      </p>
+    </div>
+  </section>
+
+  <!-- Vanity press warning -->
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
+      <h2 class="on-navy">The vanity-press warning</h2>
+      <p class="mt-4 text-lg opacity-90">
+        A vanity press makes its money selling you services, whether or not your book is ready, whether or
+        not it will work, sometimes whether or not you asked for them. Some quietly take rights while
+        calling it a publishing deal.
+      </p>
+      <p class="mt-6 font-serif text-2xl font-semibold text-gold-300">{entity.vanityPressWarning}</p>
+    </div>
+  </section>
+
+  <!-- BBB / Trustpilot -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Third-party verification</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="card p-5">
+          <p class="font-semibold">Better Business Bureau</p>
+          <p class="mt-2 text-sm text-slate-500">
+            {entity.bbbUrl ? (
+              <a href={entity.bbbUrl} class="underline font-semibold">View our BBB profile &rarr;</a>
+            ) : (
+              "[NEEDS CONFIRMATION: BBB profile URL]"
+            )}
+          </p>
+        </div>
+        <div class="card p-5">
+          <p class="font-semibold">Trustpilot</p>
+          <p class="mt-2 text-sm text-slate-500">
+            {entity.trustpilotUrl ? (
+              <a href={entity.trustpilotUrl} class="underline font-semibold">View our Trustpilot profile &rarr;</a>
+            ) : (
+              "[NEEDS CONFIRMATION: Trustpilot profile URL]"
+            )}
+          </p>
+        </div>
+      </div>
+      <p class="mt-6 text-sm">
+        See more aggregated third-party reviews at <a href="/reviews" class="underline font-semibold">/reviews</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Founder verifiability -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Founder verifiability</h2>
+      <p class="leading-relaxed">
+        Susmita "Sush" Dutta and Ash Goel founded {entity.legalName} in {entity.founded}. Both are USA
+        Today and Wall Street Journal bestselling authors. Jointly they've delivered {entity.proofBank.tedxJoint}
+        TEDx talks; Ash alone has delivered {entity.proofBank.tedxAshSolo}. Together they've taught
+        {entity.proofBank.studentsTaught} students. None of this is a claim you have to take on faith:
+        these are public records you can search yourself.
+      </p>
+      <p class="mt-4">
+        <a href="/about" class="underline font-semibold text-navy-700">Read the full founding story &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Trust questions, answered directly" />
+
+  <FinalDoorCTA
+    heading="Still checking? Good. Ask us anything on the call."
+    body="The strategy call is a real read on your book, not a pitch. Bring the questions this page didn't answer."
+  />
+</BaseLayout>

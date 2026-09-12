@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+
+const all = (await getCollection("services")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Services: Writing, Publishing, Marketing"
+  description="Book writing, book publishing, book marketing, and Book Rescue for authors already published but not selling. Explore what's included in each."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="on-navy">Three doors, one team</h1>
+      <p class="mt-4 text-lg opacity-90">Whatever stage you're at, there's a door that fits.</p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-14">
+      <CardGrid
+        columns={3}
+        items={all.map((s) => ({ title: s.data.title, description: s.data.answerBlock.slice(0, 110) + "…", href: `/services/${s.id}` }))}
+      />
+    </div>
+  </section>
+
+  <FinalDoorCTA
+    heading="Already published but not selling?"
+    body="A published author described it exactly: a musician playing to an empty theater. Book Rescue exists for that."
+    secondaryLabel="See Book Rescue →"
+    secondaryHref="/services/book-relaunch"
+  />
+</BaseLayout>

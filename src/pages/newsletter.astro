@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LeadMagnetForm from "../components/LeadMagnetForm.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+---
+
+<BaseLayout
+  title="The Expert Book Letter"
+  description="One useful idea about writing, publishing, and turning your expertise into a book, delivered weekly. No spam, unsubscribe anytime."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-2xl px-4 py-16 text-center">
+      <p class="eyebrow mb-4">THE EXPERT BOOK LETTER</p>
+      <h1 class="on-navy">One useful idea about authorship, every week</h1>
+      <p class="mt-4 text-lg opacity-90">
+        Not a sales letter. A short, plain-English idea about writing, positioning, publishing, or launching
+        a book, the kind of thing we'd tell a friend who asked us over coffee.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-gold-100">
+    <div class="mx-auto max-w-2xl px-4 py-16">
+      <h2>What you'll actually get</h2>
+      <ul class="mt-6 space-y-3 list-disc pl-5 leading-relaxed">
+        <li>One idea a week, not a daily inbox flood.</li>
+        <li>Real questions from real authors, answered in public.</li>
+        <li>Occasional notes on a launch, a cohort, or a resource, always clearly labeled as such.</li>
+        <li>No pressure, no fake urgency, and an unsubscribe link that actually works.</li>
+      </ul>
+      <div class="mt-10">
+        <LeadMagnetForm
+          formId="newsletter-page"
+          segmentTag="newsletter"
+          submitLabel="Subscribe"
+          redirectTo="/thank-you/newsletter"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-2xl px-4 py-14">
+      <h2>Not ready to commit to a weekly email?</h2>
+      <p class="mt-4 leading-relaxed">
+        Start with the <a href="/free-blueprint" class="underline font-semibold">free Expert Book Blueprint</a>
+        instead, a one-time guide instead of a subscription. Or, if you'd rather talk through your specific
+        book idea, <a href="/book-a-call" class="underline font-semibold">book a free strategy call</a>.
+      </p>
+    </div>
+  </section>
+
+  <FinalDoorCTA />
+</BaseLayout>

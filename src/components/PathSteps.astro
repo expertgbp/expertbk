@@ -1,0 +1,21 @@
+---
+import { entity } from "../data/entity";
+
+interface Props {
+  /** Optional per-page framing override for each stage's description. */
+  overrides?: Partial<Record<string, string>>;
+}
+const { overrides = {} } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
+  {entity.method.stages.map((stage, i) => (
+    <div class="relative">
+      <div class="flex items-center gap-3 md:block">
+        <span class="font-serif text-2xl font-bold text-gold-500">{i + 1}</span>
+        <h3 class="font-serif font-semibold text-lg mt-0 md:mt-2">{stage.title}</h3>
+      </div>
+      <p class="mt-2 text-sm text-slate-500">{overrides[stage.key] ?? stage.description}</p>
+    </div>
+  ))}
+</div>

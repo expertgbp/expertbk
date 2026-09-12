@@ -1,0 +1,33 @@
+---
+interface Props {
+  heading: string;
+  rows: { before: string; after: string }[];
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your expertise as a book" } = Astro.props;
+---
+
+<section class="bg-navy-900 text-offwhite-100">
+  <div class="mx-auto max-w-5xl px-4 py-16">
+    <h2 class="on-navy text-center mb-10">{heading}</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse min-w-[36rem]">
+        <thead>
+          <tr class="border-b border-navy-600">
+            <th class="py-3 pr-4 font-serif text-base font-semibold opacity-80">{beforeLabel}</th>
+            <th class="py-3 pl-4 font-serif text-base font-semibold text-gold-300">{afterLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr class="border-b border-navy-700">
+              <td class="py-4 pr-4 align-top opacity-80">{row.before}</td>
+              <td class="py-4 pl-4 align-top border-l border-navy-700 font-medium">{row.after}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,97 @@
+---
+import { getEntry, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import CardGrid from "../components/CardGrid.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../data/entity";
+
+interface Props {
+  entry: CollectionEntry<"books">;
+}
+const { entry } = Astro.props;
+const b = entry.data;
+const { Content } = await render(entry);
+
+const relatedProfessions = (
+  await Promise.all(b.relatedProfessions.map((slug) => getEntry("professions", slug)))
+).filter((p): p is NonNullable<typeof p> => Boolean(p));
+---
+
+<BaseLayout title={b.title} description={b.answerBlock.slice(0, 150)}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: b.bookTypeLabel, path: Astro.url.pathname }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+      <p class="eyebrow mb-4">{b.bookTypeLabel}</p>
+      <h1 class="on-navy">{b.title}</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        {b.answerBlock}
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="book-hero-call">{b.cta.primaryLabel}</a>
+        <a href={b.cta.leadMagnetSlug} class="btn-secondary on-navy" data-cta="book-hero-blueprint">{b.cta.leadMagnetLabel}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Who writes this book</h2>
+      <p class="text-lg leading-relaxed">{b.whoWritesThis}</p>
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-8">The pains specific to this book</h2>
+      <div class="space-y-6">
+        {b.painPoints.map((o) => (
+          <div class="card p-5 bg-white">
+            <p class="font-semibold italic text-navy-700">&ldquo;{o.objection}&rdquo;</p>
+            <p class="mt-2 text-slate-500 leading-relaxed">{o.reframe}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">How the process differs for this book</h2>
+      <p class="text-lg leading-relaxed">{b.processDifferences}</p>
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Proof</h2>
+      <TestimonialCard {...b.proof} />
+      <p class="mt-4 text-sm text-slate-500">
+        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  {relatedProfessions.length > 0 && (
+    <section class="bg-ivory-50">
+      <div class="mx-auto max-w-5xl px-4 py-14">
+        <h2 class="mb-8">Who else writes this kind of book</h2>
+        <CardGrid items={relatedProfessions.map((p) => ({ title: p.data.professionLabel, description: p.data.answerBlock.slice(0, 90) + "…", href: `/for/${p.id}` }))} />
+      </div>
+    </section>
+  )}
+
+  <section class="bg-navy-100 prose prose-lg max-w-3xl mx-auto px-4 py-6">
+    <Content />
+  </section>
+
+  <FAQAccordion faqs={b.faqs} heading={`Questions about writing a ${b.bookTypeLabel.toLowerCase()}`} />
+
+  <FinalDoorCTA secondaryLabel={b.cta.leadMagnetLabel} secondaryHref={b.cta.leadMagnetSlug} />
+</BaseLayout>

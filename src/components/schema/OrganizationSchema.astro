@@ -1,0 +1,27 @@
+---
+import { entity } from "../../data/entity";
+
+/**
+ * Organization JSON-LD, emitted once per page (brief section 9).
+ * Facts are pulled from src/data/entity.ts only — never hardcode numbers
+ * or names here.
+ */
+const sameAs = entity.sameAs.filter(Boolean);
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: entity.legalName,
+  alternateName: entity.brandName,
+  foundingDate: String(entity.founded),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: entity.address.locality,
+    addressRegion: entity.address.region,
+    addressCountry: entity.address.country,
+  },
+  ...(sameAs.length ? { sameAs } : {}),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import { entity } from "../data/entity";
+---
+
+<BaseLayout
+  title="Reviews: Check Us on BBB and Trustpilot"
+  description="We don't publish our own reviews. Here's where to read what real, independent third parties say about us."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">REVIEWS</p>
+      <h1 class="on-navy">Check us before you trust us</h1>
+      <p class="mt-4 text-lg opacity-90">
+        We won't put review quotes on this page ourselves. Reviews only mean something when you can trace
+        them back to an independent source, so that's exactly what this page links to.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2>Why we link out instead of quoting in</h2>
+      <p class="mt-4 leading-relaxed">
+        Anyone can put five stars and a nice sentence on their own homepage. That proves nothing. Real
+        reviews live on independent platforms where anyone, including someone who never gave us a dollar,
+        can leave an honest rating. This is where we're reviewed, and this is where you should go read them
+        directly, not just take our word for the summary.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-8">Where to find us</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="card bg-white p-6">
+          <p class="font-serif font-semibold text-lg">Better Business Bureau (BBB)</p>
+          <p class="mt-2 text-sm text-slate-500">
+            Our BBB profile, complaint history, and accreditation status, straight from BBB's own site.
+          </p>
+          {entity.bbbUrl ? (
+            <a href={entity.bbbUrl} class="mt-4 inline-block font-semibold text-navy-700 hover:text-gold-500" data-cta="reviews-bbb" rel="noopener">
+              View our BBB profile &rarr;
+            </a>
+          ) : (
+            <p class="mt-4 text-sm italic text-slate-500">[NEEDS CONFIRMATION: BBB profile URL]</p>
+          )}
+        </div>
+        <div class="card bg-white p-6">
+          <p class="font-serif font-semibold text-lg">Trustpilot</p>
+          <p class="mt-2 text-sm text-slate-500">
+            Independent, unfiltered reviews from clients, good and bad, directly on Trustpilot's platform.
+          </p>
+          {entity.trustpilotUrl ? (
+            <a href={entity.trustpilotUrl} class="mt-4 inline-block font-semibold text-navy-700 hover:text-gold-500" data-cta="reviews-trustpilot" rel="noopener">
+              View our Trustpilot profile &rarr;
+            </a>
+          ) : (
+            <p class="mt-4 text-sm italic text-slate-500">[NEEDS CONFIRMATION: Trustpilot profile URL]</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2>What we won't do on this page</h2>
+      <p class="mt-4 leading-relaxed">
+        We won't show a star rating or an aggregate score here until it's pulled directly from a real,
+        sourced set of reviews on BBB or Trustpilot. No invented quotes, no rounded-up averages, nothing
+        that isn't checkable the moment you click through.
+      </p>
+      <p class="mt-4 leading-relaxed">
+        Looking for author stories instead of third-party ratings? Those live on our
+        <a href="/case-studies" class="underline font-semibold">case studies page</a>, under the same rule:
+        real and permissioned, or clearly marked as pending. And if a claim anywhere on this site ever
+        mentions results or income, the honest context is always one click away on our
+        <a href="/disclaimer" class="underline font-semibold">disclaimer page</a>.
+      </p>
+    </div>
+  </section>
+
+  <FinalDoorCTA />
+</BaseLayout>

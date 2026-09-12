@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entity } from "../data/entity";
+---
+
+<BaseLayout
+  title="Income and Results Disclaimer"
+  description="No income promises appear anywhere on this site. Read exactly what our results claims mean, and what our guarantee actually covers."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">LEGAL</p>
+      <h1 class="on-navy">Disclaimer</h1>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 leading-relaxed">
+      <div class="card p-5 border-dashed bg-gold-100 border-gold-500 mb-10">
+        <p class="font-semibold">
+          This is a draft starting point. Have a lawyer review this page before it governs real
+          transactions. [NEEDS CONFIRMATION: legal review]
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-500 mb-8">Last updated: [NEEDS CONFIRMATION: publish date]</p>
+
+      <h2>No income promises, anywhere on this site</h2>
+      <p class="mt-4">
+        Nothing on this website, in a call, in an email, or in any of our marketing promises you income,
+        sales, or any specific financial result. Writing and publishing a book with us does not guarantee
+        you'll earn money from it, land a client, or book a stage. We say this plainly because it's true, and
+        because we'd rather lose a sale than make a promise we can't keep.
+      </p>
+
+      <h2 class="mt-10">What our numbers actually mean</h2>
+      <p class="mt-4">
+        You'll see real numbers on this site: {entity.proofBank.authorsCount} authors across
+        {entity.proofBank.countriesCount} countries, {entity.proofBank.fastSaleStat.toLowerCase()}, and
+        {entity.proofBank.rescueStat.toLowerCase()}. These describe things that happened, for us and for
+        specific clients. They are not an average, a typical result, or a forecast for what will happen for
+        you.
+      </p>
+      <p class="mt-4 font-semibold">
+        {entity.incomeDisclaimerLine}
+      </p>
+      <p class="mt-4">
+        Every place on this site where a result, a number, or a revenue example appears, this same line
+        applies, whether or not that page links back here directly.
+      </p>
+
+      <h2 class="mt-10">The only guarantee that exists</h2>
+      <p class="mt-4">
+        We do not offer a general "guaranteed bestseller" or any blanket guarantee of book performance,
+        anywhere, ever. The only guarantee that applies to any engagement is the specific, scoped guarantee
+        written out in plain language on that particular service's own page and in your signed agreement.
+        Read that page's guarantee section carefully, ask us to explain exactly what it covers and doesn't
+        cover, and treat anything broader than what's written there as not part of our offer.
+      </p>
+
+      <h2 class="mt-10">Testimonials and case studies</h2>
+      <p class="mt-4">
+        Every testimonial or case study on this site is either a real quote from a real author who gave us
+        explicit permission to share it, or it is marked with a clear pending-permission placeholder (for
+        example, <code>[TESTIMONIAL: pending permission]</code> or <code>[CASE STUDY: pending permission]</code>)
+        until that permission exists. We do not invent authors, quotes, or numbers to fill empty space. See
+        our <a href="/case-studies" class="underline font-semibold">case studies page</a> and
+        <a href="/reviews" class="underline font-semibold">reviews page</a> for the current state of both.
+      </p>
+
+      <h2 class="mt-10">Urgency and countdown timers</h2>
+      <p class="mt-4">
+        Any countdown timer or enrollment deadline on this site counts down to a real, dated event: an
+        actual cohort start date, an actual enrollment close, or an actual bonus expiration. We do not use
+        evergreen timers that reset for each visitor, and we do not invent scarcity that isn't real.
+      </p>
+
+      <h2 class="mt-10">Questions about a specific claim</h2>
+      <p class="mt-4">
+        If you see a claim anywhere on this site that seems to promise a specific result, tell us. Contact
+        us at {entity.contactEmail || "[NEEDS CONFIRMATION: legal contact email]"} or through our
+        <a href="/contact" class="underline font-semibold">contact page</a>, and we'll fix it.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import { cohort } from "../data/cohort";
+
+// Hides completely with no live, dated cohort — never shows a fake timer.
+if (!cohort.active || !cohort.closesAt) return null;
+---
+
+<div class="bg-gold-100 text-ink-900 text-sm">
+  <div class="mx-auto max-w-7xl px-4 py-2 flex flex-wrap items-center justify-center gap-2 text-center">
+    <span>
+      Next author cohort opens {cohort.opensLabel}. Enrollment closes
+      <time datetime={cohort.closesAt.toISOString()} data-countdown-target={cohort.closesAt.toISOString()}>
+        {cohort.closesAt.toLocaleDateString(undefined, { month: "long", day: "numeric" })}
+      </time>.
+    </span>
+    <a href={cohort.bookingHref} class="font-semibold underline underline-offset-2 hover:text-navy-900">
+      Save your call slot &rarr;
+    </a>
+    <span data-countdown class="font-semibold tabular-nums"></span>
+  </div>
+</div>
+
+<script>
+  // Progressive enhancement only: renders a live countdown to the real
+  // close date already present in the DOM. No date is invented client-side.
+  function tick() {
+    const el = document.querySelector<HTMLElement>("[data-countdown]");
+    const target = document.querySelector<HTMLElement>("[data-countdown-target]");
+    if (!el || !target) return;
+    const dest = new Date(target.dataset.countdownTarget!).getTime();
+    const diff = dest - Date.now();
+    if (diff <= 0) {
+      el.textContent = "";
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    el.textContent = `(${days}d ${hours}h left)`;
+  }
+  tick();
+  setInterval(tick, 60000);
+</script>

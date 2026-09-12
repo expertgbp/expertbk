@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+
+const all = (await getCollection("professions")).sort((a, b) => a.data.order - b.data.order);
+const groups: Record<string, typeof all> = {
+  health: all.filter((p) => p.data.category === "health"),
+  "business-tech": all.filter((p) => p.data.category === "business-tech"),
+  "law-service": all.filter((p) => p.data.category === "law-service"),
+};
+const groupLabels: Record<string, string> = {
+  health: "Health",
+  "business-tech": "Business & Tech",
+  "law-service": "Law & Service",
+};
+---
+
+<BaseLayout
+  title="Built for Experts Like You"
+  description="Pick your world. Doctors, lawyers, CEOs, consultants, and more, each with a path built around their real calendar and voice."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="on-navy">Built for experts like you</h1>
+      <p class="mt-4 text-lg opacity-90">Pick your world. The advice changes when the reader is you.</p>
+    </div>
+  </section>
+
+  {Object.entries(groups).map(([key, items]) => items.length > 0 && (
+    <section class="bg-ivory-50 border-t border-navy-100">
+      <div class="mx-auto max-w-5xl px-4 py-14">
+        <h2 class="mb-8">{groupLabels[key]}</h2>
+        <CardGrid items={items.map((p) => ({ title: p.data.professionLabel, description: p.data.answerBlock.slice(0, 110) + "…", href: `/for/${p.id}` }))} />
+      </div>
+    </section>
+  ))}
+
+  <FinalDoorCTA
+    heading="Don't see your field?"
+    body="The path still fits. Every expert with decades of knowledge and no book faces the same three walls, and the same fix."
+    secondaryLabel="Start here"
+    secondaryHref="/start"
+  />
+</BaseLayout>

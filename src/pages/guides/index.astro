@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CardGrid from "../../components/CardGrid.astro";
+
+const guides = await getCollection("guides");
+---
+
+<BaseLayout
+  title="Pillar Guides for Every Stage"
+  description="Long-form, ungated guides for wherever you are: idea only, stuck mid-draft, manuscript in hand, published but not selling, or too many ideas."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="on-navy">Guides for wherever you are</h1>
+      <p class="mt-4 text-lg opacity-90">Five stages. Five guides. Find yours.</p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-14">
+      <CardGrid items={guides.map((g) => ({ title: g.data.title, description: g.data.description, href: `/guides/${g.id}` }))} />
+    </div>
+  </section>
+</BaseLayout>

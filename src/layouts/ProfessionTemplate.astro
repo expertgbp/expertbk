@@ -1,0 +1,114 @@
+---
+import { getEntry, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import PathSteps from "../components/PathSteps.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import CardGrid from "../components/CardGrid.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../data/entity";
+
+interface Props {
+  entry: CollectionEntry<"professions">;
+}
+const { entry } = Astro.props;
+const p = entry.data;
+const { Content } = await render(entry);
+
+const relatedBooks = (
+  await Promise.all(p.relatedBooks.map((slug) => getEntry("books", slug)))
+).filter((b): b is NonNullable<typeof b> => Boolean(b));
+---
+
+<BaseLayout title={p.title} description={p.answerBlock.slice(0, 150)}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "For Experts", path: "/for" }, { name: p.professionLabel, path: Astro.url.pathname }]} />
+  </Fragment>
+
+  <!-- 1. H1 + 2. Direct answer block -->
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+      <p class="eyebrow mb-4">For {p.professionLabel}s</p>
+      <h1 class="on-navy">{p.title}</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        {p.answerBlock}
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="profession-hero-call">{p.cta.primaryLabel}</a>
+        <a href={p.cta.leadMagnetSlug} class="btn-secondary on-navy" data-cta="profession-hero-blueprint">{p.cta.leadMagnetLabel}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Identity mirror -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <p class="text-lg leading-relaxed">{p.identityMirror}</p>
+    </div>
+  </section>
+
+  <!-- 4. Obstacle map -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-8">What's actually in your way</h2>
+      <div class="space-y-6">
+        {p.obstacles.map((o) => (
+          <div class="card p-5 bg-white">
+            <p class="font-semibold italic text-navy-700">&ldquo;{o.objection}&rdquo;</p>
+            <p class="mt-2 text-slate-500 leading-relaxed">{o.reframe}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. What your book does -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">What your book does for a {p.professionLabel.toLowerCase()}</h2>
+      <p class="text-lg leading-relaxed">{p.whatItDoes}</p>
+    </div>
+  </section>
+
+  <!-- 6. The path -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-14">
+      <h2 class="mb-10 text-center">The EPIC Publishing Path, for your calendar</h2>
+      <PathSteps overrides={p.pathNote ? { engineer: p.pathNote } : {}} />
+    </div>
+  </section>
+
+  <!-- 7. Proof -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Proof from the path you're on</h2>
+      <TestimonialCard {...p.proof} />
+      <p class="mt-4 text-sm text-slate-500">
+        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 8. Book types this profession writes -->
+  {relatedBooks.length > 0 && (
+    <section class="bg-navy-100">
+      <div class="mx-auto max-w-5xl px-4 py-14">
+        <h2 class="mb-8">Book types {p.professionLabel.toLowerCase()}s write</h2>
+        <CardGrid items={relatedBooks.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 90) + "…", href: `/books/${b.id}` }))} />
+      </div>
+    </section>
+  )}
+
+  <!-- Optional extra body content (Markdown) -->
+  <section class="bg-ivory-50 prose prose-lg max-w-3xl mx-auto px-4 py-6">
+    <Content />
+  </section>
+
+  <!-- 9. FAQ -->
+  <FAQAccordion faqs={p.faqs} heading={`Questions ${p.professionLabel.toLowerCase()}s ask us`} />
+
+  <!-- 10. CTA band -->
+  <FinalDoorCTA secondaryLabel={p.cta.leadMagnetLabel} secondaryHref={p.cta.leadMagnetSlug} />
+</BaseLayout>

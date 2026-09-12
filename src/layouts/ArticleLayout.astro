@@ -1,0 +1,52 @@
+---
+import { getEntry, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import ArticleSchema from "../components/schema/ArticleSchema.astro";
+import PersonSchema from "../components/schema/PersonSchema.astro";
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+const { entry } = Astro.props;
+const post = entry.data;
+const { Content } = await render(entry);
+
+const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
+---
+
+<BaseLayout title={post.title} description={post.description.slice(0, 150)}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Blog", path: "/blog" }, { name: post.title, path: Astro.url.pathname }]} />
+    <ArticleSchema headline={post.title} description={post.description} authorName={post.author} datePublished={post.publishDate} dateModified={post.updatedDate} />
+    <PersonSchema name={post.author} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">{post.cluster}</p>
+      <h1 class="on-navy">{post.title}</h1>
+      <p class="mt-4 text-sm opacity-70">
+        By {post.author} &middot; {post.publishDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+      </p>
+    </div>
+  </section>
+
+  <article class="bg-ivory-50 prose prose-lg max-w-3xl mx-auto px-4 py-14">
+    <Content />
+  </article>
+
+  {pillar && (
+    <div class="mx-auto max-w-3xl px-4 pb-10 -mt-6">
+      <a href={`/guides/${pillar.id}`} class="text-sm font-semibold text-navy-700 hover:text-gold-500">
+        &larr; Back to the full guide: {pillar.data.title}
+      </a>
+    </div>
+  )}
+
+  <FAQAccordion faqs={post.faqs} heading="Quick answers" />
+
+  <FinalDoorCTA secondaryLabel={post.ctaVariant.leadMagnetLabel} secondaryHref={post.ctaVariant.leadMagnetSlug} />
+</BaseLayout>

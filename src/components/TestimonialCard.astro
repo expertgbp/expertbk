@@ -1,0 +1,20 @@
+---
+interface Props {
+  status: "placeholder" | "confirmed";
+  quote?: string;
+  attribution?: string;
+  placeholderNote?: string;
+}
+const { status, quote, attribution, placeholderNote = "[TESTIMONIAL: pending permission]" } = Astro.props;
+---
+
+{status === "confirmed" && quote ? (
+  <blockquote class="card p-6">
+    <p class="text-ink-900">&ldquo;{quote}&rdquo;</p>
+    {attribution && <footer class="mt-3 text-sm text-slate-500">&mdash; {attribution}</footer>}
+  </blockquote>
+) : (
+  <div class="card p-6 border-dashed opacity-70" aria-label="Testimonial pending permission">
+    <p class="text-sm italic text-slate-500">{placeholderNote}</p>
+  </div>
+)}

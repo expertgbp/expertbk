@@ -1,0 +1,347 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+
+const stageOptions = [
+  { value: "idea", label: "Idea only", helper: "“Where do I even start?”" },
+  { value: "half-written", label: "Half-written", helper: "A draft exists, but it stalled." },
+  { value: "manuscript-done", label: "Manuscript done", helper: "Finished, and not sure what's next." },
+  { value: "published", label: "Published", helper: "It's out, and it isn't selling." },
+];
+
+const bookTypeOptions = [
+  "Business book",
+  "Leadership book",
+  "Nonfiction book",
+  "Self-help book",
+  "Health and wellness book",
+  "Memoir",
+  "Legacy book",
+  "Faith-based book",
+  "Children's book",
+  "Novel",
+  "Not sure yet",
+];
+
+const fieldOptions = [
+  "Doctor",
+  "Nurse",
+  "Therapist",
+  "Dentist",
+  "Health Coach",
+  "CEO / Founder",
+  "Consultant",
+  "Coach",
+  "IT Leader",
+  "Financial Advisor",
+  "Real Estate Professional",
+  "HR Leader",
+  "Lawyer",
+  "Speaker",
+  "Educator",
+  "Retired Executive",
+  "Something else",
+];
+---
+
+<BaseLayout
+  title="Start Here: Find Your Path to a Published Book"
+  description="Four quick questions. One clear next step: the guide that matches where your book is today, and a real read on your path on a free call."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Start Here", path: "/start" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-2xl px-4 py-16 text-center">
+      <p class="eyebrow mb-4">START HERE</p>
+      <h1 class="on-navy">Where is your book today?</h1>
+      <p class="mt-4 text-lg opacity-90">
+        Four quick questions. No email required. You'll land on the exact guide built for your stage, and
+        a clear next step from there.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-2xl px-4 py-14">
+      <noscript>
+        <div class="card p-6 mb-8">
+          <p class="font-semibold">This quiz needs JavaScript to run interactively.</p>
+          <p class="mt-2 text-slate-500">
+            In the meantime, jump straight to a guide: <a class="underline font-semibold" href="/guides/where-to-start">Where do I even start?</a>,
+            <a class="underline font-semibold" href="/guides/finish-your-book">Finish your book</a>,
+            <a class="underline font-semibold" href="/guides/manuscript-ready-now-what">Manuscript in hand, now what?</a>, or
+            <a class="underline font-semibold" href="/guides/book-not-selling">My book isn't selling</a>.
+            Or skip straight to <a class="underline font-semibold" href="/book-a-call">booking a free call</a>.
+          </p>
+        </div>
+      </noscript>
+
+      <!-- Progress -->
+      <div class="mb-8" data-quiz-progress>
+        <div class="h-2 rounded-full bg-navy-100 overflow-hidden">
+          <div class="h-full bg-gold-300 transition-all" data-progress-bar style="width: 25%"></div>
+        </div>
+        <p class="mt-2 text-sm text-slate-500" data-progress-label>Question 1 of 4</p>
+      </div>
+
+      <form id="start-quiz" novalidate>
+        <!-- Question 1: stage -->
+        <fieldset class="card p-6" data-question="1">
+          <legend class="font-serif text-xl font-semibold mb-1">Where is your book today?</legend>
+          <p class="text-sm text-slate-500 mb-5">Pick the one that fits right now, not where you wish you were.</p>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {stageOptions.map((opt) => (
+              <label class="quiz-option flex flex-col gap-1 rounded-xl border border-navy-100 p-4 cursor-pointer hover:border-gold-500">
+                <span class="flex items-center gap-2 font-semibold">
+                  <input type="radio" name="stage" value={opt.value} required class="accent-gold-500" />
+                  {opt.label}
+                </span>
+                <span class="text-sm text-slate-500 pl-6">{opt.helper}</span>
+              </label>
+            ))}
+          </div>
+          <div class="mt-6 flex justify-end">
+            <button type="button" class="btn-primary" data-next="1" data-cta="quiz-next-1">Next &rarr;</button>
+          </div>
+        </fieldset>
+
+        <!-- Question 2: book type -->
+        <fieldset class="card p-6 hidden" data-question="2">
+          <legend class="font-serif text-xl font-semibold mb-1">What kind of book is it (or would it be)?</legend>
+          <p class="text-sm text-slate-500 mb-5">Best guess is fine if it isn't locked in yet.</p>
+          <div class="grid gap-2 sm:grid-cols-2">
+            {bookTypeOptions.map((label) => (
+              <label class="quiz-option flex items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
+                <input type="radio" name="bookType" value={label} required class="accent-gold-500" />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+          <div class="mt-6 flex justify-between">
+            <button type="button" class="btn-secondary" data-back="2" data-cta="quiz-back-2">&larr; Back</button>
+            <button type="button" class="btn-primary" data-next="2" data-cta="quiz-next-2">Next &rarr;</button>
+          </div>
+        </fieldset>
+
+        <!-- Question 3: field -->
+        <fieldset class="card p-6 hidden" data-question="3">
+          <legend class="font-serif text-xl font-semibold mb-1">What's your field?</legend>
+          <p class="text-sm text-slate-500 mb-5">The advice changes when we know the world you work in.</p>
+          <div class="grid gap-2 sm:grid-cols-2">
+            {fieldOptions.map((label) => (
+              <label class="quiz-option flex items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
+                <input type="radio" name="field" value={label} required class="accent-gold-500" />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+          <div class="mt-6 flex justify-between">
+            <button type="button" class="btn-secondary" data-back="3" data-cta="quiz-back-3">&larr; Back</button>
+            <button type="button" class="btn-primary" data-next="3" data-cta="quiz-next-3">Next &rarr;</button>
+          </div>
+        </fieldset>
+
+        <!-- Question 4: deadline / why (free text) -->
+        <fieldset class="card p-6 hidden" data-question="4">
+          <legend class="font-serif text-xl font-semibold mb-1">When does this need to exist by, and why?</legend>
+          <p class="text-sm text-slate-500 mb-5">
+            A birthday, a retirement, a launch, a promise you made someone. Real deadlines help us give you
+            a real answer. There's no wrong response here, including "no deadline, I just want it done."
+          </p>
+          <textarea
+            name="deadline"
+            rows="4"
+            class="w-full rounded-xl border border-navy-100 p-4 focus:outline-none focus:border-gold-500"
+            placeholder="For example: my father's 80th birthday is next June, and I want to hand him the finished book."
+          ></textarea>
+          <div class="mt-6 flex justify-between">
+            <button type="button" class="btn-secondary" data-back="4" data-cta="quiz-back-4">&larr; Back</button>
+            <button type="button" class="btn-primary" data-next="4" data-cta="quiz-see-results">See my results &rarr;</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- Results -->
+      <div class="card p-8 hidden" data-results>
+        <p class="eyebrow mb-3">YOUR PATH</p>
+        <h2 class="mb-4" data-results-heading>Here's where to go next</h2>
+        <p class="text-lg leading-relaxed" data-results-body>
+          Based on what you told us, this guide is the best next read for exactly where your book stands
+          today.
+        </p>
+        <a
+          class="mt-6 inline-flex card bg-navy-100 p-5 font-semibold text-navy-700 hover:text-gold-500"
+          data-results-guide-link
+          data-cta="quiz-result-guide"
+          href="/guides/where-to-start"
+        >
+          <span data-results-guide-label>Read the guide &rarr;</span>
+        </a>
+
+        <div class="mt-10 border-t border-navy-100 pt-8 text-center">
+          <p class="font-serif text-lg font-semibold mb-2">Not ready to read? Talk it through instead.</p>
+          <p class="text-slate-500 mb-5">
+            One call. A real read on your idea, your positioning, and your path, whether or not we work
+            together.
+          </p>
+          <a class="btn-primary" data-results-call-link data-cta="quiz-result-call" href="/book-a-call">
+            Book a Free Book Strategy Call
+          </a>
+        </div>
+
+        <div class="mt-6 text-center">
+          <button type="button" class="text-sm underline text-slate-500" data-restart data-cta="quiz-restart">
+            Start over
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  type Answers = {
+    stage: string;
+    bookType: string;
+    field: string;
+    deadline: string;
+  };
+
+  const form = document.getElementById("start-quiz") as HTMLFormElement | null;
+  const resultsPanel = document.querySelector<HTMLElement>("[data-results]");
+  const progressBar = document.querySelector<HTMLElement>("[data-progress-bar]");
+  const progressLabel = document.querySelector<HTMLElement>("[data-progress-label]");
+  const progressWrap = document.querySelector<HTMLElement>("[data-quiz-progress]");
+
+  const totalQuestions = 4;
+  let current = 1;
+
+  const answers: Answers = { stage: "", bookType: "", field: "", deadline: "" };
+
+  // Guide routing keyed off answer 1 (brief section 3.2 journey stages).
+  const guideByStage: Record<string, { href: string; label: string; heading: string; body: string }> = {
+    idea: {
+      href: "/guides/where-to-start",
+      label: "Read: Where Do I Even Start? →",
+      heading: "Start with the map.",
+      body: "You're at the idea stage, which is exactly where about a quarter of the people who come looking for this kind of help start. This guide covers the three decisions to make before you write a word.",
+    },
+    "half-written": {
+      href: "/guides/finish-your-book",
+      label: "Read: Finish Your Book →",
+      heading: "Let's get that draft to the finish line.",
+      body: "A stalled draft is the most common place people get stuck. This guide covers the write-rewrite loop, why it happens to smart people, and the structure that actually ends it.",
+    },
+    "manuscript-done": {
+      href: "/guides/manuscript-ready-now-what",
+      label: "Read: I Finished My Manuscript, Now What? →",
+      heading: "You're at the fastest stage to a real result.",
+      body: "A finished manuscript is closer to a published, working book than most people realize. This guide covers positioning, editing, publishing, and launch, in the right order.",
+    },
+    published: {
+      href: "/guides/book-not-selling",
+      label: "Read: My Book Isn't Selling, What Now? →",
+      heading: "A quiet launch isn't a verdict on the book.",
+      body: "Most books that sell fewer copies than hoped have a visibility problem, not a quality one. This guide covers the honest diagnosis and what a real relaunch involves.",
+    },
+  };
+
+  function showQuestion(n: number) {
+    document.querySelectorAll<HTMLElement>("[data-question]").forEach((el) => {
+      el.classList.toggle("hidden", Number(el.dataset.question) !== n);
+    });
+    if (progressBar) progressBar.style.width = `${(n / totalQuestions) * 100}%`;
+    if (progressLabel) progressLabel.textContent = `Question ${n} of ${totalQuestions}`;
+  }
+
+  function currentSelection(name: keyof Answers): string {
+    if (name === "deadline") {
+      const el = form?.querySelector<HTMLTextAreaElement>('textarea[name="deadline"]');
+      return el?.value.trim() ?? "";
+    }
+    const el = form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`);
+    return el?.value ?? "";
+  }
+
+  function showResults() {
+    answers.stage = currentSelection("stage");
+    answers.bookType = currentSelection("bookType");
+    answers.field = currentSelection("field");
+    answers.deadline = currentSelection("deadline");
+
+    const match = guideByStage[answers.stage] ?? guideByStage.idea;
+
+    const headingEl = document.querySelector<HTMLElement>("[data-results-heading]");
+    const bodyEl = document.querySelector<HTMLElement>("[data-results-body]");
+    const guideLink = document.querySelector<HTMLAnchorElement>("[data-results-guide-link]");
+    const guideLabel = document.querySelector<HTMLElement>("[data-results-guide-label]");
+    const callLink = document.querySelector<HTMLAnchorElement>("[data-results-call-link]");
+
+    if (headingEl) headingEl.textContent = match.heading;
+    if (bodyEl) bodyEl.textContent = match.body;
+    if (guideLink) guideLink.href = match.href;
+    if (guideLabel) guideLabel.textContent = match.label;
+
+    const params = new URLSearchParams();
+    if (answers.stage) params.set("stage", answers.stage);
+    if (answers.bookType) params.set("bookType", answers.bookType);
+    if (answers.field) params.set("field", answers.field);
+    if (answers.deadline) params.set("deadline", answers.deadline);
+    if (callLink) callLink.href = `/book-a-call?${params.toString()}`;
+
+    form?.classList.add("hidden");
+    progressWrap?.classList.add("hidden");
+    resultsPanel?.classList.remove("hidden");
+    resultsPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function validateCurrent(n: number): boolean {
+    const fieldset = form?.querySelector<HTMLFieldSetElement>(`[data-question="${n}"]`);
+    if (!fieldset) return true;
+    if (n === 4) return true; // free text is optional
+    const checked = fieldset.querySelector<HTMLInputElement>("input:checked");
+    if (!checked) {
+      fieldset.classList.add("animate-pulse");
+      window.setTimeout(() => fieldset.classList.remove("animate-pulse"), 400);
+      return false;
+    }
+    return true;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-next]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const n = Number(btn.dataset.next);
+      if (!validateCurrent(n)) return;
+      if (n < totalQuestions) {
+        current = n + 1;
+        showQuestion(current);
+      } else {
+        showResults();
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-back]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const n = Number(btn.dataset.back);
+      current = Math.max(1, n - 1);
+      showQuestion(current);
+    });
+  });
+
+  document.querySelector("[data-restart]")?.addEventListener("click", () => {
+    form?.reset();
+    resultsPanel?.classList.add("hidden");
+    progressWrap?.classList.remove("hidden");
+    form?.classList.remove("hidden");
+    current = 1;
+    showQuestion(current);
+    form?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // Initialize on load (progressive enhancement: everything above renders
+  // statically; this just narrows the view to one question at a time).
+  showQuestion(current);
+</script>

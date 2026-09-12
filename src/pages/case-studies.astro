@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import { entity } from "../data/entity";
+---
+
+<BaseLayout
+  title="Author Case Studies"
+  description="Real, permissioned author stories, published here only once the authors involved have approved their own words."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">CASE STUDIES</p>
+      <h1 class="on-navy">The authors who walked this path</h1>
+      <p class="mt-4 text-lg opacity-90">
+        This page is going to hold real stories from real authors, in their own words, once they've given us
+        permission to share them.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2>Why this page isn't full yet</h2>
+      <p class="mt-4 leading-relaxed">
+        We work with authors who trust us with a real story, sometimes a hard one. We don't publish a name,
+        a number, or a quote without that author's explicit permission first. That's slower than writing
+        case studies ourselves, and it's the only version of this page worth publishing.
+      </p>
+      <p class="mt-4 leading-relaxed">
+        So instead of inventing stories to fill the space, here's what's coming and how it will be marked
+        while we wait on permission.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center mb-4">Case studies in progress</h2>
+      <p class="text-center text-slate-500 mb-10">
+        Each of these slots will become a full story once the author involved has approved it. Until then,
+        they stay marked exactly like this.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <TestimonialCard status="placeholder" placeholderNote="[CASE STUDY: pending permission: a doctor's first book, from idea to launch]" />
+        <TestimonialCard status="placeholder" placeholderNote="[CASE STUDY: pending permission: the 60-day rescue of a stalled book]" />
+        <TestimonialCard status="placeholder" placeholderNote="[CASE STUDY: pending permission: a lawyer's book that opened speaking invitations]" />
+        <TestimonialCard status="placeholder" placeholderNote="[CASE STUDY: pending permission: 1,000+ books sold for one client in 5 days]" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2>What we can tell you today</h2>
+      <p class="mt-4 leading-relaxed">
+        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}. These are results we can
+        stand behind because they happened, but a result from one author is not a promise to the next one.
+      </p>
+      <p class="mt-3 text-sm text-slate-500">
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+      <p class="mt-6 leading-relaxed">
+        Want to see the honest, checkable version of who we are while these stories come together? Read our
+        <a href="/trust" class="underline font-semibold">trust page</a>, or check us out directly on our
+        <a href="/reviews" class="underline font-semibold">reviews page</a>.
+      </p>
+    </div>
+  </section>
+
+  <FinalDoorCTA />
+</BaseLayout>

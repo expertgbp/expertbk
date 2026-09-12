@@ -1,0 +1,26 @@
+---
+import { entity } from "../../data/entity";
+
+interface Props {
+  /** Match on founder full name; falls back to rendering nothing found. */
+  name: "Susmita Dutta" | "Ash Goel";
+}
+
+const { name } = Astro.props;
+const founder = entity.founders.find((f) => f.name === name);
+if (!founder) throw new Error(`PersonSchema: unknown founder "${name}"`);
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: founder.name,
+  jobTitle: founder.jobTitle,
+  worksFor: {
+    "@type": "Organization",
+    name: entity.legalName,
+  },
+  ...(founder.sameAs.length ? { sameAs: founder.sameAs } : {}),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

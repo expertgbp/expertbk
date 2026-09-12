@@ -1,0 +1,13 @@
+---
+import { getCollection, render } from "astro:content";
+import ProfessionTemplate from "../../layouts/ProfessionTemplate.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("professions");
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<ProfessionTemplate entry={entry} />

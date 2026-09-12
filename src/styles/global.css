@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (brief 2.2 + 9 "fonts self-hosted and preloaded") */
+@import "@fontsource-variable/inter";
+@import "@fontsource/source-serif-4/400.css";
+@import "@fontsource/source-serif-4/400-italic.css";
+@import "@fontsource/source-serif-4/600.css";
+@import "@fontsource/source-serif-4/700.css";
+
+/*
+  Design tokens — WriteExpertBook.com
+  Source of truth: WriteExpertBook-Website-Build-Brief.md, section 2.
+  Do not add colors outside this palette. Do not rename tokens; templates
+  and components reference these exact names.
+*/
+@theme {
+  /* Core brand */
+  --color-navy-900: #081F33; /* Primary, Deep Navy: headers, footer, hero bg, primary text on light */
+  --color-navy-700: #102B4E; /* Secondary: section backgrounds, cards on dark */
+  --color-gold-300: #FFD98A; /* Tertiary, Gold: primary CTAs, highlights, icons, active states */
+
+  /* Extended system (derived, stays in family) */
+  --color-navy-800: #0C2540; /* gradient midpoint between the two navies */
+  --color-navy-600: #1B3A66; /* hover states on dark, borders on navy */
+  --color-navy-100: #E8EEF5; /* light section background, alternating bands */
+  --color-ivory-50: #FBF7EF; /* warm page background */
+  --color-gold-500: #E6B85C; /* CTA hover, borders, underlines */
+  --color-gold-100: #FFF3D9; /* subtle highlight background, callout boxes */
+  --color-ink-900: #12212F; /* body text on light backgrounds */
+  --color-slate-500: #5A6B7E; /* secondary text, captions */
+  --color-success-600: #2E7D5B; /* form success only */
+  --color-error-600: #B4452F; /* form errors only */
+
+  /* Text on navy-900: warm off-white, never pure white, never gold for body copy */
+  --color-offwhite-100: #F5F1E8;
+
+  /* Typography */
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-sans: "Inter Variable", "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Radii / shadow used by the card system (section 2.3) */
+  --radius-card: 12px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink-900);
+    background-color: var(--color-ivory-50);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 2rem + 2vw, 4rem);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 1.4rem + 1vw, 2.5rem);
+    font-weight: 600;
+  }
+
+  /* Body text on navy never pure white, never gold */
+  .on-navy {
+    color: var(--color-offwhite-100);
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+}
+
+@layer components {
+  /* The recurring "book as a door" motif: thin gold vertical rule opening into content */
+  .door-rule {
+    position: relative;
+  }
+  .door-rule::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 3px;
+    background: var(--color-gold-300);
+    border-radius: 2px;
+  }
+
+  .card {
+    background-color: var(--color-white, #fff);
+    border: 1px solid var(--color-navy-100);
+    border-radius: var(--radius-card);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: 0 10px 30px -12px rgba(8, 31, 51, 0.25);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--color-gold-300);
+    color: var(--color-navy-900);
+    font-weight: 600;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-gold-500);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: inherit;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    border: 1.5px solid currentColor;
+    transition: background-color 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn-secondary:hover {
+    background-color: rgba(255, 217, 138, 0.12);
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold-500);
+  }
+}

@@ -1,0 +1,31 @@
+---
+interface Props {
+  heading?: string;
+  body?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+const {
+  heading = "Your book has waited long enough.",
+  body = "One call. A real read on your idea, your positioning, and your path, whether or not we work together.",
+  primaryLabel = "Book a Free Book Strategy Call",
+  primaryHref = "/book-a-call",
+  secondaryLabel = "Or start with the free Blueprint",
+  secondaryHref = "/free-blueprint",
+} = Astro.props;
+---
+
+<section class="bg-navy-900 text-offwhite-100">
+  <div class="mx-auto max-w-3xl px-4 py-20 text-center">
+    <h2 class="on-navy">{heading}</h2>
+    <p class="mt-4 text-lg opacity-90">{body}</p>
+    <div class="mt-8 flex flex-col items-center gap-3">
+      <a href={primaryHref} class="btn-primary" data-cta="final-door-call">{primaryLabel}</a>
+      <a href={secondaryHref} class="text-sm underline underline-offset-2 opacity-80 hover:opacity-100" data-cta="final-door-blueprint">
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>

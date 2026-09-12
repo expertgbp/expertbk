@@ -1,0 +1,80 @@
+---
+import { professionGroups } from "../data/nav";
+
+interface Props {
+  formId: string; // unique id, used for CRM tagging e.g. "free-blueprint"
+  segmentTag: string; // e.g. "blueprint-doctor" — tags this variant in the CRM
+  submitLabel?: string;
+  redirectTo?: string;
+}
+const {
+  formId,
+  segmentTag,
+  submitLabel = "Send me the Blueprint",
+  redirectTo = "/thank-you/blueprint",
+} = Astro.props;
+
+const professions = professionGroups.flatMap((g) => g.items);
+---
+
+<form
+  class="space-y-4 max-w-md"
+  data-lead-form
+  data-form-id={formId}
+  data-segment-tag={segmentTag}
+  data-redirect={redirectTo}
+  novalidate
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium mb-1" for={`${formId}-firstName`}>First name</label>
+      <input
+        id={`${formId}-firstName`}
+        name="firstName"
+        type="text"
+        required
+        autocomplete="given-name"
+        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1" for={`${formId}-email`}>Email</label>
+      <input
+        id={`${formId}-email`}
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium mb-1" for={`${formId}-profession`}>What best describes you?</label>
+    <select
+      id={`${formId}-profession`}
+      name="profession"
+      required
+      class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+    >
+      <option value="">Choose one</option>
+      {professions.map((p) => (<option value={p.label}>{p.label}</option>))}
+      <option value="Other">Something else</option>
+    </select>
+  </div>
+
+  <!-- Honeypot: hidden from real users, catches basic bots -->
+  <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+  <p data-form-error class="hidden text-sm text-error-600" role="alert"></p>
+
+  <button type="submit" class="btn-primary w-full sm:w-auto" data-cta={`form-${formId}`}>
+    {submitLabel}
+  </button>
+  <p class="text-xs text-slate-500">No spam. Unsubscribe anytime.</p>
+</form>
+
+<script>
+  import "../scripts/lead-form";
+</script>

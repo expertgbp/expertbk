@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+
+const all = (await getCollection("books")).sort((a, b) => a.data.order - b.data.order);
+const expertise = all.filter((b) => b.data.category === "expertise");
+const story = all.filter((b) => b.data.category === "story");
+---
+
+<BaseLayout
+  title="Which Book Should You Write?"
+  description="Business book, memoir, leadership book, novel: the path differs by book type. Find yours and see how it works."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="on-navy">Your book</h1>
+      <p class="mt-4 text-lg opacity-90">Every book type has its own pains and its own process. Find yours.</p>
+    </div>
+  </section>
+
+  {expertise.length > 0 && (
+    <section class="bg-ivory-50 border-t border-navy-100">
+      <div class="mx-auto max-w-5xl px-4 py-14">
+        <h2 class="mb-8">Expertise books</h2>
+        <CardGrid items={expertise.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 110) + "…", href: `/books/${b.id}` }))} />
+      </div>
+    </section>
+  )}
+
+  {story.length > 0 && (
+    <section class="bg-navy-100">
+      <div class="mx-auto max-w-5xl px-4 py-14">
+        <h2 class="mb-8">Story books</h2>
+        <CardGrid items={story.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 110) + "…", href: `/books/${b.id}` }))} />
+      </div>
+    </section>
+  )}
+
+  <FinalDoorCTA
+    heading="Not sure which book is yours?"
+    body="Some of the sharpest professionals we work with had too many ideas, not too few."
+    secondaryLabel="Which book should I write first? →"
+    secondaryHref="/guides/which-book-first"
+  />
+</BaseLayout>

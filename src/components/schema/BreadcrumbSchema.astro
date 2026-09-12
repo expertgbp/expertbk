@@ -1,0 +1,21 @@
+---
+interface Props {
+  /** Ordered from home to current page. Omit the origin; it's added here. */
+  items: { name: string; path: string }[];
+}
+const { items } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, "") ?? "";
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [{ name: "Home", path: "/" }, ...items].map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.name,
+    item: `${site}${item.path}`,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

@@ -1,0 +1,127 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CompareTable from "../../components/CompareTable.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
+
+const faqs = [
+  {
+    question: "Is traditional publishing more prestigious than partnership publishing?",
+    answer:
+      "A recognizable imprint carries a certain kind of prestige with some audiences, and that's a real, honest advantage of traditional publishing. It's worth weighing against what it usually costs you: your rights, most of your royalties, editorial control over your voice, and a long, uncertain wait to even get a yes. Prestige is one factor among several, not the only one.",
+  },
+  {
+    question: "Can I query agents and also explore partnership publishing at the same time?",
+    answer:
+      "Yes. Nothing about pursuing a partnership path prevents you from querying agents first if traditional publishing is genuinely the right fit for your specific book and goals. Many authors explore both, and choose once they understand the real tradeoffs of each.",
+  },
+  {
+    question: "Why would a publisher take my rights if partnership publishing doesn't?",
+    answer:
+      "Traditional publishers take rights and a larger share of royalties in exchange for financing the book's production and distribution themselves, which is a real cost they're absorbing. Partnership publishing works differently: you invest in the process directly, which is why you keep the rights and royalties instead of trading them away.",
+  },
+];
+---
+
+<BaseLayout
+  title="Partnership Publishing vs. Traditional Publishing: An Honest Comparison"
+  description="Traditional publishing gives you reach but usually takes your rights. Partnership publishing gives you both. Here is the honest tradeoff, row by row."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Compare", path: "/compare" }, { name: "Partnership vs. Traditional Publishing", path: "/compare/partnership-vs-traditional-publishing" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">HONEST COMPARISON</p>
+      <h1 class="on-navy">Partnership Publishing vs. Traditional Publishing: What's the Real Difference?</h1>
+      <p class="mt-6 text-lg opacity-90 leading-relaxed">
+        Traditional publishing gives you reach, but it usually takes your rights and a large share of your
+        royalties, and it can take 12 to 24 months to even hear a yes, if one comes at all. Partnership
+        publishing gives you that same professional support while you keep 100% of your rights and
+        royalties, on a timeline measured in months, not years. It isn't free, and it isn't right for every
+        book. Here is the honest tradeoff.
+      </p>
+    </div>
+  </section>
+
+  <CompareTable
+    heading="Traditional publishing vs. partnership publishing"
+    intro="Traditional publishing works for some authors and some books. Here is what it actually offers, and what it actually costs, next to the partnership alternative."
+    rowLabels={["Who owns your rights", "Who keeps royalties", "Who does the work", "Speed", "Marketing support", "Upfront cost", "Chance of acceptance"]}
+    columns={[
+      { label: "Traditional publishing" },
+      { label: "Partnership publishing", highlighted: true },
+    ]}
+    cells={[
+      ["The publisher, typically for the life of copyright or a long license term", "You, entirely"],
+["The publisher pays you a minority royalty on net receipts, with the exact rate set by contract [NEEDS CONFIRMATION: current typical industry royalty range]", "You keep 100% of royalties"],
+      ["The publisher's editorial and production team, with less input from you than most authors expect", "A team works alongside you; you review and approve every step, and your voice is preserved by design"],
+      ["Often 12 to 24 months from acceptance to shelf, after an uncertain and sometimes yearslong query and submission process", "Typically 6 to 12 months from a positioned idea to a published, launched book"],
+      ["Meaningful for a small number of lead titles each season; minimal for most others past the first weeks", "Built into the process for every author, including a coordinated launch plan"],
+      ["Little to no cash cost to you upfront, sometimes offset by an advance; the cost is paid in rights and royalties instead", "A real investment; itemized and honest, in exchange for keeping everything you make and own"],
+      ["Most submissions are declined; acceptance is not guaranteed and often depends on factors outside the manuscript's quality", "Not a competitive submission process; the path is available to authors who are a genuine fit for it"],
+    ]}
+  />
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 prose prose-lg">
+      <h2>Who owns your rights and keeps your royalties</h2>
+      <p>
+        This is the sharpest difference between the two paths. A traditional publishing contract typically
+        acquires your rights, often for the life of copyright or a long license term, and pays you a
+        minority royalty on sales, with the exact rate set by contract and varying by format
+        [NEEDS CONFIRMATION: current typical industry royalty range]. Partnership publishing works the other way: you keep 100% of your rights and 100%
+        of your royalties, always. Neither structure is a scam. They're two different trades: reach and
+        an advance in exchange for ownership, or ownership in exchange for funding the process yourself.
+      </p>
+
+      <h2>Who does the actual work, and how much say you have</h2>
+      <p>
+        A traditional publisher's editorial team makes many of the calls: title, cover, sometimes
+        structural edits you may not agree with, on a schedule built around their catalog, not just your
+        book. Debut authors in particular often have less influence over these decisions than they expect
+        going in. Partnership publishing is built around the opposite promise: we edit with you, not over
+        you. Your coined language and your way of explaining things stay yours, and you approve every
+        change before it ships.
+      </p>
+
+      <h2>Speed: querying, waiting, and the calendar you don't control</h2>
+      <p>
+        Traditional publishing usually starts with querying agents, a process that can take months on its
+        own, followed by a submission process to publishers that can take longer still, with no guarantee
+        of a yes at the end of it. If accepted, the gap between signing and the book actually reaching
+        shelves is often 12 to 24 months, sometimes longer, because you're one title in a much larger
+        catalog with its own production calendar. Partnership publishing runs on a calendar built around
+        your book specifically: most authors move from a positioned idea to a published, launched book in
+        roughly 6 to 12 months.
+      </p>
+
+      <h2>Marketing support: reach isn't the same as promotion</h2>
+      <p>
+        Traditional publishers do have real distribution reach: their books land in stores and catalogs
+        that are harder for an independent title to access on its own. But active marketing support is
+        usually reserved for a small number of lead titles each season. Most traditionally published books
+        get a modest push around launch week and then compete for attention on their own after that.
+        Partnership publishing includes a coordinated launch plan for every author it works with, not just
+        the few titles a season's budget happens to favor.
+      </p>
+
+      <h2>Upfront cost and the chance of ever getting a yes</h2>
+      <p>
+        Traditional publishing usually costs you little or nothing in cash upfront, and can include an
+        advance against future royalties. That low cash cost comes with a real, uncertain hurdle first: the
+        large majority of submissions are declined, for reasons that often have little to do with whether
+        the book itself is good. Partnership publishing has a real, honest cost, itemized rather than
+        hidden, on the <a href="/pricing-and-cost">pricing and cost page</a>, and it doesn't ask you to win
+        a competitive acceptance process first. The tradeoff is direct: pay for the process, keep
+        everything the book earns.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Questions about partnership vs. traditional publishing" />
+
+  <FinalDoorCTA />
+</BaseLayout>

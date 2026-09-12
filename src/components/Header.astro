@@ -1,0 +1,109 @@
+---
+import { primaryNav } from "../data/nav";
+---
+
+<header class="sticky top-0 z-40 bg-navy-900 text-offwhite-100 border-b border-navy-700">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="flex items-center justify-between h-16 gap-4">
+      <a href="/" class="font-serif font-bold text-lg shrink-0">WriteExpertBook</a>
+
+      <nav class="hidden lg:flex items-center gap-1 text-sm">
+        {primaryNav.map((item) => (
+          "groups" in item || "links" in item ? (
+            <div class="relative group">
+              <button class="px-3 py-2 rounded hover:bg-navy-700 flex items-center gap-1" aria-haspopup="true">
+                {item.label}
+                <svg width="10" height="10" viewBox="0 0 10 10" class="mt-0.5" aria-hidden="true"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+              </button>
+              <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity absolute left-0 top-full pt-2 w-max max-w-[90vw] z-50">
+                <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl p-5 flex gap-8">
+                  {"groups" in item && item.groups.map((group) => (
+                    <div class="min-w-[10rem]">
+                      <p class="eyebrow mb-2">{group.heading}</p>
+                      <ul class="space-y-1.5">
+                        {group.items.map((link) => (
+                          <li><a href={link.href} class="hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                  {"links" in item && (
+                    <ul class="space-y-1.5 min-w-[12rem]">
+                      {item.links.map((link) => (
+                        <li><a href={link.href} class="hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                {"indexHref" in item && item.indexHref && (
+                  <div class="bg-white text-ink-900 rounded-b-xl border-x border-b border-navy-100 px-5 py-2 -mt-1">
+                    <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">See all &rarr;</a>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <a href={item.href} class="px-3 py-2 rounded hover:bg-navy-700">{item.label}</a>
+          )
+        ))}
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-2 shrink-0">
+        <a href="/free-blueprint" class="btn-secondary text-sm" data-cta="header-blueprint">Get the Free Blueprint</a>
+        <a href="/book-a-call" class="btn-primary text-sm" data-cta="header-call">Book a Strategy Call</a>
+      </div>
+
+      <button id="mobile-nav-toggle" class="lg:hidden p-2" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="lg:hidden hidden border-t border-navy-700 bg-navy-900">
+    <div class="px-4 py-4 space-y-4 max-h-[70vh] overflow-y-auto">
+      {primaryNav.map((item) => (
+        <div>
+          {"href" in item ? (
+            <a href={item.href} class="block font-semibold py-1">{item.label}</a>
+          ) : (
+            <details>
+              <summary class="font-semibold py-1 cursor-pointer">{item.label}</summary>
+              <div class="pl-3 pt-2 space-y-3">
+                {"groups" in item && item.groups.map((group) => (
+                  <div>
+                    <p class="eyebrow mb-1">{group.heading}</p>
+                    <ul class="space-y-1">
+                      {group.items.map((link) => (<li><a href={link.href} class="text-sm opacity-90">{link.label}</a></li>))}
+                    </ul>
+                  </div>
+                ))}
+                {"links" in item && (
+                  <ul class="space-y-1">
+                    {item.links.map((link) => (<li><a href={link.href} class="text-sm opacity-90">{link.label}</a></li>))}
+                  </ul>
+                )}
+              </div>
+            </details>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</header>
+
+<!-- Mobile sticky dual CTA bar (brief 5.1) -->
+<div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900 border-t border-navy-700 px-3 py-2 flex gap-2">
+  <a href="/free-blueprint" class="btn-secondary text-offwhite-100 flex-1 text-sm" data-cta="mobile-sticky-blueprint">Free Blueprint</a>
+  <a href="/book-a-call" class="btn-primary flex-1 text-sm" data-cta="mobile-sticky-call">Book a Call</a>
+</div>
+<div class="lg:hidden h-14" aria-hidden="true"></div>
+
+<script>
+  const toggle = document.getElementById("mobile-nav-toggle");
+  const panel = document.getElementById("mobile-nav");
+  toggle?.addEventListener("click", () => {
+    const isHidden = panel?.classList.contains("hidden");
+    panel?.classList.toggle("hidden");
+    toggle.setAttribute("aria-expanded", String(!!isHidden));
+  });
+</script>

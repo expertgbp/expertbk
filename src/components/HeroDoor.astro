@@ -1,0 +1,43 @@
+---
+interface Props {
+  eyebrow: string;
+  heading: string;
+  subhead: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  microTrust?: string;
+  ctaId?: string;
+}
+const {
+  eyebrow,
+  heading,
+  subhead,
+  primaryLabel = "Book a Free Book Strategy Call",
+  primaryHref = "/book-a-call",
+  secondaryLabel = "Get the Expert Book Blueprint (free)",
+  secondaryHref = "/free-blueprint",
+  microTrust,
+  ctaId = "hero",
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-navy-900 text-offwhite-100">
+  <!-- The book-as-a-door motif: gold light through an opening spine, no stock photography -->
+  <div class="pointer-events-none absolute inset-y-0 right-[-10%] w-[60%] opacity-70" aria-hidden="true">
+    <div class="h-full w-full bg-gradient-to-l from-gold-300/25 via-gold-300/5 to-transparent"></div>
+    <div class="absolute inset-y-[8%] right-[20%] w-[3px] bg-gold-300/80 rounded-full blur-[0.5px]"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-20 md:py-28">
+    <p class="eyebrow mb-4">{eyebrow}</p>
+    <h1 class="max-w-3xl on-navy">{heading}</h1>
+    <p class="mt-6 max-w-2xl text-lg opacity-90">{subhead}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={primaryHref} class="btn-primary" data-cta={`${ctaId}-call`}>{primaryLabel}</a>
+      <a href={secondaryHref} class="btn-secondary on-navy" data-cta={`${ctaId}-blueprint`}>{secondaryLabel}</a>
+    </div>
+    {microTrust && <p class="mt-5 text-sm opacity-70">{microTrust}</p>}
+  </div>
+</section>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../data/entity";
+
+const faqs = [
+  {
+    question: "How much does it cost to publish a book with a partner publisher?",
+    answer:
+      "It depends on scope: how much writing help you need, how deep the editing goes, and whether you want a launch campaign or audiobook included. Partnership publishing is a real investment, more than self-publishing alone and less than the years a traditional deal can take. We publish the full honest breakdown, no hidden number, at /pricing-and-cost.",
+  },
+  {
+    question: "How long does the whole process take, start to finish?",
+    answer:
+      "Most authors move from idea to published book in 6 to 12 months: positioning first, then structured extraction, then editing, publishing, and launch. Adding a launch campaign or audiobook can extend the timeline by a few months on either end.",
+  },
+  {
+    question: "Do I keep my rights and royalties?",
+    answer:
+      "Yes, 100% of both, on every book, always. That's the entire point of partnership publishing: the reach of a publisher without signing away what a traditional deal takes. Read the full rights policy at /trust.",
+  },
+  {
+    question: "I'm not a writer. Can this still work for me?",
+    answer:
+      "Most of our authors didn't think of themselves as writers either. The manuscript comes out of structured, recorded sessions where you talk and we organize, not a blank page you face alone. You read and approve every chapter before anything is called finished.",
+  },
+  {
+    question: "Will editing change my voice?",
+    answer:
+      "No. We edit with you, not over you. Your coined phrases and the way you actually explain things stay in the book. This is the named Voice Preservation promise, and it's a direct answer to the most common fear we hear from experts about handing a manuscript to an editor.",
+  },
+  {
+    question: "Is my field too narrow or too specialized for a book to work?",
+    answer:
+      "Usually the opposite is true. A precise book for one kind of reader tends to outperform a vague book aimed at everyone. Positioning decides this before a single word gets written, so a narrow specialty becomes an advantage instead of a limit.",
+  },
+  {
+    question: "How do I know you're not a vanity press?",
+    answer:
+      "Check us before you trust us. Our contract highlights are published in plain language, our rights policy is stated the same way everywhere, and our founders are public figures with a verifiable record. The one-line test that works with any publisher: " +
+      entity.vanityPressWarning +
+      " Read the full trust page at /trust.",
+  },
+  {
+    question: "I don't have time to write a book. Isn't that a dealbreaker?",
+    answer:
+      "It's the reason the process is built the way it is. The manuscript is extracted through structured sessions that fit around a full calendar, not squeezed out of evenings and weekends. Several of our authors work full clinical, courtroom, or executive schedules and still finish.",
+  },
+  {
+    question: "Who am I to write a book? I'm not famous.",
+    answer:
+      "Neither were most of our 700-plus authors before their first book. Expertise, not fame, is the requirement. Our founders started the same way, learning the industry's lessons the hard way with their own first books before building a company to make the path easier for others.",
+  },
+  {
+    question: "What if my book is already published and it isn't selling?",
+    answer:
+      "That's a specific, solvable problem, and it has its own service: Book Rescue. One stalled author went from 15 sales in 15 months to an international bestseller in 60 days after a positioning and relaunch audit. These are our results and our clients' results, not a promise of yours: /disclaimer. See the full process at /services/book-relaunch.",
+  },
+  {
+    question: "Can I write about real people, patients, or clients in my book?",
+    answer:
+      "Yes, carefully. Details are abstracted or composited so the lesson stays intact without identifying anyone who hasn't agreed to be named. This is handled explicitly during editing, on every book where it applies, from medical stories to client case studies.",
+  },
+  {
+    question: "What happens after the book is published?",
+    answer:
+      "Publishing is not the finish line here. A launch campaign runs around publication day, and quarterly pushes continue after that, because a book that only gets promoted once tends to go quiet by month two. See /services/book-marketing for the full system.",
+  },
+];
+---
+
+<BaseLayout
+  title="Frequently Asked Questions"
+  description="Cost, timeline, rights and royalties, voice preservation, and the vanity-press question, answered directly and in one place."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "FAQ", path: "/faq" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 text-center">
+      <p class="eyebrow mb-4">EVERY QUESTION, IN ONE PLACE</p>
+      <h1 class="on-navy">Frequently Asked Questions</h1>
+      <p class="mt-6 text-lg opacity-90">
+        Cost, timeline, rights, your voice, your specialty, and the scam question. Straight answers,
+        with links deeper wherever one page can't cover it all.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Ask us anything" />
+
+  <FinalDoorCTA
+    heading="Still have a question this page didn't answer?"
+    body="Ask it on a call. It's a real read on your idea and your path, whether or not we work together."
+    secondaryLabel="Or talk to a real person →"
+    secondaryHref="/contact"
+  />
+</BaseLayout>

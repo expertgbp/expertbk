@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CompareTable from "../../components/CompareTable.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../../data/entity";
+
+const faqs = [
+  {
+    question: "Is every company that charges authors a vanity press?",
+    answer:
+      "No. Charging for a real, itemized service (editing, design, publishing, marketing) is normal and honest, as long as the price is disclosed upfront, the work is real, and you stay involved in every decision. A vanity press isn't defined by charging money. It's defined by taking your money without doing the work, or without you.",
+  },
+  {
+    question: "How do I check if a publisher is legitimate before I sign anything?",
+    answer:
+      "Ask for the contract in plain language before you pay anything, check their Better Business Bureau and Trustpilot profiles, ask who specifically edits and reviews the manuscript, and ask to see real, verifiable author outcomes. Our trust page covers exactly what to check and why, in more depth than this page.",
+  },
+  {
+    question: "What's the one-line test for whether I'm dealing with a vanity press?",
+    answer:
+      entity.vanityPressWarning + " If a company's process doesn't require your active involvement in editing, design, and final approval, that's the clearest warning sign there is.",
+  },
+];
+---
+
+<BaseLayout
+  title="Hybrid Publisher vs. Vanity Press: 7 Differences That Protect You"
+  description="Both charge you to publish. Only one actually earns it. Here are the seven concrete differences that separate a real hybrid publisher from a vanity press."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Compare", path: "/compare" }, { name: "Hybrid Publisher vs. Vanity Press", path: "/compare/hybrid-publisher-vs-vanity-press" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">HONEST COMPARISON</p>
+      <h1 class="on-navy">Hybrid Publisher vs. Vanity Press: What's the Real Difference?</h1>
+      <p class="mt-6 text-lg opacity-90 leading-relaxed">
+        Both a real hybrid (partnership) publisher and a vanity press charge you to publish your book.
+        That single similarity is why the two get confused, and why this is one of the first questions
+        careful professionals ask before signing anything. The difference isn't the fee. It's whether the
+        fee buys real editorial work, real involvement, and real support, or just a printed file and a
+        bill.
+      </p>
+    </div>
+  </section>
+
+  <CompareTable
+    heading="Seven differences that separate the two"
+    intro="This isn't every vanity press behaving badly on purpose. Some genuinely don't know better. Either way, these are the concrete things to check before you pay anyone."
+    rowLabels={[
+      "Editorial involvement",
+      "Who reviews and approves the manuscript",
+      "Acceptance standard",
+      "Rights and royalties",
+      "Pricing structure",
+      "Marketing and launch",
+      "Claims about outcomes",
+    ]}
+    columns={[
+      { label: "Vanity press" },
+      { label: "Real hybrid (partnership) publisher", highlighted: true },
+    ]}
+    cells={[
+      ["Minimal to none; the manuscript is often printed largely as submitted", "Substantive editing done with you, preserving your voice, not flattening it"],
+      ["Often skipped or reduced to a formality; the goal is to get you to pay, not to get the book right", "You review and approve every change, at every stage, by design"],
+      ["Little to none; most manuscripts submitted are accepted, because acceptance isn't really the point", "A real fit conversation happens first; the path is for authors it can genuinely help"],
+      ["Varies, and is often buried in dense contract language; read it closely", "You keep 100% of your rights and royalties, stated plainly"],
+      ["Often starts low, then grows through repeated upsells for services that should have been included", "Itemized upfront: deliverables and cost stated before you commit, payment plans disclosed plainly"],
+      ["Rarely included; you're often on your own once the file is printed", "Built into the process as a coordinated launch, not an afterthought"],
+      ["Sometimes implies guaranteed bestseller status or specific sales results", "No blanket guarantees; any results referenced carry an honest disclaimer, and any real guarantee is stated within its specific, limited scope"],
+    ]}
+  />
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 prose prose-lg">
+      <h2>The red flags of a vanity press dressed up as a publisher</h2>
+      <p>
+        Vanity presses rarely announce themselves. Most use publishing language that sounds professional,
+        because the appearance of legitimacy is part of what they're selling. Here's what to actually look
+        for, specifically, before you sign anything or send a payment.
+      </p>
+      <ul>
+        <li>
+          <strong>They accept almost anything.</strong> If a "publisher" says yes to your manuscript
+          within minutes of seeing it, with no real conversation about fit, positioning, or the market for
+          your book, that's a sign the acceptance was never really the point. Real publishers, hybrid or
+          traditional, have some standard, even if it's a conversation rather than a formal rejection
+          process.
+        </li>
+        <li>
+          <strong>The manuscript gets published without your active review.</strong> This is the single
+          clearest warning sign in the entire industry, and it's worth repeating on its own line: {entity.vanityPressWarning}
+        </li>
+        <li>
+          <strong>The price keeps growing after you've signed.</strong> A legitimate process states its
+          deliverables and cost upfront. A vanity press pattern often looks like a low entry price followed
+          by a stream of "recommended" upsells (editing you thought was included, marketing packages,
+          expedited anything) that weren't disclosed until after you'd already committed.
+        </li>
+        <li>
+          <strong>Contract language about rights is vague, dense, or buried.</strong> If you can't find a
+          plain-language answer to "who owns this book when we're done," or the contract takes a lawyer to
+          parse, that's worth pausing on. A legitimate hybrid publisher can tell you in one sentence: you
+          keep 100% of your rights and royalties.
+        </li>
+        <li>
+          <strong>High-pressure sales tactics, especially urgency with no real reason behind it.</strong>
+          A countdown or deadline tied to a real cohort date or a real enrollment window is normal and
+          honest. Pressure with no verifiable event behind it (a "price goes up at midnight" with no stated
+          reason, repeated every time you visit) is a manufactured urgency tactic, not a real one.
+        </li>
+        <li>
+          <strong>Guaranteed bestseller status or specific sales numbers, promised in advance.</strong> No
+          legitimate publisher, hybrid or traditional, can guarantee a specific sales outcome for a book
+          that doesn't exist yet. Real results (ours and our clients') are always described as results, not
+          promises, and any income example should carry that distinction explicitly.
+        </li>
+        <li>
+          <strong>No verifiable third-party presence.</strong> A real company has a real Better Business
+          Bureau profile, real Trustpilot reviews linked to their actual source, and founders who are
+          verifiable public people, not just a polished website. If you can't find any of that, or the
+          links go nowhere, that's worth treating as a serious signal, not a minor omission.
+        </li>
+      </ul>
+
+      <h2>Why this distinction matters more than the price tag</h2>
+      <p>
+        It's tempting to judge legitimacy by price alone, assuming "cheaper means safer" or "more expensive
+        means more legitimate." Neither is reliably true. A vanity press can charge a modest fee for
+        essentially nothing, and a real hybrid publisher's investment can look large next to it while
+        actually delivering professional editing, design, publishing, and marketing support behind the
+        number. The price tells you very little on its own. The seven differences above tell you a great
+        deal.
+      </p>
+
+      <h2>Check us before you trust us</h2>
+      <p>
+        This same audience, understandably, checks review sites and business bureaus before buying, and
+        that instinct is exactly right. Roughly one in six of the people who eventually became authors
+        through a partnership path told us they'd wondered, at some point, whether the whole thing might be
+        a scam. That doubt is reasonable given how much of this industry deserves it. Read the full
+        <a href="/trust">trust page</a> for contract highlights in plain language, our BBB and Trustpilot
+        links, and the specifics of how we handle rights.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Questions about vanity presses and hybrid publishers" />
+
+  <FinalDoorCTA />
+</BaseLayout>

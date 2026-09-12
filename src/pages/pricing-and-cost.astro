@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CompareTable from "../components/CompareTable.astro";
+import FAQAccordion from "../components/FAQAccordion.astro";
+import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../data/entity";
+
+const serviceLinks = [
+  { label: "Book Writing", href: "/services/book-writing", note: "structured extraction to a finished manuscript" },
+  { label: "Book Publishing", href: "/services/book-publishing", note: "editing, design, ISBN, and distribution" },
+  { label: "Book Marketing", href: "/services/book-marketing", note: "a launch, then quarterly pushes" },
+  { label: "Book Rescue", href: "/services/book-relaunch", note: "for a published book that isn't selling" },
+  { label: "Author Brand & Speaking", href: "/services/author-brand-and-speaking", note: "stages, media, and the ecosystem around a book" },
+  { label: "Audiobook", href: "/services/audiobook", note: "narration through distribution" },
+];
+
+const faqs = [
+  {
+    question: "Why won't you just tell me one number?",
+    answer:
+      "Because one honest number doesn't exist. A done-with-you memoir and a full ghostwritten business book with a launch campaign and an audiobook cost differently, the way a kitchen remodel costs differently from a bathroom one. Every service page states its own range and links back here. What we won't do is hide the shape of the cost behind a call.",
+  },
+  {
+    question: "Is partnership publishing more expensive than self-publishing?",
+    answer:
+      "Usually, yes, in cash terms. Self-publishing alone can cost very little upfront and a great deal of your own time, learning editing, design, and distribution as you go. Partnership publishing costs more upfront and less of your time, because a team does the parts you'd otherwise have to learn from scratch.",
+  },
+  {
+    question: "Is it cheaper than traditional publishing?",
+    answer:
+      "In one sense traditional publishing looks free: no upfront service fee, sometimes an advance. But it can take a year or more of querying just to get a yes, if one comes at all, and it takes a share of your rights and royalties for the life of the book. Partnership publishing is priced in dollars up front instead of years and rights later.",
+  },
+  {
+    question: "Do payment plans exist?",
+    answer:
+      "Yes. Every service page states this plainly, and the specific schedule is discussed on your strategy call, not sprung on you after you've committed.",
+  },
+  {
+    question: "What happens if I choose the cheapest option and it goes wrong?",
+    answer:
+      "This is the real reframe: a book done wrong costs the same money twice. A rushed edit, a skipped positioning step, or a launch with no plan behind it often means paying again later to fix what should have been done once. Cost is not just the number on the invoice. It's whether the money produces a book that works.",
+  },
+];
+---
+
+<BaseLayout
+  title="What Does It Actually Cost to Publish a Book?"
+  description="An honest cost guide: why the number depends on scope, why partnership publishing sits between self-publishing and a traditional deal, and where payment plans fit in."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Pricing & Cost", path: "/pricing-and-cost" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+      <p class="eyebrow mb-4">THE HONEST COST GUIDE</p>
+      <h1 class="on-navy">What Does It Actually Cost to Publish a Book?</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        This is the number one question we get, and most publishers hide the answer behind a sales call.
+        We won't. A real number depends on scope: how much writing help you need, how deep the editing goes,
+        and whether you want a launch campaign or an audiobook built in. Partnership publishing costs more
+        than self-publishing alone and less than the years a traditional deal can take. Payment plans exist.
+        [NEEDS CONFIRMATION: exact price tiers]
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="pricing-hero-call">Book a Free Book Strategy Call</a>
+        <a href="/free-blueprint" class="btn-secondary on-navy" data-cta="pricing-hero-blueprint">Get the Expert Book Blueprint (free)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why one number doesn't exist -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Why we won't invent a single price</h2>
+      <p class="leading-relaxed">
+        A book someone dictates in structured sessions from a near-finished outline costs less to produce
+        than one built from decades of scattered notes with no structure at all. A book with a launch
+        campaign and an audiobook costs more than one without. Anyone who quotes you an exact number before
+        knowing your scope is guessing, or worse, lowballing you now to raise the price later.
+      </p>
+      <p class="mt-4 leading-relaxed">
+        What we can tell you honestly: partnership publishing is a real investment. It is not a
+        low-hundreds self-publishing package, and it is not free. [NEEDS CONFIRMATION: exact price tiers]
+        Every service page below states its own honest range and links back here.
+      </p>
+    </div>
+  </section>
+
+  <!-- The three-path cost comparison -->
+  <CompareTable
+    heading="Three ways to pay for a book. One honest table."
+    intro="Not which is best, just what each one actually costs you, in cash or in time."
+    rowLabels={["Upfront cash cost", "Your time cost", "Who keeps the rights", "Who keeps the royalties", "Speed to a finished, published book"]}
+    columns={[
+      { label: "Self-publishing alone" },
+      { label: "Traditional publishing" },
+      { label: "Partnership publishing", highlighted: true },
+    ]}
+    cells={[
+      ["Low to moderate; you pay per service piecemeal", "Usually nothing upfront", "A real investment, paid as one process; [NEEDS CONFIRMATION: exact price tiers]"],
+      ["High; you learn and manage editing, design, and distribution yourself", "High; often 12 to 24 months of querying, if accepted at all", "Low; a team runs the process on a set timeline"],
+      ["You, all of it", "The publisher, usually", "You, all of it"],
+      ["You, all of it", "You, split with the publisher", "You, all of it"],
+      ["Fast to publish, slow to learn the craft alone", "Slow, and never guaranteed", "6 to 12 months, guided"],
+    ]}
+  />
+
+  <!-- The reframe -->
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
+      <h2 class="on-navy">A book done wrong costs the same money twice.</h2>
+      <p class="mt-4 text-lg opacity-90">
+        A skipped positioning step, a rushed edit, or a launch with no plan behind it rarely stays cheap.
+        It usually means paying again later, for an edit that should have happened once, or a relaunch that
+        a real launch would have made unnecessary. The honest question isn't just what something costs. It's
+        whether the money produces a book that works the first time.
+      </p>
+    </div>
+  </section>
+
+  <!-- Payment plans -->
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-4">Payment plans, stated plainly</h2>
+      <p class="leading-relaxed">
+        Payment plans are available on every service. We discuss the specific schedule on your strategy
+        call, before you commit to anything, not as a surprise afterward. If a plan doesn't fit your
+        situation, say so on the call. That is what the call is for.
+      </p>
+    </div>
+  </section>
+
+  <!-- Link out to each service's investment section -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">See the range for what you actually need</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {serviceLinks.map((s) => (
+          <a href={s.href} class="card bg-white p-5" data-cta={`pricing-service-${s.href.split("/").pop()}`}>
+            <p class="font-serif font-semibold">{s.label}</p>
+            <p class="mt-1 text-sm text-slate-500">{s.note}</p>
+            <p class="mt-3 text-sm font-semibold text-navy-700">See the investment section &rarr;</p>
+          </a>
+        ))}
+      </div>
+      <p class="mt-6 text-xs text-slate-500">
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Cost questions, answered honestly" />
+
+  <FinalDoorCTA
+    heading="The real number for your book takes one call to find."
+    body="Bring your idea, your stage, and your budget questions. We'd rather tell you the honest range now than surprise you later."
+  />
+</BaseLayout>

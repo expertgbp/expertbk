@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.writeexpertbook.com/sitemap-index.xml

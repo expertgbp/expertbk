@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entity } from "../data/entity";
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How Global Book Publishing collects, uses, and protects the information you share with us through forms, calls, and email."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">LEGAL</p>
+      <h1 class="on-navy">Privacy Policy</h1>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 leading-relaxed">
+      <div class="card p-5 border-dashed bg-gold-100 border-gold-500 mb-10">
+        <p class="font-semibold">
+          This is a draft starting point. Have a lawyer review this page before it governs real
+          transactions. [NEEDS CONFIRMATION: legal review]
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-500 mb-8">Last updated: [NEEDS CONFIRMATION: publish date]</p>
+
+      <h2>What we collect</h2>
+      <p class="mt-4">
+        We collect what you give us, directly, through the forms on this site: your name, email address, and
+        answers to questions like your profession or where you are in your book (for example, when you
+        request the Expert Book Blueprint, book a strategy call, or subscribe to the newsletter). We don't
+        collect information you didn't hand us on purpose.
+      </p>
+
+      <h2 class="mt-10">How we use it</h2>
+      <p class="mt-4">
+        We use this information to send you what you asked for (a guide, a booking confirmation, a
+        newsletter), to reach out if you've asked us to, and to understand which pages and offers are
+        actually useful to the people who visit this site. We tag your information by profession and journey
+        stage so the emails you get are relevant instead of generic.
+      </p>
+
+      <h2 class="mt-10">What we don't do</h2>
+      <p class="mt-4">
+        We do not sell your personal information to anyone. We do not share it with third parties for their
+        own marketing purposes. If that ever changes, this page will say so, plainly, before it happens.
+      </p>
+
+      <h2 class="mt-10">Cookies and analytics</h2>
+      <p class="mt-4">
+        This site may use basic analytics tools to understand traffic and page performance (for example,
+        which articles get read and which forms get completed). [NEEDS CONFIRMATION: exact analytics
+        provider(s) in use and their own data retention policies]. You can control cookies through your
+        browser settings at any time.
+      </p>
+
+      <h2 class="mt-10">Where your data is stored</h2>
+      <p class="mt-4">
+        Form submissions are sent to our CRM and email systems so we can respond to you and send the
+        resources you requested. [NEEDS CONFIRMATION: specific CRM/email provider name(s) for a fully
+        accurate disclosure].
+      </p>
+
+      <h2 class="mt-10">Your rights</h2>
+      <p class="mt-4">
+        You can ask us what information we hold about you, ask us to correct it, or ask us to delete it. You
+        can unsubscribe from any email at any time using the link in that email, no questions asked.
+      </p>
+
+      <h2 class="mt-10">How to reach us about your data</h2>
+      <p class="mt-4">
+        Contact us at {entity.contactEmail || "[NEEDS CONFIRMATION: legal contact email]"} with any privacy
+        question or request. You can also reach us through the <a href="/contact" class="underline font-semibold">contact page</a>.
+      </p>
+
+      <h2 class="mt-10">Changes to this policy</h2>
+      <p class="mt-4">
+        If this policy changes in a material way, we'll update the date at the top of this page. Continued
+        use of the site after a change means you've accepted the update.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

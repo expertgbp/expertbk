@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CompareTable from "../../components/CompareTable.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../../data/entity";
+
+const faqs = [
+  {
+    question: "Is self-publishing cheaper than partnership publishing?",
+    answer:
+      "In upfront cash, usually yes. Self-publishing can cost very little if you do the editing, design, and marketing work yourself, or a few thousand dollars if you hire freelancers piece by piece. Partnership publishing is a bigger upfront investment because a team is doing that work alongside you. The honest question isn't which costs less on day one. It's which gets you to a finished, well-positioned, marketed book with the time you actually have.",
+  },
+  {
+    question: "Do I keep my rights and royalties either way?",
+    answer:
+      "Yes, in both paths. That's the one thing self-publishing and partnership publishing share, and it's the biggest difference between both of them and traditional publishing. The real differences are in who does the work and what support exists once the book is out.",
+  },
+  {
+    question: "Can I start self-publishing and switch to partnership publishing later?",
+    answer:
+      "Often, yes, especially if your manuscript is already written. Many authors who come to a partnership after a quiet self-published launch are doing exactly this: keeping the rights they always had, and adding the positioning, editing, or launch support that was missing the first time. See our guide on what to do if your book isn't selling.",
+  },
+];
+---
+
+<BaseLayout
+  title="Partnership Publishing vs. Self-Publishing: An Honest Comparison"
+  description="Both paths let you keep 100% of your rights and royalties. Here is the honest difference in who does the work, how fast you move, and what it costs."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Compare", path: "/compare" }, { name: "Partnership vs. Self-Publishing", path: "/compare/partnership-vs-self-publishing" }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16">
+      <p class="eyebrow mb-4">HONEST COMPARISON</p>
+      <h1 class="on-navy">Partnership Publishing vs. Self-Publishing: What's the Real Difference?</h1>
+      <p class="mt-6 text-lg opacity-90 leading-relaxed">
+        Both paths let you keep 100% of your rights and royalties. The real difference is who does the
+        work of editing, publishing, and marketing your book, and how much of your own time and skill that
+        work requires. Self-publishing costs less upfront and asks more of you. Partnership publishing
+        costs more upfront and carries the process with you. Neither one is a scam and neither one is
+        automatically right. It depends on your book, your calendar, and what you're actually trying to
+        build.
+      </p>
+    </div>
+  </section>
+
+  <CompareTable
+    heading="Self-publishing alone vs. partnership publishing"
+    intro="No strawmen. Self-publishing works well for plenty of authors. Here is where each path is genuinely strong, and where it genuinely asks more of you."
+    rowLabels={["Who owns your rights", "Who keeps royalties", "Who does the work", "Speed to publish", "Marketing and launch support", "Upfront cost"]}
+    columns={[
+      { label: "Self-publishing alone" },
+      { label: "Partnership publishing", highlighted: true },
+    ]}
+    cells={[
+      ["You, entirely", "You, entirely"],
+      ["You keep 100% of royalties", "You keep 100% of royalties"],
+      ["You: editing, cover design, formatting, uploading, and marketing, or you hire and manage freelancers for each piece", "A team works alongside you on editing, design, formatting, and publishing, while you review and approve every step"],
+      ["Can be very fast to technically publish; often slower to reach a genuinely finished, well-edited book without guidance", "Typically 6 to 12 months from a positioned idea to a published, launched book, guided at each stage"],
+      ["None built in; you build and run your own launch, or it doesn't happen", "Built into the process, including a coordinated launch plan"],
+      ["Low cash cost; a high cost in your own time, learning curve, and coordination", "A real investment; itemized and honest, in exchange for a team carrying the process"],
+    ]}
+  />
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 prose prose-lg">
+      <h2>Who owns your rights and keeps your royalties</h2>
+      <p>
+        This one is simple, and it's the same answer on both sides: you keep 100% of your rights and your
+        royalties, whether you self-publish or go the partnership route. Neither path asks you to sign away
+        ownership of your own book the way a traditional publishing contract typically does. If rights and
+        royalties are your main worry, that worry is already solved by either of these two paths. The real
+        decision lives in the rows below.
+      </p>
+
+      <h2>Who actually does the work</h2>
+      <p>
+        Self-publishing means you are the publisher. You either learn to do professional editing, cover
+        design, interior formatting, and distribution yourself, or you find and manage freelancers for each
+        piece, one contractor at a time, coordinating the handoffs between them. Plenty of capable authors
+        do this well. It takes real time and a real willingness to learn a second skill set on top of
+        writing the book itself.
+      </p>
+      <p>
+        Partnership publishing means a team carries that process with you: editing that keeps your voice
+        (we edit with you, not over you), design, formatting, and the publishing mechanics, while you stay
+        the final approval on every page. The tradeoff is cost, not control. You are not signing away
+        decisions. You are paying for the work to be carried instead of learned from scratch.
+      </p>
+
+      <h2>Speed: fast to publish is not the same as fast to a finished book</h2>
+      <p>
+        Self-publishing can technically go live in a day if you upload a raw manuscript. That speed is
+        often the trap: a book that publishes fast without editing or positioning tends to read that way,
+        and first impressions on a retail page are hard to undo. Reaching a genuinely finished, well-edited,
+        well-positioned self-published book usually takes longer than people expect, because it depends
+        entirely on how quickly you can learn or coordinate each piece yourself.
+      </p>
+      <p>
+        Partnership publishing moves on a more predictable timeline precisely because a team already knows
+        how to run each stage. Most authors move from a positioned idea to a published, launched book in
+        roughly 6 to 12 months.
+      </p>
+
+      <h2>Marketing and launch support</h2>
+      <p>
+        This is where the gap is widest. Self-publishing includes no built-in marketing. If a launch
+        happens, you build and run it yourself, on top of everything else. This is the single biggest
+        reason self-published books, even well-written ones, often sell far fewer copies than the author
+        hoped: the writing got the attention and the launch got a single announcement post.
+      </p>
+      <p>
+        Partnership publishing includes a coordinated launch as part of the process: a real sequence built
+        to reach the reader the book was written for, not a single post and a hope. If your book is already
+        out and this is the piece that was missing, our guide on <a href="/guides/book-not-selling">what to do when a book isn't selling</a> covers the relaunch process directly.
+      </p>
+
+      <h2>Upfront cost, honestly</h2>
+      <p>
+        Self-publishing can cost very little in cash if you do most of the work yourself, or a moderate
+        amount if you hire freelancers individually. Partnership publishing is a larger upfront number,
+        because it includes professional editing, design, publishing, and marketing support as one
+        coordinated process rather than a series of separate purchases. Neither number is hidden here: see
+        the full, honest range on the <a href="/pricing-and-cost">pricing and cost page</a>. A book done
+        wrong the first time often costs the same money twice, once to publish it, and again to fix or
+        relaunch it later.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Questions about self-publishing vs. partnership publishing" />
+
+  <FinalDoorCTA />
+</BaseLayout>

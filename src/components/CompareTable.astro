@@ -1,0 +1,55 @@
+---
+interface Column {
+  label: string;
+  highlighted?: boolean;
+}
+interface Props {
+  heading: string;
+  intro?: string;
+  rowLabels: string[];
+  columns: Column[];
+  /** cells[rowIndex][columnIndex] */
+  cells: string[][];
+  compareHref?: string;
+  compareLabel?: string;
+}
+const { heading, intro, rowLabels, columns, cells, compareHref, compareLabel = "Read the full comparison" } = Astro.props;
+---
+
+<section class="bg-ivory-50">
+  <div class="mx-auto max-w-5xl px-4 py-16">
+    <h2 class="text-center">{heading}</h2>
+    {intro && <p class="text-center text-slate-500 mt-3 max-w-2xl mx-auto">{intro}</p>}
+    <div class="overflow-x-auto mt-10">
+      <table class="w-full border-collapse min-w-[42rem]">
+        <thead>
+          <tr>
+            <th class="text-left py-3 pr-4"></th>
+            {columns.map((c) => (
+              <th class={`text-left py-3 px-4 font-serif ${c.highlighted ? "bg-white border-2 border-gold-300 rounded-t-xl" : ""}`}>
+                {c.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rowLabels.map((row, r) => (
+            <tr class="border-t border-navy-100">
+              <td class="py-3 pr-4 font-semibold text-slate-500 align-top">{row}</td>
+              {columns.map((c, ci) => (
+                <td class={`py-3 px-4 align-top ${c.highlighted ? "bg-white border-x-2 border-gold-300" : ""}`}>
+                  {cells[r]?.[ci]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {compareHref && (
+      <p class="mt-6 text-center">
+        <a href={compareHref} class="font-semibold text-navy-700 hover:text-gold-500">{compareLabel} &rarr;</a>
+      </p>
+    )}
+  </div>
+</section>

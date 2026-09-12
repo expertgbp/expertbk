@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | undefined;
+---
+
+<BaseLayout
+  title="Book a Free Book Strategy Call"
+  description="One call. A real read on your idea, your positioning, and your path, whether or not we work together."
+>
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
+      <p class="eyebrow mb-4">FREE, NO PITCH DECK</p>
+      <h1 class="on-navy">Book a Free Book Strategy Call</h1>
+      <p class="mt-4 text-lg opacity-90">
+        A real read on your idea, your positioning, and your path. Not a pitch. A verdict.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">What happens on the call</h2>
+      <ol class="space-y-4">
+        <li class="flex gap-4">
+          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">1</span>
+          <p>We hear your idea, your field, and where you're stuck: idea only, mid-draft, manuscript in hand, or published and not selling.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">2</span>
+          <p>We give you a real, honest read on positioning: the one reader, the one promise, and whether the book as you have it will work.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">3</span>
+          <p>If it's a fit, we show you the path and the investment. If it isn't, we tell you that too, and point you to what will help instead.</p>
+        </li>
+      </ol>
+
+      <div class="mt-10 flex items-center gap-4">
+        <div class="w-16 h-16 rounded-full bg-navy-100 shrink-0" aria-hidden="true"></div>
+        <p class="text-sm text-slate-500">
+          Calls are with Sush Dutta or Ash Goel, or a senior member of their team.
+          <!-- [NEEDS CONFIRMATION: who specifically takes calls today, and current headshots] -->
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Pick a time</h2>
+      {bookingEmbedUrl ? (
+        <div class="card overflow-hidden bg-white">
+          <iframe src={bookingEmbedUrl} title="Book a call" class="w-full min-h-[700px] border-0"></iframe>
+        </div>
+      ) : (
+        <div class="card bg-white p-8 text-center">
+          <p class="text-slate-500">
+            The live calendar embed isn't wired up yet. Set <code class="text-sm bg-navy-100 px-1.5 py-0.5 rounded">PUBLIC_BOOKING_EMBED_URL</code>
+            in your environment to a Calendly (or similar) embed URL and this block will render it automatically.
+          </p>
+          <p class="mt-4 text-sm">
+            In the meantime: <a href="/contact" class="underline font-semibold">talk to a real person &rarr;</a>
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
