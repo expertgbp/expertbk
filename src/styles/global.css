@@ -40,6 +40,17 @@
 
   /* Radii / shadow used by the card system (section 2.3) */
   --radius-card: 12px;
+
+  /*
+    Motion tokens (Emil Kowalski's animation philosophy: never approximate
+    a curve, extend these tokens rather than forking new ones per component).
+  */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entrances */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement */
+  --ease-hover: ease; /* plain hover/color changes only */
+  --duration-fast: 150ms; /* button press, hover */
+  --duration-base: 220ms; /* cards, dropdowns, accordion */
+  --duration-slow: 450ms; /* scroll reveals, larger surfaces */
 }
 
 @layer base {
@@ -80,6 +91,33 @@
     background-color: var(--color-gold-300);
     color: var(--color-navy-900);
   }
+
+  /* Smoother touch scrolling for horizontally-scrolling containers
+     (comparison tables) on iOS. */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safari/iOS render a native disclosure triangle on <summary> in addition
+     to any custom icon; every accordion in this project supplies its own. */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary {
+    list-style: none;
+  }
+
+  /* Reduced motion: keep transitions that aid comprehension (color, opacity),
+     drop movement. Applied globally rather than per-component so nothing new
+     added later accidentally ignores it. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
@@ -102,10 +140,27 @@
     background-color: var(--color-white, #fff);
     border: 1px solid var(--color-navy-100);
     border-radius: var(--radius-card);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
   }
-  .card:hover {
-    box-shadow: 0 10px 30px -12px rgba(8, 31, 51, 0.25);
+  /* Hover lift only on devices that actually hover (touch fires false
+     hovers on tap otherwise) */
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover {
+      box-shadow: 0 10px 30px -12px rgba(8, 31, 51, 0.25);
+      transform: translateY(-2px);
+      border-color: var(--color-gold-300);
+    }
+  }
+  .card:active {
+    transform: translateY(0);
+  }
+
+  /* Buttons: minimum comfortable touch target regardless of content size */
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px;
   }
 
   .btn-primary {
@@ -118,14 +173,20 @@
     font-weight: 600;
     padding: 0.85rem 1.6rem;
     border-radius: 999px;
-    transition: background-color 0.15s ease, transform 0.15s ease;
+    transition: background-color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
     white-space: nowrap;
   }
-  .btn-primary:hover {
-    background-color: var(--color-gold-500);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background-color: var(--color-gold-500);
+      box-shadow: 0 6px 20px -6px rgba(230, 184, 92, 0.55);
+    }
   }
   .btn-primary:active {
     transform: translateY(1px);
+    box-shadow: none;
   }
 
   .btn-secondary {
@@ -139,11 +200,17 @@
     padding: 0.8rem 1.5rem;
     border-radius: 999px;
     border: 1.5px solid currentColor;
-    transition: background-color 0.15s ease;
+    transition: background-color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
     white-space: nowrap;
   }
-  .btn-secondary:hover {
-    background-color: rgba(255, 217, 138, 0.12);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      background-color: rgba(255, 217, 138, 0.12);
+    }
+  }
+  .btn-secondary:active {
+    transform: translateY(1px);
   }
 
   .eyebrow {
@@ -152,5 +219,40 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-gold-500);
+  }
+
+  /*
+    Scroll reveal: applied by src/scripts/reveal.ts to below-the-fold
+    sections only (so nothing above the fold ever flashes hidden-then-shown
+    for users without JS or on first paint). Gate is duplicated here for any
+    element that opts in without JS by using [data-reveal-eager] instead.
+  */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Above-the-fold hero entrance: every page opens on one of these, so it
+     runs once per page load, not on a frequent interaction — the
+     "occasional" tier the animate skill allows a real (if subtle)
+     animation for. transform/opacity only, ease-out, under 500ms. */
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .hero-enter {
+    animation: hero-enter var(--duration-slow) var(--ease-out) both;
   }
 }

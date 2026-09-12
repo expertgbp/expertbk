@@ -25,7 +25,10 @@ Consult these guides before working on related tasks:
 
 The full spec lives in `WriteExpertBook-Website-Build-Brief.md` at the repo root — brand voice, banned
 words, audience personas, full sitemap, page templates, homepage copy, and compliance rules. Read it
-before writing any page copy.
+before writing any page copy. `BRAND.md` at the repo root is the fast-lookup mirror of the brand system
+(palette, type, voice, proof bank) for quick reference without reading the full brief. `.claude/SKILLS.md`
+declares which of this account's mandatory website-project skills (taste/UI-UX, animation, SEO, blog —
+see `~/.claude/CLAUDE.md` for the full roster) apply to this project.
 
 **Foundation already built (don't recreate):**
 - Design tokens: `src/styles/global.css` (Tailwind v4 `@theme` block — navy/gold/ivory palette, Source

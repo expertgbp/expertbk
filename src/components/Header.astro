@@ -15,7 +15,7 @@ import { primaryNav } from "../data/nav";
                 {item.label}
                 <svg width="10" height="10" viewBox="0 0 10 10" class="mt-0.5" aria-hidden="true"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
               </button>
-              <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity absolute left-0 top-full pt-2 w-max max-w-[90vw] z-50">
+              <div class="invisible opacity-0 -translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] absolute left-0 top-full pt-2 w-max max-w-[90vw] z-50">
                 <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl p-5 flex gap-8">
                   {"groups" in item && item.groups.map((group) => (
                     <div class="min-w-[10rem]">
@@ -53,33 +53,33 @@ import { primaryNav } from "../data/nav";
         <a href="/book-a-call" class="btn-primary text-sm" data-cta="header-call">Book a Strategy Call</a>
       </div>
 
-      <button id="mobile-nav-toggle" class="lg:hidden p-2" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+      <button id="mobile-nav-toggle" class="lg:hidden min-w-11 min-h-11 flex items-center justify-center -mr-1.5" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
 
-  <div id="mobile-nav" class="lg:hidden hidden border-t border-navy-700 bg-navy-900">
+  <div id="mobile-nav" class="lg:hidden mobile-nav-panel border-t border-navy-700 bg-navy-900">
     <div class="px-4 py-4 space-y-4 max-h-[70vh] overflow-y-auto">
       {primaryNav.map((item) => (
         <div>
           {"href" in item ? (
-            <a href={item.href} class="block font-semibold py-1">{item.label}</a>
+            <a href={item.href} class="block font-semibold py-2.5 min-h-11 flex items-center">{item.label}</a>
           ) : (
             <details>
-              <summary class="font-semibold py-1 cursor-pointer">{item.label}</summary>
+              <summary class="font-semibold py-2.5 min-h-11 flex items-center cursor-pointer">{item.label}</summary>
               <div class="pl-3 pt-2 space-y-3">
                 {"groups" in item && item.groups.map((group) => (
                   <div>
                     <p class="eyebrow mb-1">{group.heading}</p>
                     <ul class="space-y-1">
-                      {group.items.map((link) => (<li><a href={link.href} class="text-sm opacity-90">{link.label}</a></li>))}
+                      {group.items.map((link) => (<li><a href={link.href} class="text-sm opacity-90 inline-block py-1.5">{link.label}</a></li>))}
                     </ul>
                   </div>
                 ))}
                 {"links" in item && (
                   <ul class="space-y-1">
-                    {item.links.map((link) => (<li><a href={link.href} class="text-sm opacity-90">{link.label}</a></li>))}
+                    {item.links.map((link) => (<li><a href={link.href} class="text-sm opacity-90 inline-block py-1.5">{link.label}</a></li>))}
                   </ul>
                 )}
               </div>
@@ -90,6 +90,25 @@ import { primaryNav } from "../data/nav";
     </div>
   </div>
 </header>
+
+<style>
+  /* Mobile nav open/close: an accordion-style reveal, one of the few cases
+     where animating a layout property (max-height) is the accepted
+     exception, since there's no transform equivalent for "how much of a
+     variable-height panel is visible." Kept fast (tens-of-times-a-session
+     tier) and gated by the global prefers-reduced-motion rule. */
+  .mobile-nav-panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height var(--duration-base) var(--ease-out),
+      opacity var(--duration-base) var(--ease-out);
+  }
+  .mobile-nav-panel.is-open {
+    max-height: 80vh;
+    opacity: 1;
+  }
+</style>
 
 <!-- Mobile sticky dual CTA bar (brief 5.1) -->
 <div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900 border-t border-navy-700 px-3 py-2 flex gap-2">
@@ -102,8 +121,7 @@ import { primaryNav } from "../data/nav";
   const toggle = document.getElementById("mobile-nav-toggle");
   const panel = document.getElementById("mobile-nav");
   toggle?.addEventListener("click", () => {
-    const isHidden = panel?.classList.contains("hidden");
-    panel?.classList.toggle("hidden");
-    toggle.setAttribute("aria-expanded", String(!!isHidden));
+    const isOpen = panel?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(!!isOpen));
   });
 </script>
