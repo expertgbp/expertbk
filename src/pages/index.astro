@@ -114,7 +114,7 @@ const faqs = [
             {item.title}
           </a>
         ))}
-        <a href="/start" class="card bg-navy-900 text-offwhite-100 p-4 text-center font-semibold sm:col-span-2 flex items-center justify-center" data-cta="audience-start">
+        <a href="/start" class="card bg-navy-900 text-offwhite-100 p-4 text-center font-semibold col-span-2 flex items-center justify-center" data-cta="audience-start">
           Don't see your field? The path still fits. Start here &rarr;
         </a>
       </div>
@@ -127,7 +127,7 @@ const faqs = [
       <h2 class="text-center mb-12">The EPIC Publishing Path: from expertise to a book that works</h2>
       <PathSteps />
       <p class="text-center mt-10">
-        <a href="/book-a-call" class="font-semibold text-navy-700 hover:text-gold-500" data-cta="path-call">See how it works on a call &rarr;</a>
+        <a href="/book-a-call" class="arrow-link font-semibold text-navy-700 hover:text-gold-500" data-cta="path-call">See how it works on a call <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </p>
     </div>
   </section>
@@ -211,7 +211,7 @@ const faqs = [
   <!-- Section 10: Founders -->
   <section class="bg-navy-700 text-offwhite-100">
     <div class="mx-auto max-w-5xl px-4 py-16 grid sm:grid-cols-[220px_1fr] gap-10 items-center">
-      <div class="w-full aspect-square rounded-2xl bg-navy-800 border border-navy-600 flex items-center justify-center text-xs opacity-60 text-center p-4">
+      <div class="w-full max-w-[240px] mx-auto sm:max-w-none aspect-square rounded-2xl bg-navy-800 border border-navy-600 flex items-center justify-center text-xs opacity-60 text-center p-4">
         [Photo placeholder: Sush Dutta &amp; Ash Goel, real photo pending]
       </div>
       <div>
@@ -222,13 +222,13 @@ const faqs = [
           Street Journal bestsellers, 14 TEDx talks, and over a million students taught. They read every
           application personally, because the next author on this page might be you.
         </p>
-        <a href="/about" class="inline-block mt-5 font-semibold text-gold-300 hover:text-gold-500" data-cta="founders-about">Meet the founders &rarr;</a>
+        <a href="/about" class="arrow-link inline-block mt-5 font-semibold text-gold-300 hover:text-gold-500" data-cta="founders-about">Meet the founders <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
 
   <!-- Section 11: Lead magnet -->
-  <section class="bg-gold-100">
+  <section class="bg-gold-100 border-y border-navy-100">
     <div class="mx-auto max-w-3xl px-4 py-16">
       <h2>Not ready to talk? Take the Blueprint.</h2>
       <p class="mt-4 text-lg leading-relaxed">
@@ -247,3 +247,19 @@ const faqs = [
   <!-- Section 13: Final door -->
   <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  /* Restrained hover micro-interaction: nudge the arrow on the two plain-text
+     directional links on this page (card links already get motion from the
+     shared .card hover lift, so this is scoped to the non-card arrow links
+     only, to avoid stacking two motions on the same element). */
+  .arrow-link .arrow {
+    display: inline-block;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .arrow-link:hover .arrow {
+      transform: translateX(3px);
+    }
+  }
+</style>

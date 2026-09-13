@@ -10,12 +10,40 @@ const stats = [
 ---
 
 <section class="bg-navy-700 text-offwhite-100">
-  <div class="mx-auto max-w-7xl px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+  <div class="mx-auto max-w-7xl px-4 py-10 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 text-center">
     {stats.map((s) => (
-      <div>
+      <div class="stat-item">
         <p class="font-serif text-3xl md:text-4xl font-bold text-gold-300">{s.value}</p>
         <p class="text-sm opacity-80 mt-1">{s.label}</p>
       </div>
     ))}
   </div>
 </section>
+
+<style>
+  /*
+    Staggered entrance for the four stats, layered on top of (not fighting)
+    the section-level `.reveal`/`.is-visible` toggle from src/scripts/reveal.ts:
+    - `.reveal` only ever lands on this <section> at runtime, and only when it
+      starts below the fold, so these rules are inert (no hidden flash) unless
+      that section-level mechanism has already opted in.
+    - Same `.is-visible` class flip drives both the section fade-up and this
+      per-item stagger, so there is exactly one animation trigger, not two.
+    - transform/opacity only, existing --duration-base/--ease-out tokens,
+      30-80ms increments per item (50ms here).
+  */
+  .reveal .stat-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .reveal.is-visible .stat-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.is-visible .stat-item:nth-child(1) { transition-delay: 0ms; }
+  .reveal.is-visible .stat-item:nth-child(2) { transition-delay: 50ms; }
+  .reveal.is-visible .stat-item:nth-child(3) { transition-delay: 100ms; }
+  .reveal.is-visible .stat-item:nth-child(4) { transition-delay: 150ms; }
+</style>

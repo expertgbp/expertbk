@@ -9,12 +9,37 @@ const { status, quote, attribution, placeholderNote = "[TESTIMONIAL: pending per
 ---
 
 {status === "confirmed" && quote ? (
-  <blockquote class="card p-6">
-    <p class="text-ink-900">&ldquo;{quote}&rdquo;</p>
-    {attribution && <footer class="mt-3 text-sm text-slate-500">&mdash; {attribution}</footer>}
+  <blockquote class="card p-6 border-l-4 border-l-gold-300 relative">
+    <svg
+      width="28"
+      height="20"
+      viewBox="0 0 28 20"
+      class="text-gold-300 mb-2"
+      aria-hidden="true"
+    >
+      <path
+        d="M0 20V11.6C0 4.8 4.4 0.6 11 0L11.8 2.6C7.8 3.6 5.6 6 5.4 9.4H11V20H0ZM16.2 20V11.6C16.2 4.8 20.6 0.6 27.2 0L28 2.6C24 3.6 21.8 6 21.6 9.4H27.2V20H16.2Z"
+        fill="currentColor"
+      />
+    </svg>
+    <p class="text-ink-900 text-lg leading-relaxed">&ldquo;{quote}&rdquo;</p>
+    {attribution && <footer class="mt-4 text-sm font-semibold text-slate-500">&mdash; {attribution}</footer>}
   </blockquote>
 ) : (
-  <div class="card p-6 border-dashed opacity-70" aria-label="Testimonial pending permission">
-    <p class="text-sm italic text-slate-500">{placeholderNote}</p>
+  <div
+    class="card p-6 border-dashed bg-navy-100/30 flex flex-col items-center justify-center text-center gap-2 min-h-[140px]"
+    aria-label="Testimonial pending permission"
+  >
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      class="text-slate-500 opacity-60"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" />
+      <path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+    <p class="text-sm italic text-slate-500 opacity-80">{placeholderNote}</p>
   </div>
 )}

@@ -34,7 +34,7 @@ const professions = professionGroups.flatMap((g) => g.items);
         type="text"
         required
         autocomplete="given-name"
-        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
       />
     </div>
     <div>
@@ -45,7 +45,7 @@ const professions = professionGroups.flatMap((g) => g.items);
         type="email"
         required
         autocomplete="email"
-        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
       />
     </div>
   </div>
@@ -56,7 +56,7 @@ const professions = professionGroups.flatMap((g) => g.items);
       id={`${formId}-profession`}
       name="profession"
       required
-      class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"
+      class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
     >
       <option value="">Choose one</option>
       {professions.map((p) => (<option value={p.label}>{p.label}</option>))}
@@ -78,3 +78,23 @@ const professions = professionGroups.flatMap((g) => g.items);
 <script>
   import "../scripts/lead-form";
 </script>
+
+<style>
+  /*
+    lead-form.ts reveals this element by removing the `hidden` class; an
+    animation on the "shown" state plays automatically the moment the
+    element goes from display:none to rendered, giving the error a brief
+    fade-in (feedback purpose) instead of a hard snap.
+  */
+  @keyframes form-error-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  [data-form-error]:not(.hidden) {
+    animation: form-error-in var(--duration-fast) var(--ease-out);
+  }
+</style>

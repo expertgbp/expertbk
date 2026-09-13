@@ -93,7 +93,7 @@ const fieldOptions = [
           <p class="text-sm text-slate-500 mb-5">Pick the one that fits right now, not where you wish you were.</p>
           <div class="grid gap-3 sm:grid-cols-2">
             {stageOptions.map((opt) => (
-              <label class="quiz-option flex flex-col gap-1 rounded-xl border border-navy-100 p-4 cursor-pointer hover:border-gold-500">
+              <label class="quiz-option flex min-h-11 flex-col gap-1 rounded-xl border border-navy-100 p-4 cursor-pointer hover:border-gold-500">
                 <span class="flex items-center gap-2 font-semibold">
                   <input type="radio" name="stage" value={opt.value} required class="accent-gold-500" />
                   {opt.label}
@@ -102,8 +102,8 @@ const fieldOptions = [
               </label>
             ))}
           </div>
-          <div class="mt-6 flex justify-end">
-            <button type="button" class="btn-primary" data-next="1" data-cta="quiz-next-1">Next &rarr;</button>
+          <div class="mt-6 flex flex-col sm:flex-row sm:justify-end">
+            <button type="button" class="btn-primary w-full sm:w-auto" data-next="1" data-cta="quiz-next-1">Next &rarr;</button>
           </div>
         </fieldset>
 
@@ -111,17 +111,17 @@ const fieldOptions = [
         <fieldset class="card p-6 hidden" data-question="2">
           <legend class="font-serif text-xl font-semibold mb-1">What kind of book is it (or would it be)?</legend>
           <p class="text-sm text-slate-500 mb-5">Best guess is fine if it isn't locked in yet.</p>
-          <div class="grid gap-2 sm:grid-cols-2">
+          <div class="grid gap-3 sm:grid-cols-2">
             {bookTypeOptions.map((label) => (
-              <label class="quiz-option flex items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
+              <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
                 <input type="radio" name="bookType" value={label} required class="accent-gold-500" />
                 <span>{label}</span>
               </label>
             ))}
           </div>
-          <div class="mt-6 flex justify-between">
-            <button type="button" class="btn-secondary" data-back="2" data-cta="quiz-back-2">&larr; Back</button>
-            <button type="button" class="btn-primary" data-next="2" data-cta="quiz-next-2">Next &rarr;</button>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="2" data-cta="quiz-back-2">&larr; Back</button>
+            <button type="button" class="btn-primary w-full sm:w-auto" data-next="2" data-cta="quiz-next-2">Next &rarr;</button>
           </div>
         </fieldset>
 
@@ -129,17 +129,17 @@ const fieldOptions = [
         <fieldset class="card p-6 hidden" data-question="3">
           <legend class="font-serif text-xl font-semibold mb-1">What's your field?</legend>
           <p class="text-sm text-slate-500 mb-5">The advice changes when we know the world you work in.</p>
-          <div class="grid gap-2 sm:grid-cols-2">
+          <div class="grid gap-3 sm:grid-cols-2">
             {fieldOptions.map((label) => (
-              <label class="quiz-option flex items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
+              <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
                 <input type="radio" name="field" value={label} required class="accent-gold-500" />
                 <span>{label}</span>
               </label>
             ))}
           </div>
-          <div class="mt-6 flex justify-between">
-            <button type="button" class="btn-secondary" data-back="3" data-cta="quiz-back-3">&larr; Back</button>
-            <button type="button" class="btn-primary" data-next="3" data-cta="quiz-next-3">Next &rarr;</button>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="3" data-cta="quiz-back-3">&larr; Back</button>
+            <button type="button" class="btn-primary w-full sm:w-auto" data-next="3" data-cta="quiz-next-3">Next &rarr;</button>
           </div>
         </fieldset>
 
@@ -153,12 +153,12 @@ const fieldOptions = [
           <textarea
             name="deadline"
             rows="4"
-            class="w-full rounded-xl border border-navy-100 p-4 focus:outline-none focus:border-gold-500"
+            class="w-full rounded-xl border border-navy-100 p-4 focus:border-gold-500"
             placeholder="For example: my father's 80th birthday is next June, and I want to hand him the finished book."
           ></textarea>
-          <div class="mt-6 flex justify-between">
-            <button type="button" class="btn-secondary" data-back="4" data-cta="quiz-back-4">&larr; Back</button>
-            <button type="button" class="btn-primary" data-next="4" data-cta="quiz-see-results">See my results &rarr;</button>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="4" data-cta="quiz-back-4">&larr; Back</button>
+            <button type="button" class="btn-primary w-full sm:w-auto" data-next="4" data-cta="quiz-see-results">See my results &rarr;</button>
           </div>
         </fieldset>
       </form>

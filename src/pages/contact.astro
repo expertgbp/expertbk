@@ -18,22 +18,24 @@ import { entity } from "../data/entity";
 
   <section class="bg-ivory-50">
     <div class="mx-auto max-w-2xl px-4 py-14">
-      <form class="space-y-4" data-lead-form data-form-id="contact" data-segment-tag="contact-general" data-redirect="/thank-you/newsletter" novalidate>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="contact-firstName">First name</label>
-          <input id="contact-firstName" name="firstName" type="text" required autocomplete="given-name" class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="contact-email">Email</label>
-          <input id="contact-email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white" />
+      <form class="space-y-4 max-w-md" data-lead-form data-form-id="contact" data-segment-tag="contact-general" data-redirect="/thank-you/newsletter" novalidate>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" for="contact-firstName">First name</label>
+            <input id="contact-firstName" name="firstName" type="text" required autocomplete="given-name" class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" required autocomplete="email" class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900" />
+          </div>
         </div>
         <div>
           <label class="block text-sm font-medium mb-1" for="contact-message">What's on your mind?</label>
-          <textarea id="contact-message" name="message" rows="5" required class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white"></textarea>
+          <textarea id="contact-message" name="message" rows="5" required class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900"></textarea>
         </div>
         <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
         <p data-form-error class="hidden text-sm text-error-600" role="alert"></p>
-        <button type="submit" class="btn-primary" data-cta="contact-submit">Send</button>
+        <button type="submit" class="btn-primary w-full sm:w-auto" data-cta="contact-submit">Send</button>
       </form>
 
       <div class="mt-10 text-sm text-slate-500">
@@ -46,4 +48,26 @@ import { entity } from "../data/entity";
   <script>
     import "../scripts/lead-form";
   </script>
+
+  <style>
+    /*
+      lead-form.ts reveals this element by removing the `hidden` class; an
+      animation on the "shown" state plays automatically the moment the
+      element goes from display:none to rendered, giving the error a brief
+      fade-in (feedback purpose) instead of a hard snap. Matches the same
+      treatment already used on LeadMagnetForm.astro's error message, since
+      this page hand-rolls the same [data-form-error] pattern.
+    */
+    @keyframes form-error-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    [data-form-error]:not(.hidden) {
+      animation: form-error-in var(--duration-fast) var(--ease-out);
+    }
+  </style>
 </BaseLayout>

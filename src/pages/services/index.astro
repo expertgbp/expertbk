@@ -12,14 +12,14 @@ const all = (await getCollection("services")).sort((a, b) => a.data.order - b.da
   description="Book writing, book publishing, book marketing, and Book Rescue for authors already published but not selling. Explore what's included in each."
 >
   <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
       <h1 class="on-navy">Three doors, one team</h1>
       <p class="mt-4 text-lg opacity-90">Whatever stage you're at, there's a door that fits.</p>
     </div>
   </section>
 
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-5xl px-4 py-14">
+  <section class="bg-ivory-50 border-t border-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
       <CardGrid
         columns={3}
         items={all.map((s) => ({ title: s.data.title, description: s.data.answerBlock.slice(0, 110) + "…", href: `/services/${s.id}` }))}

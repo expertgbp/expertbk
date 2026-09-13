@@ -34,14 +34,14 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     </div>
   </section>
 
-  <article class="bg-ivory-50 prose prose-lg max-w-3xl mx-auto px-4 py-14">
+  <article class="prose bg-ivory-50 max-w-[68ch] mx-auto px-4 py-14 border-b border-navy-100">
     <Content />
   </article>
 
   {pillar && (
-    <div class="mx-auto max-w-3xl px-4 pb-10 -mt-6">
-      <a href={`/guides/${pillar.id}`} class="text-sm font-semibold text-navy-700 hover:text-gold-500">
-        &larr; Back to the full guide: {pillar.data.title}
+    <div class="mx-auto max-w-3xl px-4 pt-8 pb-2">
+      <a href={`/guides/${pillar.id}`} class="inline-flex items-center gap-2 text-sm font-semibold text-navy-700 hover:text-gold-500">
+        <span aria-hidden="true">&larr;</span> Back to the full guide: {pillar.data.title}
       </a>
     </div>
   )}
@@ -50,3 +50,94 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
 
   <FinalDoorCTA secondaryLabel={post.ctaVariant.leadMagnetLabel} secondaryHref={post.ctaVariant.leadMagnetSlug} />
 </BaseLayout>
+
+<style>
+  /*
+    @tailwindcss/typography is installed and provides the base `.prose`
+    styling; this block layers brand-specific colors/spacing on top of its
+    generic defaults (navy headings, gold list markers/blockquote rule/link
+    underline, matching src/styles/global.css tokens). Astro's scoped styles
+    compile outside any @layer, so they win over the plugin's `@layer
+    utilities` rules automatically, without needing !important. Astro's
+    scoped styles don't reach markup produced by a child render (here, the
+    Markdown-to-HTML output of <Content />), so descendants are reached via
+    :global() — the documented Astro pattern for styling rendered Markdown.
+  */
+  .prose :global(h2) {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.75rem);
+    color: var(--color-navy-900);
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+  }
+  .prose :global(p) {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose :global(p:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding-left: 1.25rem;
+  }
+  .prose :global(ul) {
+    list-style: disc;
+  }
+  .prose :global(ol) {
+    list-style: decimal;
+  }
+  .prose :global(li) {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+  }
+  .prose :global(li)::marker {
+    color: var(--color-gold-500);
+  }
+  .prose :global(a) {
+    color: var(--color-navy-700);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold-300);
+    text-underline-offset: 2px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .prose :global(a:hover) {
+      color: var(--color-gold-500);
+      text-decoration-color: var(--color-gold-500);
+    }
+  }
+  .prose :global(strong) {
+    color: var(--color-navy-900);
+    font-weight: 700;
+  }
+  .prose :global(blockquote) {
+    margin: 1.75rem 0;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--color-gold-300);
+    font-style: italic;
+    color: var(--color-slate-500);
+  }
+  .prose :global(hr) {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .prose :global(code) {
+    background: var(--color-navy-100);
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-size: 0.9em;
+  }
+</style>

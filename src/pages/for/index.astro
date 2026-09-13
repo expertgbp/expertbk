@@ -22,7 +22,7 @@ const groupLabels: Record<string, string> = {
   description="Pick your world. Doctors, lawyers, CEOs, consultants, and more, each with a path built around their real calendar and voice."
 >
   <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
       <h1 class="on-navy">Built for experts like you</h1>
       <p class="mt-4 text-lg opacity-90">Pick your world. The advice changes when the reader is you.</p>
     </div>
@@ -30,7 +30,7 @@ const groupLabels: Record<string, string> = {
 
   {Object.entries(groups).map(([key, items]) => items.length > 0 && (
     <section class="bg-ivory-50 border-t border-navy-100">
-      <div class="mx-auto max-w-5xl px-4 py-14">
+      <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
         <h2 class="mb-8">{groupLabels[key]}</h2>
         <CardGrid items={items.map((p) => ({ title: p.data.professionLabel, description: p.data.answerBlock.slice(0, 110) + "…", href: `/for/${p.id}` }))} />
       </div>

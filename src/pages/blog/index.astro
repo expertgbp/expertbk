@@ -26,9 +26,9 @@ const clusters = [...new Set(posts.map((p) => p.data.cluster))];
       {clusters.length === 0 && (
         <p class="text-slate-500">New articles are on the way. Meanwhile, the pillar guides at <a href="/guides" class="underline font-semibold">/guides</a> cover the full path.</p>
       )}
-      <div class="flex flex-wrap gap-2 mb-8" role="tablist" aria-label="Filter by cluster">
+      <div class="flex flex-wrap gap-2.5 mb-8" role="tablist" aria-label="Filter by cluster">
         {clusters.map((c) => (
-          <a href={`#${c.toLowerCase().replace(/\s+/g, "-")}`} class="text-sm px-3 py-1.5 rounded-full border border-navy-100 hover:border-gold-300 hover:text-gold-500">{c}</a>
+          <a href={`#${c.toLowerCase().replace(/\s+/g, "-")}`} class="cluster-chip text-sm px-3.5 py-2 rounded-full border border-navy-100">{c}</a>
         ))}
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -44,3 +44,25 @@ const clusters = [...new Set(posts.map((p) => p.data.cluster))];
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Cluster filter chips: color-only hover gated to real hover devices
+     (touch fires false hovers on tap otherwise), plus a plain :active
+     press state for touch feedback. Mirrors .card's pattern in global.css. */
+  .cluster-chip {
+    transition: border-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cluster-chip:hover {
+      border-color: var(--color-gold-300);
+      color: var(--color-gold-500);
+    }
+  }
+  .cluster-chip:active {
+    transform: translateY(1px);
+    border-color: var(--color-gold-300);
+    color: var(--color-gold-500);
+  }
+</style>

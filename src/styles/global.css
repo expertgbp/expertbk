@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Self-hosted fonts (brief 2.2 + 9 "fonts self-hosted and preloaded") */
 @import "@fontsource-variable/inter";
@@ -40,6 +41,17 @@
 
   /* Radii / shadow used by the card system (section 2.3) */
   --radius-card: 12px;
+
+  /*
+    Elevation scale: navy-tinted shadows (rgba of --color-navy-900) at three
+    weights so any component reaching for depth picks one of these instead of
+    forking a new rgba value. --shadow-lg is the exact value the .card hover
+    state already used before this token existed, so it stays a drop-in.
+    Being in @theme, these also generate Tailwind's shadow-sm/md/lg utilities.
+  */
+  --shadow-sm: 0 2px 8px -4px rgba(8, 31, 51, 0.18);
+  --shadow-md: 0 6px 20px -8px rgba(8, 31, 51, 0.20);
+  --shadow-lg: 0 10px 30px -12px rgba(8, 31, 51, 0.25);
 
   /*
     Motion tokens (Emil Kowalski's animation philosophy: never approximate
@@ -107,6 +119,18 @@
     list-style: none;
   }
 
+  /* Keyboard-focus treatment: a gold ring visible on both light (ivory/white
+     card) and dark (navy) surfaces. Scoped to :focus-visible (not :focus) so
+     it never appears on a mouse click, only keyboard/assistive navigation.
+     Applied globally, once, so every link, button, form control, and any
+     custom interactive element any component adds later inherits it without
+     each one needing its own focus styles. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 217, 138, 0.35); /* --color-gold-300 halo */
+  }
+
   /* Reduced motion: keep transitions that aid comprehension (color, opacity),
      drop movement. Applied globally rather than per-component so nothing new
      added later accidentally ignores it. */
@@ -148,7 +172,7 @@
      hovers on tap otherwise) */
   @media (hover: hover) and (pointer: fine) {
     .card:hover {
-      box-shadow: 0 10px 30px -12px rgba(8, 31, 51, 0.25);
+      box-shadow: var(--shadow-lg);
       transform: translateY(-2px);
       border-color: var(--color-gold-300);
     }

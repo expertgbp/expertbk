@@ -14,35 +14,35 @@ const allBookTypes = bookTypeGroups.flatMap((g) => g.items);
 ---
 
 <footer class="bg-navy-900 text-offwhite-100 mt-24">
-  <div class="mx-auto max-w-7xl px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+  <div class="mx-auto max-w-7xl px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 text-sm">
     <div>
       <p class="eyebrow mb-3">For Experts</p>
       <ul class="space-y-1.5 opacity-90">
-        {allProfessions.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {allProfessions.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
     </div>
     <div>
       <p class="eyebrow mb-3">Your Book</p>
       <ul class="space-y-1.5 opacity-90">
-        {allBookTypes.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {allBookTypes.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
     </div>
     <div>
       <p class="eyebrow mb-3">Services &amp; Resources</p>
       <ul class="space-y-1.5 opacity-90">
-        {serviceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {serviceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
       <ul class="space-y-1.5 opacity-90 mt-3">
-        {resourceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {resourceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
     </div>
     <div>
       <p class="eyebrow mb-3">Company</p>
       <ul class="space-y-1.5 opacity-90">
-        {companyLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {companyLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
       <ul class="space-y-1.5 opacity-90 mt-3">
-        {legalLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300">{l.label}</a></li>))}
+        {legalLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
       </ul>
     </div>
   </div>
@@ -55,9 +55,20 @@ const allBookTypes = bookTypeGroups.flatMap((g) => g.items);
       </p>
       <div class="flex gap-4">
         <!-- [NEEDS CONFIRMATION: real social links go in src/data/entity.ts `sameAs`] -->
-        <a href="/trust" class="hover:text-gold-300">Trust</a>
-        <a href="/contact" class="hover:text-gold-300">Talk to a real person</a>
+        <a href="/trust" class="hover:text-gold-300 inline-block py-1">Trust</a>
+        <a href="/contact" class="hover:text-gold-300 inline-block py-1">Talk to a real person</a>
       </div>
     </div>
   </div>
 </footer>
+
+<style>
+  /* Feedback on hover: a smooth color shift instead of an instant snap,
+     restricted to devices that actually hover so a tap doesn't leave a
+     footer link "stuck" gold on touch screens. */
+  @media (hover: hover) and (pointer: fine) {
+    footer a {
+      transition: color var(--duration-fast) var(--ease-hover);
+    }
+  }
+</style>

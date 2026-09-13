@@ -11,7 +11,7 @@ const { faqs, heading = "Frequently asked questions" } = Astro.props;
 <section class="bg-ivory-50">
   <div class="mx-auto max-w-3xl px-4 py-16">
     <h2 class="text-center mb-8">{heading}</h2>
-    <div class="space-y-3">
+    <div class="space-y-4">
       {faqs.map((faq, i) => (
         <details class="card p-5 group" name="faq-accordion">
           <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-semibold text-ink-900 min-h-11 -m-1 p-1 rounded-lg">
@@ -27,10 +27,42 @@ const { faqs, heading = "Frequently asked questions" } = Astro.props;
               <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5"/>
             </svg>
           </summary>
-          <p class="mt-3 text-slate-500 leading-relaxed">{faq.answer}</p>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="mt-4 text-slate-500 leading-relaxed">{faq.answer}</p>
+            </div>
+          </div>
         </details>
       ))}
     </div>
   </div>
 </section>
 <FAQPageSchema faqs={faqs} />
+
+<style>
+  /* Native <details> has no built-in transition for content height. Per
+     Emil Kowalski's rule, height animation is tolerated only for
+     accordions (there's no transform equivalent), so it's allowed here,
+     kept short and gated the same way as the rest of the component's
+     motion. The 0fr/1fr grid-row trick animates height without measuring
+     it in JS; the UA stylesheet's `display: none` on closed <details>
+     content is overridden below so the row can actually collapse/expand
+     instead of snapping. */
+  .faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-base) var(--ease-out);
+  }
+  details[open] > .faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .faq-panel-inner {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-panel {
+      transition: none;
+    }
+  }
+</style>

@@ -22,16 +22,16 @@ const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | und
     <div class="mx-auto max-w-3xl px-4 py-14">
       <h2 class="mb-6">What happens on the call</h2>
       <ol class="space-y-4">
-        <li class="flex gap-4">
-          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">1</span>
+        <li class="flex gap-4 items-start">
+          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">1</span>
           <p>We hear your idea, your field, and where you're stuck: idea only, mid-draft, manuscript in hand, or published and not selling.</p>
         </li>
-        <li class="flex gap-4">
-          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">2</span>
+        <li class="flex gap-4 items-start">
+          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">2</span>
           <p>We give you a real, honest read on positioning: the one reader, the one promise, and whether the book as you have it will work.</p>
         </li>
-        <li class="flex gap-4">
-          <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">3</span>
+        <li class="flex gap-4 items-start">
+          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">3</span>
           <p>If it's a fit, we show you the path and the investment. If it isn't, we tell you that too, and point you to what will help instead.</p>
         </li>
       </ol>
@@ -55,6 +55,17 @@ const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | und
         </div>
       ) : (
         <div class="card bg-white p-8 text-center">
+          <svg
+            class="mx-auto mb-4 h-10 w-10 text-navy-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <rect x="3.5" y="5" width="17" height="15" rx="2"></rect>
+            <path d="M3.5 9.5h17M8 3v3M16 3v3"></path>
+          </svg>
           <p class="text-slate-500">
             The live calendar embed isn't wired up yet. Set <code class="text-sm bg-navy-100 px-1.5 py-0.5 rounded">PUBLIC_BOOKING_EMBED_URL</code>
             in your environment to a Calendly (or similar) embed URL and this block will render it automatically.

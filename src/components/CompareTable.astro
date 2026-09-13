@@ -20,13 +20,16 @@ const { heading, intro, rowLabels, columns, cells, compareHref, compareLabel = "
   <div class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="text-center">{heading}</h2>
     {intro && <p class="text-center text-slate-500 mt-3 max-w-2xl mx-auto">{intro}</p>}
-    <div class="overflow-x-auto mt-10">
+    <div class="overflow-x-auto mt-10 table-scroll" data-table-scroll>
       <table class="w-full border-collapse min-w-[42rem]">
         <thead>
           <tr>
             <th class="text-left py-3 pr-4"></th>
             {columns.map((c) => (
-              <th class={`text-left py-3 px-4 font-serif ${c.highlighted ? "bg-white border-2 border-gold-300 rounded-t-xl" : ""}`}>
+              <th
+                class={`text-left py-3 px-4 font-serif ${c.highlighted ? "bg-white border-2 border-gold-300 rounded-t-xl" : ""}`}
+                data-highlighted-col={c.highlighted}
+              >
                 {c.label}
               </th>
             ))}
@@ -53,3 +56,46 @@ const { heading, intro, rowLabels, columns, cells, compareHref, compareLabel = "
     )}
   </div>
 </section>
+
+<style>
+  /*
+    Scroll-shadow affordance: makes the horizontal scroll on narrow
+    screens discoverable (impeccable's "adapt" guidance — a scrollable
+    table is fine as long as it's obviously scrollable). Pure CSS: the
+    "local"-attached layers travel with the table content and mask the
+    "scroll"-attached tint layers except right at the edge that still has
+    more content to reveal, so the cue self-hides once the table already
+    fits (desktop) or once fully scrolled to an edge.
+  */
+  .table-scroll {
+    background-repeat: no-repeat;
+    background-attachment: local, local, scroll, scroll;
+    background-position: left center, right center, left center, right center;
+    background-size: 28px 100%, 28px 100%, 12px 100%, 12px 100%;
+    background-image:
+      linear-gradient(to right, var(--color-ivory-50), transparent),
+      linear-gradient(to left, var(--color-ivory-50), transparent),
+      linear-gradient(to right, rgba(8, 31, 51, 0.14), transparent),
+      linear-gradient(to left, rgba(8, 31, 51, 0.14), transparent);
+  }
+</style>
+
+<script>
+  // The highlighted "Partnership publishing" column is the recommended
+  // option, but on a narrow screen it can start out of view since the
+  // table scrolls horizontally. If it's not already visible once the
+  // table has laid out, bring it into view so it isn't missed.
+  document.querySelectorAll("[data-table-scroll]").forEach((scrollEl) => {
+    const highlighted = scrollEl.querySelector("[data-highlighted-col]");
+    if (!highlighted) return;
+    requestAnimationFrame(() => {
+      if (scrollEl.scrollWidth <= scrollEl.clientWidth) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      highlighted.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    });
+  });
+</script>

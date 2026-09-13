@@ -11,7 +11,7 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
 <section class="bg-navy-900 text-offwhite-100">
   <div class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="on-navy text-center mb-10">{heading}</h2>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto table-scroll">
       <table class="w-full text-left border-collapse min-w-[36rem]">
         <thead>
           <tr class="border-b border-navy-600">
@@ -31,3 +31,26 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
     </div>
   </div>
 </section>
+
+<style>
+  /*
+    Scroll-shadow affordance: makes the horizontal scroll on narrow
+    screens discoverable (impeccable's "adapt" guidance — a scrollable
+    table is fine as long as it's obviously scrollable). Pure CSS: the
+    "local"-attached layers travel with the table content and mask the
+    "scroll"-attached tint layers except right at the edge that still has
+    more content to reveal, so the cue self-hides once the table already
+    fits (desktop) or once fully scrolled to an edge.
+  */
+  .table-scroll {
+    background-repeat: no-repeat;
+    background-attachment: local, local, scroll, scroll;
+    background-position: left center, right center, left center, right center;
+    background-size: 28px 100%, 28px 100%, 12px 100%, 12px 100%;
+    background-image:
+      linear-gradient(to right, var(--color-navy-900), transparent),
+      linear-gradient(to left, var(--color-navy-900), transparent),
+      linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent),
+      linear-gradient(to left, rgba(255, 255, 255, 0.16), transparent);
+  }
+</style>

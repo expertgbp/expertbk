@@ -43,7 +43,7 @@ const { Content } = await render(entry);
           {s.whoForNotFor.for.map((item) => (<li class="pl-4 door-rule">{item}</li>))}
         </ul>
       </div>
-      <div>
+      <div class="border-t border-navy-100 pt-6 sm:border-t-0 sm:pt-0 sm:border-l sm:pl-6">
         <h2 class="text-xl mb-4">This isn't for you if</h2>
         <ul class="space-y-2 text-slate-500">
           {s.whoForNotFor.notFor.map((item) => (<li>{item}</li>))}
@@ -56,11 +56,11 @@ const { Content } = await render(entry);
   <section class="bg-navy-100">
     <div class="mx-auto max-w-3xl px-4 py-14">
       <h2 class="mb-6">Exactly what's included</h2>
-      <ul class="space-y-3">
+      <ul class="space-y-4">
         {s.deliverables.map((d) => (
           <li class="flex gap-3 items-start">
             <svg width="18" height="18" viewBox="0 0 18 18" class="mt-1 shrink-0 text-success-600" aria-hidden="true"><path d="M3 9l4 4 8-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>{d}</span>
+            <span class="leading-snug">{d}</span>
           </li>
         ))}
       </ul>
@@ -73,11 +73,11 @@ const { Content } = await render(entry);
       <h2 class="mb-8">The process</h2>
       <ol class="space-y-6">
         {s.process.map((step, i) => (
-          <li class="flex gap-4">
-            <span class="font-serif text-2xl font-bold text-gold-500 shrink-0">{i + 1}</span>
+          <li class="flex gap-4 items-start">
+            <span class="font-serif text-2xl font-bold text-gold-500 shrink-0 leading-none">{i + 1}</span>
             <div>
-              <p class="font-semibold">{step.step}</p>
-              <p class="text-sm text-slate-500">{step.timeline}</p>
+              <p class="font-semibold leading-snug">{step.step}</p>
+              <p class="text-sm text-slate-500 mt-1">{step.timeline}</p>
             </div>
           </li>
         ))}
@@ -89,16 +89,24 @@ const { Content } = await render(entry);
   <section class="bg-navy-900 text-offwhite-100">
     <div class="mx-auto max-w-3xl px-4 py-14">
       <h2 class="on-navy mb-8 text-center">Before and after</h2>
-      <table class="w-full border-collapse">
-        <tbody>
-          {s.beforeAfter.map((row) => (
-            <tr class="border-b border-navy-700">
-              <td class="py-3 pr-4 opacity-70 align-top">{row.before}</td>
-              <td class="py-3 pl-4 font-medium align-top border-l border-navy-700">{row.after}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <tbody>
+            {s.beforeAfter.map((row) => (
+              <tr class="block sm:table-row border-b border-navy-700 py-4 sm:py-0">
+                <td class="block sm:table-cell py-1 sm:py-3 pr-0 sm:pr-4 opacity-70 align-top leading-snug">
+                  <span class="eyebrow sm:hidden block mb-1">Before</span>
+                  {row.before}
+                </td>
+                <td class="block sm:table-cell py-1 sm:py-3 pl-0 sm:pl-4 mt-3 sm:mt-0 font-medium align-top sm:border-l sm:border-navy-700 leading-snug">
+                  <span class="eyebrow sm:hidden block mb-1">After</span>
+                  {row.after}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -114,8 +122,8 @@ const { Content } = await render(entry);
   <section class="bg-navy-100">
     <div class="mx-auto max-w-3xl px-4 py-14">
       <h2 class="mb-4">Investment</h2>
-      <p class="text-lg font-semibold">{s.investmentRange}</p>
-      <p class="text-slate-500 mt-2">{s.paymentPlansNote}</p>
+      <p class="font-serif text-2xl md:text-3xl font-bold text-navy-900">{s.investmentRange}</p>
+      <p class="text-slate-500 mt-3">{s.paymentPlansNote}</p>
       <p class="text-sm text-slate-500 mt-4">
         A book done wrong costs the same money twice.
         <a href="/pricing-and-cost" class="underline font-semibold">See the full honest cost guide &rarr;</a>
@@ -128,10 +136,10 @@ const { Content } = await render(entry);
 
   <!-- 9. Guarantee -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-10">
-      <div class="card p-6 border-gold-300 border-2">
-        <h2 class="text-xl mb-2">The guarantee</h2>
-        <p class="text-slate-500">{s.guarantee}</p>
+    <div class="mx-auto max-w-2xl px-4 py-12">
+      <div class="card p-6 md:p-8 border-gold-300 border-2">
+        <h2 class="text-xl mb-3">The guarantee</h2>
+        <p class="text-slate-500 leading-relaxed">{s.guarantee}</p>
       </div>
     </div>
   </section>
