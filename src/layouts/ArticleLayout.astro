@@ -2,6 +2,7 @@
 import { getEntry, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
+import AuthorBox from "../components/AuthorBox.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import ArticleSchema from "../components/schema/ArticleSchema.astro";
@@ -37,6 +38,10 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
   <article class="prose bg-ivory-50 max-w-[68ch] mx-auto px-4 py-14 border-b border-navy-100">
     <Content />
   </article>
+
+  <div class="max-w-[68ch] mx-auto px-4 pt-10 pb-4 bg-ivory-50">
+    <AuthorBox authorName={post.author} />
+  </div>
 
   {pillar && (
     <div class="mx-auto max-w-3xl px-4 pt-8 pb-2">

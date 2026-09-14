@@ -37,7 +37,12 @@ const clusters = [...new Set(posts.map((p) => p.data.cluster))];
             <span class="eyebrow">{post.data.cluster}</span>
             <span class="font-serif font-semibold text-lg text-navy-900">{post.data.title}</span>
             <p class="text-sm text-slate-500">{post.data.description}</p>
-            <span class="text-xs text-slate-500 mt-auto">By {post.data.author} &middot; {post.data.publishDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</span>
+            <span class="mt-auto inline-flex items-center gap-2 text-xs text-slate-500">
+              <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-navy-900 font-serif text-[0.6rem] font-bold text-gold-300" aria-hidden="true">
+                {post.data.author.split(" ").map((w) => w[0]).join("")}
+              </span>
+              {post.data.author} &middot; {post.data.publishDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}
+            </span>
           </a>
         ))}
       </div>

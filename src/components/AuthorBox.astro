@@ -1,0 +1,120 @@
+---
+import { entity } from "../data/entity";
+
+interface Props {
+  /** Must match one of entity.founders[].shortName (the blog schema's
+   * `author` enum already only allows these two values). */
+  authorName: string;
+}
+const { authorName } = Astro.props;
+
+const founder = entity.founders.find(
+  (f) => f.shortName === authorName || f.name === authorName
+);
+
+const initials = (founder?.shortName ?? authorName)
+  .split(" ")
+  .map((w) => w[0])
+  .join("")
+  .toUpperCase();
+---
+
+<!-- Initials avatar, not a stock or invented photo — see the founders
+     section on the homepage: "[Photo placeholder: real photo pending]".
+     Everything else here (name, title, credentials) is pulled straight
+     from src/data/entity.ts, never invented. Pattern adapted from a
+     reference site's author-box, which uses the same honest
+     initials-only avatar rather than a fabricated headshot. -->
+{founder && (
+  <aside class="author-box" aria-label={`About ${founder.shortName}`}>
+    <div class="author-box-avatar" aria-hidden="true">{initials}</div>
+    <div class="author-box-body">
+      <p class="author-box-kicker">Written by</p>
+      <a href="/about" class="author-box-name">{founder.shortName}</a>
+      <p class="author-box-role">{founder.jobTitle}</p>
+      <ul class="author-box-credentials">
+        {founder.credentials.map((c) => <li>{c}</li>)}
+      </ul>
+      <a href="/about" class="arrow-link author-box-more">
+        More about {founder.shortName} <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </aside>
+)}
+
+<style>
+  .author-box {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--color-white, #fff);
+    border: 1px solid var(--color-navy-100);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+  }
+  .author-box-avatar {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .author-box-kicker {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate-500);
+    margin-bottom: 0.15rem;
+  }
+  .author-box-name {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-navy-900);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .author-box-name:hover {
+      color: var(--color-gold-500);
+    }
+  }
+  .author-box-role {
+    font-size: 0.85rem;
+    color: var(--color-slate-500);
+    margin-top: 0.1rem;
+  }
+  .author-box-credentials {
+    margin-top: 0.65rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .author-box-credentials li {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    background: var(--color-navy-100);
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+  }
+  .author-box-more {
+    display: inline-flex;
+    margin-top: 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .author-box-more:hover {
+      color: var(--color-gold-500);
+    }
+  }
+</style>
