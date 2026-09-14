@@ -253,19 +253,3 @@ const faqs = [
   <!-- Section 13: Final door -->
   <FinalDoorCTA />
 </BaseLayout>
-
-<style>
-  /* Restrained hover micro-interaction: nudge the arrow on the two plain-text
-     directional links on this page (card links already get motion from the
-     shared .card hover lift, so this is scoped to the non-card arrow links
-     only, to avoid stacking two motions on the same element). */
-  .arrow-link .arrow {
-    display: inline-block;
-    transition: transform var(--duration-fast) var(--ease-out);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .arrow-link:hover .arrow {
-      transform: translateX(3px);
-    }
-  }
-</style>

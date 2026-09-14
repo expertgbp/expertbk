@@ -8,67 +8,105 @@ import {
   legalLinks,
 } from "../data/nav";
 import { entity } from "../data/entity";
-
-const allProfessions = professionGroups.flatMap((g) => g.items);
-const allBookTypes = bookTypeGroups.flatMap((g) => g.items);
 ---
 
 <footer class="bg-navy-900 text-offwhite-100 mt-24">
-  <div class="mx-auto max-w-7xl px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 text-sm">
+  <!-- Thin gold hairline at the seam, the same door-rule language used
+       elsewhere on the site, so the footer reads as this brand's rather
+       than a generic dark-navy template. -->
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-gold-300/40 to-transparent" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-7xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr] gap-x-8 gap-y-10 text-sm">
+    <!-- Brand column: an anchor for the sitemap grid instead of dropping
+         straight into four dense link lists with no orientation. -->
+    <div class="sm:col-span-2 lg:col-span-1">
+      <a href="/" class="door-rule pl-4 inline-block font-serif text-xl font-bold on-navy">{entity.brandName}</a>
+      <p class="mt-3 pl-4 max-w-[30ch] opacity-70 leading-relaxed">
+        Real books, real rights, real royalties, for the experts who write them.
+      </p>
+      <a href="/book-a-call" class="arrow-link mt-5 pl-4 inline-flex items-center gap-1 font-semibold text-gold-300 hover:text-gold-500" data-cta="footer-call">
+        Book a free strategy call <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
     <div>
       <p class="eyebrow mb-3">For Experts</p>
-      <ul class="space-y-1.5 opacity-90">
-        {allProfessions.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
-      </ul>
+      {professionGroups.map((group) => (
+        <div class="mb-4 last:mb-0">
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-offwhite-100/45">{group.heading}</p>
+          <ul class="space-y-1">
+            {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+          </ul>
+        </div>
+      ))}
     </div>
+
     <div>
       <p class="eyebrow mb-3">Your Book</p>
-      <ul class="space-y-1.5 opacity-90">
-        {allBookTypes.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
-      </ul>
+      {bookTypeGroups.map((group) => (
+        <div class="mb-4 last:mb-0">
+          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-offwhite-100/45">{group.heading}</p>
+          <ul class="space-y-1">
+            {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+          </ul>
+        </div>
+      ))}
     </div>
+
     <div>
       <p class="eyebrow mb-3">Services &amp; Resources</p>
-      <ul class="space-y-1.5 opacity-90">
-        {serviceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
+      <ul class="space-y-1">
+        {serviceLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
       </ul>
-      <ul class="space-y-1.5 opacity-90 mt-3">
-        {resourceLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
+      <ul class="mt-4 space-y-1">
+        {resourceLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
       </ul>
     </div>
+
     <div>
       <p class="eyebrow mb-3">Company</p>
-      <ul class="space-y-1.5 opacity-90">
-        {companyLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
+      <ul class="space-y-1">
+        {companyLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
       </ul>
-      <ul class="space-y-1.5 opacity-90 mt-3">
-        {legalLinks.map((l) => (<li><a href={l.href} class="hover:text-gold-300 inline-block py-1">{l.label}</a></li>))}
+      <ul class="mt-4 space-y-1">
+        {legalLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
       </ul>
     </div>
   </div>
 
   <div class="border-t border-navy-700">
-    <div class="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs opacity-80">
+    <div class="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs opacity-70">
       <p>
-        {entity.legalName} ({entity.legalNameShort}), founded {entity.founded}.
-        {entity.address.locality}, {entity.address.region}.
+        {entity.legalName} ({entity.legalNameShort}), founded {entity.founded}. {entity.address.locality}, {entity.address.region}.
       </p>
       <div class="flex gap-4">
         <!-- [NEEDS CONFIRMATION: real social links go in src/data/entity.ts `sameAs`] -->
-        <a href="/trust" class="hover:text-gold-300 inline-block py-1">Trust</a>
-        <a href="/contact" class="hover:text-gold-300 inline-block py-1">Talk to a real person</a>
+        <a href="/trust" class="footer-link">Trust</a>
+        <a href="/contact" class="footer-link">Talk to a real person</a>
       </div>
     </div>
   </div>
 </footer>
 
 <style>
-  /* Feedback on hover: a smooth color shift instead of an instant snap,
-     restricted to devices that actually hover so a tap doesn't leave a
-     footer link "stuck" gold on touch screens. */
+  /* Shared footer link treatment: color shift + underline affordance on
+     hover (matching the header mega-menu's link style), restricted to
+     devices that actually hover so a tap doesn't leave a link "stuck"
+     gold/underlined on touch screens. */
+  .footer-link {
+    display: inline-block;
+    padding-block: 0.25rem;
+    opacity: 0.85;
+  }
   @media (hover: hover) and (pointer: fine) {
-    footer a {
-      transition: color var(--duration-fast) var(--ease-hover);
+    .footer-link {
+      transition: color var(--duration-fast) var(--ease-hover), opacity var(--duration-fast) var(--ease-hover);
+    }
+    .footer-link:hover {
+      color: var(--color-gold-300);
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 </style>

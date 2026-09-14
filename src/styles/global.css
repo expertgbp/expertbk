@@ -255,6 +255,22 @@
     }
   }
 
+  /* Restrained hover micro-interaction: nudge the arrow on plain-text
+     directional links (card links already get motion from the shared
+     .card hover lift, so this is for the non-card arrow links: homepage
+     "see how it works"/"meet the founders" links, footer CTA, etc). Global
+     rather than page-scoped so every arrow-link gets it, not just the
+     first page that happened to define it. */
+  .arrow-link .arrow {
+    display: inline-block;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .arrow-link:hover .arrow {
+      transform: translateX(3px);
+    }
+  }
+
   .eyebrow {
     font-size: 0.8rem;
     font-weight: 700;
