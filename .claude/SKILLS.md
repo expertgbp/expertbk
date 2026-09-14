@@ -13,7 +13,16 @@ the project's explicit declaration, not a separate install.
   sync as the brand system evolves.
 - **Animation:** Emil Kowalski's set (`emil-design-eng`, `animate`,
   `find-animation-opportunities`, `improve-animations`,
-  `review-animations`, `apple-design`) — for motion on this site.
+  `review-animations`, `apple-design`) — for restraint and taste calls on
+  motion (should this animate at all, what purpose, what budget). The
+  official GreenSock skill set (`gsap-core`, `gsap-timeline`,
+  `gsap-scrolltrigger`, `gsap-plugins`, `gsap-performance`, `gsap-utils`,
+  `gsap-frameworks`, `gsap-react`; github.com/greensock/gsap-skills) for the
+  actual implementation once Emil's skills say motion earns its place —
+  used for the homepage hero particle field/parallax and the magnetic CTA
+  pull (`src/scripts/hero-particles.ts`, `src/scripts/cta-motion.ts`).
+
+
 - **SEO:** `claude-seo` skill set — for deeper technical SEO work beyond the
   JSON-LD schema, `llms.txt`, and sitemap already built into this site.
 - **Blog:** `claude-blog` skill set — for scaling past the first 6 articles

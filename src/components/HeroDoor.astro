@@ -9,6 +9,10 @@ interface Props {
   secondaryHref?: string;
   microTrust?: string;
   ctaId?: string;
+  /** Homepage only: adds the drifting particle field + pointer-parallax on
+   * the light beam. Kept off other pages' heroes so their JS/paint cost
+   * stays minimal — see src/scripts/hero-particles.ts. */
+  showParticles?: boolean;
 }
 const {
   eyebrow,
@@ -20,26 +24,54 @@ const {
   secondaryHref = "/free-blueprint",
   microTrust,
   ctaId = "hero",
+  showParticles = false,
 } = Astro.props;
 ---
 
-<section class="relative overflow-hidden bg-navy-900 text-offwhite-100">
+<section class="relative overflow-hidden bg-navy-900 text-offwhite-100" data-particles-host={showParticles ? "" : undefined}>
   <!-- The book-as-a-door motif: gold light through an opening spine, no stock photography.
-       Stays behind the content column (z-0 vs z-10) and is toned down at narrow widths so it
-       never competes with wrapped headline text on mobile. -->
-  <div class="pointer-events-none absolute inset-y-0 right-[-10%] z-0 w-[60%] opacity-50 md:opacity-70" aria-hidden="true">
-    <div class="h-full w-full bg-gradient-to-l from-gold-300/25 via-gold-300/5 to-transparent"></div>
-    <div class="absolute inset-y-[8%] right-[20%] w-[3px] bg-gold-300/80 rounded-full blur-[0.5px]"></div>
+       Two layered glows give it depth instead of one flat gradient; both stay behind the
+       content column (z-0 vs z-10) and are toned down at narrow widths so they never compete
+       with wrapped headline text on mobile. -->
+  <div class="pointer-events-none absolute inset-0 z-0 opacity-60 md:opacity-90" aria-hidden="true">
+    <div class="absolute inset-y-0 right-[-15%] w-[70%] bg-gradient-to-l from-gold-300/25 via-gold-300/5 to-transparent"></div>
+    <div class="absolute -bottom-1/3 -left-1/4 h-[70%] w-[60%] rounded-full bg-navy-600/40 blur-3xl"></div>
+    <div
+      class="absolute inset-y-[8%] right-[18%] w-[3px] rounded-full bg-gold-300/80 blur-[0.5px]"
+      data-hero-beam
+    >
+    </div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-28 hero-enter">
+  {showParticles && (
+    <canvas class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" data-particles></canvas>
+  )}
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter">
     <p class="eyebrow mb-4">{eyebrow}</p>
     <h1 class="max-w-3xl on-navy">{heading}</h1>
     <p class="mt-6 max-w-2xl text-lg opacity-90">{subhead}</p>
-    <div class="mt-8 flex flex-wrap gap-x-3 gap-y-4">
-      <a href={primaryHref} class="btn-primary" data-cta={`${ctaId}-call`}>{primaryLabel}</a>
-      <a href={secondaryHref} class="btn-secondary on-navy" data-cta={`${ctaId}-blueprint`}>{secondaryLabel}</a>
+    <div class="mt-9 flex flex-wrap gap-x-3 gap-y-4">
+      <a href={primaryHref} class="btn-primary btn-signature" data-cta={`${ctaId}-call`} data-magnetic>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <rect x="2.5" y="3.5" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.4" />
+          <path d="M2.5 7h13M5.5 2v3M12.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          <path d="M6.5 11l1.8 1.8L11.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        {primaryLabel}
+      </a>
+      <a href={secondaryHref} class="btn-secondary on-navy" data-cta={`${ctaId}-blueprint`}>
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+          <path d="M8.5 2v9.5M4.5 8l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M2.5 13.5v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+        {secondaryLabel}
+      </a>
     </div>
-    {microTrust && <p class="mt-6 text-sm opacity-70">{microTrust}</p>}
+    {microTrust && (
+      <p class="mt-8 inline-flex items-center gap-2 border-t border-offwhite-100/15 pt-5 text-sm opacity-70">
+        {microTrust}
+      </p>
+    )}
   </div>
 </section>

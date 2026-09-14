@@ -49,6 +49,13 @@ see `~/.claude/CLAUDE.md` for the full roster) apply to this project.
   section 11 exactly). Match its structure, depth, and voice for every other collection entry.
 - Forms: `src/scripts/lead-form.ts` is the one submit handler every `[data-lead-form]` form uses
   (provider-agnostic — reads `PUBLIC_FORM_ENDPOINT_URL`). Reuse it; don't write a new handler per form.
+- Motion: `src/scripts/cta-motion.ts` is the site's one signature CTA interaction (magnetic pointer-pull
+  on `[data-magnetic]`, currently the hero and FinalDoorCTA primary buttons only) and
+  `src/scripts/hero-particles.ts` is the homepage-only hero particle field + beam parallax (gated behind
+  `showParticles` on `HeroDoor`, `[data-particles]`). Both lazy-load GSAP via dynamic `import("gsap")` so
+  it never loads on pages that don't use it, and both no-op under `prefers-reduced-motion` and on
+  touch/coarse-pointer devices. Reuse `data-magnetic`/`showParticles` rather than writing new per-page
+  motion; see `.claude/SKILLS.md` for the GSAP skill set backing this.
 
 **Hard rules from the brief, enforced everywhere:**
 - No em dashes. No banned marketing words (brief section 1.2 has the list). 8th-grade reading level,

@@ -237,6 +237,24 @@
     transform: translateY(1px);
   }
 
+  /*
+    The two site-wide primary CTAs (hero + FinalDoorCTA) share this one
+    signature treatment: a wider blurred glow ring than the default
+    .btn-primary hover, plus the icon glyph gap. Paired with
+    src/scripts/cta-motion.ts (the magnetic pointer-pull on [data-magnetic]).
+    Deliberately not applied to every .btn-primary on the site — a signature
+    reserved for the two moments that carry the whole page's conversion goal.
+  */
+  .btn-signature {
+    gap: 0.6rem;
+    position: relative;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-signature:hover {
+      box-shadow: 0 8px 28px -6px rgba(230, 184, 92, 0.65);
+    }
+  }
+
   .eyebrow {
     font-size: 0.8rem;
     font-weight: 700;
