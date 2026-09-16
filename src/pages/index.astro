@@ -11,19 +11,25 @@ import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
 
+// 16 cards, ordered Health, then Wealth, then Relationships, per the
+// change-spec's regrouped nav (change-spec round 1, Change 5/B12).
 const audienceRouterItems = [
   { title: "Doctors", href: "/for/doctors" },
-  { title: "Lawyers", href: "/for/lawyers" },
-  { title: "CEOs & Founders", href: "/for/ceos-and-founders" },
-  { title: "IT Leaders", href: "/for/it-leaders" },
-  { title: "Consultants", href: "/for/consultants" },
-  { title: "Coaches", href: "/for/coaches" },
   { title: "Nurses", href: "/for/nurses" },
   { title: "Therapists", href: "/for/therapists" },
+  { title: "Health Coaches", href: "/for/health-coaches" },
   { title: "Financial Advisors", href: "/for/financial-advisors" },
+  { title: "CEOs & Founders", href: "/for/ceos-and-founders" },
+  { title: "Coaches", href: "/for/coaches" },
+  { title: "Real Estate Professionals", href: "/for/real-estate-professionals" },
+  { title: "Relationship & Marriage Coaches", href: "/for/relationship-and-marriage-coaches" },
+  { title: "Parenting Experts", href: "/for/parenting-experts" },
+  { title: "Family Counselors", href: "/for/family-counselors" },
+  { title: "IT Leaders", href: "/for/it-leaders" },
+  { title: "HR Leaders", href: "/for/hr-leaders" },
+  { title: "Lawyers", href: "/for/lawyers" },
+  { title: "Consultants", href: "/for/consultants" },
   { title: "Speakers", href: "/for/speakers" },
-  { title: "Educators", href: "/for/educators" },
-  { title: "Retired Executives", href: "/for/retired-executives" },
 ];
 
 const faqs = [
@@ -160,9 +166,9 @@ const faqs = [
       { label: "Partnership publishing", highlighted: true },
     ]}
     cells={[
-      ["You", "The publisher, usually", "You"],
-      ["You", "You (split with the publisher)", "You, split with the publisher"],
-      ["You, all of it", "You, all of it"],
+      ["You", "The publisher, usually", "You, 100%"],
+      ["You", "You (split with the publisher)", "You, 100%"],
+      ["You, all of it", "You write; the publisher produces", "A team carries production and launch; you review every word"],
       ["Fast to publish, slow to learn the craft alone", "Often 12 to 24 months, if accepted at all", "6 to 12 months, guided"],
       ["None built in", "Minimal past launch week", "Built into the process"],
       ["Low cash, high time cost", "Low cash, low control", "A real investment; itemized and honest"],

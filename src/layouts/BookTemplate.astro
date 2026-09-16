@@ -7,6 +7,7 @@ import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import { entity } from "../data/entity";
+import { bookTypeGroups } from "../data/nav";
 
 interface Props {
   entry: CollectionEntry<"books">;
@@ -18,11 +19,20 @@ const { Content } = await render(entry);
 const relatedProfessions = (
   await Promise.all(b.relatedProfessions.map((slug) => getEntry("professions", slug)))
 ).filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+// The hub this book type sits beneath (change-spec Change 6/B13): looked
+// up from the single nav.ts source of truth rather than duplicated here.
+const hub = bookTypeGroups.find((g) => g.items.some((i) => i.href === `/books/${entry.id}`));
+const breadcrumbItems = [
+  { name: "Your Book", path: "/books" },
+  ...(hub && hub.headingHref ? [{ name: hub.heading, path: hub.headingHref }] : []),
+  { name: b.bookTypeLabel, path: Astro.url.pathname },
+];
 ---
 
 <BaseLayout title={b.title} description={b.answerBlock.slice(0, 150)}>
   <Fragment slot="head">
-    <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: b.bookTypeLabel, path: Astro.url.pathname }]} />
+    <BreadcrumbSchema items={breadcrumbItems} />
   </Fragment>
 
   <section class="bg-navy-900 text-offwhite-100">

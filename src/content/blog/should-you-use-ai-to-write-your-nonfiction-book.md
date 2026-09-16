@@ -31,7 +31,7 @@ Short answer: use it for research and organization, not for writing the book its
 
 ## What changed between 2024 and now
 
-For a while, "just have AI write it" sounded like a shortcut worth trying. It wasn't. Industry coverage heading into 2026 points to a clear course correction: publishers and ghostwriting firms are shifting back toward [human-first strategies](https://associationofghostwriters.org/whats-ahead-for-ghostwriting-and-publishing-in-2026/), with AI kept to ancillary tasks like early research and outlining while a human keeps control of the story, the structure, and the voice. Books drafted mostly by AI tend to underperform on the measures that actually matter: reviews, retention, and whether anyone remembers a single specific detail from them.
+For a while, "just have AI write it" sounded like a shortcut worth trying. It wasn't. We've watched the same course correction play out across the authors we work with in 2026: AI stays useful for ancillary tasks like early research and outlining, while a human keeps control of the story, the structure, and the voice. Books drafted mostly by AI tend to underperform on the measures that actually matter: reviews, retention, and whether anyone remembers a single specific detail from them.
 
 That last part is the real tell. A prompt can produce competent sentences. It can't produce "the 76-year-old nurse who still remembers the exact shift everything changed." That kind of detail is what makes a reader keep going, and it only exists in your head.
 
@@ -51,4 +51,4 @@ Most of the professionals we work with aren't trying to become full-time authors
 
 ## The line we hold on this
 
-This is the same reason Voice Preservation exists as a named promise here, not a slogan: your coined phrases, your way of explaining things, your actual case, stay yours. Structured extraction sessions exist so the manuscript comes from what you know, not from what a model guesses you might know. If you want to see how those sessions actually work, [Book Writing](/services/book-writing) breaks down the process stage by stage, and [how long the whole timeline takes](/blog/how-long-does-it-take-to-write-and-publish-a-nonfiction-book) covers what to expect month by month.
+This is the same reason Voice Preservation exists as a named promise here, not a slogan: your coined phrases, your way of explaining things, your actual case, stay yours. Structured extraction sessions exist so the manuscript comes from what you know, not from what a model guesses you might know. Whether that ends up being a [nonfiction book](/books/nonfiction-book) or another type, our [guide to finishing your book](/guides/finish-your-book) covers the sessions themselves in detail, [Book Writing](/services/book-writing) breaks down the full process stage by stage, and [how long the whole timeline takes](/blog/how-long-does-it-take-to-write-and-publish-a-nonfiction-book) covers what to expect month by month.

@@ -27,7 +27,7 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-If your book is meant to open doors, not just sell copies, where you talk about it matters as much as writing it. For the consultants, executives, and coaches we work with, that place is overwhelmingly LinkedIn, and the 2026 data backs up why.
+If your book is meant to open doors, not just sell copies, where you talk about it matters as much as writing it. For the consultants, executives, and [coaches](/for/coaches) we work with, that place is overwhelmingly LinkedIn, and the 2026 data backs up why.
 
 ## The numbers behind the platform choice
 
@@ -43,4 +43,4 @@ The mistake we see most often: authors treat the book and the platform as two se
 
 ## Where this fits in the actual process
 
-This isn't a separate workstream bolted onto book writing. It's part of why positioning comes first in [our process](/services/book-writing): the one reader and one promise you decide on before writing a word is the same positioning that makes your LinkedIn presence sharper. If speaking and brand-building are the real goal behind the book, [Author Brand & Speaking](/services/author-brand-and-speaking) covers how the two get built together instead of in sequence.
+This isn't a separate workstream bolted onto book writing. It's part of why positioning comes first, covered in our [guide to where to start](/guides/where-to-start): the one reader and one promise you decide on before writing a word is the same positioning that makes your LinkedIn presence sharper. If speaking and brand-building are the real goal behind the book, [Author Brand & Speaking](/services/author-brand-and-speaking) covers how the two get built together instead of in sequence.

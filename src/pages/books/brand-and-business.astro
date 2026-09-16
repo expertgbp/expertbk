@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TestimonialCard from "../../components/TestimonialCard.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../../data/entity";
+
+const bookTypes = [
+  {
+    label: "Business Book",
+    href: "/books/business-book",
+    body: "A business book earns its keep when it positions you before it informs anyone. Consultants, agency owners, and founders write these to become the obvious choice in a crowded market. It works alongside the rest of your marketing, not instead of it.",
+  },
+  {
+    label: "Leadership Book",
+    href: "/books/leadership-book",
+    body: "A leadership book earns its place on a desk, not a shelf, when it gives readers a named framework they can put to work. Executives and managers write these to turn how they lead into something teams and other leaders can actually use. It's often the credential behind a keynote or a promotion.",
+  },
+  {
+    label: "Nonfiction Book",
+    href: "/books/nonfiction-book",
+    body: "A nonfiction book gets written in a specific order, not a specific amount of talent. Experts across almost any field write these when their knowledge doesn't fit neatly into business or leadership, but still deserves a book. It's the flexible option when your expertise is real but hard to categorize.",
+  },
+  {
+    label: "Self-Help Book",
+    href: "/books/self-help-book",
+    body: "A self-help book stands out when it gives a reader something to do, not just something to feel better about. Coaches and practitioners write these to turn a method they already teach one-on-one into something a reader can follow alone. It works best paired with a clear, repeatable process.",
+  },
+  {
+    label: "Health and Wellness Book",
+    href: "/books/health-and-wellness-book",
+    body: "A health and wellness book works when it says one clear thing to one specific reader, in language a patient can use, not a colleague. Doctors, nurses, and health coaches write these to reach people who'll never sit across from them in a clinic. It extends your care past the appointment.",
+  },
+];
+
+const faqs = [
+  {
+    question: "How is a business book different from a leadership book?",
+    answer:
+      "A business book usually positions you across your whole practice or company. A leadership book is narrower on purpose: one named way of leading, built for people who manage others. Positioning decides which one fits before you write either.",
+  },
+  {
+    question: "Do I need an original framework?",
+    answer:
+      "No. A framework helps, but the real requirement is one clear reader and one clear promise. Some of our strongest books never name a framework at all. They just answer one question better than anyone else has.",
+  },
+  {
+    question: "How long does an expertise book take from idea to published?",
+    answer:
+      "Most experts move from idea to published book in 6 to 12 months, working the process in order: position first, then extract the manuscript, then editing, publishing, and launch.",
+  },
+];
+---
+
+<BaseLayout
+  title="Which Business Book Should You Write to Position Yourself?"
+  description="Business book, leadership book, self-help book, or health and wellness guide: the process is the same, and the type changes the structure. Find yours."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: "Brand & Business Books", path: Astro.url.pathname }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
+      <p class="eyebrow mb-4">Brand &amp; Business Books</p>
+      <h1 class="on-navy">Which Business Book Should You Write to Position Yourself?</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        A brand or business book earns its keep when it positions you before it informs anyone. Whether it is a
+        business book, a leadership book, a self-help book, a health and wellness guide, or general nonfiction, the
+        process is the same: one reader, one promise, decided before a chapter exists. Most experts move from
+        positioning to a published book in 6 to 12 months while running a full practice, and keep 100% of their
+        rights and royalties. The type you choose changes the structure. It does not change the sequence.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="hub-brand-hero-call">Book a Free Book Strategy Call</a>
+        <a href="/free-blueprint" class="btn-secondary on-navy" data-cta="hub-brand-hero-blueprint">Get the Expert Book Blueprint (free)</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 space-y-10">
+      {bookTypes.map((b) => (
+        <div>
+          <h2 class="mb-3"><a href={b.href} class="hover:text-gold-500">{b.label}</a></h2>
+          <p class="leading-relaxed text-slate-500">{b.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Proof from the path you're on</h2>
+      <TestimonialCard status="placeholder" placeholderNote="[TESTIMONIAL: pending permission]" />
+      <p class="mt-4 text-sm text-slate-500">
+        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-12 text-center">
+      <h2 class="mb-4">Not sure which is yours?</h2>
+      <p class="text-slate-500 leading-relaxed">
+        <a href="/guides/which-book-first" class="underline font-semibold">Which book should I write first?</a> walks
+        through the decision, or <a href="/start" class="underline font-semibold">start here</a> for a guided path
+        built around your answers.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Brand &amp; business book questions" />
+
+  <FinalDoorCTA />
+</BaseLayout>

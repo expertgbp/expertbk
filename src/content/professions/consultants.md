@@ -1,7 +1,7 @@
 ---
 title: "How Does a Consultant Write and Publish a Book (Without Pausing Client Engagements)?"
 professionLabel: "Consultant"
-category: "business-tech"
+category: "service-providers"
 personas: ["P1"]
 order: 7
 answerBlock: >-
@@ -14,6 +14,10 @@ identityMirror: >-
   You've built the same framework on a whiteboard for a dozen different clients, refining it each time.
   Somewhere between proposals, engagements, and the deck you keep recycling, there's a book that would do
   your first meeting's work before you ever showed up. Your clients keep telling you to write it. So do we.
+crossLinks:
+  - prefix: "Writing as a founder rather than an advisor?"
+    linkLabel: "Start with the CEO's page."
+    href: "/for/ceos-and-founders"
 obstacles:
   - objection: "I bill by the hour. Writing a book feels like unpaid time."
     reframe: >-

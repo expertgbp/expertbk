@@ -1,7 +1,7 @@
 ---
 title: "How Does a Professional Speaker Write and Publish a Book (Without Losing a Single Booking)?"
 professionLabel: "Speaker"
-category: "law-service"
+category: "service-providers"
 personas: ["P1"]
 order: 14
 answerBlock: >-
@@ -15,6 +15,10 @@ identityMirror: >-
   lights come up. Somewhere between flights, green rooms, and the bureau that keeps asking for a book to
   pitch alongside you, there's the book itself, unwritten. Meeting planners keep asking if you have one. So
   do we.
+crossLinks:
+  - prefix: "Turning your talks into a course as well as a book?"
+    linkLabel: "See the course creator's page."
+    href: "/for/course-creators"
 obstacles:
   - objection: "I'm on the road constantly. When would I even write?"
     reframe: >-

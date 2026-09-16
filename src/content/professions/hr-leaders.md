@@ -1,7 +1,7 @@
 ---
 title: "How Does an HR Leader Write and Publish a Book (Without Dropping the People Function)?"
 professionLabel: "HR Leader"
-category: "business-tech"
+category: "leadership-and-career"
 personas: ["P1"]
 order: 12
 answerBlock: >-

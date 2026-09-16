@@ -1,7 +1,7 @@
 ---
 title: "How Does a Coach Write and Publish a Book (Without Pausing Client Sessions)?"
 professionLabel: "Coach"
-category: "business-tech"
+category: "wealth"
 personas: ["P1"]
 order: 8
 answerBlock: >-
@@ -14,6 +14,13 @@ identityMirror: >-
   You've said the same breakthrough line to a dozen different clients and watched it land every time.
   Somewhere between sessions, discovery calls, and the content calendar you can't keep up with, there's a
   book that would do that work at scale. Your clients keep telling you to write it. So do we.
+crossLinks:
+  - prefix: "Coaching relationships specifically?"
+    linkLabel: "That page goes deeper."
+    href: "/for/relationship-and-marriage-coaches"
+  - prefix: "Coaching careers specifically?"
+    linkLabel: "That page goes deeper."
+    href: "/for/career-coaches"
 obstacles:
   - objection: "The coaching space is flooded with books already."
     reframe: >-

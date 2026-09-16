@@ -25,12 +25,19 @@ document.querySelectorAll<HTMLFormElement>("[data-lead-form]").forEach((form) =>
     const field = (name: string) =>
       (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null)?.value;
 
+    // The profession <select> carries a slug value (stable CRM tag) plus a
+    // data-group attribute on each <option> (which market it belongs to;
+    // change-spec Change 5/B12, item 7), read off the selected option.
+    const professionSelect = form.elements.namedItem("profession") as HTMLSelectElement | null;
+    const group = professionSelect?.selectedOptions[0]?.dataset.group || undefined;
+
     const payload = {
       formId: form.dataset.formId,
       segmentTag: form.dataset.segmentTag,
       firstName: field("firstName"),
       email,
       profession: field("profession"),
+      group,
       message: field("message"),
       source: window.location.pathname,
     };

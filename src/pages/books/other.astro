@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TestimonialCard from "../../components/TestimonialCard.astro";
+import FAQAccordion from "../../components/FAQAccordion.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
+import { entity } from "../../data/entity";
+
+const bookTypes = [
+  {
+    label: "Children's Book",
+    href: "/books/childrens-book",
+    body: "A children's book gets written short, then built with an illustrator, not drawn by you. Parents, grandparents, and professionals who work with kids write these when the story matters more than the craft of drawing. It's a different production process from every other book type here.",
+  },
+  {
+    label: "Novel",
+    href: "/books/novel",
+    body: "A novel gets finished by breaking the write-rewrite loop on purpose, with real developmental deadlines. Anyone with a finished or half-finished manuscript sitting in a drawer writes to get it out of the drawer and past the gatekeepers. It's the one book type here built for readers who want a story, not an answer.",
+  },
+];
+
+const faqs = [
+  {
+    question: "Do you publish fiction?",
+    answer:
+      "Yes. Novels and children's books sit outside expert nonfiction, but the same promise applies: you keep 100% of your rights and royalties, and the process is built around your real deadlines.",
+  },
+  {
+    question: "How does a children's book get illustrated?",
+    answer:
+      "It's built with an illustrator as part of the process, not drawn by you. You don't need to be able to draw to write one.",
+  },
+  {
+    question: "Can I publish under a pen name?",
+    answer: "[NEEDS CONFIRMATION: pen name policy]",
+  },
+];
+---
+
+<BaseLayout
+  title="Writing a Novel or a Children's Book? Here Is How the Path Changes."
+  description="Novel or children's book: two lanes outside expert nonfiction, each with its own process. See how the path bends for fiction."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: "Others", path: Astro.url.pathname }]} />
+  </Fragment>
+
+  <section class="bg-navy-900 text-offwhite-100">
+    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
+      <p class="eyebrow mb-4">Others</p>
+      <h1 class="on-navy">Writing a Novel or a Children's Book? Here Is How the Path Changes.</h1>
+      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
+        Novels and children's books follow a different path from expert nonfiction, and the differences matter. A
+        novel gets finished by breaking the write-rewrite loop with real developmental deadlines. A children's book
+        gets written short, then built with an illustrator, not drawn by you. Both are published under your name
+        with 100% of your rights and royalties. These are the two lanes we serve outside expert nonfiction; the rest
+        of this site is built for experts, and these pages show where the path bends.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/book-a-call" class="btn-primary" data-cta="hub-other-hero-call">Book a Free Book Strategy Call</a>
+        <a href="/free-blueprint" class="btn-secondary on-navy" data-cta="hub-other-hero-blueprint">Get the Expert Book Blueprint (free)</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-14 space-y-10">
+      {bookTypes.map((b) => (
+        <div>
+          <h2 class="mb-3"><a href={b.href} class="hover:text-gold-500">{b.label}</a></h2>
+          <p class="leading-relaxed text-slate-500">{b.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-3xl px-4 py-14">
+      <h2 class="mb-6">Proof from the path you're on</h2>
+      <TestimonialCard status="placeholder" placeholderNote="[TESTIMONIAL: pending permission]" />
+      <p class="mt-4 text-sm text-slate-500">
+        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
+        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-3xl px-4 py-12 text-center">
+      <h2 class="mb-4">Not sure which is yours?</h2>
+      <p class="text-slate-500 leading-relaxed">
+        <a href="/guides/which-book-first" class="underline font-semibold">Which book should I write first?</a> walks
+        through the decision, or <a href="/start" class="underline font-semibold">start here</a> for a guided path
+        built around your answers.
+      </p>
+    </div>
+  </section>
+
+  <FAQAccordion faqs={faqs} heading="Fiction &amp; children's book questions" />
+
+  <FinalDoorCTA />
+</BaseLayout>

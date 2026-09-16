@@ -14,7 +14,11 @@ const {
   redirectTo = "/thank-you/blueprint",
 } = Astro.props;
 
-const professions = professionGroups.flatMap((g) => g.items);
+// Slug (from the href) is the stable CRM tag value — a display label can
+// be edited later without silently breaking existing tags. group is the
+// heading's own slug, so leads can be segmented by market too (change-
+// spec Change 5/B12, item 7).
+const slugify = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 ---
 
 <form
@@ -59,8 +63,14 @@ const professions = professionGroups.flatMap((g) => g.items);
       class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
     >
       <option value="">Choose one</option>
-      {professions.map((p) => (<option value={p.label}>{p.label}</option>))}
-      <option value="Other">Something else</option>
+      {professionGroups.map((group) => (
+        <optgroup label={group.heading}>
+          {group.items.map((p) => (
+            <option value={p.href.replace("/for/", "")} data-group={slugify(group.heading)}>{p.label}</option>
+          ))}
+        </optgroup>
+      ))}
+      <option value="something-else" data-group="">Something else</option>
     </select>
   </div>
 

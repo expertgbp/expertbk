@@ -1,7 +1,7 @@
 ---
 title: "How Does a Financial Advisor Write and Publish a Book (Without Running Afoul of Compliance)?"
 professionLabel: "Financial Advisor"
-category: "business-tech"
+category: "wealth"
 personas: ["P1"]
 order: 10
 answerBlock: >-

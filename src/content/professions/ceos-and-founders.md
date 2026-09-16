@@ -1,7 +1,7 @@
 ---
 title: "How Does a CEO or Founder Write and Publish a Book (Without Taking Their Eye Off the Business)?"
 professionLabel: "Founder"
-category: "business-tech"
+category: "wealth"
 personas: ["P1"]
 order: 6
 answerBlock: >-

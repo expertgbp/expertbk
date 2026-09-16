@@ -22,6 +22,15 @@ const ctaBand = z.object({
   leadMagnetSlug: z.string().default("/free-blueprint"),
 });
 
+// One canonical home per profession, cross-linked rather than duplicated
+// (change-spec Change 4/B11): a plain in-body link from one profession
+// page to the closer-fit page in another market.
+const crossLinkItem = z.object({
+  prefix: z.string(), // the sentence up to the link, e.g. "Coaching relationships specifically?"
+  linkLabel: z.string(), // the clickable text itself
+  href: z.string(),
+});
+
 const proofBlock = z.object({
   // Real permissioned quote when available; otherwise a placeholder that
   // renders visibly as pending (brief 1.1 compliance rule).
@@ -39,13 +48,17 @@ const professions = defineCollection({
   schema: z.object({
     title: z.string(), // the H1 question
     professionLabel: z.string(), // e.g. "Doctor", used in interpolated copy
-    category: z.enum(["health", "business-tech", "law-service"]),
+    // 5-market grouping (change-spec round 1, B10/amended): Health, Wealth,
+    // Relationships, Leadership & Career, Service Providers. Replaces the
+    // old 3-value job-title-flavored enum.
+    category: z.enum(["health", "wealth", "relationships", "leadership-and-career", "service-providers"]),
     personas: z.array(z.string()).default(["P1"]),
     answerBlock: z.string(), // <100 words, quotable direct answer
     identityMirror: z.string(),
     obstacles: z.array(obstacleItem).min(3).max(4),
     whatItDoes: z.string(),
     pathNote: z.string().optional(), // optional profession-specific framing of EPIC stages
+    crossLinks: z.array(crossLinkItem).optional(), // one canonical URL per profession (B11): links out to a closer-fit page instead of duplicating content
     proof: proofBlock.default({ status: "placeholder", placeholderNote: "[TESTIMONIAL: pending permission]" }),
     relatedBooks: z.array(z.string()).length(3), // slugs into `books` collection
     faqs: z.array(faqItem).min(4).max(6),

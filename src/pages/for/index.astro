@@ -3,23 +3,24 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CardGrid from "../../components/CardGrid.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import { professionGroupKeys } from "../../data/nav";
 
 const all = (await getCollection("professions")).sort((a, b) => a.data.order - b.data.order);
-const groups: Record<string, typeof all> = {
-  health: all.filter((p) => p.data.category === "health"),
-  "business-tech": all.filter((p) => p.data.category === "business-tech"),
-  "law-service": all.filter((p) => p.data.category === "law-service"),
-};
+const groups: Record<string, typeof all> = Object.fromEntries(
+  professionGroupKeys.map((key) => [key, all.filter((p) => p.data.category === key)])
+);
 const groupLabels: Record<string, string> = {
   health: "Health",
-  "business-tech": "Business & Tech",
-  "law-service": "Law & Service",
+  wealth: "Wealth",
+  relationships: "Relationships",
+  "leadership-and-career": "Leadership & Career",
+  "service-providers": "Service Providers",
 };
 ---
 
 <BaseLayout
   title="Built for Experts Like You"
-  description="Pick your world. Doctors, lawyers, CEOs, consultants, and more, each with a path built around their real calendar and voice."
+  description="Pick your world: health, wealth, relationships, leadership and career, or service. Each path is built around your real calendar and voice."
 >
   <section class="bg-navy-900 text-offwhite-100">
     <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">

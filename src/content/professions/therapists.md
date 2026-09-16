@@ -15,6 +15,10 @@ identityMirror: >-
   You sit across from people on the hardest day of their week and help them find language for what hurts.
   You've said the same reframe, the same grounding exercise, the same permission to feel it, more times
   than any textbook. Somewhere in your notes is the book your clients keep asking where to buy.
+crossLinks:
+  - prefix: "Working mostly with couples and families rather than individual therapy?"
+    linkLabel: "See the family counselor's page."
+    href: "/for/family-counselors"
 obstacles:
   - objection: "I can't write about real sessions without breaking confidentiality."
     reframe: >-

@@ -1,7 +1,7 @@
 ---
 title: "How Does a Real Estate Professional Write and Publish a Book (Without Missing a Closing)?"
 professionLabel: "Real Estate Professional"
-category: "business-tech"
+category: "wealth"
 personas: ["P1"]
 order: 11
 answerBlock: >-

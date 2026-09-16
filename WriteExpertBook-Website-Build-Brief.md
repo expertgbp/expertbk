@@ -22,7 +22,7 @@ Global Book Publishing (GBP) is a partnership (hybrid) publisher founded in 2019
 **Canonical proof bank (use these exactly; never invent past them):**
 - 700+ authors across 21 countries
 - Founders are USA Today and Wall Street Journal bestselling authors
-- 5X TEDx speakers jointly; Ash solo is a 9X TEDx speaker
+- 5X TEDx speakers jointly; Ash is also a 9X TEDx speaker
 - 1M+ students taught
 - Sold 1,000+ books for one client in 5 days
 - Took a stalled author from 15 sales in 15 months to international bestseller in 60 days
@@ -268,7 +268,7 @@ Visual: a book opening like a door, gold light through the gap. No stock desks.
 
 ### Section 2: Trust bar (navy-700, thin band)
 
-Four serif numbers in gold: `700+ authors` · `21 countries` · `9X TEDx (Ash, solo)` · `1M+ students taught`
+Four serif numbers in gold: `700+ authors` · `21 countries` · `9X TEDx` · `1M+ students taught`
 
 ### Section 3: The empathy block (ivory-50)
 
@@ -350,7 +350,7 @@ Body: `One call. A real read on your idea, your positioning, and your path, whet
 Gold CTA: `Book a Free Book Strategy Call`
 Quiet secondary: `Or start with the free Blueprint`
 
-Footer (navy-900, four columns): For Experts (all professions) · Your Book (all types) · Services & Resources · Company (About, Trust, Reviews, Contact, Newsletter, Legal). Bottom line: entity block (GBP, founded 2019, Milton, Ontario) + social links.
+Footer (navy-900, five columns: brand + For Experts (all professions) · Your Book (all types) · Services & Resources · Company (About, Trust, Reviews, Contact, Newsletter, Legal). Bottom line: entity block (GBP, founded 2019, Austin, Texas) + social links.
 
 ---
 

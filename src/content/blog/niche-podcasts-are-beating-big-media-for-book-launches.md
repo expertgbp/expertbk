@@ -30,7 +30,7 @@ The old launch plan was built around one goal: get mentioned somewhere big. That
 
 ## What the trend actually says
 
-Industry coverage heading into 2026 points to hyper-targeted podcasts, niche trade publications, and vertical newsletters becoming [some of the most valuable placements](https://www.smithpublicity.com/2025/12/7-book-publicity-trends-for-2026-what-is-changing-new-strategies-for-authors-and-experts-to-reach-the-right-media/) for nonfiction authors, especially in business, leadership, health, and workplace topics. The term some outlets are using is "Micro-Authority Media," and it's expected to keep growing through 2026.
+Book publicity coverage in 2026 keeps pointing to the same shift: hyper-targeted podcasts, niche trade publications, and vertical newsletters have become some of the most valuable placements for nonfiction authors, especially in [business](/books/business-book), leadership, health, and workplace topics. The term some outlets are using is "Micro-Authority Media," and it's still growing.
 
 ## Why a smaller, exact audience beats a bigger, general one
 
@@ -42,4 +42,4 @@ Instead of a press list of national outlets, a 2026 launch plan for one of our a
 
 ## Where this fits after the manuscript is done
 
-If your book is finished and you're wondering what actually happens next, this is a core piece of it. Launch isn't a press release and a hope. It's a specific, matched list of the exact rooms your reader already spends time in. [I finished my manuscript. Now what?](/blog/i-finished-my-manuscript-now-what) covers the rest of the sequence, and [Book Marketing](/services/book-marketing) breaks down how a launch plan like this actually gets built and run. If a previous launch already underperformed, [Book Rescue](/services/book-relaunch) exists specifically for that.
+If your book is finished and you're wondering what actually happens next, this is a core piece of it. Launch isn't a press release and a hope. It's a specific, matched list of the exact rooms your reader already spends time in. Our guide, [manuscript ready, now what?](/guides/manuscript-ready-now-what), covers the rest of the sequence, and [Book Marketing](/services/book-marketing) breaks down how a launch plan like this actually gets built and run. If a previous launch already underperformed, [Book Rescue](/services/book-relaunch) exists specifically for that.

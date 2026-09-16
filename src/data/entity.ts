@@ -83,12 +83,11 @@ export const entity = {
   },
   positioningLine:
     "Traditional publishing gives you reach but takes your rights. Self-publishing gives you rights but no reach. Partnership publishing is the third way.",
-  // [NEEDS CONFIRMATION: exact registered address for schema/footer. Using
-  // the general location referenced in prior context until confirmed.]
+  // [NEEDS CONFIRMATION: street address for schema/footer]
   address: {
-    locality: "Milton",
-    region: "Ontario",
-    country: "CA",
+    locality: "Austin",
+    region: "Texas", // display form; see OrganizationSchema.astro for the "TX" region code used in JSON-LD
+    country: "US",
   },
   // [NEEDS CONFIRMATION: real social/profile URLs, BBB profile URL, Trustpilot profile URL]
   sameAs: [] as string[],

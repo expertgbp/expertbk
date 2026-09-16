@@ -11,8 +11,8 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
 <section class="bg-navy-900 text-offwhite-100">
   <div class="mx-auto max-w-5xl px-4 py-16">
     <h2 class="on-navy text-center mb-10">{heading}</h2>
-    <div class="overflow-x-auto table-scroll">
-      <table class="w-full text-left border-collapse min-w-[36rem]">
+    <div class="before-after-scroll overflow-x-auto table-scroll">
+      <table class="before-after w-full text-left border-collapse min-w-[36rem]">
         <thead>
           <tr class="border-b border-navy-600">
             <th class="py-3 pr-4 font-serif text-base font-semibold opacity-80">{beforeLabel}</th>
@@ -22,8 +22,8 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
         <tbody>
           {rows.map((row) => (
             <tr class="border-b border-navy-700">
-              <td class="py-4 pr-4 align-top opacity-80">{row.before}</td>
-              <td class="py-4 pl-4 align-top border-l border-navy-700 font-medium">{row.after}</td>
+              <td class="py-4 pr-4 align-top opacity-80" data-label={beforeLabel}>{row.before}</td>
+              <td class="py-4 pl-4 align-top border-l border-navy-700 font-medium" data-label={afterLabel}>{row.after}</td>
             </tr>
           ))}
         </tbody>
@@ -52,5 +52,59 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
       linear-gradient(to left, var(--color-navy-900), transparent),
       linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent),
       linear-gradient(to left, rgba(255, 255, 255, 0.16), transparent);
+  }
+
+  /*
+    Mobile restack (F35): below 768px the two-column table scrolled
+    sideways and hid the "after" column, the section's whole payoff. Each
+    row becomes a stacked card instead; the semantic <table> markup stays
+    (AI parsers still read it as a table), only the visual presentation
+    changes. data-label + ::before reproduces the column heading inside
+    each card since <thead> is hidden. Unchanged at 1024px and up.
+  */
+  @media (max-width: 767px) {
+    .before-after-scroll {
+      overflow-x: visible;
+    }
+    .before-after {
+      min-width: 0;
+    }
+    .before-after thead {
+      display: none;
+    }
+    .before-after tr {
+      display: block;
+      border: 1px solid var(--color-navy-600);
+      border-radius: var(--radius-card);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .before-after tr:last-child {
+      margin-bottom: 0;
+    }
+    .before-after td {
+      display: block;
+      padding: 0.5rem 0;
+      border: none !important;
+    }
+    .before-after td::before {
+      content: attr(data-label);
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-slate-500);
+      margin-bottom: 0.25rem;
+    }
+    .before-after td:first-child {
+      border-bottom: 1px solid var(--color-gold-300) !important;
+      margin-bottom: 0.5rem;
+      color: var(--color-offwhite-100);
+      opacity: 0.85;
+    }
+    .before-after td:last-child {
+      color: var(--color-gold-300);
+      font-weight: 600;
+    }
   }
 </style>

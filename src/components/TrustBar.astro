@@ -4,7 +4,7 @@ import { entity } from "../data/entity";
 const stats = [
   { value: entity.proofBank.authorsCount, label: "authors" },
   { value: entity.proofBank.countriesCount, label: "countries" },
-  { value: `${entity.proofBank.tedxAshSolo} TEDx`, label: "Ash, solo" },
+  { value: `${entity.proofBank.tedxAshSolo} TEDx`, label: "" },
   { value: entity.proofBank.studentsTaught, label: "students taught" },
 ];
 ---
@@ -14,7 +14,7 @@ const stats = [
     {stats.map((s) => (
       <div class="stat-item">
         <p class="font-serif text-3xl md:text-4xl font-bold text-gold-300">{s.value}</p>
-        <p class="text-sm opacity-80 mt-1">{s.label}</p>
+        {s.label && <p class="text-sm opacity-80 mt-1">{s.label}</p>}
       </div>
     ))}
   </div>

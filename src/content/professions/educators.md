@@ -1,7 +1,7 @@
 ---
 title: "How Does an Educator Write and Publish a Book (Without Giving Up Their Summers)?"
 professionLabel: "Educator"
-category: "law-service"
+category: "service-providers"
 personas: ["P1"]
 order: 15
 answerBlock: >-

@@ -1,13 +1,21 @@
 /**
- * Central navigation + sitemap data (brief section 5).
+ * Central navigation + sitemap data (brief section 5; regrouped per
+ * writeexpertbook-change-spec-round-1.md, Changes 3/5/6).
  * Header dropdowns, the footer sitemap columns, and the homepage audience
  * router all read from these lists so the site's link structure only has
  * to be declared once.
  */
 
 export type NavLink = { label: string; href: string };
+export type NavGroup = { heading: string; headingHref?: string; items: NavLink[] };
 
-export const professionGroups: { heading: string; items: NavLink[] }[] = [
+/**
+ * Five markets, in this order (change-spec Change 3/B10, amended).
+ * Existing pages keep their URLs and moved columns; twelve pages are new
+ * this round. Order within each column: existing pages first (in the
+ * order they appeared before), then new pages, per the spec's table.
+ */
+export const professionGroups: NavGroup[] = [
   {
     heading: "Health",
     items: [
@@ -16,34 +24,71 @@ export const professionGroups: { heading: string; items: NavLink[] }[] = [
       { label: "Therapists", href: "/for/therapists" },
       { label: "Dentists", href: "/for/dentists" },
       { label: "Health Coaches", href: "/for/health-coaches" },
+      { label: "Fitness & Nutrition Coaches", href: "/for/fitness-and-nutrition-coaches" },
+      { label: "Holistic & Wellness Practitioners", href: "/for/holistic-and-wellness-practitioners" },
     ],
   },
   {
-    heading: "Business & Tech",
+    heading: "Wealth",
     items: [
-      { label: "CEOs & Founders", href: "/for/ceos-and-founders" },
-      { label: "Consultants", href: "/for/consultants" },
-      { label: "Coaches", href: "/for/coaches" },
-      { label: "IT Leaders", href: "/for/it-leaders" },
       { label: "Financial Advisors", href: "/for/financial-advisors" },
+      { label: "CEOs & Founders", href: "/for/ceos-and-founders" },
+      { label: "Coaches", href: "/for/coaches" },
       { label: "Real Estate Professionals", href: "/for/real-estate-professionals" },
-      { label: "HR Leaders", href: "/for/hr-leaders" },
+      { label: "Accountants & Tax Professionals", href: "/for/accountants-and-tax-professionals" },
+      { label: "Sales Leaders", href: "/for/sales-leaders" },
+      { label: "Mortgage & Insurance Professionals", href: "/for/mortgage-and-insurance-professionals" },
     ],
   },
   {
-    heading: "Law & Service",
+    heading: "Relationships",
+    items: [
+      { label: "Relationship & Marriage Coaches", href: "/for/relationship-and-marriage-coaches" },
+      { label: "Parenting Experts", href: "/for/parenting-experts" },
+      { label: "Family Counselors", href: "/for/family-counselors" },
+      { label: "Dating Coaches", href: "/for/dating-coaches" },
+    ],
+  },
+  {
+    heading: "Leadership & Career",
+    items: [
+      { label: "IT Leaders", href: "/for/it-leaders" },
+      { label: "HR Leaders", href: "/for/hr-leaders" },
+      { label: "Retired Executives", href: "/for/retired-executives" },
+      { label: "Career Coaches", href: "/for/career-coaches" },
+    ],
+  },
+  {
+    heading: "Service Providers",
     items: [
       { label: "Lawyers", href: "/for/lawyers" },
-      { label: "Speakers", href: "/for/speakers" },
       { label: "Educators", href: "/for/educators" },
-      { label: "Retired Executives", href: "/for/retired-executives" },
+      { label: "Consultants", href: "/for/consultants" },
+      { label: "Speakers", href: "/for/speakers" },
+      { label: "Course Creators", href: "/for/course-creators" },
+      { label: "First Responders & Military Veterans", href: "/for/first-responders-and-veterans" },
     ],
   },
 ];
 
-export const bookTypeGroups: { heading: string; items: NavLink[] }[] = [
+/** Group key (matches the `professions` collection's `category` field) per heading, in nav order. */
+export const professionGroupKeys = [
+  "health",
+  "wealth",
+  "relationships",
+  "leadership-and-career",
+  "service-providers",
+] as const;
+
+/**
+ * Three hubs, in this order (change-spec Change 6/B13, amended). The ten
+ * existing book-type pages keep their URLs and sit beneath their hub;
+ * each hub heading links to its own new hub page.
+ */
+export const bookTypeGroups: NavGroup[] = [
   {
-    heading: "Expertise Books",
+    heading: "Brand & Business Books",
+    headingHref: "/books/brand-and-business",
     items: [
       { label: "Business Book", href: "/books/business-book" },
       { label: "Leadership Book", href: "/books/leadership-book" },
@@ -53,11 +98,18 @@ export const bookTypeGroups: { heading: string; items: NavLink[] }[] = [
     ],
   },
   {
-    heading: "Story Books",
+    heading: "Love & Legacy Books",
+    headingHref: "/books/love-and-legacy",
     items: [
       { label: "Memoir", href: "/books/memoir" },
       { label: "Legacy Book", href: "/books/legacy-book" },
       { label: "Faith-Based Book", href: "/books/faith-based-book" },
+    ],
+  },
+  {
+    heading: "Others",
+    headingHref: "/books/other",
+    items: [
       { label: "Children's Book", href: "/books/childrens-book" },
       { label: "Novel", href: "/books/novel" },
     ],

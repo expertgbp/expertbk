@@ -1,7 +1,7 @@
 ---
 title: "How Does a Retired Executive Write and Publish a Book (Without Racing a Clock That Isn't Real)?"
 professionLabel: "Retired Executive"
-category: "law-service"
+category: "leadership-and-career"
 personas: ["P3", "P1"]
 order: 16
 answerBlock: >-

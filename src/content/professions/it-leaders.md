@@ -1,7 +1,7 @@
 ---
 title: "How Does an IT Leader Write and Publish a Book (Without Falling Behind on the Roadmap)?"
 professionLabel: "IT Leader"
-category: "business-tech"
+category: "leadership-and-career"
 personas: ["P1"]
 order: 9
 answerBlock: >-

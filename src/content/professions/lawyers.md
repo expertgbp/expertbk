@@ -1,7 +1,7 @@
 ---
 title: "How Does a Lawyer Write and Publish a Book (Without Risking a Bar Complaint)?"
 professionLabel: "Lawyer"
-category: "law-service"
+category: "service-providers"
 personas: ["P1"]
 order: 13
 answerBlock: >-

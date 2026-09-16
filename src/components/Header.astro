@@ -19,7 +19,11 @@ import { primaryNav } from "../data/nav";
                 <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl p-5 flex gap-8">
                   {"groups" in item && item.groups.map((group) => (
                     <div class="min-w-[10rem]">
-                      <p class="eyebrow mb-2">{group.heading}</p>
+                      {group.headingHref ? (
+                        <a href={group.headingHref} class="eyebrow mb-2 block hover:text-gold-500">{group.heading}</a>
+                      ) : (
+                        <p class="eyebrow mb-2">{group.heading}</p>
+                      )}
                       <ul class="space-y-1.5">
                         {group.items.map((link) => (
                           <li><a href={link.href} class="hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
@@ -71,7 +75,11 @@ import { primaryNav } from "../data/nav";
               <div class="pl-3 pt-2 space-y-3">
                 {"groups" in item && item.groups.map((group) => (
                   <div>
-                    <p class="eyebrow mb-1">{group.heading}</p>
+                    {group.headingHref ? (
+                      <a href={group.headingHref} class="eyebrow mb-1 block hover:text-gold-300">{group.heading}</a>
+                    ) : (
+                      <p class="eyebrow mb-1">{group.heading}</p>
+                    )}
                     <ul class="space-y-1">
                       {group.items.map((link) => (<li><a href={link.href} class="text-sm opacity-90 inline-block py-1.5">{link.label}</a></li>))}
                     </ul>

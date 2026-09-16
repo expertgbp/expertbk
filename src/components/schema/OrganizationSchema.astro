@@ -17,7 +17,7 @@ const data = {
   address: {
     "@type": "PostalAddress",
     addressLocality: entity.address.locality,
-    addressRegion: entity.address.region,
+    addressRegion: "TX", // schema.org wants the region code; entity.address.region stays the human-readable "Texas" for visible copy
     addressCountry: entity.address.country,
   },
   ...(sameAs.length ? { sameAs } : {}),

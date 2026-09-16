@@ -10,8 +10,10 @@ paid service engagement.
 
 ## Key pages
 - / : homepage: what Global Book Publishing does, the EPIC Publishing Path, and how to get started
-- /for : profession-specific guidance (doctors, lawyers, CEOs and founders, consultants, coaches, and more)
-- /books : guidance by book type (memoir, business book, leadership book, and more)
+- /for : profession-specific guidance, grouped into five markets: Health, Wealth, Relationships, Leadership
+  & Career, and Service Providers (28 profession pages total)
+- /books : guidance by book type, grouped into three hubs: Brand & Business Books (/books/brand-and-business),
+  Love & Legacy Books (/books/love-and-legacy), and Others (/books/other) (10 book-type pages beneath them)
 - /services : book writing, book publishing, book marketing, and book relaunch (Book Rescue) services
 - /guides : long-form guides organized by where a reader is in their journey (starting, finishing a draft,
   post-manuscript, a book that isn't selling, or choosing which book to write first)
@@ -26,7 +28,7 @@ paid service engagement.
 - Brand name: WriteExpertBook
 - Founded: 2019
 - Founders: Susmita "Sush" Dutta and Ash Goel, USA Today and Wall Street Journal bestselling authors and
-  TEDx speakers (5X jointly; Ash solo is a 9X TEDx speaker)
+  TEDx speakers (5X jointly; Ash is also a 9X TEDx speaker)
 - Authors published: 700+ authors across 21 countries
 - Students taught: 1M+
 - Notable results: sold 1,000+ books for one client in 5 days; took a stalled author from 15 sales in 15
@@ -34,4 +36,4 @@ paid service engagement.
   results for any other author; see /disclaimer)
 - Positioning: Traditional publishing gives you reach but takes your rights. Self-publishing gives you
   rights but no reach. Partnership publishing is the third way.
-- Location: Milton, Ontario, Canada
+- Location: Austin, Texas, USA

@@ -3,15 +3,15 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CardGrid from "../../components/CardGrid.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import { bookTypeGroups } from "../../data/nav";
 
-const all = (await getCollection("books")).sort((a, b) => a.data.order - b.data.order);
-const expertise = all.filter((b) => b.data.category === "expertise");
-const story = all.filter((b) => b.data.category === "story");
+const all = await getCollection("books");
+const byId = new Map(all.map((b) => [b.id, b]));
 ---
 
 <BaseLayout
   title="Which Book Should You Write?"
-  description="Business book, memoir, leadership book, novel: the path differs by book type. Find yours and see how it works."
+  description="Brand and business books, love and legacy books, and everything else: the path differs by book type. Find yours."
 >
   <section class="bg-navy-900 text-offwhite-100">
     <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
@@ -20,23 +20,26 @@ const story = all.filter((b) => b.data.category === "story");
     </div>
   </section>
 
-  {expertise.length > 0 && (
-    <section class="bg-ivory-50 border-t border-navy-100">
+  {bookTypeGroups.map((group, i) => (
+    <section class={i % 2 === 0 ? "bg-ivory-50 border-t border-navy-100" : "bg-navy-100"}>
       <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-        <h2 class="mb-8">Expertise books</h2>
-        <CardGrid items={expertise.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 110) + "…", href: `/books/${b.id}` }))} />
+        <h2 class="mb-8">
+          {group.headingHref ? <a href={group.headingHref} class="hover:text-gold-500">{group.heading}</a> : group.heading}
+        </h2>
+        <CardGrid
+          items={group.items.map((link) => {
+            const id = link.href.replace("/books/", "");
+            const entry = byId.get(id);
+            return {
+              title: link.label,
+              description: entry ? entry.data.answerBlock.slice(0, 110) + "…" : undefined,
+              href: link.href,
+            };
+          })}
+        />
       </div>
     </section>
-  )}
-
-  {story.length > 0 && (
-    <section class="bg-navy-100">
-      <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-        <h2 class="mb-8">Story books</h2>
-        <CardGrid items={story.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 110) + "…", href: `/books/${b.id}` }))} />
-      </div>
-    </section>
-  )}
+  ))}
 
   <FinalDoorCTA
     heading="Not sure which book is yours?"

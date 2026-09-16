@@ -20,11 +20,13 @@ royalties, rights, and reach.
 rights. Self-publishing gives you rights but no reach. Partnership
 publishing is the third way.
 
+**Location:** Austin, Texas.
+
 ## Canonical proof bank (use exactly; never invent past this)
 
 - 700+ authors across 21 countries
 - Founders are USA Today and Wall Street Journal bestselling authors
-- 5X TEDx speakers jointly; Ash solo is a 9X TEDx speaker
+- 5X TEDx speakers jointly; Ash is also a 9X TEDx speaker
 - 1M+ students taught
 - Sold 1,000+ books for one client in 5 days
 - Took a stalled author from 15 sales in 15 months to international
