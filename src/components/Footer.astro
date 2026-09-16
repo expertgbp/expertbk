@@ -32,24 +32,45 @@ import { entity } from "../data/entity";
     <div>
       <p class="eyebrow mb-3">For Experts</p>
       {professionGroups.map((group) => (
-        <div class="mb-4 last:mb-0">
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-offwhite-100/45">{group.heading}</p>
-          <ul class="space-y-1">
-            {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-          </ul>
-        </div>
+        <details class="footer-group">
+          <summary class="footer-group-summary">
+            {group.heading}
+            <svg width="10" height="10" viewBox="0 0 10 10" class="footer-group-chevron" aria-hidden="true">
+              <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" />
+            </svg>
+          </summary>
+          <div class="footer-group-panel">
+            <div class="footer-group-panel-inner">
+              <ul class="space-y-1 pb-3">
+                {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+              </ul>
+            </div>
+          </div>
+        </details>
       ))}
     </div>
 
     <div>
       <p class="eyebrow mb-3">Your Book</p>
       {bookTypeGroups.map((group) => (
-        <div class="mb-4 last:mb-0">
-          <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-offwhite-100/45">{group.heading}</p>
-          <ul class="space-y-1">
-            {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-          </ul>
-        </div>
+        <details class="footer-group">
+          <summary class="footer-group-summary">
+            {group.heading}
+            <svg width="10" height="10" viewBox="0 0 10 10" class="footer-group-chevron" aria-hidden="true">
+              <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" />
+            </svg>
+          </summary>
+          <div class="footer-group-panel">
+            <div class="footer-group-panel-inner">
+              <ul class="space-y-1 pb-3">
+                {group.headingHref && (
+                  <li><a href={group.headingHref} class="footer-link font-semibold text-gold-300">See all {group.heading} &rarr;</a></li>
+                )}
+                {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+              </ul>
+            </div>
+          </div>
+        </details>
       ))}
     </div>
 
@@ -107,6 +128,71 @@ import { entity } from "../data/entity";
       opacity: 1;
       text-decoration: underline;
       text-underline-offset: 2px;
+    }
+  }
+
+  /*
+    Footer market/hub groups as accordions instead of five (or three)
+    permanently-open lists: the "For Experts" column alone went from ~16
+    always-visible links to 28 once the market regroup shipped, which read
+    as a wall of text. Collapsed by default; every link still lives in the
+    DOM (just visually hidden), so nothing is lost for crawlers or AI
+    parsers, only for a first-glance human scan. Same disclosure pattern
+    already used by the mobile nav and FAQAccordion, so this isn't a new
+    interaction for the site to teach.
+  */
+  .footer-group {
+    border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+  }
+  .footer-group:first-of-type {
+    border-top: 1px solid rgba(245, 241, 232, 0.08);
+  }
+  .footer-group-summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-block: 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-offwhite-100);
+    opacity: 0.85;
+  }
+  .footer-group-summary::-webkit-details-marker {
+    display: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .footer-group-summary:hover {
+      opacity: 1;
+      color: var(--color-gold-300);
+    }
+  }
+  .footer-group-chevron {
+    flex-shrink: 0;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  details[open] > .footer-group-summary .footer-group-chevron {
+    transform: rotate(-180deg);
+  }
+  .footer-group-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-base) var(--ease-out);
+  }
+  details[open] > .footer-group-panel {
+    grid-template-rows: 1fr;
+  }
+  .footer-group-panel-inner {
+    overflow: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-group-panel,
+    .footer-group-chevron {
+      transition: none;
     }
   }
 </style>
