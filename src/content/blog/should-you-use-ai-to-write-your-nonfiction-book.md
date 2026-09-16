@@ -1,6 +1,8 @@
 ---
 title: "Should You Use AI to Write Your Nonfiction Book in 2026?"
 description: "What the 2026 publishing data actually shows about AI-drafted books, and where AI genuinely helps versus where it quietly costs you the book's real value."
+heroImage: "/images/blog/should-you-use-ai-to-write-your-nonfiction-book.webp"
+heroImageAlt: "Illustration of a human hand and a circuit pattern both reaching toward an open book"
 cluster: "AI & Ghostwriting"
 pillar: "finish-your-book"
 author: "Susmita Dutta"
@@ -34,6 +36,11 @@ Short answer: use it for research and organization, not for writing the book its
 For a while, "just have AI write it" sounded like a shortcut worth trying. It wasn't. We've watched the same course correction play out across the authors we work with in 2026: AI stays useful for ancillary tasks like early research and outlining, while a human keeps control of the story, the structure, and the voice. Books drafted mostly by AI tend to underperform on the measures that actually matter: reviews, retention, and whether anyone remembers a single specific detail from them.
 
 That last part is the real tell. A prompt can produce competent sentences. It can't produce "the 76-year-old nurse who still remembers the exact shift everything changed." That kind of detail is what makes a reader keep going, and it only exists in your head.
+
+<figure>
+  <img src="/images/blog/inline/ai.jpg" alt="A close-up of a hand typing on a laptop keyboard" loading="lazy" />
+  <figcaption>Photo by Breakingpic via <a href="https://www.pexels.com/photo/2980/">Pexels</a></figcaption>
+</figure>
 
 ## Where AI genuinely helps
 

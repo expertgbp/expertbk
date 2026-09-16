@@ -134,6 +134,12 @@ const blog = defineCollection({
     author: z.enum(["Ash Goel", "Susmita Dutta"]),
     publishDate: z.date(),
     updatedDate: z.date().optional(),
+    // Path under public/, e.g. "/images/blog/<slug>.webp". On-brand navy/
+    // gold editorial illustration (recraft), not stock photography, per
+    // BRAND.md's visual language rules. Optional so a post without one yet
+    // degrades gracefully (no hero image block rendered) instead of failing.
+    heroImage: z.string().optional(),
+    heroImageAlt: z.string().optional(),
     faqs: z.array(faqItem).min(2).max(3),
     ctaVariant: ctaBand,
   }),

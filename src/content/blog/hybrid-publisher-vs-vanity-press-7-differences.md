@@ -1,6 +1,8 @@
 ---
 title: "Hybrid Publisher vs. Vanity Press: 7 Differences That Protect You"
 description: "Seven concrete differences between a real hybrid (partnership) publisher and a vanity press, so you know exactly what to check before you sign."
+heroImage: "/images/blog/hybrid-publisher-vs-vanity-press-7-differences.webp"
+heroImageAlt: "Illustration of two diverging golden paths converging into one through an open door"
 cluster: "Comparison"
 pillar: "where-to-start"
 author: "Susmita Dutta"
@@ -34,6 +36,11 @@ A vanity press takes your money and prints whatever you send, with no editing, n
 A vanity press typically runs a light proofread, if that, and sends the file to print. A real partnership publisher runs structural and line edits, because a manuscript that hasn't been shaped by someone other than its author rarely reads the way its author thinks it does.
 
 Ask to see a sample edit before you commit. If the answer is vague, that's the answer.
+
+<figure>
+  <img src="/images/blog/inline/vanity.jpg" alt="A person reviewing and signing a printed contract" loading="lazy" />
+  <figcaption>Photo by Kindel Media via <a href="https://www.pexels.com/photo/7054510/">Pexels</a></figcaption>
+</figure>
 
 ## Do you keep your rights and royalties?
 

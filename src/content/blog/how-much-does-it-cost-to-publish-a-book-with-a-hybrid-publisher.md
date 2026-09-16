@@ -1,6 +1,8 @@
 ---
 title: "How Much Does It Cost to Publish a Book With a Hybrid Publisher?"
 description: "The honest range for hybrid (partnership) publishing, what drives the price, and why a book done wrong costs the same money twice."
+heroImage: "/images/blog/how-much-does-it-cost-to-publish-a-book-with-a-hybrid-publisher.webp"
+heroImageAlt: "Illustration of a golden ledger and stacked coins inside a glowing open doorway"
 cluster: "Cost"
 pillar: "where-to-start"
 author: "Ash Goel"
@@ -34,6 +36,11 @@ Partnership (hybrid) publishing costs more than a do-it-yourself upload to Amazo
 A real partnership publisher itemizes what you're buying, the same way a contractor itemizes a renovation. That usually breaks into a handful of real, separately priced pieces: positioning and structure work before a word is drafted, manuscript development or full ghostwriting if you want it, multiple editing passes, cover and interior design, ISBN and distribution setup, and a launch campaign.
 
 Vagueness is where trust goes to die for this audience, and for good reason. If a company can't tell you what you're paying for, ask why. A [NEEDS CONFIRMATION: published price tiers] breakdown belongs on the pricing page, in writing, before you ever get on a call.
+
+<figure>
+  <img src="/images/blog/inline/cost.jpg" alt="A budget calculator and financial documents laid out on a desk" loading="lazy" />
+  <figcaption>Photo by Kaboompics.com via <a href="https://www.pexels.com/photo/5900228/">Pexels</a></figcaption>
+</figure>
 
 ## Why does self-publishing look cheaper?
 

@@ -1,6 +1,8 @@
 ---
 title: "I Finished My Manuscript. Now What? The 9 Steps Between Draft and Launch"
 description: "The nine steps between a finished manuscript and a real launch: editing, design, distribution, and the marketing most authors skip."
+heroImage: "/images/blog/i-finished-my-manuscript-now-what.webp"
+heroImageAlt: "Illustration of a golden rocket trajectory ascending through an open doorway"
 cluster: "Launch"
 pillar: "manuscript-ready-now-what"
 author: "Susmita Dutta"
@@ -30,6 +32,11 @@ A finished manuscript is closer to the halfway point than the finish line, and t
 ## Step 1: Developmental editing
 
 Before anything else, a developmental editor reads for structure: does the argument hold together, does the story arc land, is anything missing that the reader needs. This is the step most first-time authors underestimate, because the manuscript already feels finished to the person who wrote it.
+
+<figure>
+  <img src="/images/blog/inline/manuscript-now-what.jpg" alt="A manuscript page marked up with editing notes in red pen" loading="lazy" />
+  <figcaption>Photo by Ron Lach via <a href="https://www.pexels.com/photo/7969734/">Pexels</a></figcaption>
+</figure>
 
 ## Step 2: Line and copy editing
 

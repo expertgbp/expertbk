@@ -7,8 +7,9 @@ interface Props {
   authorName: "Ash Goel" | "Susmita Dutta";
   datePublished: Date;
   dateModified?: Date;
+  image?: string;
 }
-const { headline, description, authorName, datePublished, dateModified } = Astro.props;
+const { headline, description, authorName, datePublished, dateModified, image } = Astro.props;
 
 const data = {
   "@context": "https://schema.org",
@@ -17,6 +18,7 @@ const data = {
   description,
   datePublished: datePublished.toISOString(),
   dateModified: (dateModified ?? datePublished).toISOString(),
+  ...(image ? { image: new URL(image, Astro.site).toString() } : {}),
   author: {
     "@type": "Person",
     name: authorName,

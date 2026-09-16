@@ -1,6 +1,8 @@
 ---
 title: "How to Write a Book as a Doctor Without Quitting Medicine"
 description: "How practicing physicians write and publish a book around rounds, charts, and clinic hours, without taking a leave of absence."
+heroImage: "/images/blog/how-to-write-a-book-as-a-doctor-without-quitting-medicine.webp"
+heroImageAlt: "Illustration of a golden stethoscope merging into an open book shape"
 cluster: "Doctors"
 pillar: "finish-your-book"
 profession: "doctors"
@@ -34,6 +36,11 @@ A practicing physician can go from idea to published book in 6 to 12 months with
 Not from a sabbatical, and not from your weekends either, if the process is built correctly. Structured extraction means short, scheduled sessions where you talk through what you already know, the same way you'd walk a resident through a case. Someone else turns that into a manuscript. You're not staring at a blank page at 11 p.m. after a full day of patients.
 
 One nurse of 53 years came to us with 25 years of knowledge and no idea how to start. The structure was the cure, not more free time.
+
+<figure>
+  <img src="/images/blog/inline/doctor.jpg" alt="A physician writing notes in a clinic setting" loading="lazy" />
+  <figcaption>Photo by cottonbro studio via <a href="https://www.pexels.com/photo/7579827/">Pexels</a></figcaption>
+</figure>
 
 ## What happens to patient stories and privacy?
 

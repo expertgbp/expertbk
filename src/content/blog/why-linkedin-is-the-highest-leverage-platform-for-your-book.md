@@ -1,6 +1,8 @@
 ---
 title: "Why LinkedIn Is the Highest-Leverage Platform for Your Nonfiction Book"
 description: "The 2026 engagement data on why LinkedIn, not Instagram or TikTok, is where a book actually turns into speaking invitations and client conversations."
+heroImage: "/images/blog/why-linkedin-is-the-highest-leverage-platform-for-your-book.webp"
+heroImageAlt: "Illustration of a golden network of connected nodes converging into an open book"
 cluster: "Authority"
 pillar: "where-to-start"
 author: "Susmita Dutta"
@@ -32,6 +34,29 @@ If your book is meant to open doors, not just sell copies, where you talk about 
 ## The numbers behind the platform choice
 
 Thought leadership content on LinkedIn earns a [1.7x higher click-through rate and 1.6x higher engagement rate](https://www.leaders.social/linkedin-basics-training/linkedin-thought-leadership-content-building-authority-in-2026) than the average post on the platform. That's not a small edge. It means the exact kind of content a nonfiction book is built from, a real position, a real reframe, a real case, performs better on LinkedIn than almost anything else you could post there.
+
+<div class="chart-block">
+
+<svg viewBox="0 0 520 170" role="img" aria-label="Chart: thought leadership content on LinkedIn earns 1.7 times the click-through rate and 1.6 times the engagement rate of the average post.">
+  <title>Thought-leadership performance vs. the average LinkedIn post</title>
+  <line x1="140" y1="15" x2="140" y2="150" stroke="#5A6B7E" stroke-width="1" stroke-dasharray="3 3" />
+  <text x="70" y="10" font-size="10" fill="#5A6B7E" text-anchor="middle">avg. post = 1x</text>
+  <text x="0" y="45" font-size="13" fill="#12212F">Click-through rate</text>
+  <rect x="140" y="30" width="289" height="26" rx="4" fill="#FFD98A" />
+  <text x="440" y="48" font-size="13" font-weight="700" fill="#12212F">1.7x</text>
+  <text x="0" y="105" font-size="13" fill="#12212F">Engagement rate</text>
+  <rect x="140" y="90" width="272" height="26" rx="4" fill="#E6B85C" />
+  <text x="423" y="108" font-size="13" font-weight="700" fill="#12212F">1.6x</text>
+</svg>
+
+<p class="chart-source">Source: <a href="https://www.leaders.social/linkedin-basics-training/linkedin-thought-leadership-content-building-authority-in-2026">leaders.social, LinkedIn thought-leadership content performance, 2026</a>.</p>
+
+</div>
+
+<figure>
+  <img src="/images/blog/inline/linkedin.jpg" alt="A professional working on a laptop in an office setting" loading="lazy" />
+  <figcaption>Photo by Felicity Tai via <a href="https://www.pexels.com/photo/7964503/">Pexels</a></figcaption>
+</figure>
 
 ## Why this matters more, not less, with AI everywhere
 

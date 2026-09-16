@@ -1,6 +1,8 @@
 ---
 title: "The New Book Launch Playbook: Niche Podcasts Over Big Media"
 description: "Why hyper-targeted podcasts and trade newsletters are outperforming mainstream press for nonfiction book launches in 2026, and what that means for your launch plan."
+heroImage: "/images/blog/niche-podcasts-are-beating-big-media-for-book-launches.webp"
+heroImageAlt: "Illustration of golden soundwave lines radiating from an open doorway"
 cluster: "Launch"
 pillar: "manuscript-ready-now-what"
 author: "Ash Goel"
@@ -31,6 +33,11 @@ The old launch plan was built around one goal: get mentioned somewhere big. That
 ## What the trend actually says
 
 Book publicity coverage in 2026 keeps pointing to the same shift: hyper-targeted podcasts, niche trade publications, and vertical newsletters have become some of the most valuable placements for nonfiction authors, especially in [business](/books/business-book), leadership, health, and workplace topics. The term some outlets are using is "Micro-Authority Media," and it's still growing.
+
+<figure>
+  <img src="/images/blog/inline/podcasts.jpg" alt="A podcast microphone on a stand in a recording studio" loading="lazy" />
+  <figcaption>Photo by Nishant Ghosh via <a href="https://www.pexels.com/photo/7301210/">Pexels</a></figcaption>
+</figure>
 
 ## Why a smaller, exact audience beats a bigger, general one
 

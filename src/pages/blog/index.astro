@@ -33,16 +33,28 @@ const clusters = [...new Set(posts.map((p) => p.data.cluster))];
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {posts.map((post) => (
-          <a href={`/blog/${post.id}`} class="card p-5 flex flex-col gap-2" id={post.data.cluster.toLowerCase().replace(/\s+/g, "-")}>
-            <span class="eyebrow">{post.data.cluster}</span>
-            <span class="font-serif font-semibold text-lg text-navy-900">{post.data.title}</span>
-            <p class="text-sm text-slate-500">{post.data.description}</p>
-            <span class="mt-auto inline-flex items-center gap-2 text-xs text-slate-500">
-              <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-navy-900 font-serif text-[0.6rem] font-bold text-gold-300" aria-hidden="true">
-                {post.data.author.split(" ").map((w) => w[0]).join("")}
+          <a href={`/blog/${post.id}`} class="card overflow-hidden flex flex-col" id={post.data.cluster.toLowerCase().replace(/\s+/g, "-")}>
+            {post.data.heroImage && (
+              <img
+                src={post.data.heroImage}
+                alt=""
+                width="1820"
+                height="1024"
+                loading="lazy"
+                class="aspect-[16/9] w-full object-cover bg-navy-900"
+              />
+            )}
+            <div class="p-5 flex flex-col gap-2">
+              <span class="eyebrow">{post.data.cluster}</span>
+              <span class="font-serif font-semibold text-lg text-navy-900">{post.data.title}</span>
+              <p class="text-sm text-slate-500">{post.data.description}</p>
+              <span class="mt-auto inline-flex items-center gap-2 text-xs text-slate-500">
+                <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-navy-900 font-serif text-[0.6rem] font-bold text-gold-300" aria-hidden="true">
+                  {post.data.author.split(" ").map((w) => w[0]).join("")}
+                </span>
+                {post.data.author} &middot; {post.data.publishDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}
               </span>
-              {post.data.author} &middot; {post.data.publishDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}
-            </span>
+            </div>
           </a>
         ))}
       </div>

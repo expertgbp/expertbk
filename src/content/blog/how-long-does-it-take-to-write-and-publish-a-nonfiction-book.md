@@ -1,6 +1,8 @@
 ---
 title: "How Long Does It Take to Write and Publish a Nonfiction Book?"
 description: "The real timeline for a nonfiction book, stage by stage, and what actually slows most professionals down along the way."
+heroImage: "/images/blog/how-long-does-it-take-to-write-and-publish-a-nonfiction-book.webp"
+heroImageAlt: "Illustration of a golden hourglass inside a glowing open doorway against a navy background"
 cluster: "Timeline"
 pillar: "where-to-start"
 author: "Ash Goel"
@@ -30,6 +32,11 @@ Most professionals move from idea to published nonfiction book in 6 to 12 months
 ## What actually happens in month one?
 
 Positioning, not writing. The first stage decides the one reader, the one promise, and the shelf this book competes on. Skipping this feels like progress, because pages get written, but it's the single biggest reason authors end up rewriting chapter three for months. Get this right first and the rest of the timeline shortens.
+
+<figure>
+  <img src="/images/blog/inline/timeline.jpg" alt="A writer typing at a desk while working through a manuscript" loading="lazy" />
+  <figcaption>Photo by Ron Lach via <a href="https://www.pexels.com/photo/8036328/">Pexels</a></figcaption>
+</figure>
 
 ## How long does the actual manuscript take?
 

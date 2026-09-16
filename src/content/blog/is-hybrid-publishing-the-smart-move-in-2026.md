@@ -1,6 +1,8 @@
 ---
 title: "Is Hybrid Publishing Actually the Smart Move in 2026?"
 description: "Traditional, self-publishing, or hybrid: what the 2026 publishing data actually shows about why more professionals are choosing the middle path."
+heroImage: "/images/blog/is-hybrid-publishing-the-smart-move-in-2026.webp"
+heroImageAlt: "Illustration of an upward trending line chart inside a glowing open doorway"
 cluster: "Trends"
 pillar: "where-to-start"
 author: "Ash Goel"
@@ -35,9 +37,31 @@ It's not a rebrand. The pattern shows up across 2026 publishing trend coverage: 
 
 The reasons authors give for the switch are consistent: faster timelines than traditional deals, higher royalties, and keeping ownership of their own rights.
 
+<figure>
+  <img src="/images/blog/inline/trends.jpg" alt="Books arranged on a library shelf" loading="lazy" />
+  <figcaption>Photo by Josh Sorenson via <a href="https://www.pexels.com/photo/990432/">Pexels</a></figcaption>
+</figure>
+
 ## Why speed matters more than people expect
 
 A traditional deal can take 12 to 24 months before you even get an answer, and that's before the book is written. Most hybrid paths, including ours, run 6 to 12 months from a decided position to a published book. For a [consultant](/for/consultants) or executive using the book to open doors now, not in two years, that gap is the whole decision.
+
+<div class="chart-block">
+
+<svg viewBox="0 0 520 150" role="img" aria-label="Chart: time to a published book. Traditional publishing takes 12 to 24 months. Hybrid publishing takes 6 to 12 months.">
+  <title>Time to a published book: traditional vs. hybrid</title>
+  <line x1="140" y1="15" x2="140" y2="130" stroke="#5A6B7E" stroke-width="1" />
+  <text x="0" y="45" font-size="13" fill="#12212F">Traditional publishing</text>
+  <rect x="140" y="30" width="340" height="26" rx="4" fill="#5A6B7E" opacity="0.55" />
+  <text x="360" y="48" font-size="13" font-weight="700" fill="#FBF7EF">12&ndash;24 months</text>
+  <text x="0" y="105" font-size="13" fill="#12212F">Hybrid publishing</text>
+  <rect x="140" y="90" width="170" height="26" rx="4" fill="#E6B85C" />
+  <text x="155" y="108" font-size="13" font-weight="700" fill="#081F33">6&ndash;12 months</text>
+</svg>
+
+<p class="chart-source">Timeline ranges as described in this article; not a guarantee for any individual author.</p>
+
+</div>
 
 ## The line that still matters: who owns what
 
