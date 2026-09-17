@@ -71,11 +71,21 @@
     color: var(--color-ink-900);
     background-color: var(--color-ivory-50);
     scroll-behavior: smooth;
+    /* Safety net: the page itself should never scroll sideways. Without
+       this, one runaway element (a max-content dropdown, an absolutely
+       positioned decorative shape, a wide table) silently widens the
+       whole document and adds a horizontal scrollbar with blank space
+       past the real content — which is exactly what happened with the
+       header's mega-menu dropdown before it had flex-wrap. This doesn't
+       hide a genuine layout bug; it just stops that class of bug from
+       ever becoming a page-wide scrollbar again. */
+    overflow-x: hidden;
   }
 
   body {
     font-size: 1.125rem;
     line-height: 1.7;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4 {
