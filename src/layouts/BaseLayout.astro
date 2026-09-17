@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import AnnouncementBar from "../components/AnnouncementBar.astro";
 import OrganizationSchema from "../components/schema/OrganizationSchema.astro";
+import WebSiteSchema from "../components/schema/WebSiteSchema.astro";
 import { entity } from "../data/entity";
 
 interface Props {
@@ -12,10 +13,33 @@ interface Props {
   /** The direct answer, compressed to ~150 chars. */
   description: string;
   noindex?: boolean;
+  /** Path under public/ (e.g. a post's own heroImage) or an absolute URL.
+   * Falls back to the site's default branded OG card. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  /** "article" for blog posts; every other page stays "website" (the
+   * correct og:type default — see ogp.me). */
+  ogType?: "website" | "article";
+  /** Only meaningful when ogType is "article". */
+  publishDate?: Date;
+  updatedDate?: Date;
+  /** Author full name, for article: meta tags (og:type "article" only). */
+  authorName?: string;
 }
-const { title, description, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  ogImage,
+  ogImageAlt,
+  ogType = "website",
+  publishDate,
+  updatedDate,
+  authorName,
+} = Astro.props;
 const fullTitle = `${title} | ${entity.brandName}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site).toString();
 ---
 
 <!doctype html>
@@ -30,13 +54,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     {noindex && <meta name="robots" content="noindex,nofollow" />}
 
     <!-- Open Graph / social -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={entity.brandName} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt ?? `${entity.brandName}: ${title}`} />
+    <meta property="og:locale" content="en_US" />
+    {ogType === "article" && publishDate && (
+      <meta property="article:published_time" content={publishDate.toISOString()} />
+    )}
+    {ogType === "article" && updatedDate && (
+      <meta property="article:modified_time" content={updatedDate.toISOString()} />
+    )}
+    {ogType === "article" && authorName && <meta property="article:author" content={authorName} />}
+
+    <!-- Twitter/X card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt ?? `${entity.brandName}: ${title}`} />
 
     <OrganizationSchema />
+    <WebSiteSchema />
     <slot name="head" />
   </head>
   <body class="bg-ivory-50 text-ink-900 min-h-screen flex flex-col">

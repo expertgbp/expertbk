@@ -7,6 +7,7 @@ import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import ArticleSchema from "../components/schema/ArticleSchema.astro";
 import PersonSchema from "../components/schema/PersonSchema.astro";
+import SpeakableSchema from "../components/schema/SpeakableSchema.astro";
 
 interface Props {
   entry: CollectionEntry<"blog">;
@@ -18,11 +19,21 @@ const { Content } = await render(entry);
 const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
 ---
 
-<BaseLayout title={post.title} description={post.description.slice(0, 150)}>
+<BaseLayout
+  title={post.title}
+  description={post.description.slice(0, 150)}
+  ogImage={post.heroImage}
+  ogImageAlt={post.heroImageAlt}
+  ogType="article"
+  publishDate={post.publishDate}
+  updatedDate={post.updatedDate}
+  authorName={post.author}
+>
   <Fragment slot="head">
     <BreadcrumbSchema items={[{ name: "Blog", path: "/blog" }, { name: post.title, path: Astro.url.pathname }]} />
     <ArticleSchema headline={post.title} description={post.description} authorName={post.author} datePublished={post.publishDate} dateModified={post.updatedDate} image={post.heroImage} />
     <PersonSchema name={post.author} />
+    <SpeakableSchema name={post.title} selectors={["article.prose > p:first-of-type"]} />
   </Fragment>
 
   <section class="bg-navy-900 text-offwhite-100">

@@ -3,8 +3,6 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import sitemap from '@astrojs/sitemap';
-
 // https://astro.build/config
 export default defineConfig({
   // TODO [NEEDS CONFIRMATION]: confirm final production domain before launch.
@@ -13,5 +11,8 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [sitemap()]
+  // No @astrojs/sitemap integration: it only produces one flat, unprioritized
+  // sitemap. src/pages/sitemap-*.xml.ts build a categorized, prioritized set
+  // instead (see those files for the per-content-type breakdown).
+  integrations: []
 });

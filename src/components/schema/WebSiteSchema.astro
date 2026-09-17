@@ -1,0 +1,20 @@
+---
+import { entity } from "../../data/entity";
+
+/**
+ * WebSite JSON-LD, emitted once per page. Deliberately has no
+ * `potentialAction`/SearchAction: this site has no working search endpoint,
+ * and a SearchAction pointing nowhere real would be an invented feature
+ * (and invalid structured data Google would flag). Add one only if a real
+ * on-site search ships.
+ */
+const data = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: entity.brandName,
+  alternateName: entity.legalName,
+  url: Astro.site?.toString(),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

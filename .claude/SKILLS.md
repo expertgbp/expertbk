@@ -23,8 +23,16 @@ the project's explicit declaration, not a separate install.
   pull (`src/scripts/hero-particles.ts`, `src/scripts/cta-motion.ts`).
 
 
-- **SEO:** `claude-seo` skill set — for deeper technical SEO work beyond the
-  JSON-LD schema, `llms.txt`, and sitemap already built into this site.
+- **SEO:** `claude-seo` skill set. A full SEO/AEO/GEO pass now covers: unique
+  titles/descriptions and canonical URLs on all 88 pages (verified, zero
+  duplicates), Open Graph + Twitter Card meta with a real og:image on every
+  page (branded default, or each blog post's own hero illustration),
+  `WebSite` + per-page `Speakable` schema (AEO), a categorized + prioritized
+  sitemap set (`sitemap-{pages,professions,books,services,guides,blog}.xml`,
+  see `src/pages/sitemap-*.xml.ts` and `src/utils/sitemap.ts`) replacing the
+  old flat `@astrojs/sitemap` output, and `robots.txt` explicitly allowing
+  the major AI/answer-engine crawlers (GPTBot, ClaudeBot, PerplexityBot,
+  Google-Extended, etc.) alongside `/llms.txt`.
 - **Blog:** `claude-blog` skill set — for scaling past the first 6 articles
   already written (see `src/content/blog/`).
 - **Site-build process:** `build-website-from-brief` — the process this

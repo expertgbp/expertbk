@@ -1,0 +1,28 @@
+---
+/**
+ * WebPage + SpeakableSpecification JSON-LD: tells AI assistants and voice
+ * answers (Google Assistant, and increasingly LLM answer engines) exactly
+ * which on-page text is the quotable direct answer, rather than making
+ * them guess by summarizing the whole page. AEO-specific; distinct from
+ * the FAQPage/Article schema already emitted elsewhere on these pages.
+ */
+interface Props {
+  name: string;
+  /** CSS selectors matching the on-page direct-answer text. */
+  selectors?: string[];
+}
+const { name, selectors = [".direct-answer"] } = Astro.props;
+
+const data = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name,
+  url: Astro.url.toString(),
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: selectors,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

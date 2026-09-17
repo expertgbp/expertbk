@@ -10,6 +10,7 @@ import LeadMagnetForm from "../components/LeadMagnetForm.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
+import SpeakableSchema from "../components/schema/SpeakableSchema.astro";
 
 // 16 cards, ordered Health, then Wealth, then Relationships, per the
 // change-spec's regrouped nav (change-spec round 1, Change 5/B12).
@@ -70,6 +71,10 @@ const faqs = [
   title="How Experts Actually Write and Publish a Book"
   description="We help doctors, lawyers, executives, and consultants write, publish, and launch the book that opens doors. You keep 100% of your rights and royalties."
 >
+  <Fragment slot="head">
+    <SpeakableSchema name="How Experts Actually Write and Publish a Book" />
+  </Fragment>
+
   <!-- Section 1: Hero -->
   <HeroDoor
     eyebrow="FOR PROFESSIONALS WITH A BOOK INSIDE THEM"

@@ -4,6 +4,7 @@ import BaseLayout from "./BaseLayout.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import SpeakableSchema from "../components/schema/SpeakableSchema.astro";
 
 interface Props {
   entry: CollectionEntry<"guides">;
@@ -16,6 +17,7 @@ const { Content } = await render(entry);
 <BaseLayout title={g.title} description={g.description.slice(0, 150)}>
   <Fragment slot="head">
     <BreadcrumbSchema items={[{ name: "Guides", path: "/guides" }, { name: g.title, path: Astro.url.pathname }]} />
+    <SpeakableSchema name={g.title} selectors={["article.prose > p:first-of-type"]} />
   </Fragment>
 
   <section class="bg-navy-900 text-offwhite-100">
