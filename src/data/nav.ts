@@ -116,6 +116,8 @@ export const bookTypeGroups: NavGroup[] = [
   },
 ];
 
+// Full list — used by the header's "Services" dropdown. The footer uses the
+// shortlist below (just the four "doors" featured on the homepage itself).
 export const serviceLinks: NavLink[] = [
   { label: "Book Writing", href: "/services/book-writing" },
   { label: "Book Publishing", href: "/services/book-publishing" },
@@ -125,6 +127,12 @@ export const serviceLinks: NavLink[] = [
   { label: "Audiobook", href: "/services/audiobook" },
 ];
 
+export const footerServiceLinks: NavLink[] = serviceLinks.filter(
+  (l) => !["Author Brand & Speaking", "Audiobook"].includes(l.label)
+);
+
+// Full list — used by the header's "Resources" dropdown, which has room for
+// all of it. The footer has much less room, so it uses the shortlist below.
 export const resourceLinks: NavLink[] = [
   { label: "Blog", href: "/blog" },
   { label: "Guides", href: "/guides" },
@@ -137,12 +145,23 @@ export const resourceLinks: NavLink[] = [
   { label: "Newsletter", href: "/newsletter" },
 ];
 
+// Footer-only shortlist: Partnership vs. Traditional Publishing, Hybrid
+// Publisher vs. Vanity Press, FAQ, and Newsletter are dropped here to keep
+// this column from running to 15 links. Those pages stay live and linked
+// elsewhere (header Resources dropdown, sitemap, inline content) — this
+// list just isn't their only path.
+export const footerResourceLinks: NavLink[] = resourceLinks.filter(
+  (l) => !["Partnership vs. Traditional Publishing", "Hybrid Publisher vs. Vanity Press", "FAQ", "Newsletter"].includes(l.label)
+);
+
 export const companyLinks: NavLink[] = [
   { label: "About", href: "/about" },
   { label: "Trust", href: "/trust" },
   { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
   { label: "Start Here", href: "/start" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Newsletter", href: "/newsletter" },
 ];
 
 export const legalLinks: NavLink[] = [

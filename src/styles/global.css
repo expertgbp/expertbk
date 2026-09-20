@@ -370,7 +370,16 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .a11y-fx :where(*):not(#cookie-consent-bar):not(#cookie-preferences-modal):not(#a11y-toggle-button):not(#a11y-drawer):not(#a11y-reading-guide):not(script):not(style) {
+  /*
+    Applied once to the page-content wrapper (#a11y-filter-scope in
+    BaseLayout.astro), not to every element individually — filter isn't
+    additive/inherited the way color is, so setting the same filter on both
+    an element and its descendant would double-apply it (e.g. invert(1)
+    twice cancels back to normal for that nested region). One application
+    point also means the cookie/accessibility popups, which render as
+    siblings outside this wrapper, are never touched by it.
+  */
+  .a11y-fx #a11y-filter-scope {
     filter: var(--a11y-fx, none);
   }
 }

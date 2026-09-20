@@ -1,10 +1,11 @@
 ---
 /**
- * Sitewide accessibility drawer: a labeled bottom-right pill button opening
- * a right-side slide-in drawer (not a bottom-left icon grid), so every
- * control reads as an explained choice rather than a cryptic glyph — in
- * keeping with this brand's "explain, don't abbreviate" voice. Logic lives
- * in src/scripts/accessibility-widget.ts; this component is markup only.
+ * Sitewide accessibility popover: a labeled bottom-right pill button opening
+ * a compact card anchored just above it (not a bottom-left icon grid, and
+ * not a full-height sidebar), so every control reads as an explained choice
+ * rather than a cryptic glyph — in keeping with this brand's "explain,
+ * don't abbreviate" voice. Logic lives in src/scripts/accessibility-widget.ts;
+ * this component is markup only.
  */
 const toggles = [
   { key: "contrast", label: "Boost contrast", hint: "Increases contrast and color intensity." },
@@ -40,13 +41,13 @@ const toggles = [
   <span id="a11y-count-badge" class="a11y-badge" hidden></span>
 </button>
 
-<div id="a11y-drawer" class="a11y-drawer" role="dialog" aria-label="Accessibility settings" aria-modal="true" hidden>
-  <div class="a11y-drawer-head">
-    <h2 class="font-serif text-lg font-bold on-navy">Accessibility settings</h2>
-    <button type="button" id="a11y-close-button" class="a11y-drawer-close" aria-label="Close accessibility settings">&times;</button>
+<div id="a11y-drawer" class="a11y-popover" role="dialog" aria-label="Accessibility settings" aria-modal="true" hidden>
+  <div class="a11y-popover-head">
+    <h2 class="font-serif text-base font-bold on-navy">Accessibility settings</h2>
+    <button type="button" id="a11y-close-button" class="a11y-popover-close" aria-label="Close accessibility settings">&times;</button>
   </div>
 
-  <div class="a11y-drawer-body">
+  <div class="a11y-popover-body">
     <div class="a11y-font-row">
       <div>
         <p class="font-semibold text-sm">Text size</p>
@@ -86,7 +87,7 @@ const toggles = [
 <style>
   .a11y-pill {
     position: fixed;
-    right: 1.1rem;
+    left: 1.1rem;
     bottom: var(--a11y-lift, 1.1rem);
     z-index: 2147482999;
     display: inline-flex;
@@ -130,38 +131,45 @@ const toggles = [
     font-weight: 700;
   }
 
-  .a11y-drawer {
+  .a11y-popover {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    left: 1.1rem;
+    right: 1.1rem;
+    bottom: calc(var(--a11y-lift, 1.1rem) + 3.6rem);
     z-index: 2147483002;
-    width: min(23rem, 100vw);
+    margin-inline: auto;
+    max-width: 23rem;
+    max-height: min(32rem, calc(100dvh - 6.5rem));
     background-color: var(--color-ivory-50);
-    box-shadow: -20px 0 40px -20px rgba(8, 31, 51, 0.4);
+    border-radius: 18px;
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
-    transform: translateX(0);
-    animation: a11y-drawer-in var(--duration-base) var(--ease-out) both;
+    overflow: hidden;
+    transform-origin: bottom left;
+    animation: a11y-popover-in var(--duration-base) var(--ease-out) both;
   }
-  @keyframes a11y-drawer-in {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+  @keyframes a11y-popover-in {
+    from { opacity: 0; transform: scale(0.96) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .a11y-drawer { animation: none; }
+    .a11y-popover { animation: none; }
+  }
+  @media (min-width: 640px) {
+    .a11y-popover { right: auto; }
   }
 
-  .a11y-drawer-head {
+  .a11y-popover-head {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.25rem 1.25rem;
+    padding: 1.1rem 1.25rem;
     background-color: var(--color-navy-900);
   }
-  .a11y-drawer-close {
+  .a11y-popover-close {
     width: 2rem;
     height: 2rem;
     flex-shrink: 0;
@@ -173,13 +181,13 @@ const toggles = [
     line-height: 1;
   }
   @media (hover: hover) and (pointer: fine) {
-    .a11y-drawer-close:hover { background-color: var(--color-navy-700); color: var(--color-gold-300); }
+    .a11y-popover-close:hover { background-color: var(--color-navy-700); color: var(--color-gold-300); }
   }
 
-  .a11y-drawer-body {
+  .a11y-popover-body {
     flex: 1;
     overflow-y: auto;
-    padding: 1.25rem;
+    padding: 1.1rem 1.25rem;
   }
 
   .a11y-font-row {

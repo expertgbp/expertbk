@@ -86,12 +86,20 @@ const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site)
     <slot name="head" />
   </head>
   <body class="bg-ivory-50 text-ink-900 min-h-screen flex flex-col">
-    <AnnouncementBar />
-    <Header />
-    <main class="flex-1">
-      <slot />
-    </main>
-    <Footer />
+    <!--
+      The accessibility widget's contrast/grayscale/invert filter targets
+      this wrapper specifically (see #a11y-filter-scope in global.css), not
+      the two overlay components below — so turning on "invert colors"
+      never also inverts the controls a visitor needs to turn it back off.
+    -->
+    <div id="a11y-filter-scope" class="min-h-screen flex flex-col flex-1">
+      <AnnouncementBar />
+      <Header />
+      <main class="flex-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
     <CookieConsent />
     <AccessibilityWidget />
     <script>

@@ -42,8 +42,8 @@ const resetButton = document.getElementById("a11y-reset-button");
 const drawer = document.getElementById("a11y-drawer");
 const badge = document.getElementById("a11y-count-badge");
 const fontValue = document.getElementById("a11y-font-value");
+const cookieCard = document.getElementById("cookie-consent-bar");
 const guideEl = document.getElementById("a11y-reading-guide");
-const cookieBar = document.getElementById("cookie-consent-bar");
 
 let state: State = {};
 try {
@@ -163,16 +163,28 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !drawer?.hasAttribute("hidden")) closeDrawer();
 });
 
-// Keep the pill clear of the cookie bar (full-width at the bottom) while it's showing.
+// On narrow viewports the cookie popup goes full-width at the bottom, which
+// would otherwise sit under the accessibility pill (also bottom-anchored) —
+// lift the pill (and its popover, positioned relative to it) clear of it.
 function syncLift() {
-  const visible = cookieBar && !cookieBar.hasAttribute("hidden");
-  const lift = visible ? cookieBar!.getBoundingClientRect().height + 16 : 0;
+  const visible = cookieCard && !cookieCard.hasAttribute("hidden");
+  // offsetHeight/offsetLeft (layout box) rather than getBoundingClientRect
+  // (visual box) — the card's own entrance animation briefly transforms its
+  // rendered bounds, which would otherwise get baked into the lift amount.
+  const overlapsHorizontally = !visible || !toggleButton || cookieCard!.offsetLeft < toggleButton.offsetLeft + toggleButton.offsetWidth;
+  const lift = visible && overlapsHorizontally ? cookieCard!.offsetHeight + 28 : 0;
   html.style.setProperty("--a11y-lift", `${Math.round(lift)}px`);
 }
 syncLift();
 window.addEventListener("resize", syncLift);
-if (cookieBar && "MutationObserver" in window) {
-  new MutationObserver(syncLift).observe(cookieBar, { attributes: true, attributeFilter: ["hidden"] });
+if (cookieCard && "MutationObserver" in window) {
+  new MutationObserver(syncLift).observe(cookieCard, { attributes: true, attributeFilter: ["hidden"] });
+}
+// The MutationObserver above only catches show/hide; a webfont swap or text
+// rewrap can change the card's height afterward without touching that
+// attribute, so also watch its rendered size directly.
+if (cookieCard && "ResizeObserver" in window) {
+  new ResizeObserver(syncLift).observe(cookieCard);
 }
 
 apply();
