@@ -39,7 +39,6 @@ Vagueness is where trust goes to die for this audience, and for good reason. If 
 
 <figure>
   <img src="/images/blog/inline/cost.jpg" alt="A budget calculator and financial documents laid out on a desk" loading="lazy" />
-  <figcaption>Photo by Kaboompics.com via <a href="https://www.pexels.com/photo/5900228/">Pexels</a></figcaption>
 </figure>
 
 ## Why does self-publishing look cheaper?

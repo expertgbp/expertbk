@@ -36,7 +36,6 @@ Book publicity coverage in 2026 keeps pointing to the same shift: hyper-targeted
 
 <figure>
   <img src="/images/blog/inline/podcasts.jpg" alt="A podcast microphone on a stand in a recording studio" loading="lazy" />
-  <figcaption>Photo by Nishant Ghosh via <a href="https://www.pexels.com/photo/7301210/">Pexels</a></figcaption>
 </figure>
 
 ## Why a smaller, exact audience beats a bigger, general one

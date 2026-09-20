@@ -39,7 +39,6 @@ One nurse of 53 years came to us with 25 years of knowledge and no idea how to s
 
 <figure>
   <img src="/images/blog/inline/doctor.jpg" alt="A physician writing notes in a clinic setting" loading="lazy" />
-  <figcaption>Photo by cottonbro studio via <a href="https://www.pexels.com/photo/7579827/">Pexels</a></figcaption>
 </figure>
 
 ## What happens to patient stories and privacy?

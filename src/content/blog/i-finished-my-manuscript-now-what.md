@@ -35,7 +35,6 @@ Before anything else, a developmental editor reads for structure: does the argum
 
 <figure>
   <img src="/images/blog/inline/manuscript-now-what.jpg" alt="A manuscript page marked up with editing notes in red pen" loading="lazy" />
-  <figcaption>Photo by Ron Lach via <a href="https://www.pexels.com/photo/7969734/">Pexels</a></figcaption>
 </figure>
 
 ## Step 2: Line and copy editing

@@ -323,4 +323,54 @@
   .hero-enter {
     animation: hero-enter var(--duration-slow) var(--ease-out) both;
   }
+
+  /*
+    Accessibility widget effect hooks (src/components/AccessibilityWidget.astro
+    + src/scripts/accessibility-widget.ts toggle these on <html>). Kept in the
+    base layer so every page inherits them without each template opting in.
+    The filter rule targets every element except the widget/consent chrome
+    itself, so turning on invert/grayscale doesn't also flip the controls
+    a visitor needs to turn it back off.
+  */
+  .a11y-underline a {
+    text-decoration: underline !important;
+    text-underline-offset: 2px;
+  }
+  .a11y-simple-type h1,
+  .a11y-simple-type h2,
+  .a11y-simple-type h3,
+  .a11y-simple-type h4 {
+    font-family: var(--font-sans) !important;
+  }
+  .a11y-spacing,
+  .a11y-spacing p,
+  .a11y-spacing li {
+    line-height: 2 !important;
+    letter-spacing: 0.03em !important;
+    word-spacing: 0.06em !important;
+  }
+  .a11y-big-cursor,
+  .a11y-big-cursor * {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='15' fill='none' stroke='%23081F33' stroke-width='4'/%3E%3Ccircle cx='20' cy='20' r='15' fill='none' stroke='%23FFD98A' stroke-width='1.5'/%3E%3C/svg%3E")
+      20 20,
+      auto !important;
+  }
+  .a11y-strong-focus :focus-visible {
+    outline: 4px solid var(--color-gold-500) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 6px rgba(255, 217, 138, 0.45) !important;
+  }
+  .a11y-reduce-motion,
+  .a11y-reduce-motion *,
+  .a11y-reduce-motion *::before,
+  .a11y-reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .a11y-fx :where(*):not(#cookie-consent-bar):not(#cookie-preferences-modal):not(#a11y-toggle-button):not(#a11y-drawer):not(#a11y-reading-guide):not(script):not(style) {
+    filter: var(--a11y-fx, none);
+  }
 }

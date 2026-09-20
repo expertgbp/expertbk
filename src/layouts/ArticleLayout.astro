@@ -162,7 +162,9 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     color: var(--color-slate-500);
   }
   /* Inline supporting photos (real, licensed Pexels photography, distinct
-     from the on-brand illustrated hero) and their credit line. */
+     from the on-brand illustrated hero). Pexels' license doesn't require
+     attribution, so these run without a visible credit line; .prose
+     figcaption styling stays in place for any future descriptive caption. */
   .prose :global(figure) {
     margin: 2rem 0;
   }

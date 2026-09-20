@@ -1,0 +1,185 @@
+---
+/**
+ * Sitewide cookie notice: a full-width navy bar (not a floating card) so it
+ * reads as this brand's footer-adjacent chrome rather than a generic
+ * third-party consent widget. Logic lives in src/scripts/cookie-consent.ts;
+ * this component is markup + styling only.
+ */
+---
+
+<div id="cookie-consent-bar" class="cc-bar" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-gold-300/40 to-transparent" aria-hidden="true"></div>
+  <div class="cc-bar-inner">
+    <p class="cc-bar-text">
+      <strong class="on-navy">We use a few cookies.</strong>
+      <span class="opacity-80">
+        Necessary cookies keep this site working. With your OK, we also use cookies to see how the
+        site is used and measure our ads. Read the
+        <a href="/privacy" class="underline decoration-gold-300/60 hover:decoration-gold-300">Privacy Policy</a>.
+      </span>
+    </p>
+    <div class="cc-bar-actions">
+      <button type="button" class="btn-secondary on-navy" data-cc="manage">
+        Manage choices
+      </button>
+      <button type="button" class="btn-secondary on-navy" data-cc="reject">
+        Necessary only
+      </button>
+      <button type="button" class="btn-primary" data-cc="accept">Accept all</button>
+    </div>
+  </div>
+</div>
+
+<div id="cookie-preferences-modal" class="cc-modal" role="dialog" aria-modal="true" aria-labelledby="cc-modal-title" hidden>
+  <div class="cc-modal-card card p-6 sm:p-8">
+    <div class="flex items-start justify-between gap-4 mb-1">
+      <h2 id="cc-modal-title" class="text-xl font-serif font-bold">Cookie preferences</h2>
+      <button type="button" class="cc-close" data-cc="close" aria-label="Close cookie preferences">&times;</button>
+    </div>
+    <p class="text-slate-500 mb-6">Necessary cookies keep the site working and can't be turned off.</p>
+
+    <div class="space-y-4">
+      <div class="cc-row">
+        <div>
+          <p class="font-semibold">Necessary</p>
+          <p class="text-sm text-slate-500">Security, navigation, and remembering this choice.</p>
+        </div>
+        <input type="checkbox" checked disabled aria-label="Necessary cookies (always on)" />
+      </div>
+      <label class="cc-row">
+        <div>
+          <p class="font-semibold">Analytics</p>
+          <p class="text-sm text-slate-500">Anonymous usage stats that help us improve the site.</p>
+        </div>
+        <input type="checkbox" data-cat="analytics" />
+      </label>
+      <label class="cc-row">
+        <div>
+          <p class="font-semibold">Marketing</p>
+          <p class="text-sm text-slate-500">Ad measurement and personalization.</p>
+        </div>
+        <input type="checkbox" data-cat="marketing" />
+      </label>
+    </div>
+
+    <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:justify-end">
+      <button type="button" class="btn-secondary" data-cc="reject">Necessary only</button>
+      <button type="button" class="btn-primary" data-cc="save">Save choices</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cc-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2147483000;
+    background-color: var(--color-navy-900);
+    box-shadow: 0 -12px 30px -14px rgba(8, 31, 51, 0.4);
+    animation: cc-bar-in var(--duration-slow) var(--ease-out) both;
+  }
+  @keyframes cc-bar-in {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cc-bar { animation: none; }
+  }
+
+  .cc-bar-inner {
+    max-width: 88rem;
+    margin-inline: auto;
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+  }
+  .cc-bar-text {
+    flex: 1 1 32rem;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .cc-bar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    flex: 1 1 auto;
+  }
+  .cc-bar-actions .btn-primary,
+  .cc-bar-actions .btn-secondary {
+    padding: 0.65rem 1.1rem;
+    min-height: 40px;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 640px) {
+    .cc-bar-actions { flex-direction: column; }
+    .cc-bar-actions .btn-primary,
+    .cc-bar-actions .btn-secondary { width: 100%; }
+  }
+
+  .cc-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483001;
+    background-color: rgba(8, 31, 51, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .cc-modal-card {
+    width: min(30rem, 100%);
+    max-height: 90dvh;
+    overflow-y: auto;
+    background-color: var(--color-ivory-50);
+    animation: cc-modal-in var(--duration-base) var(--ease-out) both;
+  }
+  @keyframes cc-modal-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cc-modal-card { animation: none; }
+  }
+
+  .cc-close {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--color-slate-500);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cc-close:hover {
+      background-color: var(--color-navy-100);
+      color: var(--color-navy-900);
+    }
+  }
+
+  .cc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: var(--radius-card);
+    cursor: default;
+  }
+  label.cc-row {
+    cursor: pointer;
+  }
+  .cc-row input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.35rem;
+    height: 1.35rem;
+    accent-color: var(--color-gold-500);
+  }
+</style>

@@ -39,7 +39,6 @@ The reasons authors give for the switch are consistent: faster timelines than tr
 
 <figure>
   <img src="/images/blog/inline/trends.jpg" alt="Books arranged on a library shelf" loading="lazy" />
-  <figcaption>Photo by Josh Sorenson via <a href="https://www.pexels.com/photo/990432/">Pexels</a></figcaption>
 </figure>
 
 ## Why speed matters more than people expect

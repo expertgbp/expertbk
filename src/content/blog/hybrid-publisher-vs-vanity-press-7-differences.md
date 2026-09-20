@@ -39,7 +39,6 @@ Ask to see a sample edit before you commit. If the answer is vague, that's the a
 
 <figure>
   <img src="/images/blog/inline/vanity.jpg" alt="A person reviewing and signing a printed contract" loading="lazy" />
-  <figcaption>Photo by Kindel Media via <a href="https://www.pexels.com/photo/7054510/">Pexels</a></figcaption>
 </figure>
 
 ## Do you keep your rights and royalties?

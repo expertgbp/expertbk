@@ -38,7 +38,6 @@ Nothing gets published under a real client's name or identifiable facts unless t
 
 <figure>
   <img src="/images/blog/inline/lawyer.jpg" alt="A judge in robes writing on a document at a desk lined with law books" loading="lazy" />
-  <figcaption>Photo by Katrin Bolovtsova via <a href="https://www.pexels.com/photo/6077296/">Pexels</a></figcaption>
 </figure>
 
 ## Does publishing a book count as attorney advertising?

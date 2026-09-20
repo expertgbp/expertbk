@@ -91,6 +91,8 @@ import { entity } from "../data/entity";
       </ul>
       <ul class="mt-4 space-y-1">
         {legalLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+        <li><button type="button" class="footer-link" data-open-cookie-preferences>Cookie settings</button></li>
+        <li><button type="button" class="footer-link" data-open-a11y-panel>Accessibility settings</button></li>
       </ul>
     </div>
   </div>
@@ -118,6 +120,17 @@ import { entity } from "../data/entity";
     display: inline-block;
     padding-block: 0.25rem;
     opacity: 0.85;
+  }
+  /* Two of these are <button>s (they open the cookie/accessibility panels
+     instead of navigating), so they need the browser's default button
+     chrome stripped to match the surrounding <a> links. */
+  button.footer-link {
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
   }
   @media (hover: hover) and (pointer: fine) {
     .footer-link {

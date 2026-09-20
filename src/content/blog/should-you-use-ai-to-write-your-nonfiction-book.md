@@ -39,7 +39,6 @@ That last part is the real tell. A prompt can produce competent sentences. It ca
 
 <figure>
   <img src="/images/blog/inline/ai.jpg" alt="A close-up of a hand typing on a laptop keyboard" loading="lazy" />
-  <figcaption>Photo by Breakingpic via <a href="https://www.pexels.com/photo/2980/">Pexels</a></figcaption>
 </figure>
 
 ## Where AI genuinely helps

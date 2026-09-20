@@ -35,7 +35,6 @@ Positioning, not writing. The first stage decides the one reader, the one promis
 
 <figure>
   <img src="/images/blog/inline/timeline.jpg" alt="A writer typing at a desk while working through a manuscript" loading="lazy" />
-  <figcaption>Photo by Ron Lach via <a href="https://www.pexels.com/photo/8036328/">Pexels</a></figcaption>
 </figure>
 
 ## How long does the actual manuscript take?
