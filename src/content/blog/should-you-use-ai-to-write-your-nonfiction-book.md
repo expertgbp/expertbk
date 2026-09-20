@@ -29,7 +29,17 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-Short answer: use it for research and organization, not for writing the book itself. That's not a hunch. It's where the 2026 publishing industry has actually landed after two years of testing the alternative.
+**Short answer:** use it for research and organization, not for writing the book itself. That's not a hunch. It's where the 2026 publishing industry has actually landed after two years of testing the alternative.
+
+<div class="key-takeaways">
+<p>Key takeaways</p>
+<ul>
+<li>AI is a real time-saver for summarizing your own material, drafting a first-pass outline, and flagging gaps.</li>
+<li>AI can't produce the specific story, case, or client detail that only you have lived through.</li>
+<li>Books drafted mostly by AI tend to underperform on reviews, retention, and memorability.</li>
+<li>The line is authorship: AI organizes what you know. It can't hand you experience it doesn't have.</li>
+</ul>
+</div>
 
 ## What changed between 2024 and now
 
@@ -37,9 +47,31 @@ For a while, "just have AI write it" sounded like a shortcut worth trying. It wa
 
 That last part is the real tell. A prompt can produce competent sentences. It can't produce "the 76-year-old nurse who still remembers the exact shift everything changed." That kind of detail is what makes a reader keep going, and it only exists in your head.
 
-<figure>
-  <img src="/images/blog/inline/ai.jpg" alt="A close-up of a hand typing on a laptop keyboard" loading="lazy" />
-</figure>
+<div class="chart-block">
+
+<svg viewBox="0 0 560 175" role="img" aria-label="Chart: where AI helps versus what only you can do. AI helps with summarizing your own notes, drafting a first-pass outline, and flagging gaps. Only you can do the sessions where you talk through what you know, the specific stories only you lived, and the final decisions on structure and voice.">
+  <title>Where AI helps vs. what only you can do</title>
+  <line x1="280" y1="10" x2="280" y2="165" stroke="#C9D3DE" stroke-width="1" />
+  <text x="0" y="22" font-size="13" font-weight="700" fill="#5A6B7E">WHERE AI HELPS</text>
+  <text x="0" y="50" font-size="12" fill="#12212F">&#8226; Summarizing your own</text>
+  <text x="12" y="66" font-size="12" fill="#12212F">talks, articles, notes</text>
+  <text x="0" y="92" font-size="12" fill="#12212F">&#8226; Drafting a first-pass</text>
+  <text x="12" y="108" font-size="12" fill="#12212F">outline you'll rewrite</text>
+  <text x="0" y="134" font-size="12" fill="#12212F">&#8226; Flagging gaps in your</text>
+  <text x="12" y="150" font-size="12" fill="#12212F">own draft</text>
+  <rect x="296" y="4" width="260" height="162" rx="8" fill="#FFF3D9" />
+  <text x="312" y="22" font-size="13" font-weight="700" fill="#081F33">ONLY YOU CAN DO</text>
+  <text x="312" y="50" font-size="12" fill="#081F33">&#8226; The sessions where you</text>
+  <text x="324" y="66" font-size="12" fill="#081F33">talk through what you know</text>
+  <text x="312" y="92" font-size="12" fill="#081F33">&#8226; The specific story only</text>
+  <text x="324" y="108" font-size="12" fill="#081F33">you lived through</text>
+  <text x="312" y="134" font-size="12" fill="#081F33">&#8226; The final call on structure</text>
+  <text x="324" y="150" font-size="12" fill="#081F33">and voice</text>
+</svg>
+
+<p class="chart-source">Based on the guidance described in this article.</p>
+
+</div>
 
 ## Where AI genuinely helps
 

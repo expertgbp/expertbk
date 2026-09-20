@@ -38,7 +38,7 @@ It's not a rebrand. The pattern shows up across 2026 publishing trend coverage: 
 The reasons authors give for the switch are consistent: faster timelines than traditional deals, higher royalties, and keeping ownership of their own rights.
 
 <figure>
-  <img src="/images/blog/inline/trends.jpg" alt="Books arranged on a library shelf" loading="lazy" />
+  <img src="/images/blog/inline/trends.png" alt="Illustration of book spines forming an upward-trending line" loading="lazy" />
 </figure>
 
 ## Why speed matters more than people expect

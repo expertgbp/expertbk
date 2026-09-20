@@ -27,15 +27,55 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-A finished manuscript is closer to the halfway point than the finish line, and that's good news, not bad news: the hardest, most uncertain stage is behind you. What's left is a known sequence, not a mystery. Structural and line editing come first, then cover and interior design, then metadata and distribution setup, then a real launch plan built around a specific date. Most authors move from finished manuscript to published, promoted book in 3 to 5 months.
+**Short answer:** a finished manuscript is closer to the halfway point than the finish line, and that's good news, not bad news: the hardest, most uncertain stage is behind you. What's left is a known sequence of 9 steps, not a mystery, and most authors move from finished manuscript to published, promoted book in 3 to 5 months.
+
+<div class="key-takeaways">
+<p>Key takeaways</p>
+<ul>
+<li>The 9 steps split into three phases: editing (steps 1-3), design and setup (steps 4-6), and launch (steps 7-9).</li>
+<li>Most authors move from finished manuscript to launched book in 3 to 5 months.</li>
+<li>Steps 8 and 9, the launch plan and what happens after, are the most commonly skipped, and the most common reason a well-written book still undersells.</li>
+</ul>
+</div>
 
 ## Step 1: Developmental editing
 
 Before anything else, a developmental editor reads for structure: does the argument hold together, does the story arc land, is anything missing that the reader needs. This is the step most first-time authors underestimate, because the manuscript already feels finished to the person who wrote it.
 
-<figure>
-  <img src="/images/blog/inline/manuscript-now-what.jpg" alt="A manuscript page marked up with editing notes in red pen" loading="lazy" />
-</figure>
+<div class="chart-block">
+
+<svg viewBox="0 0 560 175" role="img" aria-label="Flow diagram: nine steps from finished manuscript to launch, in three phases. Edit: developmental edit, line and copy edit, positioning check. Design and setup: cover design, interior design, ISBN and metadata. Launch: advance copies, the launch plan, and what happens after launch.">
+  <title>Nine steps from manuscript to launch</title>
+  <text x="10" y="20" font-size="11" font-weight="700" letter-spacing="0.06em" fill="#E6B85C">EDIT</text>
+  <circle cx="18" cy="42" r="10" fill="#5A6B7E" /><text x="18" y="46" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">1</text>
+  <text x="36" y="46" font-size="12" fill="#12212F">Developmental edit</text>
+  <circle cx="18" cy="72" r="10" fill="#5A6B7E" /><text x="18" y="76" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">2</text>
+  <text x="36" y="76" font-size="12" fill="#12212F">Line &amp; copy edit</text>
+  <circle cx="18" cy="102" r="10" fill="#5A6B7E" /><text x="18" y="106" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">3</text>
+  <text x="36" y="106" font-size="12" fill="#12212F">Positioning check</text>
+  <line x1="195" y1="10" x2="195" y2="160" stroke="#C9D3DE" stroke-width="1" />
+  <text x="210" y="20" font-size="11" font-weight="700" letter-spacing="0.06em" fill="#E6B85C">DESIGN &amp; SETUP</text>
+  <circle cx="218" cy="42" r="10" fill="#5A6B7E" /><text x="218" y="46" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">4</text>
+  <text x="236" y="46" font-size="12" fill="#12212F">Cover design</text>
+  <circle cx="218" cy="72" r="10" fill="#5A6B7E" /><text x="218" y="76" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">5</text>
+  <text x="236" y="76" font-size="12" fill="#12212F">Interior design</text>
+  <circle cx="218" cy="102" r="10" fill="#5A6B7E" /><text x="218" y="106" font-size="10" font-weight="700" fill="#FBF7EF" text-anchor="middle">6</text>
+  <text x="236" y="106" font-size="12" fill="#12212F">ISBN &amp; metadata</text>
+  <line x1="395" y1="10" x2="395" y2="160" stroke="#C9D3DE" stroke-width="1" />
+  <text x="410" y="20" font-size="11" font-weight="700" letter-spacing="0.06em" fill="#E6B85C">LAUNCH</text>
+  <circle cx="418" cy="42" r="10" fill="#E6B85C" /><text x="418" y="46" font-size="10" font-weight="700" fill="#081F33" text-anchor="middle">7</text>
+  <text x="436" y="46" font-size="12" fill="#12212F">Advance copies</text>
+  <circle cx="418" cy="72" r="10" fill="#E6B85C" /><text x="418" y="76" font-size="10" font-weight="700" fill="#081F33" text-anchor="middle">8</text>
+  <text x="436" y="76" font-size="12" fill="#12212F">The launch plan</text>
+  <circle cx="418" cy="102" r="10" fill="#E6B85C" /><text x="418" y="106" font-size="10" font-weight="700" fill="#081F33" text-anchor="middle">9</text>
+  <text x="436" y="106" font-size="12" fill="#12212F">After launch week</text>
+  <text x="410" y="135" font-size="11" fill="#5A6B7E">Steps 8 &amp; 9 are the</text>
+  <text x="410" y="150" font-size="11" fill="#5A6B7E">most commonly skipped.</text>
+</svg>
+
+<p class="chart-source">Steps as described in this article.</p>
+
+</div>
 
 ## Step 2: Line and copy editing
 

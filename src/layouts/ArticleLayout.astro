@@ -161,6 +161,32 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     font-style: italic;
     color: var(--color-slate-500);
   }
+  /*
+    Key Takeaways callout: a scannable summary box, not a pull-quote, so it
+    gets its own class rather than reusing <blockquote> (Tailwind Typography's
+    default blockquote styling adds decorative smart-quote marks via
+    ::before/::after, which reads oddly on a bulleted summary rather than an
+    actual quotation).
+  */
+  .prose :global(.key-takeaways) {
+    margin: 1.75rem 0;
+    padding: 1.1rem 1.4rem;
+    background-color: var(--color-gold-100);
+    border-left: 3px solid var(--color-gold-500);
+    border-radius: var(--radius-card);
+  }
+  .prose :global(.key-takeaways p) {
+    margin: 0 0 0.6rem !important;
+    font-weight: 700;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+  }
+  .prose :global(.key-takeaways ul) {
+    margin: 0 !important;
+  }
+  .prose :global(.key-takeaways li) {
+    margin-bottom: 0.4rem;
+  }
   /* Inline supporting photos (real, licensed Pexels photography, distinct
      from the on-brand illustrated hero). Pexels' license doesn't require
      attribution, so these run without a visible credit line; .prose

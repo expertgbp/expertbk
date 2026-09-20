@@ -29,7 +29,17 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-Partnership (hybrid) publishing costs more than a do-it-yourself upload to Amazon and less than the years a traditional deal can take to say yes, if it ever says yes at all. The real number depends on scope: how much writing help you need, how many editing passes, cover and interior design, and the size of the launch campaign. [NEEDS CONFIRMATION: published price tiers] will hold the exact figures once they're finalized on this page. What we can tell you now: the range is itemized line by line, payment plans exist, and a book done wrong costs the same money twice, once to make it and again to fix it.
+**Short answer:** partnership (hybrid) publishing costs more upfront than a do-it-yourself upload to Amazon and less than the years a traditional deal can take to say yes, if it ever says yes at all. The real number depends on scope: how much writing help you need, how many editing passes, cover and interior design, and the size of the launch campaign. [NEEDS CONFIRMATION: published price tiers] will hold the exact figures once they're finalized on this page.
+
+<div class="key-takeaways">
+<p>Key takeaways</p>
+<ul>
+<li>Self-publishing looks cheapest in cash, but the hidden cost is your own time.</li>
+<li>Traditional publishing charges nothing upfront and bills you instead in time, rights, and royalties.</li>
+<li>A real partnership publisher itemizes every piece of the price, and payment plans exist so it isn't one lump sum.</li>
+<li>A book done wrong costs the same money twice: once to make it, again to fix it.</li>
+</ul>
+</div>
 
 ## What's actually included in that price?
 
@@ -37,9 +47,36 @@ A real partnership publisher itemizes what you're buying, the same way a contrac
 
 Vagueness is where trust goes to die for this audience, and for good reason. If a company can't tell you what you're paying for, ask why. A [NEEDS CONFIRMATION: published price tiers] breakdown belongs on the pricing page, in writing, before you ever get on a call.
 
-<figure>
-  <img src="/images/blog/inline/cost.jpg" alt="A budget calculator and financial documents laid out on a desk" loading="lazy" />
-</figure>
+<div class="chart-block">
+
+<svg viewBox="0 0 560 190" role="img" aria-label="Chart: what each publishing path actually costs. Self-publishing costs a few hundred dollars upfront but costs your time. Traditional publishing costs nothing upfront but costs time, rights, and royalties. Hybrid publishing is a real investment, itemized, with payment plans available.">
+  <title>What each publishing path actually costs</title>
+  <line x1="187" y1="12" x2="187" y2="178" stroke="#C9D3DE" stroke-width="1" />
+  <line x1="374" y1="12" x2="374" y2="178" stroke="#C9D3DE" stroke-width="1" />
+  <text x="14" y="32" font-size="14" font-weight="700" fill="#12212F">Self-publishing</text>
+  <text x="14" y="60" font-size="11" fill="#5A6B7E">UPFRONT</text>
+  <text x="14" y="80" font-size="15" font-weight="700" fill="#12212F">A few hundred $</text>
+  <text x="14" y="112" font-size="11" fill="#5A6B7E">REAL COST</text>
+  <text x="14" y="132" font-size="15" font-weight="700" fill="#12212F">Your time</text>
+  <text x="201" y="32" font-size="14" font-weight="700" fill="#12212F">Traditional</text>
+  <text x="201" y="60" font-size="11" fill="#5A6B7E">UPFRONT</text>
+  <text x="201" y="80" font-size="15" font-weight="700" fill="#12212F">$0</text>
+  <text x="201" y="112" font-size="11" fill="#5A6B7E">REAL COST</text>
+  <text x="201" y="132" font-size="14" font-weight="700" fill="#12212F">Time, rights,</text>
+  <text x="201" y="150" font-size="14" font-weight="700" fill="#12212F">royalties</text>
+  <rect x="388" y="4" width="160" height="182" rx="8" fill="#FFF3D9" />
+  <text x="402" y="32" font-size="14" font-weight="700" fill="#081F33">Hybrid</text>
+  <text x="402" y="50" font-size="11" fill="#5A6B7E">(partnership)</text>
+  <text x="402" y="76" font-size="11" fill="#5A6B7E">UPFRONT</text>
+  <text x="402" y="96" font-size="13" font-weight="700" fill="#081F33">Itemized, real</text>
+  <text x="402" y="114" font-size="13" font-weight="700" fill="#081F33">investment</text>
+  <text x="402" y="140" font-size="11" fill="#5A6B7E">REAL COST</text>
+  <text x="402" y="160" font-size="13" font-weight="700" fill="#081F33">Payment plans</text>
+</svg>
+
+<p class="chart-source">Based on the figures described in this article; exact hybrid pricing tiers are being finalized. See the <a href="/pricing-and-cost">pricing and cost guide</a> for the published range.</p>
+
+</div>
 
 ## Why does self-publishing look cheaper?
 

@@ -29,7 +29,17 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-A vanity press takes your money and prints whatever you send, with no editing, no positioning, and no say in whether the book is actually ready. A real hybrid (partnership) publisher earns its fee by doing the work: positioning the book before a word is drafted, editing with you instead of over you, and running a real launch. The seven differences below are the checklist to run before you sign anything, from anyone, including us.
+**Short answer:** a vanity press takes your money and prints whatever you send, with no editing, no positioning, and no say in whether the book is actually ready. A real hybrid (partnership) publisher earns its fee by doing the work: positioning the book before a word is drafted, editing with you instead of over you, and running a real launch. The seven differences below are the checklist to run before you sign anything, from anyone, including us.
+
+<div class="key-takeaways">
+<p>Key takeaways</p>
+<ul>
+<li>The one-line test: if anyone offers to publish your book without involving you in the decisions, run.</li>
+<li>A real partnership publisher edits, positions, and launches. A vanity press prints and stops.</li>
+<li>You should keep 100% of your rights and royalties either way; check the contract language closely.</li>
+<li>Verify the founders and the reputation (BBB, Trustpilot) before you sign, not after.</li>
+</ul>
+</div>
 
 ## Do they edit the manuscript, or just print it?
 
@@ -37,9 +47,43 @@ A vanity press typically runs a light proofread, if that, and sends the file to 
 
 Ask to see a sample edit before you commit. If the answer is vague, that's the answer.
 
-<figure>
-  <img src="/images/blog/inline/vanity.jpg" alt="A person reviewing and signing a printed contract" loading="lazy" />
-</figure>
+<div class="chart-block">
+
+<svg viewBox="0 0 560 260" role="img" aria-label="Comparison table: vanity press versus partnership publisher across seven differences. Editing: vanity press no, partnership yes. Rights and royalties: vanity press unclear, partnership 100% yours. Positioning before writing: vanity press no, partnership yes. Launch support: vanity press stops at print, partnership full launch plan. Verifiable founders: vanity press unclear, partnership yes. Itemized pricing: vanity press one bundle, partnership itemized. BBB and Trustpilot checkable: vanity press often no, partnership yes.">
+  <title>Vanity press vs. partnership publisher: 7 differences</title>
+  <text x="0" y="18" font-size="11" font-weight="700" fill="#5A6B7E">DIFFERENCE</text>
+  <text x="235" y="18" font-size="11" font-weight="700" fill="#5A6B7E">VANITY PRESS</text>
+  <text x="400" y="18" font-size="11" font-weight="700" fill="#5A6B7E">PARTNERSHIP</text>
+  <rect x="0" y="26" width="560" height="28" fill="#E8EEF5" />
+  <text x="0" y="45" font-size="12" fill="#12212F">Edits the manuscript</text>
+  <text x="235" y="45" font-size="12" fill="#B4452F">No</text>
+  <text x="400" y="45" font-size="12" font-weight="700" fill="#2E7D5B">Yes, structural &amp; line</text>
+  <text x="0" y="73" font-size="12" fill="#12212F">Rights &amp; royalties</text>
+  <text x="235" y="73" font-size="12" fill="#B4452F">Often buried</text>
+  <text x="400" y="73" font-size="12" font-weight="700" fill="#2E7D5B">100% yours</text>
+  <rect x="0" y="82" width="560" height="28" fill="#E8EEF5" />
+  <text x="0" y="101" font-size="12" fill="#12212F">Positions before writing</text>
+  <text x="235" y="101" font-size="12" fill="#B4452F">No</text>
+  <text x="400" y="101" font-size="12" font-weight="700" fill="#2E7D5B">Yes</text>
+  <text x="0" y="129" font-size="12" fill="#12212F">Launch support</text>
+  <text x="235" y="129" font-size="12" fill="#B4452F">Stops at print</text>
+  <text x="400" y="129" font-size="12" font-weight="700" fill="#2E7D5B">Full launch plan</text>
+  <rect x="0" y="138" width="560" height="28" fill="#E8EEF5" />
+  <text x="0" y="157" font-size="12" fill="#12212F">Founders verifiable</text>
+  <text x="235" y="157" font-size="12" fill="#B4452F">Often unclear</text>
+  <text x="400" y="157" font-size="12" font-weight="700" fill="#2E7D5B">Yes</text>
+  <text x="0" y="185" font-size="12" fill="#12212F">Itemized pricing</text>
+  <text x="235" y="185" font-size="12" fill="#B4452F">One bundle</text>
+  <text x="400" y="185" font-size="12" font-weight="700" fill="#2E7D5B">Line by line</text>
+  <rect x="0" y="194" width="560" height="28" fill="#E8EEF5" />
+  <text x="0" y="213" font-size="12" fill="#12212F">Checkable on BBB / Trustpilot</text>
+  <text x="235" y="213" font-size="12" fill="#B4452F">Often no</text>
+  <text x="400" y="213" font-size="12" font-weight="700" fill="#2E7D5B">Yes</text>
+</svg>
+
+<p class="chart-source">Based on the differences described in this article.</p>
+
+</div>
 
 ## Do you keep your rights and royalties?
 

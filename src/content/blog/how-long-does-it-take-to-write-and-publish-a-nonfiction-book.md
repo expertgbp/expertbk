@@ -27,15 +27,41 @@ ctaVariant:
   leadMagnetSlug: "/free-blueprint"
 ---
 
-Most professionals move from idea to published nonfiction book in 6 to 12 months, working the process in a specific order: positioning first, structured manuscript extraction second, then editing, publishing, and launch handled by a team. The writing itself rarely takes as long as people fear. What takes time is doing the stages in the right order instead of skipping straight to a blank page.
+**Short answer:** most professionals move from idea to published nonfiction book in 6 to 12 months: about a month on positioning, 8 to 16 weeks on the manuscript, then 8 to 14 weeks on editing, design, and launch setup. The writing itself rarely takes as long as people fear. What takes time is doing the stages in the right order instead of skipping straight to a blank page.
+
+<div class="key-takeaways">
+<p>Key takeaways</p>
+<ul>
+<li>Month one is positioning, not writing, and skipping it is the top cause of a rewritten chapter three.</li>
+<li>The manuscript stage itself runs 8 to 16 weeks with structured extraction, not months of solo drafting.</li>
+<li>Editing, design, and launch setup take another 8 to 14 weeks after the manuscript is done.</li>
+<li>Going faster means cutting wasted motion, not cutting editing or positioning.</li>
+</ul>
+</div>
 
 ## What actually happens in month one?
 
 Positioning, not writing. The first stage decides the one reader, the one promise, and the shelf this book competes on. Skipping this feels like progress, because pages get written, but it's the single biggest reason authors end up rewriting chapter three for months. Get this right first and the rest of the timeline shortens.
 
-<figure>
-  <img src="/images/blog/inline/timeline.jpg" alt="A writer typing at a desk while working through a manuscript" loading="lazy" />
-</figure>
+<div class="chart-block">
+
+<svg viewBox="0 0 560 170" role="img" aria-label="Chart: how long each stage takes. Positioning takes about one month. The manuscript stage takes 8 to 16 weeks. Editing, design, and launch setup takes 8 to 14 weeks.">
+  <title>How long each stage takes</title>
+  <line x1="140" y1="15" x2="140" y2="150" stroke="#5A6B7E" stroke-width="1" />
+  <text x="0" y="35" font-size="13" fill="#12212F">Positioning</text>
+  <rect x="140" y="20" width="60" height="24" rx="4" fill="#5A6B7E" opacity="0.55" />
+  <text x="210" y="37" font-size="13" font-weight="700" fill="#12212F">~1 month</text>
+  <text x="0" y="80" font-size="13" fill="#12212F">Manuscript</text>
+  <rect x="140" y="65" width="240" height="24" rx="4" fill="#5A6B7E" opacity="0.55" />
+  <text x="390" y="82" font-size="13" font-weight="700" fill="#12212F">8&ndash;16 weeks</text>
+  <text x="0" y="125" font-size="13" fill="#12212F">Editing &amp; launch</text>
+  <rect x="140" y="110" width="210" height="24" rx="4" fill="#E6B85C" />
+  <text x="155" y="127" font-size="13" font-weight="700" fill="#081F33">8&ndash;14 weeks</text>
+</svg>
+
+<p class="chart-source">Stage durations as described in this article; individual timelines vary by book length and editing passes needed.</p>
+
+</div>
 
 ## How long does the actual manuscript take?
 
