@@ -37,7 +37,7 @@ Yes, a lawyer can write and publish a book without risking a bar complaint, as l
 Nothing gets published under a real client's name or identifiable facts unless that client has given informed consent. The usual approach is composite cases: details drawn from patterns across many matters, reshaped so no single client is recognizable, the same way you'd anonymize a case study for a CLE presentation. This gets built into editing as a specific pass, not assumed to happen on its own.
 
 <figure>
-  <img src="/images/blog/inline/lawyer.png" alt="Illustration of a golden scale of justice and compliance shield above an open book" loading="lazy" />
+  <img src="/images/blog/inline/lawyer.png" alt="A brass scale of justice statuette beside an open book and fountain pen on a wooden desk, with law books stacked in the background" loading="lazy" />
 </figure>
 
 ## Does publishing a book count as attorney advertising?

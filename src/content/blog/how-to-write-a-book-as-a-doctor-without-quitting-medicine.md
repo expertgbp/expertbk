@@ -38,7 +38,7 @@ Not from a sabbatical, and not from your weekends either, if the process is buil
 One nurse of 53 years came to us with 25 years of knowledge and no idea how to start. The structure was the cure, not more free time.
 
 <figure>
-  <img src="/images/blog/inline/doctor.png" alt="Illustration of a golden stethoscope merging into an open book" loading="lazy" />
+  <img src="/images/blog/inline/doctor.png" alt="A stethoscope resting on an open notebook of handwritten notes, with a white coat softly out of focus in the background" loading="lazy" />
 </figure>
 
 ## What happens to patient stories and privacy?

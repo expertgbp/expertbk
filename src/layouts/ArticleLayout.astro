@@ -14,7 +14,11 @@ interface Props {
 }
 const { entry } = Astro.props;
 const post = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+// Astro auto-assigns an id to every heading in the rendered markdown output
+// (visible in the built HTML as <h2 id="...">), so these slugs are already
+// real anchors on the page — no separate slugify step needed here.
+const tocItems = headings.filter((h) => h.depth === 2);
 
 const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
 ---
@@ -62,12 +66,49 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     </div>
   )}
 
-  <article class="prose bg-ivory-50 max-w-[68ch] mx-auto px-4 py-14 border-b border-navy-100">
-    <Content />
-  </article>
+  <div class="bg-ivory-50 border-b border-navy-100">
+    <div class="mx-auto max-w-5xl px-4 py-14 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-x-12 gap-y-8 items-start">
+      {tocItems.length > 0 && (
+        <details class="toc-mobile lg:hidden card p-4">
+          <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-semibold text-navy-900 min-h-11 -m-1 p-1 rounded-lg">
+            On this page
+            <svg width="12" height="12" viewBox="0 0 14 14" class="toc-chevron shrink-0 text-navy-600" aria-hidden="true">
+              <path d="M1 3l6 6 6-6" stroke="currentColor" stroke-width="1.5" fill="none" />
+            </svg>
+          </summary>
+          <ul class="mt-3 space-y-2 text-sm">
+            {tocItems.map((h) => (
+              <li><a href={`#${h.slug}`} class="text-navy-700 hover:text-gold-500">{h.text}</a></li>
+            ))}
+          </ul>
+        </details>
+      )}
 
-  <div class="max-w-[68ch] mx-auto px-4 pt-10 pb-4 bg-ivory-50">
-    <AuthorBox authorName={post.author} />
+      <article class="prose order-2 lg:order-1 max-w-[68ch]">
+        <Content />
+      </article>
+
+      {tocItems.length > 0 && (
+        <aside class="toc-desktop hidden lg:block order-3 sticky top-24 text-sm" aria-label="Table of contents">
+          <p class="eyebrow mb-3">On this page</p>
+          <ul class="space-y-1 border-l border-navy-100">
+            {tocItems.map((h) => (
+              <li>
+                <a href={`#${h.slug}`} class="block pl-3 -ml-px border-l-2 border-transparent py-1 text-slate-500 hover:border-gold-300 hover:text-gold-500">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-5xl px-4 pt-10 pb-4 bg-ivory-50 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-x-12">
+    <div class="max-w-[68ch]">
+      <AuthorBox authorName={post.author} />
+    </div>
   </div>
 
   {pillar && (
@@ -236,5 +277,17 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     border-radius: 4px;
     padding: 0.15em 0.4em;
     font-size: 0.9em;
+  }
+
+  .toc-chevron {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .toc-mobile[open] .toc-chevron {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .toc-chevron {
+      transition: none;
+    }
   }
 </style>

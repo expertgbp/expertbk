@@ -54,7 +54,7 @@ Thought leadership content on LinkedIn earns a [1.7x higher click-through rate a
 </div>
 
 <figure>
-  <img src="/images/blog/inline/linkedin.png" alt="Illustration of a golden network of connected nodes converging into an open book" loading="lazy" />
+  <img src="/images/blog/inline/linkedin.png" alt="A laptop on a desk showing an abstract professional network graphic, beside a notebook and coffee" loading="lazy" />
 </figure>
 
 ## Why this matters more, not less, with AI everywhere

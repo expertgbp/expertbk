@@ -35,7 +35,7 @@ The old launch plan was built around one goal: get mentioned somewhere big. That
 Book publicity coverage in 2026 keeps pointing to the same shift: hyper-targeted podcasts, niche trade publications, and vertical newsletters have become some of the most valuable placements for nonfiction authors, especially in [business](/books/business-book), leadership, health, and workplace topics. The term some outlets are using is "Micro-Authority Media," and it's still growing.
 
 <figure>
-  <img src="/images/blog/inline/podcasts.png" alt="Illustration of golden soundwave rings from a microphone converging into an open book" loading="lazy" />
+  <img src="/images/blog/inline/podcasts.png" alt="A podcast microphone on a boom arm with headphones and a laptop showing an audio waveform" loading="lazy" />
 </figure>
 
 ## Why a smaller, exact audience beats a bigger, general one
