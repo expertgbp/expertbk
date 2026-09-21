@@ -37,6 +37,14 @@ the project's explicit declaration, not a separate install.
   already written (see `src/content/blog/`).
 - **Site-build process:** `build-website-from-brief` — the process this
   site was originally built with; reusable for future large builds.
+- **Blog post finalization (project-local):** `blog-article-finalize`
+  (`.claude/skills/blog-article-finalize/`, this repo only — not part of the
+  user-level roster). Captures the exact recipe used to bring
+  `how-much-does-it-cost-to-publish-a-book-with-a-hybrid-publisher.md` to its
+  approved final state: realistic AI-generated hero + chart images (never
+  hand-coded SVG/HTML tables), a 3,000+ word substantive expansion, and the
+  sitewide sticky-TOC article layout. Use this when finalizing any other
+  post in `src/content/blog/` to the same standard, one post at a time.
 
 See `BRAND.md` (project root) for the brand system itself, and `CLAUDE.md`
 (project root) for the technical foundation this site is built on.

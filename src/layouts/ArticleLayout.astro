@@ -41,18 +41,17 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
   </Fragment>
 
   <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
-      <p class="eyebrow mb-4">{post.cluster}</p>
-      <h1 class="on-navy">{post.title}</h1>
-      <p class="mt-4 text-sm opacity-70">
-        By {post.author} &middot; {post.publishDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
-      </p>
-    </div>
-  </section>
+    <div class="mx-auto max-w-6xl px-4 py-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12 items-center">
+      <div>
+        <p class="eyebrow mb-4">{post.cluster}</p>
+        <h1 class="on-navy article-hero-title">{post.title}</h1>
+        <p class="mt-4 opacity-80 text-lg leading-relaxed">{post.description}</p>
+        <p class="mt-5 text-sm opacity-70">
+          By {post.author} &middot; {post.publishDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+        </p>
+      </div>
 
-  {post.heroImage && (
-    <div class="bg-navy-900">
-      <div class="mx-auto max-w-4xl px-4 pb-10">
+      {post.heroImage && (
         <img
           src={post.heroImage}
           alt={post.heroImageAlt ?? post.title}
@@ -62,12 +61,12 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
           fetchpriority="high"
           class="w-full h-auto rounded-2xl border border-navy-600"
         />
-      </div>
+      )}
     </div>
-  )}
+  </section>
 
   <div class="bg-ivory-50 border-b border-navy-100">
-    <div class="mx-auto max-w-5xl px-4 py-14 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-x-12 gap-y-8 items-start">
+    <div class="mx-auto max-w-5xl px-4 py-14 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-x-12 gap-y-8 items-start">
       {tocItems.length > 0 && (
         <details class="toc-mobile lg:hidden card p-4">
           <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-semibold text-navy-900 min-h-11 -m-1 p-1 rounded-lg">
@@ -94,7 +93,7 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
           <ul class="space-y-1 border-l border-navy-100">
             {tocItems.map((h) => (
               <li>
-                <a href={`#${h.slug}`} class="block pl-3 -ml-px border-l-2 border-transparent py-1 text-slate-500 hover:border-gold-300 hover:text-gold-500">
+                <a href={`#${h.slug}`} class="toc-link block pl-3 -ml-px border-l-2 border-transparent py-1.5 pr-2 rounded-r text-slate-500">
                   {h.text}
                 </a>
               </li>
@@ -105,7 +104,7 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
     </div>
   </div>
 
-  <div class="mx-auto max-w-5xl px-4 pt-10 pb-4 bg-ivory-50 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-x-12">
+  <div class="mx-auto max-w-5xl px-4 pt-10 pb-4 bg-ivory-50 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-x-12">
     <div class="max-w-[68ch]">
       <AuthorBox authorName={post.author} />
     </div>
@@ -125,6 +124,42 @@ const pillar = await getEntry("guides", post.pillar).catch(() => undefined);
 </BaseLayout>
 
 <style>
+  /*
+    The sitewide h1 (global.css) clamps up to 4rem, sized for a full-width
+    marketing hero. This hero now shares its row with the post's image in a
+    two-column grid, so the heading column is roughly half that width —
+    the sitewide size would wrap awkwardly. Scoped smaller clamp for this
+    context only; other h1s on the site are untouched.
+  */
+  .article-hero-title {
+    font-size: clamp(1.75rem, 1.4rem + 1.8vw, 2.75rem);
+  }
+
+  /*
+    Static card look (background, border, shadow), deliberately not the
+    shared .card class — .card's hover state lifts/shadows the whole
+    element, which reads as an odd interaction for a nav box you scan and
+    click links inside of, rather than a single clickable surface.
+  */
+  .toc-desktop {
+    background-color: #fff;
+    border: 1px solid var(--color-navy-100);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+  }
+  .toc-link {
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .toc-link:hover {
+      background-color: var(--color-navy-100);
+      border-color: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
   /*
     @tailwindcss/typography is installed and provides the base `.prose`
     styling; this block layers brand-specific colors/spacing on top of its

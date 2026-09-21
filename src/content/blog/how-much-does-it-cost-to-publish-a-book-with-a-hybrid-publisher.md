@@ -1,8 +1,8 @@
 ---
 title: "How Much Does It Cost to Publish a Book With a Hybrid Publisher?"
 description: "The honest range for hybrid (partnership) publishing, what drives the price, what's itemized at each stage, and why a book done wrong costs the same money twice."
-heroImage: "/images/blog/how-much-does-it-cost-to-publish-a-book-with-a-hybrid-publisher.webp"
-heroImageAlt: "Illustration of a golden ledger and stacked coins inside a glowing open doorway"
+heroImage: "/images/blog/how-much-does-it-cost-to-publish-a-book-with-a-hybrid-publisher.png"
+heroImageAlt: "An open ledger book with handwritten columns of numbers, a fountain pen, and a small stack of gold coins on a wooden desk"
 cluster: "Cost"
 pillar: "where-to-start"
 author: "Ash Goel"
@@ -75,58 +75,18 @@ Same publisher, same process, genuinely different scope, which is exactly why an
 
 A real partnership publisher itemizes what you're buying, the same way a contractor itemizes a renovation. That usually breaks into a handful of real, separately priced pieces:
 
-<div class="chart-block">
+<figure>
+  <img src="/images/blog/inline/cost-stages.png" alt="A six-step roadmap graphic: 1 Positioning, 2 Manuscript, 3 Editing, 4 Design, 5 Distribution, 6 Launch" loading="lazy" />
+</figure>
 
-<table>
-<thead>
-<tr><th>Stage</th><th>What it actually covers</th></tr>
-</thead>
-<tbody>
-<tr><td>Positioning</td><td>Deciding the one reader, the one promise, and the shelf the book competes on, before a word is drafted</td></tr>
-<tr><td>Manuscript development</td><td>Structured extraction sessions or full ghostwriting, depending on how much you're starting with</td></tr>
-<tr><td>Editing</td><td>Developmental, line, and copy editing passes, each catching a different layer of problem</td></tr>
-<tr><td>Cover &amp; interior design</td><td>A cover tested against the genre shelf, plus print and digital interior formatting</td></tr>
-<tr><td>ISBN &amp; distribution</td><td>Getting the book listed correctly everywhere books are sold, under the right categories and metadata</td></tr>
-<tr><td>Launch</td><td>A release sequence, advance copies, and a plan for the weeks after launch day, not just launch day itself</td></tr>
-</tbody>
-</table>
-
-<p class="chart-source">Stages as described in this article; exact scope varies by package.</p>
-
-</div>
+Each of those six stages is its own deliverable: positioning decides the one reader, the one promise, and the shelf the book competes on, before a word is drafted. Manuscript development is structured extraction sessions or full ghostwriting, depending on how much you're starting with. Editing means developmental, line, and copy passes, each catching a different layer of problem. Design covers a cover tested against the genre shelf, plus print and digital interior formatting. Distribution means getting the book listed correctly everywhere books are sold, under the right categories and metadata. Launch is a release sequence, advance copies, and a plan for the weeks after launch day, not just launch day itself.
 
 Vagueness is where trust goes to die for this audience, and for good reason. If a company can't tell you what you're paying for, ask why. A [NEEDS CONFIRMATION: published price tiers] breakdown belongs on the pricing page, in writing, before you ever get on a call.
 
-<div class="chart-block">
-
-<svg viewBox="0 0 560 190" role="img" aria-label="Chart: what each publishing path actually costs. Self-publishing costs a few hundred dollars upfront but costs your time. Traditional publishing costs nothing upfront but costs time, rights, and royalties. Hybrid publishing is a real investment, itemized, with payment plans available.">
-  <title>What each publishing path actually costs</title>
-  <line x1="187" y1="12" x2="187" y2="178" stroke="#C9D3DE" stroke-width="1" />
-  <line x1="374" y1="12" x2="374" y2="178" stroke="#C9D3DE" stroke-width="1" />
-  <text x="14" y="32" font-size="14" font-weight="700" fill="#12212F">Self-publishing</text>
-  <text x="14" y="60" font-size="11" fill="#5A6B7E">UPFRONT</text>
-  <text x="14" y="80" font-size="15" font-weight="700" fill="#12212F">A few hundred $</text>
-  <text x="14" y="112" font-size="11" fill="#5A6B7E">REAL COST</text>
-  <text x="14" y="132" font-size="15" font-weight="700" fill="#12212F">Your time</text>
-  <text x="201" y="32" font-size="14" font-weight="700" fill="#12212F">Traditional</text>
-  <text x="201" y="60" font-size="11" fill="#5A6B7E">UPFRONT</text>
-  <text x="201" y="80" font-size="15" font-weight="700" fill="#12212F">$0</text>
-  <text x="201" y="112" font-size="11" fill="#5A6B7E">REAL COST</text>
-  <text x="201" y="132" font-size="14" font-weight="700" fill="#12212F">Time, rights,</text>
-  <text x="201" y="150" font-size="14" font-weight="700" fill="#12212F">royalties</text>
-  <rect x="388" y="4" width="160" height="182" rx="8" fill="#FFF3D9" />
-  <text x="402" y="32" font-size="14" font-weight="700" fill="#081F33">Hybrid</text>
-  <text x="402" y="50" font-size="11" fill="#5A6B7E">(partnership)</text>
-  <text x="402" y="76" font-size="11" fill="#5A6B7E">UPFRONT</text>
-  <text x="402" y="96" font-size="13" font-weight="700" fill="#081F33">Itemized, real</text>
-  <text x="402" y="114" font-size="13" font-weight="700" fill="#081F33">investment</text>
-  <text x="402" y="140" font-size="11" fill="#5A6B7E">REAL COST</text>
-  <text x="402" y="160" font-size="13" font-weight="700" fill="#081F33">Payment plans</text>
-</svg>
-
-<p class="chart-source">Based on the figures described in this article; exact hybrid pricing tiers are being finalized. See the <a href="/pricing-and-cost">pricing and cost guide</a> for the published range.</p>
-
-</div>
+<figure>
+  <img src="/images/blog/inline/cost-comparison.png" alt="A bar chart comparing relative total investment across self-publishing, traditional publishing, and hybrid publishing" loading="lazy" />
+  <figcaption>Self-publishing costs the least in cash but the most in your own time. Traditional publishing costs nothing upfront but bills you in time, rights, and royalties instead. Hybrid publishing is the biggest itemized investment, with payment plans available. Exact hybrid pricing tiers are being finalized; see the <a href="/pricing-and-cost">pricing and cost guide</a> for the published range.</figcaption>
+</figure>
 
 ## Why does self-publishing look cheaper?
 
@@ -158,23 +118,11 @@ None of this makes traditional publishing a scam. It's a different trade: you gi
 
 Whether you're talking to us or anyone else, these are the questions that separate a real answer from a sales pitch:
 
-<div class="chart-block">
+<figure>
+  <img src="/images/blog/inline/cost-questions.png" alt="A checklist graphic: itemized breakdown, editing passes included, extra revision cost, launch plan included, payment plan" loading="lazy" />
+</figure>
 
-<table>
-<thead>
-<tr><th>Ask this</th><th>Why it matters</th></tr>
-</thead>
-<tbody>
-<tr><td>"Can I see the itemized breakdown in writing?"</td><td>A real publisher can show you exactly what each dollar buys, before you sign anything</td></tr>
-<tr><td>"How many editing passes are included?"</td><td>One proofread is not the same product as developmental, line, and copy editing</td></tr>
-<tr><td>"What happens if I need more revisions than the package includes?"</td><td>You want this answered before it happens, not discovered mid-project</td></tr>
-<tr><td>"Is a launch plan included, or does the deliverable stop at 'in print'?"</td><td>Printing and launching are two different jobs; ask which one you're buying</td></tr>
-<tr><td>"Are payment plans available?"</td><td>A five-figure decision shouldn't have to clear in one transaction</td></tr>
-<tr><td>"Can you show me a sample edit?"</td><td>If the answer is vague or they can't produce one, that's the answer</td></tr>
-</tbody>
-</table>
-
-</div>
+Ask whether you can see the itemized breakdown in writing, exactly how many editing passes are included, what happens if you need more revisions than the package covers, whether a launch plan is included or the deliverable stops at "in print," whether payment plans are available, and whether they can show you a sample edit. If the answer to any of these is vague, or they can't produce one, that's the answer.
 
 If a company can't answer these clearly and in writing, that's worth treating as information, not an oversight.
 
@@ -194,21 +142,11 @@ None of this replaces running your own numbers for your own situation. It's simp
 
 Cost questions are really readiness questions in disguise. A few signs the investment tends to make sense, and a few signs it might be worth waiting:
 
-<div class="chart-block">
+<figure>
+  <img src="/images/blog/inline/cost-fit.png" alt="A two-column comparison graphic: Good Fit (clear audience, material to draw from, time to commit) versus Too Early (no clear audience, blank page, no time now)" loading="lazy" />
+</figure>
 
-<table>
-<thead>
-<tr><th>Signs it's likely a good fit</th><th>Signs it might be too early</th></tr>
-</thead>
-<tbody>
-<tr><td>You have a clear audience of clients, patients, or an industry who would read this book</td><td>You're not yet sure who the book is for or what it should say</td></tr>
-<tr><td>You use speaking, sales calls, or media as part of how you grow your business</td><td>You don't yet have a use case for the book beyond wanting to have written one</td></tr>
-<tr><td>You have material to draw from: talks, notes, years of client conversations</td><td>You're starting from a completely blank page with no material at all</td></tr>
-<tr><td>You can commit real time to structured sessions over several months</td><td>Your schedule genuinely has no room for the process right now</td></tr>
-</tbody>
-</table>
-
-</div>
+A good fit usually means you have a clear audience of clients, patients, or an industry who'd read this book, you already use speaking, sales calls, or media to grow your business, you have material to draw from (talks, notes, years of client conversations), and you can commit real time to structured sessions over several months. It might be too early if you're not yet sure who the book is for, you're starting from a completely blank page with no material at all, or your schedule genuinely has no room for the process right now.
 
 None of this is a hard rule. It's a gut check worth running honestly before a five-figure decision, and it's exactly the kind of thing a real strategy call should help you work through, not paper over to close the deal.
 

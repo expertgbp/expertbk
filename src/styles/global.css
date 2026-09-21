@@ -78,14 +78,20 @@
        past the real content — which is exactly what happened with the
        header's mega-menu dropdown before it had flex-wrap. This doesn't
        hide a genuine layout bug; it just stops that class of bug from
-       ever becoming a page-wide scrollbar again. */
-    overflow-x: hidden;
+       ever becoming a page-wide scrollbar again.
+       `clip`, not `hidden`: `overflow-x: hidden` forces the computed
+       overflow-y away from `visible` too (per the CSS overflow spec),
+       which turns html/body into scroll containers and breaks
+       `position: sticky` on any descendant (e.g. the blog article's
+       sidebar table of contents) in Chromium — a well-documented quirk.
+       `clip` blocks the same horizontal overflow without that side effect. */
+    overflow-x: clip;
   }
 
   body {
     font-size: 1.125rem;
     line-height: 1.7;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4 {
