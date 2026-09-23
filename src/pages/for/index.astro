@@ -30,7 +30,7 @@ const groupLabels: Record<string, string> = {
   </section>
 
   {Object.entries(groups).map(([key, items]) => items.length > 0 && (
-    <section class="bg-ivory-50 border-t border-navy-100">
+    <section id={key} class="bg-ivory-50 border-t border-navy-100 scroll-mt-24">
       <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
         <h2 class="mb-8">{groupLabels[key]}</h2>
         <CardGrid items={items.map((p) => ({ title: p.data.professionLabel, description: p.data.answerBlock.slice(0, 110) + "…", href: `/for/${p.id}` }))} />

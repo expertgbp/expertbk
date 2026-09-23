@@ -4,37 +4,56 @@ import { entity } from "../data/entity";
 interface Props {
   /** Optional per-page framing override for each stage's description. */
   overrides?: Partial<Record<string, string>>;
+  /**
+   * "light" (default): white circle badges on a light/ivory section, as used
+   * on profession/service pages. "dark": larger solid-gold letter badges for
+   * use on a navy-900 section (homepage's own EPIC band) — same data, same
+   * connecting-line structure, just recolored for the dark surface.
+   */
+  theme?: "light" | "dark";
 }
-const { overrides = {} } = Astro.props;
+const { overrides = {}, theme = "light" } = Astro.props;
+const isDark = theme === "dark";
 ---
 
-<div class="relative grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-6">
-  <!-- Connects the four numbered stages into one path, not four disconnected
-       cards. Sits behind the number badges, only on the row layout (md+)
+<div class:list={["relative grid grid-cols-1 gap-10 md:grid-cols-4", isDark ? "md:gap-8" : "md:gap-6"]} data-path-theme={theme}>
+  <!-- Connects the four stages into one path, not four disconnected cards.
+       Sits behind the letter/number badges, only on the row layout (md+)
        where the four are side by side. -->
   <div
-    class="pointer-events-none absolute left-[12.5%] right-[12.5%] top-[18px] hidden h-[2px] bg-gold-300/50 md:block"
+    class:list={["pointer-events-none absolute left-[12.5%] right-[12.5%] hidden md:block", isDark ? "top-[28px] h-[2px] bg-gold-300/30" : "top-[18px] h-[2px] bg-gold-300/50"]}
     aria-hidden="true"
   >
   </div>
 
   {entity.method.stages.map((stage, i) => (
     <div class="path-step relative flex flex-col items-center text-center">
-      <span
-        class="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-gold-300 bg-white font-serif text-lg font-bold text-gold-500"
-        aria-hidden="true"
-      >
-        {i + 1}
-      </span>
-      <h3 class="mt-3 font-serif font-semibold text-lg">{stage.title}</h3>
-      <p class="mt-2 max-w-[26ch] text-sm text-slate-500">{overrides[stage.key] ?? stage.description}</p>
+      {isDark ? (
+        <span
+          class="relative z-[1] flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold-300 font-serif text-2xl font-bold text-navy-900"
+          aria-hidden="true"
+        >
+          {stage.title[0]}
+        </span>
+      ) : (
+        <span
+          class="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-gold-300 bg-white font-serif text-lg font-bold text-gold-500"
+          aria-hidden="true"
+        >
+          {i + 1}
+        </span>
+      )}
+      <h3 class:list={["mt-4 font-serif font-semibold text-xl", isDark && "on-navy"]}>{stage.title}</h3>
+      <p class:list={["mt-2 max-w-[26ch] text-sm", isDark ? "opacity-75" : "text-slate-500"]}>
+        {overrides[stage.key] ?? stage.description}
+      </p>
     </div>
   ))}
 </div>
 
 <style>
   /* On mobile the four stages stack in one column already reading top to
-     bottom; a short gold rule through the gap between each pair of numbers
+     bottom; a short gold rule through the gap between each pair of badges
      makes that order read as one path rather than four separate blocks.
      Sized to exactly fill the gap-10 (2.5rem) row gap. */
   @media (max-width: 767px) {

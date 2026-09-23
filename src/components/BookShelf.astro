@@ -1,0 +1,95 @@
+---
+/**
+ * "The Bookshelf" — homepage-only proof section: a row of illustrated book
+ * spines standing in for real author book covers. Each is a clearly-marked
+ * placeholder (brief's rule: navy/gold illustrated placeholders until real
+ * assets exist, never a stock photo or an invented cover) carrying the
+ * exact asset name and profession an editor or the AI image pipeline needs
+ * to fill in later. Spine colors are drawn only from the existing brand
+ * tokens (global.css @theme) — no new palette entries — to keep six
+ * visually distinct spines without breaking the "don't add colors outside
+ * the palette" rule.
+ */
+interface Spine {
+  profession: string;
+  bg: string;
+  ink: string;
+  accent: string;
+}
+
+const spines: Spine[] = [
+  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
+  { profession: "Coach", bg: "var(--color-navy-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)" },
+  { profession: "Founder", bg: "var(--color-gold-500)", ink: "var(--color-navy-900)", accent: "var(--color-navy-900)" },
+  { profession: "Therapist", bg: "var(--color-navy-700)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
+  { profession: "Lawyer", bg: "var(--color-gold-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)" },
+  { profession: "Executive", bg: "var(--color-ink-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
+];
+---
+
+<section class="bg-ivory-50">
+  <div class="mx-auto max-w-6xl px-4 py-20 md:py-24">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow">The bookshelf</p>
+      <h2 class="mt-3">Real books by real experts</h2>
+      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+        Doctors, coaches, founders, and lawyers who turned what they know into a book with their name on the spine.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
+      {spines.map((spine, i) => (
+        <figure class="stagger-card flex flex-col gap-3" style={`--stagger-i: ${i}`}>
+          <div
+            class="spine relative flex h-56 flex-col justify-between overflow-hidden rounded-r-lg rounded-l-sm p-5"
+            style={`background:${spine.bg}; color:${spine.ink};`}
+            role="img"
+            aria-label={`Placeholder book cover: real cover photo needed for a ${spine.profession.toLowerCase()} author`}
+          >
+            <div class="spine-edge" style={`background: color-mix(in srgb, ${spine.ink} 18%, transparent);`} aria-hidden="true"></div>
+            <p class="font-serif text-base leading-snug opacity-90">[Book cover: real cover photo]</p>
+            <p class="text-[0.65rem] font-semibold tracking-[0.12em]" style={`color:${spine.accent};`}>AUTHOR NAME</p>
+          </div>
+          <figcaption class="text-sm text-slate-500">[Author, {spine.profession}]</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="mt-10 text-center">
+      <a href="/case-studies" class="arrow-link font-semibold text-navy-700 hover:text-gold-500" data-cta="bookshelf-case-studies">
+        See all author books and case studies <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .spine-edge {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+  }
+
+  /* Same restrained stagger pattern used by CardGrid: only animates once an
+     ancestor .reveal section has already been marked visible by
+     src/scripts/reveal.ts, so this never causes a hidden-content flash. */
+  @keyframes stagger-card-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  :global(.reveal) .stagger-card {
+    opacity: 0;
+  }
+  :global(.reveal.is-visible) .stagger-card {
+    animation: stagger-card-in var(--duration-base) var(--ease-out) both;
+    animation-delay: min(calc(var(--stagger-i, 0) * 45ms), 300ms);
+  }
+</style>

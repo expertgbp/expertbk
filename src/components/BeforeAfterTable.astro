@@ -8,22 +8,22 @@ interface Props {
 const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your expertise as a book" } = Astro.props;
 ---
 
-<section class="bg-navy-900 text-offwhite-100">
-  <div class="mx-auto max-w-5xl px-4 py-16">
-    <h2 class="on-navy text-center mb-10">{heading}</h2>
-    <div class="before-after-scroll overflow-x-auto table-scroll">
-      <table class="before-after w-full text-left border-collapse min-w-[36rem]">
+<section class="bg-ivory-50">
+  <div class="mx-auto max-w-4xl px-4 py-20">
+    <h2 class="text-center mb-12">{heading}</h2>
+    <div class="before-after-scroll overflow-x-auto table-scroll rounded-2xl shadow-lg">
+      <table class="before-after w-full text-left border-collapse min-w-[36rem] bg-white rounded-2xl overflow-hidden">
         <thead>
-          <tr class="border-b border-navy-600">
-            <th class="py-3 pr-4 font-serif text-base font-semibold opacity-80">{beforeLabel}</th>
-            <th class="py-3 pl-4 font-serif text-base font-semibold text-gold-300">{afterLabel}</th>
+          <tr>
+            <th class="py-5 px-6 font-serif text-base font-semibold text-slate-500 bg-ivory-50">{beforeLabel}</th>
+            <th class="py-5 px-6 font-serif text-base font-semibold text-gold-300 bg-navy-900">{afterLabel}</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr class="border-b border-navy-700">
-              <td class="py-4 pr-4 align-top opacity-80" data-label={beforeLabel}>{row.before}</td>
-              <td class="py-4 pl-4 align-top border-l border-navy-700 font-medium" data-label={afterLabel}>{row.after}</td>
+            <tr class="border-t border-navy-100">
+              <td class="py-4 px-6 align-top text-slate-500" data-label={beforeLabel}>{row.before}</td>
+              <td class="py-4 px-6 align-top font-semibold text-navy-900 bg-gold-100/50" data-label={afterLabel}>{row.after}</td>
             </tr>
           ))}
         </tbody>
@@ -48,10 +48,10 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
     background-position: left center, right center, left center, right center;
     background-size: 28px 100%, 28px 100%, 12px 100%, 12px 100%;
     background-image:
-      linear-gradient(to right, var(--color-navy-900), transparent),
-      linear-gradient(to left, var(--color-navy-900), transparent),
-      linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent),
-      linear-gradient(to left, rgba(255, 255, 255, 0.16), transparent);
+      linear-gradient(to right, #fff, transparent),
+      linear-gradient(to left, #fff, transparent),
+      linear-gradient(to right, rgba(8, 31, 51, 0.14), transparent),
+      linear-gradient(to left, rgba(8, 31, 51, 0.14), transparent);
   }
 
   /*
@@ -65,6 +65,7 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
   @media (max-width: 767px) {
     .before-after-scroll {
       overflow-x: visible;
+      box-shadow: none;
     }
     .before-after {
       min-width: 0;
@@ -74,7 +75,7 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
     }
     .before-after tr {
       display: block;
-      border: 1px solid var(--color-navy-600);
+      border: 1px solid var(--color-navy-100);
       border-radius: var(--radius-card);
       padding: 1rem;
       margin-bottom: 1rem;
@@ -84,8 +85,9 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
     }
     .before-after td {
       display: block;
-      padding: 0.5rem 0;
+      padding: 0.5rem 0 !important;
       border: none !important;
+      background: none !important;
     }
     .before-after td::before {
       content: attr(data-label);
@@ -97,14 +99,11 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
       margin-bottom: 0.25rem;
     }
     .before-after td:first-child {
-      border-bottom: 1px solid var(--color-gold-300) !important;
+      border-bottom: 1px solid var(--color-navy-100) !important;
       margin-bottom: 0.5rem;
-      color: var(--color-offwhite-100);
-      opacity: 0.85;
     }
     .before-after td:last-child {
-      color: var(--color-gold-300);
-      font-weight: 600;
+      color: var(--color-navy-900);
     }
   }
 </style>

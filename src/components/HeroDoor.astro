@@ -33,6 +33,14 @@ interface Props {
    * layout can't spare the room.
    */
   showMethodCard?: boolean;
+  /**
+   * Which right-column visual to show (lg+ only, both variants). "method"
+   * (default) is the EPIC Publishing Path mockup card used on every other
+   * page's hero. "books" is the homepage-only illustrated two-book stack +
+   * floating proof cards from the homepage redesign — kept off other pages
+   * so the brand-level method visual stays the default elsewhere.
+   */
+  visual?: "method" | "books";
 }
 const {
   eyebrow,
@@ -47,6 +55,7 @@ const {
   ctaId = "hero",
   showParticles = false,
   showMethodCard = true,
+  visual = "method",
 } = Astro.props;
 
 // One consistent-stroke icon per stage, matched by key rather than index so
@@ -82,7 +91,7 @@ const stageIcons: Record<string, string> = {
     <canvas class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" data-particles></canvas>
   )}
 
-  <div class="relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:grid-cols-[1fr_380px] lg:items-center">
+  <div class:list={["relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:items-center", visual === "books" ? "lg:grid-cols-[1fr_420px]" : "lg:grid-cols-[1fr_380px]"]}>
     <div>
       <p class="eyebrow mb-4">{eyebrow}</p>
       <h1 class="max-w-3xl on-navy">{heading}</h1>
@@ -132,7 +141,7 @@ const stageIcons: Record<string, string> = {
          rather than reflowed, so it never competes with headline text on
          tablet/mobile — the exact discipline the layered gradients above
          already follow. -->
-    {showMethodCard && (
+    {visual === "method" && showMethodCard && (
       <div class="hidden lg:block method-card" aria-hidden="true">
         <div class="method-card-bar">
           <span class="method-dot" style="background:#E6B85C"></span>
@@ -150,6 +159,46 @@ const stageIcons: Record<string, string> = {
             <span class="method-card-badge">{i + 1}</span>
           </div>
         ))}
+      </div>
+    )}
+
+    <!-- Homepage-only illustrated visual: two stacked books (the brand's
+         "book as a door" motif) plus two floating proof cards. Both books
+         are illustrated placeholders standing in for a real author book
+         title and the real Expert Book Blueprint cover once designed —
+         each carries the exact asset name needed, not a stock photo. -->
+    {visual === "books" && (
+      <div class="relative hidden h-[420px] lg:block" aria-hidden="true">
+        <div class="book-back" role="img" aria-label="Placeholder: real author book title cover">
+          <p class="font-serif text-lg leading-snug text-navy-900/80">[Author book title]</p>
+        </div>
+        <img
+          src="/images/home/blueprint-mockup.png"
+          alt="The Expert Book Blueprint guide cover"
+          width="250"
+          height="360"
+          loading="eager"
+          class="book-front"
+        />
+        <div class="proof-card proof-card-authors">
+          <span class="proof-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-navy-900)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path>
+            </svg>
+          </span>
+          <span>
+            <strong>{entity.proofBank.authorsCount} authors</strong>
+            <small>across {entity.proofBank.countriesCount} countries</small>
+          </span>
+        </div>
+        <div class="proof-card proof-card-rights">
+          <span class="proof-card-icon proof-card-icon-dark">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold-300)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"></path><path d="M9 12l2 2 4-4"></path>
+            </svg>
+          </span>
+          <span>You keep 100% of your<br />rights and royalties</span>
+        </div>
       </div>
     )}
   </div>
@@ -239,5 +288,77 @@ const stageIcons: Record<string, string> = {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Illustrated two-book stack (homepage hero, visual="books"). Two plain
+     rounded rectangles offset and rotated slightly to read as a loose
+     stack, each with a thicker "spine" edge — the same device BookShelf.astro
+     uses for its placeholder covers, just larger and only two of them. */
+  .book-back,
+  .book-front {
+    position: absolute;
+    border-radius: 4px 14px 14px 4px;
+    box-shadow: var(--shadow-lg);
+  }
+  .book-back {
+    left: 60px;
+    top: 30px;
+    width: 230px;
+    height: 320px;
+    background: var(--color-gold-100);
+    transform: rotate(6deg);
+    padding: 56px 26px 0 40px;
+  }
+  .book-front {
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 360px;
+    object-fit: cover;
+    transform: rotate(-4deg);
+  }
+
+  .proof-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fff;
+    color: var(--color-navy-900);
+    border-radius: 14px;
+    padding: 0.85rem 1.1rem;
+    box-shadow: var(--shadow-lg);
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+  .proof-card strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+  }
+  .proof-card small {
+    opacity: 0.65;
+  }
+  .proof-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 10px;
+    background: var(--color-gold-100);
+    flex-shrink: 0;
+  }
+  .proof-card-icon-dark {
+    background: var(--color-navy-900);
+  }
+  .proof-card-authors {
+    left: 0;
+    bottom: 10px;
+  }
+  .proof-card-rights {
+    right: 0;
+    top: 20px;
+    font-weight: 600;
   }
 </style>
