@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# raw AI image generations, not shipped (see design/image-log.md)
+design/raw-images/
