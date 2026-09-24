@@ -234,6 +234,15 @@
     min-height: 44px;
   }
 
+  /*
+    Static "raised" depth (not motion): a navy-tinted bottom lip makes the
+    button read as one solid, pressable object at rest, not just a flat
+    color fill. The existing :active state already moved the button down
+    on click — this gives that press somewhere real to press INTO by
+    depth-matching the lip's own offset, rather than adding a new effect.
+    Navy-tinted per the file's existing elevation-shadow convention
+    (rgba of --color-navy-900), not a new color outside the palette.
+  */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -244,6 +253,7 @@
     font-weight: 600;
     padding: 0.85rem 1.6rem;
     border-radius: 999px;
+    box-shadow: 0 3px 0 0 rgba(8, 31, 51, 0.35), 0 1px 0 0 rgba(255, 255, 255, 0.4) inset;
     transition: background-color var(--duration-fast) var(--ease-hover),
       transform var(--duration-fast) var(--ease-out),
       box-shadow var(--duration-fast) var(--ease-out);
@@ -252,12 +262,13 @@
   @media (hover: hover) and (pointer: fine) {
     .btn-primary:hover {
       background-color: var(--color-gold-500);
-      box-shadow: 0 6px 20px -6px rgba(230, 184, 92, 0.55);
+      box-shadow: 0 3px 0 0 rgba(8, 31, 51, 0.4), 0 1px 0 0 rgba(255, 255, 255, 0.4) inset,
+        0 6px 20px -6px rgba(230, 184, 92, 0.55);
     }
   }
   .btn-primary:active {
-    transform: translateY(1px);
-    box-shadow: none;
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.25) inset;
   }
 
   .btn-secondary {
@@ -271,8 +282,10 @@
     padding: 0.8rem 1.5rem;
     border-radius: 999px;
     border: 1.5px solid currentColor;
+    box-shadow: 0 2px 0 0 currentColor;
     transition: background-color var(--duration-fast) var(--ease-hover),
-      transform var(--duration-fast) var(--ease-out);
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
     white-space: nowrap;
   }
   @media (hover: hover) and (pointer: fine) {
@@ -281,7 +294,8 @@
     }
   }
   .btn-secondary:active {
-    transform: translateY(1px);
+    transform: translateY(2px);
+    box-shadow: none;
   }
 
   /*
@@ -298,7 +312,8 @@
   }
   @media (hover: hover) and (pointer: fine) {
     .btn-signature:hover {
-      box-shadow: 0 8px 28px -6px rgba(230, 184, 92, 0.65);
+      box-shadow: 0 3px 0 0 rgba(8, 31, 51, 0.4), 0 1px 0 0 rgba(255, 255, 255, 0.4) inset,
+        0 8px 28px -6px rgba(230, 184, 92, 0.65);
     }
   }
 
