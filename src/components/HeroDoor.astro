@@ -33,14 +33,6 @@ interface Props {
    * layout can't spare the room.
    */
   showMethodCard?: boolean;
-  /**
-   * Which right-column visual to show (lg+ only, both variants). "method"
-   * (default) is the EPIC Publishing Path mockup card used on every other
-   * page's hero. "books" is the homepage-only illustrated two-book stack +
-   * floating proof cards from the homepage redesign — kept off other pages
-   * so the brand-level method visual stays the default elsewhere.
-   */
-  visual?: "method" | "books";
 }
 const {
   eyebrow,
@@ -55,7 +47,6 @@ const {
   ctaId = "hero",
   showParticles = false,
   showMethodCard = true,
-  visual = "method",
 } = Astro.props;
 
 // One consistent-stroke icon per stage, matched by key rather than index so
@@ -80,18 +71,13 @@ const stageIcons: Record<string, string> = {
   <div class="pointer-events-none absolute inset-0 z-0 opacity-60 md:opacity-90" aria-hidden="true">
     <div class="absolute inset-y-0 right-[-15%] w-[70%] bg-gradient-to-l from-gold-300/25 via-gold-300/5 to-transparent"></div>
     <div class="absolute -bottom-1/3 -left-1/4 h-[70%] w-[60%] rounded-full bg-navy-600/40 blur-3xl"></div>
-    <div
-      class="absolute inset-y-[8%] right-[18%] w-[3px] rounded-full bg-gold-300/80 blur-[0.5px]"
-      data-hero-beam
-    >
-    </div>
   </div>
 
   {showParticles && (
     <canvas class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" data-particles></canvas>
   )}
 
-  <div class="relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:grid-cols-[1fr_380px] lg:items-center">
+  <div class:list={["relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:items-center", showMethodCard && "lg:grid-cols-[1fr_380px]"]}>
     <div>
       <p class="eyebrow mb-4">{eyebrow}</p>
       <h1 class="max-w-3xl on-navy">{heading}</h1>
@@ -141,7 +127,7 @@ const stageIcons: Record<string, string> = {
          rather than reflowed, so it never competes with headline text on
          tablet/mobile — the exact discipline the layered gradients above
          already follow. -->
-    {visual === "method" && showMethodCard && (
+    {showMethodCard && (
       <div class="hidden lg:block method-card" aria-hidden="true">
         <div class="method-card-bar">
           <span class="method-dot" style="background:#E6B85C"></span>
@@ -159,38 +145,6 @@ const stageIcons: Record<string, string> = {
             <span class="method-card-badge">{i + 1}</span>
           </div>
         ))}
-      </div>
-    )}
-
-    <!-- Homepage-only illustrated visual: one book (the brand's "book as a
-         door" motif) plus a single floating proof card. Deliberately just
-         one book and one card, not two of each — a second placeholder book
-         and a second card duplicating facts already in the subhead read as
-         clutter, not proof. The remaining card states the one fact this
-         hero doesn't already say in prose (authors/countries); "100% of
-         your rights and royalties" stays out of the visual because the
-         subhead sentence already says it once, in full. -->
-    {visual === "books" && (
-      <div class="relative hidden h-[380px] lg:block" aria-hidden="true">
-        <img
-          src="/images/home/blueprint-mockup.png"
-          alt="The Expert Book Blueprint guide cover"
-          width="270"
-          height="380"
-          loading="eager"
-          class="book-front"
-        />
-        <div class="proof-card proof-card-authors">
-          <span class="proof-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-navy-900)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path>
-            </svg>
-          </span>
-          <span>
-            <strong>{entity.proofBank.authorsCount} authors</strong>
-            <small>across {entity.proofBank.countriesCount} countries</small>
-          </span>
-        </div>
       </div>
     )}
   </div>
@@ -280,58 +234,5 @@ const stageIcons: Record<string, string> = {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  /* The single hero book: centered in its box with real margin on every
-     side (not pinned to the container's edges) so it reads as one
-     deliberate object floating in space, not content packed to the walls
-     of its box. A gentle -3deg tilt, softer than the earlier two-book
-     stack's steeper angles, keeps it calm rather than "thrown down". */
-  .book-front {
-    position: absolute;
-    left: 55px;
-    top: 0;
-    width: 270px;
-    height: 380px;
-    object-fit: cover;
-    border-radius: 4px 14px 14px 4px;
-    box-shadow: var(--shadow-lg);
-    transform: rotate(-3deg);
-  }
-
-  .proof-card {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: #fff;
-    color: var(--color-navy-900);
-    border-radius: 14px;
-    padding: 0.85rem 1.1rem;
-    box-shadow: var(--shadow-lg);
-    font-size: 0.85rem;
-    line-height: 1.3;
-  }
-  .proof-card strong {
-    display: block;
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-  }
-  .proof-card small {
-    opacity: 0.65;
-  }
-  .proof-card-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 10px;
-    background: var(--color-gold-100);
-    flex-shrink: 0;
-  }
-  .proof-card-authors {
-    left: -14px;
-    bottom: 28px;
   }
 </style>

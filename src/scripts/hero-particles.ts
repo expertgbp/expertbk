@@ -1,7 +1,7 @@
 /**
  * Homepage hero only: a soft field of drifting gold dust motes behind the
- * headline, plus a slow pointer-parallax on the light-beam glow. Purely
- * decorative — this is the one place on the site where the "delight" tier
+ * headline. Purely decorative — this is the one place on the site where
+ * the "delight" tier
  * of motion (Emil Kowalski's animate skill: rare, first-thing-you-see,
  * marketing-only) is spent, not sprinkled elsewhere.
  *
@@ -100,27 +100,6 @@ if (canvas && !prefersReduced) {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) stop();
       else if (host.getBoundingClientRect().bottom > 0) start();
-    });
-  }
-
-  // Subtle pointer-parallax on the gold light-beam glow. Hover-capable,
-  // fine-pointer devices only; the glow simply stays put on touch.
-  const beam = host?.querySelector<HTMLElement>("[data-hero-beam]");
-  if (beam && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    import("gsap").then(({ gsap }) => {
-      const moveX = gsap.quickTo(beam, "x", { duration: 0.8, ease: "power3.out" });
-      const moveY = gsap.quickTo(beam, "y", { duration: 0.8, ease: "power3.out" });
-      host!.addEventListener("mousemove", (e) => {
-        const rect = host!.getBoundingClientRect();
-        const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5..0.5
-        const relY = (e.clientY - rect.top) / rect.height - 0.5;
-        moveX(relX * -18);
-        moveY(relY * -12);
-      });
-      host!.addEventListener("mouseleave", () => {
-        moveX(0);
-        moveY(0);
-      });
     });
   }
 }
