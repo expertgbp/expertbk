@@ -15,33 +15,53 @@ import { primaryNav } from "../data/nav";
                 {item.label}
                 <svg width="10" height="10" viewBox="0 0 10 10" class="mt-0.5" aria-hidden="true"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
               </button>
-              <div class="invisible opacity-0 -translate-y-1 origin-top-left group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] absolute left-0 top-full pt-2 w-max max-w-[90vw] z-50">
-                <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl p-5 flex flex-wrap gap-8">
-                  {"groups" in item && item.groups.map((group) => (
-                    <div class="min-w-[10rem]">
-                      {group.headingHref ? (
-                        <a href={group.headingHref} class="eyebrow mb-2 block hover:text-gold-500">{group.heading}</a>
-                      ) : (
-                        <p class="eyebrow mb-2">{group.heading}</p>
-                      )}
-                      <ul class="space-y-1.5">
-                        {group.items.map((link) => (
-                          <li><a href={link.href} class="hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                  {"links" in item && (
-                    <ul class="space-y-1.5 min-w-[12rem]">
-                      {item.links.map((link) => (
-                        <li><a href={link.href} class="hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
+              <div class="mega-panel invisible opacity-0 -translate-y-1 origin-top group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] absolute left-0 top-full pt-2 w-[min(90vw,50rem)] z-50">
+                <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl overflow-hidden">
+                  {"groups" in item && (
+                    <div class:list={["grid gap-x-6 gap-y-7 p-6", item.groups.length >= 5 ? "sm:grid-cols-3 lg:grid-cols-5" : "sm:grid-cols-3"]}>
+                      {item.groups.map((group) => (
+                        <div class="min-w-0">
+                          <div class="flex items-start gap-2.5">
+                            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-100 text-navy-700" aria-hidden="true">
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={group.icon ?? ""} />
+                            </span>
+                            <div class="min-w-0">
+                              {group.headingHref ? (
+                                <a href={group.headingHref} class="font-serif font-semibold text-[0.95rem] block hover:text-gold-500">{group.heading}</a>
+                              ) : (
+                                <p class="font-serif font-semibold text-[0.95rem]">{group.heading}</p>
+                              )}
+                              {group.description && <p class="mt-0.5 text-xs text-slate-500 leading-snug">{group.description}</p>}
+                            </div>
+                          </div>
+                          <ul class="mt-3 space-y-1.5">
+                            {group.items.map((link) => (
+                              <li><a href={link.href} class="text-[0.85rem] text-slate-500 hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
+                  )}
+                  {"links" in item && (
+                    <div class="grid gap-x-6 gap-y-1 p-4 sm:grid-cols-2">
+                      {item.links.map((link) => (
+                        <a href={link.href} class="mega-link flex items-start gap-3 rounded-lg p-2.5 hover:bg-ivory-50" data-cta={`nav-${link.href.split("/").pop()}`}>
+                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-100 text-navy-700" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
+                          </span>
+                          <span class="min-w-0">
+                            <span class="block text-sm font-semibold text-ink-900">{link.label}</span>
+                            {link.description && <span class="block text-xs text-slate-500 leading-snug mt-0.5">{link.description}</span>}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
                   )}
                 </div>
                 {"indexHref" in item && item.indexHref && (
-                  <div class="bg-white text-ink-900 rounded-b-xl border-x border-b border-navy-100 px-5 py-2 -mt-1">
-                    <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">See all &rarr;</a>
+                  <div class="bg-white text-ink-900 rounded-b-xl border-x border-b border-navy-100 px-6 py-3 -mt-1">
+                    <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">See all {item.label.toLowerCase()} &rarr;</a>
                   </div>
                 )}
               </div>
@@ -100,6 +120,18 @@ import { primaryNav } from "../data/nav";
 </header>
 
 <style>
+  /* Mega panels default to left-0 (anchored to the trigger's left edge,
+     extending rightward) — correct for the first dropdowns (For Experts,
+     Your Book) which sit near the header's left side. The last dropdown
+     (Resources) sits further right, so a rightward-extending panel there
+     risks overflowing the viewport; flip it to anchor its right edge to
+     the trigger instead, extending leftward into the space that's
+     actually available. No JS measurement needed for either case. */
+  nav .group:last-of-type .mega-panel {
+    left: auto;
+    right: 0;
+  }
+
   /* Mobile nav open/close: an accordion-style reveal, one of the few cases
      where animating a layout property (max-height) is the accepted
      exception, since there's no transform equivalent for "how much of a
