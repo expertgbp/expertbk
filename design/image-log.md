@@ -8,7 +8,8 @@ the photographer + source instead. See
 | File | Page | Source | Prompt / Model | Date |
 | --- | --- | --- | --- | --- |
 | `src/assets/images/homepage/hero-book-photo.webp` | Homepage hero | Pexels, photo by Lisa Fotios (pexels.com/@fotios-photos, photo 3806168) | n/a (licensed stock, no attribution required) | 2026-09-28 |
+| `src/assets/images/placeholder-covers/placeholder-doctor.webp` | Homepage bookshelf | AI-generated (approved by user) | "THE HEALING EDGE" / "Robin Hale" (dummy, pending real data) — photorealistic style, cream bg, real stethoscope photo / gpt-image-2 | 2026-09-28 |
 
 ## API call count
 
-Running total: 0
+Running total: 3

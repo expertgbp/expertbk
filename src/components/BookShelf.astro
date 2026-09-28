@@ -10,15 +10,23 @@
  * visually distinct spines without breaking the "don't add colors outside
  * the palette" rule.
  */
+import type { ImageMetadata } from "astro";
+import BookCover from "./BookCover.astro";
+import doctorCover from "../assets/images/placeholder-covers/placeholder-doctor.webp";
+
 interface Spine {
   profession: string;
   bg: string;
   ink: string;
   accent: string;
+  /** Once an AI-generated placeholder-<topic>.webp exists for this slot,
+   * set its imported ImageMetadata here to render a real cover instead of
+   * the flat illustrated spine below. */
+  image?: ImageMetadata;
 }
 
 const spines: Spine[] = [
-  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
+  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: doctorCover },
   { profession: "Coach", bg: "var(--color-navy-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)" },
   { profession: "Founder", bg: "var(--color-gold-500)", ink: "var(--color-navy-900)", accent: "var(--color-navy-900)" },
   { profession: "Therapist", bg: "var(--color-navy-700)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
@@ -40,17 +48,25 @@ const spines: Spine[] = [
     <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
       {spines.map((spine, i) => (
         <figure class="stagger-card flex flex-col gap-3" style={`--stagger-i: ${i}`}>
-          <div
-            class="spine relative flex h-56 flex-col justify-between overflow-hidden rounded-r-lg rounded-l-sm p-5"
-            style={`background:${spine.bg}; color:${spine.ink};`}
-            role="img"
-            aria-label={`Placeholder book cover: real cover photo needed for a ${spine.profession.toLowerCase()} author`}
-          >
-            <div class="spine-edge" style={`background: color-mix(in srgb, ${spine.ink} 18%, transparent);`} aria-hidden="true"></div>
-            <p class="font-serif text-base leading-snug opacity-90">[Book cover: real cover photo]</p>
-            <p class="text-[0.65rem] font-semibold tracking-[0.12em]" style={`color:${spine.accent};`}>AUTHOR NAME</p>
-          </div>
-          <figcaption class="text-sm text-slate-500">[Author, {spine.profession}]</figcaption>
+          {spine.image ? (
+            <div class="aspect-[2/3]">
+              <BookCover image={spine.image} alt={`Placeholder cover for a ${spine.profession.toLowerCase()} author book — dummy title/author, pending real details`} />
+            </div>
+          ) : (
+            <div
+              class="spine relative flex h-56 flex-col justify-between overflow-hidden rounded-r-lg rounded-l-sm p-5"
+              style={`background:${spine.bg}; color:${spine.ink};`}
+              role="img"
+              aria-label={`Placeholder book cover: real cover photo needed for a ${spine.profession.toLowerCase()} author`}
+            >
+              <div class="spine-edge" style={`background: color-mix(in srgb, ${spine.ink} 18%, transparent);`} aria-hidden="true"></div>
+              <p class="font-serif text-base leading-snug opacity-90">[Book cover: real cover photo]</p>
+              <p class="text-[0.65rem] font-semibold tracking-[0.12em]" style={`color:${spine.accent};`}>AUTHOR NAME</p>
+            </div>
+          )}
+          <figcaption class="text-sm text-slate-500">
+            {spine.image ? "[Dummy title/author — pending real data]" : `[Author, ${spine.profession}]`}
+          </figcaption>
         </figure>
       ))}
     </div>
