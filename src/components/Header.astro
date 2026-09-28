@@ -15,40 +15,44 @@ import { primaryNav } from "../data/nav";
                 {item.label}
                 <svg width="10" height="10" viewBox="0 0 10 10" class="mt-0.5" aria-hidden="true"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
               </button>
-              <div class="mega-panel invisible opacity-0 -translate-y-1 origin-top group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] absolute left-0 top-full pt-2 w-[min(90vw,50rem)] z-50">
-                <div class="bg-white text-ink-900 rounded-xl border border-navy-100 shadow-xl overflow-hidden">
+              <div class="mega-panel invisible opacity-0 -translate-y-1 origin-top group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] absolute left-0 top-full pt-2 w-[min(94vw,64rem)] z-50">
+                <div class="mega-surface relative bg-white text-ink-900 rounded-xl border border-navy-100 shadow-2xl overflow-hidden">
+                  <span class="mega-top-accent" aria-hidden="true"></span>
                   {"groups" in item && (
-                    <div class:list={["grid gap-x-6 gap-y-7 p-6", item.groups.length >= 5 ? "sm:grid-cols-3 lg:grid-cols-5" : "sm:grid-cols-3"]}>
-                      {item.groups.map((group) => (
-                        <div class="min-w-0">
-                          <div class="flex items-start gap-2.5">
-                            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-100 text-navy-700" aria-hidden="true">
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={group.icon ?? ""} />
+                    <div class:list={["grid gap-x-8 gap-y-8 p-7", item.groups.length >= 5 ? "sm:grid-cols-3 lg:grid-cols-5" : "sm:grid-cols-3"]}>
+                      {item.groups.map((group, gi) => {
+                        const shown = group.items.slice(0, 4);
+                        const remaining = group.items.length - shown.length;
+                        const tint = gi % 2 === 0 ? "navy" : "gold";
+                        return (
+                          <div class="min-w-0">
+                            <span class:list={["mega-icon-badge flex h-11 w-11 items-center justify-center rounded-full", tint === "navy" ? "bg-navy-100 text-navy-700" : "bg-gold-100 text-navy-900"]} aria-hidden="true">
+                              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" set:html={group.icon ?? ""} />
                             </span>
-                            <div class="min-w-0">
-                              {group.headingHref ? (
-                                <a href={group.headingHref} class="font-serif font-semibold text-[0.95rem] block hover:text-gold-500">{group.heading}</a>
-                              ) : (
-                                <p class="font-serif font-semibold text-[0.95rem]">{group.heading}</p>
-                              )}
-                              {group.description && <p class="mt-0.5 text-xs text-slate-500 leading-snug">{group.description}</p>}
-                            </div>
+                            {group.headingHref ? (
+                              <a href={group.headingHref} class="mega-group-heading mt-3 font-serif font-semibold text-base block hover:text-gold-500">{group.heading}</a>
+                            ) : (
+                              <p class="mega-group-heading mt-3 font-serif font-semibold text-base">{group.heading}</p>
+                            )}
+                            <ul class="mt-3 space-y-2 border-t border-navy-100 pt-3">
+                              {shown.map((link) => (
+                                <li><a href={link.href} class="mega-shine -mx-2 block rounded-md px-2 py-1 text-[0.85rem] text-slate-500 hover:text-navy-900">{link.label}</a></li>
+                              ))}
+                            </ul>
+                            {remaining > 0 && group.headingHref && (
+                              <a href={group.headingHref} class="mt-1 inline-block text-xs font-semibold text-navy-700 hover:text-gold-500">+{remaining} more &rarr;</a>
+                            )}
                           </div>
-                          <ul class="mt-3 space-y-1.5">
-                            {group.items.map((link) => (
-                              <li><a href={link.href} class="text-[0.85rem] text-slate-500 hover:text-gold-500 hover:underline underline-offset-2">{link.label}</a></li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                   {"links" in item && (
-                    <div class="grid gap-x-6 gap-y-1 p-4 sm:grid-cols-2">
-                      {item.links.map((link) => (
-                        <a href={link.href} class="mega-link flex items-start gap-3 rounded-lg p-2.5 hover:bg-ivory-50" data-cta={`nav-${link.href.split("/").pop()}`}>
-                          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-100 text-navy-700" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
+                    <div class="grid gap-x-6 gap-y-1 p-5 sm:grid-cols-2">
+                      {item.links.map((link, li) => (
+                        <a href={link.href} class="mega-link mega-shine relative flex items-start gap-3 rounded-lg p-3 hover:bg-ivory-50" data-cta={`nav-${link.href.split("/").pop()}`}>
+                          <span class:list={["flex h-9 w-9 shrink-0 items-center justify-center rounded-full", li % 2 === 0 ? "bg-navy-100 text-navy-700" : "bg-gold-100 text-navy-900"]} aria-hidden="true">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
                           </span>
                           <span class="min-w-0">
                             <span class="block text-sm font-semibold text-ink-900">{link.label}</span>
@@ -60,11 +64,12 @@ import { primaryNav } from "../data/nav";
                   )}
                 </div>
                 {"indexHref" in item && item.indexHref && (
-                  <div class="bg-white text-ink-900 rounded-b-xl border-x border-b border-navy-100 px-6 py-3 -mt-1">
-                    <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">See all {item.label.toLowerCase()} &rarr;</a>
+                  <div class="bg-white text-ink-900 rounded-b-xl border-x border-b border-navy-100 px-7 py-3 -mt-1">
+                    <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">{("seeAllLabel" in item && item.seeAllLabel) || "See all"} &rarr;</a>
                   </div>
                 )}
               </div>
+              <div class="nav-scrim invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-[var(--duration-base)] ease-[var(--ease-out)] fixed inset-x-0 top-16 bottom-0 z-30 bg-navy-900/45" aria-hidden="true"></div>
             </div>
           ) : (
             <a href={item.href} class="px-3 py-2 rounded hover:bg-navy-700">{item.label}</a>
@@ -130,6 +135,74 @@ import { primaryNav } from "../data/nav";
   nav .group:last-of-type .mega-panel {
     left: auto;
     right: 0;
+  }
+
+  /* Reserves 2 lines' worth of height for every group heading in a
+     grouped mega panel (For Experts, Your Book), regardless of whether
+     that particular heading actually wraps ("Leadership & Career" does,
+     the rest don't). Without this, the one column with a wrapping
+     heading pushes its description/list down while its neighbors don't,
+     breaking the row alignment across the whole panel. */
+  .mega-group-heading {
+    display: block;
+    min-height: 2.3rem;
+  }
+
+  /* The dimmed backdrop behind an open mega panel: keeps the panel
+     reading as a clear top layer against a busy page (large serif
+     headline text, etc.) instead of visually blending into it. Sits
+     below the header's own z-40 stacking context by not overlapping the
+     header bar at all (top-16 = the header's own height), so the bar
+     itself always stays fully lit; only the page content below it dims. */
+  .nav-scrim {
+    pointer-events: none;
+  }
+
+  /* A thin navy-gold-navy gradient bar across the top of every mega
+     panel — a static styling touch (not motion), the same restraint
+     principle as one signature button treatment: spend the "stylish"
+     budget in one deliberate place rather than decorating every edge. */
+  .mega-top-accent {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-navy-700), var(--color-gold-300) 50%, var(--color-navy-700));
+  }
+
+  .mega-icon-badge {
+    box-shadow: inset 0 0 0 1px rgba(8, 31, 51, 0.06);
+  }
+
+  /*
+    "3D shine" hover: the same one-shot diagonal sheen already used on
+    every .card sitewide (global.css), applied here to mega-menu links
+    instead of inventing a new hover effect. Gold-tinted, single sweep on
+    hover-enter (not a looping shimmer), transform/opacity-adjacent
+    (background-position + opacity only) so it stays in the site's
+    established low-motion tier.
+  */
+  .mega-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .mega-shine::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 217, 138, 0.35) 48%, transparent 66%);
+    background-size: 250% 100%;
+    background-position: 150% 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mega-shine::before {
+      transition: background-position var(--duration-slow) var(--ease-out), opacity var(--duration-fast) var(--ease-hover);
+    }
+    .mega-shine:hover::before {
+      background-position: -50% 0;
+      opacity: 1;
+    }
   }
 
   /* Mobile nav open/close: an accordion-style reveal, one of the few cases

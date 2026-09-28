@@ -25,6 +25,7 @@ export type NavGroup = { heading: string; headingHref?: string; description?: st
 export const professionGroups: NavGroup[] = [
   {
     heading: "Health",
+    headingHref: "/for#health",
     description: "Doctors, nurses, therapists, and health coaches turning expertise into a book.",
     icon: '<path d="M12 21s-7-4.5-9-9.5C1.5 7 4.5 4 8 4c2 0 3.2 1 4 2 .8-1 2-2 4-2 3.5 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
     items: [
@@ -39,6 +40,7 @@ export const professionGroups: NavGroup[] = [
   },
   {
     heading: "Wealth",
+    headingHref: "/for#wealth",
     description: "Advisors, founders, and coaches building authority through a book.",
     icon: '<path d="M3 20h18M6 16v-6M11 16V6M16 16v-4M20 16V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
     items: [
@@ -53,6 +55,7 @@ export const professionGroups: NavGroup[] = [
   },
   {
     heading: "Relationships",
+    headingHref: "/for#relationships",
     description: "Coaches and counselors who help people at home and in relationships.",
     icon: '<circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14 14.3c.6-.2 1.3-.3 2-.3 3.3 0 6 2.7 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     items: [
@@ -64,6 +67,7 @@ export const professionGroups: NavGroup[] = [
   },
   {
     heading: "Leadership & Career",
+    headingHref: "/for#leadership-and-career",
     description: "Executives and leaders documenting what they know.",
     icon: '<rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     items: [
@@ -75,6 +79,7 @@ export const professionGroups: NavGroup[] = [
   },
   {
     heading: "Service Providers",
+    headingHref: "/for#service-providers",
     description: "Lawyers, consultants, and speakers who sell expertise for a living.",
     icon: '<path d="M12 3l8 4-8 4-8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12l8 4 8-4M4 17l8 4 8-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
     items: [
@@ -161,7 +166,7 @@ export const serviceLinks: NavLink[] = [
     icon: '<path d="M3 10v4h3l5 4V6L6 10z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/><path d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
   },
   {
-    label: "Book Relaunch (Book Rescue)",
+    label: "Book Relaunch",
     href: "/services/book-relaunch",
     description: "Already published but not selling? We fix that.",
     icon: '<path d="M3.5 13.5a8.5 8.5 0 1 0 2.3-6.2M3.5 4v4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
@@ -269,9 +274,9 @@ export const legalLinks: NavLink[] = [
 ];
 
 export const primaryNav = [
-  { label: "For Experts", groups: professionGroups, indexHref: "/for" },
-  { label: "Your Book", groups: bookTypeGroups, indexHref: "/books" },
-  { label: "Services", links: serviceLinks, indexHref: "/services" },
+  { label: "For Experts", groups: professionGroups, indexHref: "/for", seeAllLabel: "See all professions" },
+  { label: "Your Book", groups: bookTypeGroups, indexHref: "/books", seeAllLabel: "See all book types" },
+  { label: "Services", links: serviceLinks, indexHref: "/services", seeAllLabel: "See all services" },
   { label: "Resources", links: resourceLinks },
   { label: "About", href: "/about" },
 ];
