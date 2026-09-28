@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { entity } from "../data/entity";
+import heroPhoto from "../assets/images/homepage/hero-book-photo.webp";
 
 interface Props {
   eyebrow: string;
@@ -33,6 +35,16 @@ interface Props {
    * layout can't spare the room.
    */
   showMethodCard?: boolean;
+  /**
+   * Homepage-only right-column photo (lg+, same slot the method card
+   * uses elsewhere — the two are mutually exclusive, never both). A real,
+   * licensed photo (Pexels; see design/image-log.md for photographer
+   * credit), not an illustration: a person's book, framed, is a more
+   * direct "this is what we're talking about" visual than an abstract
+   * mockup card. Hands only in the source photo, no face, per the
+   * brand's face rule.
+   */
+  showPhoto?: boolean;
 }
 const {
   eyebrow,
@@ -47,6 +59,7 @@ const {
   ctaId = "hero",
   showParticles = false,
   showMethodCard = true,
+  showPhoto = false,
 } = Astro.props;
 
 // One consistent-stroke icon per stage, matched by key rather than index so
@@ -77,7 +90,7 @@ const stageIcons: Record<string, string> = {
     <canvas class="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" data-particles></canvas>
   )}
 
-  <div class:list={["relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:items-center", showMethodCard && "lg:grid-cols-[1fr_380px]"]}>
+  <div class:list={["relative z-10 mx-auto max-w-7xl px-4 py-20 md:py-32 hero-enter grid gap-12 lg:items-center", (showMethodCard || showPhoto) && "lg:grid-cols-[1fr_380px]"]}>
     <div>
       <p class="eyebrow mb-4">{eyebrow}</p>
       <h1 class="max-w-3xl on-navy">{heading}</h1>
@@ -127,7 +140,13 @@ const stageIcons: Record<string, string> = {
          rather than reflowed, so it never competes with headline text on
          tablet/mobile — the exact discipline the layered gradients above
          already follow. -->
-    {showMethodCard && (
+    {showPhoto && (
+      <div class="hero-photo-frame hidden lg:block" aria-hidden="true">
+        <Image src={heroPhoto} alt="" width={380} height={507} loading="eager" class="hero-photo" />
+      </div>
+    )}
+
+    {!showPhoto && showMethodCard && (
       <div class="hidden lg:block method-card" aria-hidden="true">
         <div class="method-card-bar">
           <span class="method-dot" style="background:#E6B85C"></span>
@@ -221,6 +240,32 @@ const stageIcons: Record<string, string> = {
     line-height: 1.4;
     opacity: 0.65;
   }
+  /* Hero photo frame (visual="photo" homepage variant): a gold card sits
+     behind the photo at a slight counter-rotation, showing as a thin
+     frame edge — the "book as a door" gold accent applied to a real
+     photo instead of an illustration. Static styling, not motion. */
+  .hero-photo-frame {
+    position: relative;
+    max-width: 340px;
+  }
+  .hero-photo-frame::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 22px;
+    background: linear-gradient(160deg, var(--color-gold-300), var(--color-gold-500));
+    transform: rotate(-3deg);
+  }
+  .hero-photo {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    transform: rotate(2deg);
+  }
+
   .method-card-badge {
     margin-left: auto;
     flex-shrink: 0;
