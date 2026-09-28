@@ -23,10 +23,14 @@ interface Spine {
    * set its imported ImageMetadata here to render a real cover instead of
    * the flat illustrated spine below. */
   image?: ImageMetadata;
+  /** The dummy author name actually printed on that generated cover —
+   * shown in the caption so it's obvious which placeholder name is live,
+   * pending the real one. */
+  dummyAuthor?: string;
 }
 
 const spines: Spine[] = [
-  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: doctorCover },
+  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: doctorCover, dummyAuthor: "Robin Hale" },
   { profession: "Coach", bg: "var(--color-navy-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)" },
   { profession: "Founder", bg: "var(--color-gold-500)", ink: "var(--color-navy-900)", accent: "var(--color-navy-900)" },
   { profession: "Therapist", bg: "var(--color-navy-700)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)" },
@@ -65,7 +69,7 @@ const spines: Spine[] = [
             </div>
           )}
           <figcaption class="text-sm text-slate-500">
-            {spine.image ? "[Dummy title/author — pending real data]" : `[Author, ${spine.profession}]`}
+            {spine.image ? `${spine.dummyAuthor}, ${spine.profession}` : `[Author, ${spine.profession}]`}
           </figcaption>
         </figure>
       ))}
