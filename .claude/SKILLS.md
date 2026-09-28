@@ -45,6 +45,16 @@ the project's explicit declaration, not a separate install.
   hand-coded SVG/HTML tables), a 3,000+ word substantive expansion, and the
   sitewide sticky-TOC article layout. Use this when finalizing any other
   post in `src/content/blog/` to the same standard, one post at a time.
+- **Book cover placeholders (project-local):** `book-cover-placeholder`
+  (`.claude/skills/book-cover-placeholder/`, this repo only). Captures the
+  exact approved style for the homepage Bookshelf's AI-generated covers —
+  photorealistic, cream background, one real photographed object, navy
+  serif title, plain dummy author name (the Doctor/"Robin Hale" cover is
+  the reference) — plus a bundled `scripts/generate_cover.py` that calls
+  the OpenAI Images API directly (the `gpt-image` skill's own CLI backend
+  is an unreachably large clone on this network). Use for every remaining
+  Bookshelf cover (Coach, Founder, Therapist, Lawyer, Executive) and any
+  future book-cover slot on the site.
 
 See `BRAND.md` (project root) for the brand system itself, and `CLAUDE.md`
 (project root) for the technical foundation this site is built on.

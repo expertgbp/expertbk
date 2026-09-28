@@ -9,7 +9,7 @@
  * src/data/nav.ts (including its icon/description fields) so the header
  * mega menu and this section never drift apart.
  */
-import { professionGroups, professionGroupKeys } from "../data/nav";
+import { professionGroups } from "../data/nav";
 ---
 
 <section class="bg-navy-100">
@@ -26,37 +26,27 @@ import { professionGroups, professionGroupKeys } from "../data/nav";
 
     <div class="mt-10 rounded-2xl bg-white border border-navy-100 shadow-lg overflow-hidden">
       {professionGroups.map((group, i) => {
-        const key = professionGroupKeys[i];
-        const shown = group.items.slice(0, 4);
-        const remaining = group.items.length - shown.length;
         return (
           <div
             class:list={["router-row door-rule flex flex-col gap-5 py-7 pr-6 md:flex-row md:items-center md:gap-10 md:pr-8", i > 0 && "border-t border-navy-100"]}
           >
-            <div class="flex items-start gap-4 md:w-[19rem] md:shrink-0">
-              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-navy-900 text-gold-300" aria-hidden="true">
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" set:html={group.icon ?? ""} />
-              </span>
-              <div>
-                <h3 class="font-serif text-xl font-semibold text-navy-900">{group.heading}</h3>
-                {group.description && <p class="mt-1 text-sm text-slate-500 leading-snug">{group.description}</p>}
-              </div>
+            <div class="md:w-[19rem] md:shrink-0">
+              <h3 class="font-serif text-xl font-semibold text-navy-900">{group.heading}</h3>
+              {group.description && <p class="mt-1 text-sm text-slate-500 leading-snug">{group.description}</p>}
             </div>
             <div class="flex flex-1 flex-wrap items-center gap-2">
-              {shown.map((item) => (
+              {group.items.map((item) => (
                 <a
                   href={item.href}
-                  class="rounded-full border border-navy-100 px-4 py-1.5 text-sm font-medium text-navy-700 hover:border-gold-300 hover:bg-gold-100/40 hover:text-navy-900"
+                  class="flex items-center gap-2 rounded-full border border-navy-100 pl-2.5 pr-4 py-1.5 text-sm font-medium text-navy-700 hover:border-gold-300 hover:bg-gold-100/40 hover:text-navy-900"
                   data-cta={`router-${item.href.split("/").pop()}`}
                 >
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy-900 text-gold-300" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" set:html={item.icon ?? group.icon ?? ""} />
+                  </span>
                   {item.label}
                 </a>
               ))}
-              {remaining > 0 && (
-                <a href={`/for#${key}`} class="text-sm font-semibold text-navy-700 hover:text-gold-500 px-2" data-cta={`router-more-${key}`}>
-                  +{remaining} more &rarr;
-                </a>
-              )}
             </div>
           </div>
         );
@@ -79,18 +69,18 @@ import { professionGroups, professionGroupKeys } from "../data/nav";
     }
   }
 
-  /* The door-rule motif needs more left padding here than its default
-     (built for text sitting directly against the rule) since the icon
-     badge sits between the rule and the heading. */
+  /* Slightly more left padding than the door-rule's site default (pl-4)
+     since this heading is set larger (text-xl) and reads better with a
+     touch more breathing room off the rule. */
   .router-row.door-rule::before {
     left: 0;
   }
   .router-row {
-    padding-left: 2rem;
+    padding-left: 1.5rem;
   }
   @media (min-width: 768px) {
     .router-row {
-      padding-left: 2.5rem;
+      padding-left: 1.75rem;
     }
   }
 </style>

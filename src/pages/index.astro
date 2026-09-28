@@ -1,13 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroDoor from "../components/HeroDoor.astro";
+import AsSeenOn from "../components/AsSeenOn.astro";
 import TrustBar from "../components/TrustBar.astro";
 import BookShelf from "../components/BookShelf.astro";
 import PathSteps from "../components/PathSteps.astro";
 import BeforeAfterTable from "../components/BeforeAfterTable.astro";
 import CompareTable from "../components/CompareTable.astro";
 import ProfessionCategoryRouter from "../components/ProfessionCategoryRouter.astro";
-import TestimonialCard from "../components/TestimonialCard.astro";
+import VideoTestimonialSlider from "../components/VideoTestimonialSlider.astro";
+import FeaturedCaseStudies from "../components/FeaturedCaseStudies.astro";
 import LeadMagnetForm from "../components/LeadMagnetForm.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
@@ -91,10 +93,12 @@ const faqs = [
     trustPoints={["Keep 100% of your rights and royalties", "6 to 12 months, guided start to finish"]}
     microTrust="Founded by USA Today and Wall Street Journal bestselling authors"
     ctaId="home-hero"
-    showParticles
     showMethodCard={false}
     showPhoto
   />
+
+  <!-- Section 1b: As seen on / published everywhere -->
+  <AsSeenOn />
 
   <!-- Section 2: Trust bar -->
   <TrustBar />
@@ -201,16 +205,17 @@ const faqs = [
           <p class="text-lg leading-snug">{entity.proofBank.fastSaleStat}</p>
         </div>
       </div>
-      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <TestimonialCard status="placeholder" />
-        <TestimonialCard status="placeholder" />
-        <TestimonialCard status="placeholder" />
+      <div class="mt-10">
+        <VideoTestimonialSlider />
       </div>
       <p class="mt-6 text-sm opacity-70">
         <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
       </p>
     </div>
   </section>
+
+  <!-- Section 9b: Featured case studies -->
+  <FeaturedCaseStudies />
 
   <!-- Section 10: Founders -->
   <section class="bg-ivory-50">

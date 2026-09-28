@@ -1,0 +1,298 @@
+---
+/**
+ * Real video testimonials, 3 visible at a time (2 on tablet, 1 on mobile),
+ * auto-advancing one card at a time, right to left, looping seamlessly.
+ * Thumbnails only load a real YouTube iframe on click (performance: 9
+ * concurrent embeds would be a real Core Web Vitals hit) — the same
+ * lazy-loading discipline as hero-particles.ts / cta-motion.ts elsewhere
+ * on this site.
+ */
+import { videoTestimonials } from "../data/testimonials";
+
+// Two clones of the first two real items appended, so the auto-advance can
+// scroll straight through the wrap point (see script below) instead of
+// jumping backward visibly at the loop.
+const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]];
+---
+
+<div class="testimonial-slider" data-testimonial-slider aria-roledescription="carousel" aria-label="Author video testimonials">
+  <div class="slider-viewport">
+    <div class="slider-track" data-track>
+      {track.map((t, i) => (
+        <div class="slide" data-slide>
+          <button
+            type="button"
+            class="video-thumb"
+            data-youtube-id={t.youtubeId}
+            aria-label={`Play video testimonial: ${t.name}${t.bookTitle ? ", author of " + t.bookTitle : ""}`}
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${t.youtubeId}/hqdefault.jpg`}
+              alt=""
+              loading={i < 3 ? "eager" : "lazy"}
+              width="480"
+              height="360"
+            />
+            <span class="play-badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="#081F33"/></svg>
+            </span>
+          </button>
+          <p class="slide-caption">
+            <strong>{t.name}</strong>
+            {t.bookTitle && <span>, author of <em>{t.bookTitle}</em></span>}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="slider-controls">
+    <button type="button" class="slider-btn" data-prev aria-label="Previous testimonial">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button type="button" class="slider-btn" data-next aria-label="Next testimonial">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .testimonial-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .slider-viewport {
+    overflow: hidden;
+  }
+  .slider-track {
+    display: flex;
+    transition: transform var(--duration-slow) var(--ease-in-out);
+  }
+  .slide {
+    flex: 0 0 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  @media (min-width: 640px) {
+    .slide { flex-basis: 50%; }
+  }
+  @media (min-width: 1024px) {
+    .slide { flex-basis: 33.3333%; }
+  }
+  .video-thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: var(--color-navy-900);
+    /* A visible frame ring (via box-shadow, not `border`, so it doesn't
+       disturb the button's box model) plus real elevation — on the dark
+       Results section, a thin gold-tinted ring reads as a deliberate
+       frame around the graphic instead of an image floating bare. */
+    box-shadow: 0 0 0 1px rgba(255, 217, 138, 0.35), var(--shadow-lg);
+    transition: box-shadow var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .video-thumb:hover {
+      box-shadow: 0 0 0 1.5px rgba(255, 217, 138, 0.6), var(--shadow-lg);
+    }
+  }
+  .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .play-badge {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .play-badge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 31, 51, 0.15);
+  }
+  .play-badge svg {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    box-shadow: var(--shadow-lg);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .video-thumb:hover .play-badge svg {
+      background: var(--color-gold-500);
+    }
+  }
+  .video-embed {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 0 0 1.5px var(--color-gold-300), var(--shadow-lg);
+  }
+  /* This slider currently only ships on the homepage's dark navy Results
+     section, so the caption is styled for that surface directly (light
+     text) rather than as a reusable light/dark-agnostic default. */
+  .slide-caption {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: var(--color-offwhite-100);
+    opacity: 0.8;
+    text-align: center;
+  }
+  .slide-caption strong {
+    color: var(--color-offwhite-100);
+    opacity: 1;
+    font-family: var(--font-serif);
+  }
+
+  .slider-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .slider-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-navy-100);
+    background: #fff;
+    color: var(--color-navy-700);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .slider-btn:hover {
+      background: var(--color-gold-100);
+      border-color: var(--color-gold-300);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slider-track {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-testimonial-slider]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-track]");
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
+    const prevBtn = root.querySelector<HTMLButtonElement>("[data-prev]");
+    const nextBtn = root.querySelector<HTMLButtonElement>("[data-next]");
+    if (!track || slides.length === 0) return;
+
+    const REAL_COUNT = slides.length - 2; // 2 clones appended in the template
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function visibleCount() {
+      if (window.matchMedia("(min-width: 1024px)").matches) return 3;
+      if (window.matchMedia("(min-width: 640px)").matches) return 2;
+      return 1;
+    }
+
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    function paint(withTransition: boolean) {
+      track!.style.transition = withTransition ? "" : "none";
+      track!.style.transform = `translateX(-${index * (100 / visibleCount())}%)`;
+      if (!withTransition) {
+        // Force layout so the next transform change (with transition
+        // restored) actually animates instead of coalescing with this one.
+        void track!.offsetHeight;
+        track!.style.transition = "";
+      }
+    }
+
+    function goTo(next: number) {
+      index = next;
+      paint(true);
+      if (index >= REAL_COUNT) {
+        // Reached the cloned tail: after the transition finishes, snap
+        // back to the real start with no transition — invisible, since
+        // the clones are identical to items 0/1 in that position.
+        const onEnd = () => {
+          track!.removeEventListener("transitionend", onEnd);
+          index = 0;
+          paint(false);
+        };
+        track!.addEventListener("transitionend", onEnd);
+      }
+    }
+
+    function next() {
+      goTo(index + 1);
+    }
+    function prev() {
+      // Manual "previous" only ever needs to move within the real range;
+      // the auto-advance direction (right to left) is forward/next only.
+      goTo(Math.max(0, index - 1));
+    }
+
+    function startAuto() {
+      if (reduceMotion || timer) return;
+      timer = setInterval(next, 4500);
+    }
+    function stopAuto() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    root.addEventListener("mouseenter", stopAuto);
+    root.addEventListener("mouseleave", startAuto);
+    root.addEventListener("focusin", stopAuto);
+    root.addEventListener("focusout", startAuto);
+
+    nextBtn?.addEventListener("click", () => {
+      stopAuto();
+      next();
+    });
+    prevBtn?.addEventListener("click", () => {
+      stopAuto();
+      prev();
+    });
+
+    window.addEventListener("resize", () => paint(false));
+
+    // Click-to-load: swap the thumbnail button for a real iframe, and stop
+    // auto-advancing for good so the slider never yanks a playing video
+    // out of view.
+    root.querySelectorAll<HTMLButtonElement>("[data-youtube-id]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        stopAuto();
+        const id = btn.dataset.youtubeId;
+        const iframe = document.createElement("iframe");
+        iframe.className = "video-embed";
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        iframe.title = btn.getAttribute("aria-label") || "Video testimonial";
+        iframe.allow = "accelerate-compute; autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        btn.replaceWith(iframe);
+      });
+    });
+
+    paint(false);
+    startAuto();
+  });
+</script>

@@ -1,32 +1,40 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
+import VideoTestimonialSlider from "../components/VideoTestimonialSlider.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
 ---
 
 <BaseLayout
   title="Author Case Studies"
-  description="Real, permissioned author stories, published here only once the authors involved have approved their own words."
+  description="Real, permissioned author video testimonials, plus the written stories coming once each author has approved their own words."
 >
   <section class="bg-navy-900 text-offwhite-100">
     <div class="mx-auto max-w-3xl px-4 py-16">
       <p class="eyebrow mb-4">CASE STUDIES</p>
       <h1 class="on-navy">The authors who walked this path</h1>
       <p class="mt-4 text-lg opacity-90">
-        This page is going to hold real stories from real authors, in their own words, once they've given us
-        permission to share them.
+        Real authors, in their own words and their own voices, below. The full written story behind each one is
+        still coming, one at a time, as each author approves it.
       </p>
     </div>
   </section>
 
   <section class="bg-ivory-50">
+    <div class="mx-auto max-w-5xl px-4 py-16">
+      <h2 class="text-center mb-10">Hear it from them directly</h2>
+      <VideoTestimonialSlider />
+    </div>
+  </section>
+
+  <section class="bg-ivory-50 border-t border-navy-100">
     <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2>Why this page isn't full yet</h2>
+      <h2>Why the written stories aren't all here yet</h2>
       <p class="mt-4 leading-relaxed">
         We work with authors who trust us with a real story, sometimes a hard one. We don't publish a name,
-        a number, or a quote without that author's explicit permission first. That's slower than writing
-        case studies ourselves, and it's the only version of this page worth publishing.
+        a number, or a quote in writing without that author's explicit permission first. That's slower than
+        writing case studies ourselves, and it's the only version of this page worth publishing.
       </p>
       <p class="mt-4 leading-relaxed">
         So instead of inventing stories to fill the space, here's what's coming and how it will be marked

@@ -1,0 +1,125 @@
+---
+/**
+ * Homepage-only credibility strip, sitting between the hero and TrustBar —
+ * the one section GBP's own homepage (globalbookpublishing.com) has that
+ * this site didn't (an "As Featured In" logo band). Two parts:
+ *  1. A static row of the founders' real bestseller badges (facts already
+ *     in entity.ts; badge use pre-approved in the
+ *     writeexpertbook-brand-images skill).
+ *  2. A continuously auto-scrolling logo marquee, real logo files (not
+ *     AI-imitated) pulled directly from Wikimedia Commons, mirroring the
+ *     same set of press/platform logos GBP's own real site displays there
+ *     (Forbes, Udemy, Facebook) plus the retailers every published book
+ *     goes out to (Amazon, Barnes & Noble, Apple Books, Kobo, Google Play
+ *     Books). The list is duplicated once so the CSS animation can loop
+ *     seamlessly (same technique as VideoTestimonialSlider's clone trick).
+ */
+import amazon from "../assets/images/logos/amazon.svg?url";
+import barnesNoble from "../assets/images/logos/barnes-noble.svg?url";
+import appleBooks from "../assets/images/logos/apple-books.svg?url";
+import kobo from "../assets/images/logos/kobo.svg?url";
+import googlePlayBooks from "../assets/images/logos/google-play-books.svg?url";
+import forbes from "../assets/images/logos/forbes.svg?url";
+import udemy from "../assets/images/logos/udemy.svg?url";
+import facebook from "../assets/images/logos/facebook.svg?url";
+
+const badges = ["USA Today Bestselling Authors", "Wall Street Journal Bestselling Authors"];
+
+const logos = [
+  { src: forbes, alt: "Forbes", tall: false },
+  { src: udemy, alt: "Udemy", tall: false },
+  { src: facebook, alt: "Facebook", tall: false },
+  { src: amazon, alt: "Amazon", tall: false },
+  { src: barnesNoble, alt: "Barnes & Noble", tall: false },
+  { src: appleBooks, alt: "Apple Books", tall: true },
+  { src: kobo, alt: "Kobo", tall: false },
+  { src: googlePlayBooks, alt: "Google Play Books", tall: true },
+];
+const track = [...logos, ...logos];
+---
+
+<section class="as-seen-on bg-white border-b border-navy-100 pb-8">
+  <div class="mx-auto max-w-5xl px-4 pt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
+    {badges.map((b) => (
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-gold-300 bg-gold-100/50 px-3.5 py-1 text-xs font-semibold tracking-wide text-navy-900">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="shrink-0 text-gold-500" aria-hidden="true">
+          <path d="M12 2l2.7 6.1 6.6.6-5 4.5 1.5 6.5L12 16.6 6.2 19.7l1.5-6.5-5-4.5 6.6-.6z" fill="currentColor" />
+        </svg>
+        {b}
+      </span>
+    ))}
+  </div>
+
+  <p class="mt-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+    Featured in, and published on
+  </p>
+
+  <div class="logo-marquee mt-4" role="list" aria-label="As featured in and published on">
+    <div class="logo-track">
+      {track.map((logo) => (
+        <span class="logo-item" role="listitem">
+          <img src={logo.src} alt={logo.alt} loading="lazy" class:list={["logo-img", logo.tall && "logo-img-tall"]} />
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .logo-marquee {
+    overflow: hidden;
+    padding-block: 0.5rem;
+  }
+  .logo-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: clamp(2.25rem, 5vw, 3.5rem);
+    animation: logo-marquee 32s linear infinite;
+  }
+  /* Pausing on hover/focus gives a person a way to stop and actually read
+     one logo, per the site's own controllable-motion standard elsewhere
+     (auto-advancing testimonial slider stops the same way). */
+  .logo-marquee:hover .logo-track,
+  .logo-marquee:focus-within .logo-track {
+    animation-play-state: paused;
+  }
+  .logo-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+  }
+  .logo-img {
+    height: 1.6rem;
+    width: auto;
+    max-width: 7.5rem;
+    object-fit: contain;
+    opacity: 0.82;
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+  /* Apple Books / Google Play Books ship as near-square app icons rather
+     than wordmarks, so at the shared wordmark height they'd shrink to an
+     illegibly tiny glyph — give this pair a bit more height instead of
+     matching wordmark height exactly. */
+  .logo-img-tall {
+    height: 2rem;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .logo-item:hover .logo-img {
+      opacity: 1;
+    }
+  }
+  @keyframes logo-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track {
+      animation: none;
+    }
+    .logo-marquee {
+      overflow-x: auto;
+    }
+  }
+</style>
