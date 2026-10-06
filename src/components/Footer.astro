@@ -2,206 +2,407 @@
 import {
   professionGroups,
   bookTypeGroups,
-  footerServiceLinks,
+  serviceLinks,
   footerResourceLinks,
   companyLinks,
   legalLinks,
 } from "../data/nav";
 import { entity } from "../data/entity";
+
+const professionCount = professionGroups.reduce((n, g) => n + g.items.length, 0);
+const bookTypeCount = bookTypeGroups.reduce((n, g) => n + g.items.length, 0);
+
+/** The five always-visible columns. Fields and hubs link to their own
+ * pages; the full list of every profession and book type lives in the
+ * directory below, one click away, so these stay short enough to scan. */
+const columns = [
+  {
+    heading: "For Experts",
+    links: professionGroups.map((g) => ({ label: g.heading, href: g.headingHref ?? "/for" })),
+    all: { label: "All professions", href: "/for" },
+  },
+  {
+    heading: "Your Book",
+    links: bookTypeGroups.map((g) => ({ label: g.heading, href: g.headingHref ?? "/books" })),
+    all: { label: "All book types", href: "/books" },
+  },
+  {
+    heading: "Services",
+    links: serviceLinks.map((l) => ({ label: l.label, href: l.href })),
+    all: { label: "All services", href: "/services" },
+  },
+  { heading: "Resources", links: footerResourceLinks.map((l) => ({ label: l.label, href: l.href })) },
+  { heading: "Company", links: companyLinks.map((l) => ({ label: l.label, href: l.href })) },
+];
+
+const proof = [
+  `${entity.proofBank.authorsCount} authors`,
+  `${entity.proofBank.countriesCount} countries`,
+  "100% of rights stay yours",
+];
 ---
 
-<footer class="relative overflow-hidden bg-navy-900 text-offwhite-100 mt-24">
+<footer class="site-footer relative overflow-hidden bg-navy-900 text-offwhite-100">
   <!-- Thin gold hairline at the seam, the same door-rule language used
-       elsewhere on the site, so the footer reads as this brand's rather
-       than a generic dark-navy template. -->
-  <div class="h-px w-full bg-gradient-to-r from-transparent via-gold-300/40 to-transparent" aria-hidden="true"></div>
+       elsewhere on the site. -->
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-gold-300/50 to-transparent" aria-hidden="true" data-reveal="none"></div>
 
-  <!-- Same radial door-glow language as HeroDoor/FinalDoorCTA, quieter here —
-       one signature ambient-depth treatment reused, not a new invention for
-       this surface. Static (no animation): this is a rarely-seen, once-per-visit
-       surface, so it earns a touch of depth, not motion. -->
+  <!-- Same radial door-glow as HeroDoor/FinalDoorCTA, quieter. Static. -->
   <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-    <div class="absolute left-0 top-0 h-full w-[55%] bg-[radial-gradient(ellipse_70%_60%_at_10%_0%,rgba(255,217,138,0.10),transparent_70%)]"></div>
+    <div class="absolute left-0 top-0 h-full w-[60%] bg-[radial-gradient(ellipse_70%_55%_at_8%_0%,rgba(255,217,138,0.12),transparent_70%)]"></div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-7xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr] gap-x-8 gap-y-10 text-sm">
-    <!-- Brand column: an anchor for the sitemap grid instead of dropping
-         straight into four dense link lists with no orientation. -->
-    <div class="sm:col-span-2 lg:col-span-1">
-      <a href="/" class="door-rule pl-4 inline-block font-serif text-xl font-bold on-navy">{entity.brandName}</a>
-      <p class="mt-3 pl-4 max-w-[30ch] opacity-70 leading-relaxed">
-        Real books, real rights, real royalties, for the experts who write them.
-      </p>
-      <a href="/book-a-call" class="arrow-link mt-5 pl-4 inline-flex items-center gap-1 font-semibold text-gold-300 hover:text-gold-500" data-cta="footer-call">
-        Book a free strategy call <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 md:pt-20">
+    <!-- Brand row -->
+    <div class="footer-brand">
+      <div class="max-w-md">
+        <a href="/" class="footer-logo">
+          <span class="footer-logo-mark" aria-hidden="true"></span>
+          {entity.brandName}
+        </a>
+        <p class="mt-4 text-lg leading-relaxed opacity-75">
+          Real books, real rights, real royalties, for the experts who write them.
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-2">
+          {proof.map((item) => (<li class="footer-chip">{item}</li>))}
+        </ul>
+      </div>
+      <div class="footer-cta">
+        <p class="font-serif text-xl font-semibold on-navy">Ready when you are.</p>
+        <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+          <a href="/book-a-call" class="btn-primary text-sm" data-cta="footer-call">Book a Strategy Call</a>
+          <a href="/free-blueprint" class="btn-secondary text-sm" data-cta="footer-blueprint">Get the Free Blueprint</a>
+        </div>
+      </div>
     </div>
 
-    <div>
-      <p class="eyebrow mb-3">For Experts</p>
-      {professionGroups.map((group) => (
-        <details class="footer-group">
-          <summary class="footer-group-summary">
-            {group.heading}
-            <svg width="10" height="10" viewBox="0 0 10 10" class="footer-group-chevron" aria-hidden="true">
-              <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" />
-            </svg>
-          </summary>
-          <div class="footer-group-panel">
-            <div class="footer-group-panel-inner">
-              <ul class="space-y-1 pb-3">
-                {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-              </ul>
-            </div>
-          </div>
-        </details>
+    <!-- Link columns -->
+    <nav class="footer-cols" aria-label="Footer">
+      {columns.map((col) => (
+        <div>
+          <p class="footer-heading">{col.heading}</p>
+          <ul class="footer-list">
+            {col.links.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+            {col.all && (
+              <li>
+                <a href={col.all.href} class="footer-link footer-link-all arrow-link">
+                  {col.all.label} <span class="arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
       ))}
-    </div>
+    </nav>
 
-    <div>
-      <p class="eyebrow mb-3">Your Book</p>
-      {bookTypeGroups.map((group) => (
-        <details class="footer-group">
-          <summary class="footer-group-summary">
-            {group.heading}
-            <svg width="10" height="10" viewBox="0 0 10 10" class="footer-group-chevron" aria-hidden="true">
-              <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" />
-            </svg>
-          </summary>
-          <div class="footer-group-panel">
-            <div class="footer-group-panel-inner">
-              <ul class="space-y-1 pb-3">
-                {group.headingHref && (
-                  <li><a href={group.headingHref} class="footer-link font-semibold text-gold-300">See all {group.heading} &rarr;</a></li>
+    <!-- Full directory: every profession and book type page, grouped.
+         Closed by default so the footer stays scannable; the links are in
+         the HTML either way, so crawlers and AI parsers see all of them. -->
+    <details class="footer-directory">
+      <summary class="footer-directory-summary">
+        <span>Browse all {professionCount} professions and {bookTypeCount} book types</span>
+        <svg width="12" height="12" viewBox="0 0 10 10" class="footer-directory-chevron" aria-hidden="true">
+          <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </summary>
+      <div class="footer-directory-panel">
+        <div class="footer-directory-inner">
+          <div class="footer-directory-grid">
+            {[...professionGroups, ...bookTypeGroups].map((group) => (
+              <div>
+                {group.headingHref ? (
+                  <a href={group.headingHref} class="footer-subheading">{group.heading}</a>
+                ) : (
+                  <p class="footer-subheading">{group.heading}</p>
                 )}
-                {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-              </ul>
-            </div>
+                <ul class="footer-list">
+                  {group.items.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
+                </ul>
+              </div>
+            ))}
           </div>
-        </details>
-      ))}
-    </div>
-
-    <div>
-      <p class="eyebrow mb-3">Services &amp; Resources</p>
-      <ul class="space-y-1">
-        {footerServiceLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-      </ul>
-      <ul class="mt-4 space-y-1">
-        {footerResourceLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-      </ul>
-    </div>
-
-    <div>
-      <p class="eyebrow mb-3">Company</p>
-      <ul class="space-y-1">
-        {companyLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-      </ul>
-      <ul class="mt-4 space-y-1">
-        {legalLinks.map((l) => (<li><a href={l.href} class="footer-link">{l.label}</a></li>))}
-      </ul>
-    </div>
+        </div>
+      </div>
+    </details>
   </div>
 
-  <div class="border-t border-navy-700">
-    <div class="mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs opacity-70">
-      <p>
+  <!-- Oversized wordmark as texture: decorative, so hidden from assistive tech. -->
+  <p class="footer-wordmark" aria-hidden="true" data-reveal="none">{entity.brandName}</p>
+
+  <div class="relative z-10 border-t border-offwhite-100/10">
+    <div class="mx-auto max-w-7xl px-4 py-6 flex flex-col gap-4 text-sm md:flex-row md:items-center md:justify-between">
+      <p class="opacity-70">
         {entity.legalName} ({entity.legalNameShort}), founded {entity.founded}. {entity.address.locality}, {entity.address.region}.
       </p>
-      <div class="flex gap-4">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
         <!-- [NEEDS CONFIRMATION: real social links go in src/data/entity.ts `sameAs`] -->
-        <a href="/trust" class="footer-link">Trust</a>
+        {legalLinks.map((l) => (<a href={l.href} class="footer-link">{l.label}</a>))}
         <a href="/contact" class="footer-link">Talk to a real person</a>
+        <a href="#top" class="footer-top" data-back-to-top aria-label="Back to top">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
       </div>
     </div>
   </div>
+
+  <!-- Room for the fixed mobile CTA bar (Header.astro), kept navy so the
+       page ends on the footer, not on a strip of page background. -->
+  <div class="mobile-sticky-cta-spacer lg:hidden" aria-hidden="true" data-reveal="none"></div>
 </footer>
 
 <style>
-  /* Shared footer link treatment: color shift + underline affordance on
-     hover (matching the header mega-menu's link style), restricted to
-     devices that actually hover so a tap doesn't leave a link "stuck"
-     gold/underlined on touch screens. */
+  /* ---------- Brand row ---------- */
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+  }
+  @media (min-width: 900px) {
+    .footer-brand {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 4rem;
+      padding-bottom: 3.5rem;
+    }
+  }
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-offwhite-100);
+  }
+  .footer-logo-mark {
+    width: 4px;
+    height: 2rem;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  .footer-chip {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(255, 217, 138, 0.3);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-gold-300);
+  }
+  .footer-cta {
+    flex-shrink: 0;
+  }
+
+  /* ---------- Link columns ---------- */
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 1.5rem;
+    padding-block: 3rem;
+  }
+  @media (min-width: 640px) {
+    .footer-cols {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .footer-cols {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 2rem;
+      padding-block: 3.5rem;
+    }
+  }
+  .footer-heading {
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .footer-list {
+    display: grid;
+    gap: 0.15rem;
+  }
+  /* Links: a short gold rule slides in from the left as the text shifts
+     over, the door-rule motif again. Hover devices only, so a tap never
+     leaves a link stuck in its hover state. */
   .footer-link {
+    position: relative;
     display: inline-block;
-    padding-block: 0.25rem;
-    opacity: 0.85;
+    padding-block: 0.3rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: rgba(245, 241, 232, 0.78);
   }
   @media (hover: hover) and (pointer: fine) {
-    .footer-link {
-      transition: color var(--duration-fast) var(--ease-hover), opacity var(--duration-fast) var(--ease-hover);
+    .footer-list .footer-link {
+      transition: color var(--duration-fast) var(--ease-hover), translate var(--duration-base) var(--ease-out);
+    }
+    .footer-list .footer-link::before {
+      content: "";
+      position: absolute;
+      left: -0.85rem;
+      top: 50%;
+      width: 0.5rem;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--color-gold-300);
+      opacity: 0;
+      transition: opacity var(--duration-fast) var(--ease-hover);
+    }
+    .footer-list .footer-link:hover {
+      color: var(--color-gold-300);
+      translate: 0.85rem 0;
+    }
+    .footer-list .footer-link:hover::before {
+      opacity: 1;
     }
     .footer-link:hover {
       color: var(--color-gold-300);
-      opacity: 1;
-      text-decoration: underline;
-      text-underline-offset: 2px;
     }
   }
+  .footer-link-all {
+    margin-top: 0.35rem;
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+  }
 
-  /*
-    Footer market/hub groups as accordions instead of five (or three)
-    permanently-open lists: the "For Experts" column alone went from ~16
-    always-visible links to 28 once the market regroup shipped, which read
-    as a wall of text. Collapsed by default; every link still lives in the
-    DOM (just visually hidden), so nothing is lost for crawlers or AI
-    parsers, only for a first-glance human scan. Same disclosure pattern
-    already used by the mobile nav and FAQAccordion, so this isn't a new
-    interaction for the site to teach.
-  */
-  .footer-group {
-    border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+  /* ---------- Full directory ---------- */
+  .footer-directory {
+    border-top: 1px solid rgba(245, 241, 232, 0.1);
   }
-  .footer-group:first-of-type {
-    border-top: 1px solid rgba(245, 241, 232, 0.08);
-  }
-  .footer-group-summary {
-    cursor: pointer;
-    list-style: none;
+  .footer-directory-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-    min-height: 2.75rem; /* 44px: same touch-target floor as the mobile nav and FAQ accordion summaries */
-    padding-block: 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-offwhite-100);
-    opacity: 0.85;
+    gap: 1rem;
+    min-height: 3.5rem;
+    padding-block: 1rem;
+    list-style: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(245, 241, 232, 0.85);
   }
-  .footer-group-summary::-webkit-details-marker {
+  .footer-directory-summary::-webkit-details-marker {
     display: none;
   }
+  .footer-directory-summary:focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
   @media (hover: hover) and (pointer: fine) {
-    .footer-group-summary:hover {
-      opacity: 1;
+    .footer-directory-summary:hover {
       color: var(--color-gold-300);
     }
   }
-  .footer-group-chevron {
+  .footer-directory-chevron {
     flex-shrink: 0;
+    color: var(--color-gold-300);
     transition: transform var(--duration-base) var(--ease-out);
   }
-  details[open] > .footer-group-summary .footer-group-chevron {
+  details[open] > .footer-directory-summary .footer-directory-chevron {
     transform: rotate(-180deg);
   }
-  .footer-group-panel {
+  .footer-directory-panel {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows var(--duration-base) var(--ease-out);
   }
-  details[open] > .footer-group-panel {
+  details[open] > .footer-directory-panel {
     grid-template-rows: 1fr;
   }
-  .footer-group-panel-inner {
+  .footer-directory-inner {
     overflow: hidden;
   }
+  .footer-directory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    padding: 0.5rem 0 2.5rem 0.85rem;
+  }
+  @media (min-width: 768px) {
+    .footer-directory-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .footer-directory-grid .footer-link {
+    font-size: 0.875rem;
+  }
+  .footer-subheading {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+  }
   @media (prefers-reduced-motion: reduce) {
-    .footer-group-panel,
-    .footer-group-chevron {
+    .footer-directory-panel,
+    .footer-directory-chevron {
       transition: none;
     }
   }
+
+  /* ---------- Wordmark texture ---------- */
+  .footer-wordmark {
+    position: relative;
+    z-index: 0;
+    margin: 1.5rem 0 -0.16em;
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 13.6vw, 13rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    /* Fades from a faint gold at the top to nothing at the baseline. */
+    color: transparent;
+    background: linear-gradient(to bottom, rgba(255, 217, 138, 0.2), rgba(255, 217, 138, 0.02) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* ---------- Bottom bar ---------- */
+  .footer-top {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: 0.25rem;
+    border: 1.5px solid rgba(255, 217, 138, 0.45);
+    border-radius: 999px;
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .footer-top:active {
+    transform: scale(0.94);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .footer-top:hover {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
 </style>
+
+<script>
+  // "#top" has no matching element on purpose: this scrolls to the very
+  // top of the page (announcement bar included) without touching the URL.
+  document.querySelectorAll<HTMLAnchorElement>("[data-back-to-top]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const reduce =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        document.documentElement.classList.contains("a11y-reduce-motion");
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+  });
+</script>

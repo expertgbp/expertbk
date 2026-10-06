@@ -1,0 +1,108 @@
+---
+/**
+ * A grid of link cards, each led by an icon tile: the "where to next"
+ * pattern (404 quick links, the FAQ's "go deeper" row). Same language as
+ * the homepage's three wall cards: a navy tile that turns gold when its
+ * card is hovered. Built on the shared .card surface, so the lift, sheen
+ * and tilt come for free.
+ *
+ *   items    label + href, plus the optional `description` and `icon`
+ *            straight from src/data/nav.ts (icon = inner markup of a 24x24
+ *            line icon, not a full <svg> tag)
+ *   columns  cards per row on desktop (2, 3 or 4)
+ *   ctaPrefix  when set, each card gets data-cta="{prefix}-{last url part}"
+ */
+interface Item {
+  label: string;
+  href: string;
+  description?: string;
+  icon?: string;
+}
+interface Props {
+  items: Item[];
+  columns?: 2 | 3 | 4;
+  ctaPrefix?: string;
+}
+const { items, columns = 3, ctaPrefix } = Astro.props;
+const colClass = {
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-2 lg:grid-cols-3",
+  4: "sm:grid-cols-2 lg:grid-cols-4",
+}[columns];
+// Used when a nav entry has no icon of its own: a plain open door.
+const fallbackIcon =
+  '<path d="M5 21V4a1 1 0 0 1 1-1h9l4 3v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="14.5" cy="12.5" r="1" fill="currentColor"/>';
+const slug = (href: string) => href.split("/").filter(Boolean).pop() ?? "home";
+---
+
+<div class={`grid grid-cols-1 ${colClass} gap-4 md:gap-6`}>
+  {items.map((item) => (
+    <a href={item.href} class="card icon-link arrow-link" data-cta={ctaPrefix ? `${ctaPrefix}-${slug(item.href)}` : undefined}>
+      <span class="icon-link-top">
+        <span class="icon-link-tile" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={item.icon ?? fallbackIcon} />
+        </span>
+        <span class="icon-link-arrow arrow" aria-hidden="true">&rarr;</span>
+      </span>
+      <span class="icon-link-title">{item.label}</span>
+      {item.description && <span class="icon-link-desc">{item.description}</span>}
+    </a>
+  ))}
+</div>
+
+<style>
+  .icon-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+  .icon-link-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .icon-link-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 16px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .icon-link-arrow {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-slate-500);
+    transition: color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .icon-link-title {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+  }
+  .icon-link-desc {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-slate-500);
+  }
+  /* The tile flips to gold with the card's own lift: color only, no extra
+     movement beyond the arrow nudge every .arrow-link already has. */
+  @media (hover: hover) and (pointer: fine) {
+    .icon-link:hover .icon-link-tile {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+    .icon-link:hover .icon-link-arrow {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

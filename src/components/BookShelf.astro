@@ -1,14 +1,18 @@
 ---
 /**
- * "The Bookshelf" — homepage-only proof section: a row of illustrated book
- * spines standing in for real author book covers. Each is a clearly-marked
- * placeholder (brief's rule: navy/gold illustrated placeholders until real
- * assets exist, never a stock photo or an invented cover) carrying the
- * exact asset name and profession an editor or the AI image pipeline needs
- * to fill in later. Spine colors are drawn only from the existing brand
- * tokens (global.css @theme) — no new palette entries — to keep six
- * visually distinct spines without breaking the "don't add colors outside
- * the palette" rule.
+ * "The Bookshelf", homepage-only: six author books standing in a lit
+ * display case (a warm wall with a pool of light behind each book), each
+ * with a small name plate beneath it, the way a bookshop or gallery labels
+ * what is on display.
+ *
+ * All six covers are always shown. On desktop they stand in one row; on
+ * tablets and phones the same row scrolls sideways (with snap), so it
+ * never breaks into a grid.
+ *
+ * Covers are AI-generated placeholders with dummy titles/authors (see
+ * CLAUDE.md "Images"): swap a file in
+ * src/assets/images/placeholder-covers/ for the real cover and update the
+ * name here. The 3D book and its hover turn live in BookCover.astro.
  */
 import type { ImageMetadata } from "astro";
 import BookCover from "./BookCover.astro";
@@ -19,102 +23,179 @@ import therapistCover from "../assets/images/placeholder-covers/placeholder-ther
 import lawyerCover from "../assets/images/placeholder-covers/placeholder-lawyer.webp";
 import executiveCover from "../assets/images/placeholder-covers/placeholder-executive.webp";
 
-interface Spine {
+interface Book {
   profession: string;
-  bg: string;
-  ink: string;
-  accent: string;
-  /** Once an AI-generated placeholder-<topic>.webp exists for this slot,
-   * set its imported ImageMetadata here to render a real cover instead of
-   * the flat illustrated spine below. */
-  image?: ImageMetadata;
-  /** The dummy author name actually printed on that generated cover —
-   * shown in the caption so it's obvious which placeholder name is live,
-   * pending the real one. */
-  dummyAuthor?: string;
+  image: ImageMetadata;
+  /** The dummy author name printed on that generated cover, shown on the
+   * name plate so it's obvious which placeholder name is live, pending
+   * the real one. */
+  dummyAuthor: string;
 }
 
-const spines: Spine[] = [
-  { profession: "Doctor", bg: "var(--color-navy-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: doctorCover, dummyAuthor: "Robin Hale" },
-  { profession: "Coach", bg: "var(--color-navy-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)", image: coachCover, dummyAuthor: "Jordan Ellis" },
-  { profession: "Founder", bg: "var(--color-gold-500)", ink: "var(--color-navy-900)", accent: "var(--color-navy-900)", image: founderCover, dummyAuthor: "Alex Navarro" },
-  { profession: "Therapist", bg: "var(--color-navy-700)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: therapistCover, dummyAuthor: "Elena Cross" },
-  { profession: "Lawyer", bg: "var(--color-gold-100)", ink: "var(--color-navy-900)", accent: "var(--color-navy-700)", image: lawyerCover, dummyAuthor: "Marcus Hale" },
-  { profession: "Executive", bg: "var(--color-ink-900)", ink: "var(--color-offwhite-100)", accent: "var(--color-gold-300)", image: executiveCover, dummyAuthor: "Patricia Cole" },
+const books: Book[] = [
+  { profession: "Doctor", image: doctorCover, dummyAuthor: "Robin Hale" },
+  { profession: "Coach", image: coachCover, dummyAuthor: "Jordan Ellis" },
+  { profession: "Founder", image: founderCover, dummyAuthor: "Alex Navarro" },
+  { profession: "Therapist", image: therapistCover, dummyAuthor: "Elena Cross" },
+  { profession: "Lawyer", image: lawyerCover, dummyAuthor: "Marcus Hale" },
+  { profession: "Executive", image: executiveCover, dummyAuthor: "Patricia Cole" },
 ];
 ---
 
 <section class="bg-ivory-50">
-  <div class="mx-auto max-w-6xl px-4 py-20 md:py-24">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="eyebrow">The bookshelf</p>
-      <h2 class="mt-3">Real books by real experts</h2>
-      <p class="mt-4 text-lg text-slate-500 leading-relaxed">
-        Doctors, coaches, founders, and lawyers who turned what they know into a book with their name on the spine.
-      </p>
-    </div>
-
-    <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
-      {spines.map((spine, i) => (
-        <figure class="stagger-card flex flex-col gap-3" style={`--stagger-i: ${i}`}>
-          {spine.image ? (
-            <div class="aspect-[2/3]">
-              <BookCover image={spine.image} alt={`Placeholder cover for a ${spine.profession.toLowerCase()} author book — dummy title/author, pending real details`} />
-            </div>
-          ) : (
-            <div
-              class="spine relative flex h-56 flex-col justify-between overflow-hidden rounded-r-lg rounded-l-sm p-5"
-              style={`background:${spine.bg}; color:${spine.ink};`}
-              role="img"
-              aria-label={`Placeholder book cover: real cover photo needed for a ${spine.profession.toLowerCase()} author`}
-            >
-              <div class="spine-edge" style={`background: color-mix(in srgb, ${spine.ink} 18%, transparent);`} aria-hidden="true"></div>
-              <p class="font-serif text-base leading-snug opacity-90">[Book cover: real cover photo]</p>
-              <p class="text-[0.65rem] font-semibold tracking-[0.12em]" style={`color:${spine.accent};`}>AUTHOR NAME</p>
-            </div>
-          )}
-          <figcaption class="text-sm text-slate-500">
-            {spine.image ? `${spine.dummyAuthor}, ${spine.profession}` : `[Author, ${spine.profession}]`}
-          </figcaption>
-        </figure>
-      ))}
-    </div>
-
-    <p class="mt-10 text-center">
-      <a href="/case-studies" class="arrow-link font-semibold text-navy-700 hover:text-gold-500" data-cta="bookshelf-case-studies">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-xl">
+        <p class="eyebrow">The bookshelf</p>
+        <h2 class="mt-3">Real books by real experts</h2>
+        <p class="mt-4 text-lg text-slate-500 leading-relaxed">
+          Doctors, coaches, founders, and lawyers who turned what they know into a book with their name on the spine.
+        </p>
+      </div>
+      <a href="/case-studies" class="arrow-link font-semibold text-navy-700 hover:text-gold-500 shrink-0" data-cta="bookshelf-case-studies">
         See all author books and case studies <span class="arrow" aria-hidden="true">&rarr;</span>
       </a>
-    </p>
+    </div>
+
+    <div class="bookshelf mt-12">
+      <!-- Books enter one by one on scroll (src/scripts/reveal.ts); only the
+           cover moves, its name plate stays put. -->
+      <ul class="shelf-row" data-reveal="children" aria-label="Author books">
+        {books.map((book) => (
+          <li class="shelf-book" data-reveal="children">
+            <div class="shelf-cover" data-reveal="media">
+              <BookCover image={book.image} alt={`Placeholder cover for a ${book.profession.toLowerCase()} author book, dummy title and author pending real details`} />
+            </div>
+            <p class="shelf-plate">
+              <strong>{book.dummyAuthor}</strong>
+              <span>{book.profession}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+      <p class="shelf-hint" aria-hidden="true">
+        Swipe to see all six
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </p>
+    </div>
   </div>
 </section>
 
 <style>
-  .spine-edge {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 8px;
+  /* The display case: a warm wall, lighter at the top, in a rounded frame. */
+  .bookshelf {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(230, 184, 92, 0.35);
+    border-radius: 28px;
+    background: linear-gradient(180deg, #fff 0%, var(--color-gold-100) 100%);
+    box-shadow: 0 30px 60px -34px rgba(8, 31, 51, 0.35);
   }
 
-  /* Same restrained stagger pattern used by CardGrid: only animates once an
-     ancestor .reveal section has already been marked visible by
-     src/scripts/reveal.ts, so this never causes a hidden-content flash. */
-  @keyframes stagger-card-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  /* One row, always. Scrolls sideways below desktop width. */
+  .shelf-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    padding: 2.75rem 1.25rem 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .shelf-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shelf-book {
+    position: relative;
+    flex: 0 0 clamp(9.75rem, 42vw, 12.5rem);
+    padding-inline: 0.9rem;
+    scroll-snap-align: start;
+  }
+  /* A soft pool of light on the wall behind each book. */
+  .shelf-book::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1.5rem;
+    height: 75%;
+    background: radial-gradient(ellipse 55% 55% at 50% 60%, rgba(255, 217, 138, 0.55), transparent 72%);
+    pointer-events: none;
+  }
+  .shelf-cover {
+    position: relative;
+    aspect-ratio: 2 / 3;
+  }
+
+  /* No shelf board: the books stand on their own soft ground shadow (from
+     BookCover), with the name plate a short gap below. */
+  .shelf-book {
+    --plate-h: 5.25rem;
+    padding-bottom: calc(var(--plate-h) + 1.25rem);
+  }
+
+  /* Name plate under the board. */
+  .shelf-plate {
+    position: absolute;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    height: var(--plate-h);
+    text-align: center;
+    line-height: 1.25;
+  }
+  .shelf-plate strong {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-navy-900);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .shelf-plate span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-700);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .shelf-book:hover .shelf-plate strong {
+      color: var(--color-navy-600);
     }
   }
-  :global(.reveal) .stagger-card {
-    opacity: 0;
+
+  .shelf-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0 1rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-slate-500);
   }
-  :global(.reveal.is-visible) .stagger-card {
-    animation: stagger-card-in var(--duration-base) var(--ease-out) both;
-    animation-delay: min(calc(var(--stagger-i, 0) * 45ms), 300ms);
+
+  /* Desktop: all six fit, no scrolling, no hint. */
+  @media (min-width: 1024px) {
+    .shelf-row {
+      overflow: visible;
+      padding: 3.5rem 2.25rem 0;
+    }
+    .shelf-book {
+      flex: 1 1 0;
+      padding-inline: 1.1rem;
+    }
+    .shelf-hint {
+      display: none;
+    }
+    .bookshelf {
+      border-radius: 32px;
+    }
   }
 </style>

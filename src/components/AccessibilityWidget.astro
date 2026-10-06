@@ -1,23 +1,74 @@
 ---
 /**
- * Sitewide accessibility popover: a labeled bottom-right pill button opening
- * a compact card anchored just above it (not a bottom-left icon grid, and
- * not a full-height sidebar), so every control reads as an explained choice
- * rather than a cryptic glyph — in keeping with this brand's "explain,
- * don't abbreviate" voice. Logic lives in src/scripts/accessibility-widget.ts;
- * this component is markup only.
+ * Sitewide accessibility widget: a round icon button (the universal
+ * accessibility figure, no word label) that opens a compact panel of icon
+ * tiles, one per adjustment. Each tile is an icon plus a two-word caption;
+ * the longer explanation is still there for screen readers and as a hover
+ * tooltip, it just isn't printed on screen. Logic lives in
+ * src/scripts/accessibility-widget.ts; this component is markup only, and
+ * keeps every id / data-attribute that script reads.
  */
 const toggles = [
-  { key: "contrast", label: "Boost contrast", hint: "Increases contrast and color intensity." },
-  { key: "grayscale", label: "Grayscale", hint: "Removes color from the page." },
-  { key: "invert", label: "Invert colors", hint: "Flips light and dark." },
-  { key: "underline", label: "Underline links", hint: "Adds an underline to every link." },
-  { key: "simpleType", label: "Simplified type", hint: "Switches headings to plain, non-serif text." },
-  { key: "spacing", label: "More spacing", hint: "Adds space between lines and letters." },
-  { key: "bigCursor", label: "Bigger cursor", hint: "Enlarges the mouse pointer." },
-  { key: "guide", label: "Reading guide", hint: "Shows a highlighted line that follows your cursor." },
-  { key: "strongFocus", label: "Stronger focus outline", hint: "Thickens the keyboard focus ring." },
-  { key: "reduceMotion", label: "Stop animations", hint: "Turns off motion across the site." },
+  {
+    key: "contrast",
+    label: "Contrast",
+    hint: "Increases contrast and color intensity.",
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>',
+  },
+  {
+    key: "grayscale",
+    label: "Grayscale",
+    hint: "Removes color from the page.",
+    icon: '<path d="M12 3.5s6 6 6 10.3a6 6 0 0 1-12 0C6 9.5 12 3.5 12 3.5z"/><path d="M4 4l16 16"/>',
+  },
+  {
+    key: "invert",
+    label: "Invert",
+    hint: "Flips light and dark.",
+    icon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+  },
+  {
+    key: "underline",
+    label: "Underline links",
+    hint: "Adds an underline to every link.",
+    icon: '<path d="M7 4v7a5 5 0 0 0 10 0V4"/><path d="M5 20h14"/>',
+  },
+  {
+    key: "simpleType",
+    label: "Plain type",
+    hint: "Switches headings to plain, non-serif text.",
+    icon: '<path d="M5 6h14M12 6v13M9 19h6"/>',
+  },
+  {
+    key: "spacing",
+    label: "Spacing",
+    hint: "Adds space between lines and letters.",
+    icon: '<path d="M10 6h10M10 12h10M10 18h10"/><path d="M5 5v14M3 7l2-2 2 2M3 17l2 2 2-2"/>',
+  },
+  {
+    key: "bigCursor",
+    label: "Big cursor",
+    hint: "Enlarges the mouse pointer.",
+    icon: '<path d="M5 3.5l14 7.5-6 2-2 6z"/>',
+  },
+  {
+    key: "guide",
+    label: "Reading guide",
+    hint: "Shows a highlighted line that follows your cursor.",
+    icon: '<path d="M4 5h16M4 19h16"/><rect x="2.5" y="9" width="19" height="6" rx="2"/>',
+  },
+  {
+    key: "strongFocus",
+    label: "Focus ring",
+    hint: "Thickens the keyboard focus ring.",
+    icon: '<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="12" cy="12" r="2.6"/>',
+  },
+  {
+    key: "reduceMotion",
+    label: "Stop animations",
+    hint: "Turns off motion across the site.",
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>',
+  },
 ] as const;
 ---
 
@@ -28,126 +79,203 @@ const toggles = [
   aria-haspopup="dialog"
   aria-expanded="false"
   aria-controls="a11y-drawer"
+  aria-label="Accessibility settings"
 >
-  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="4" y1="6" x2="20" y2="6"></line>
-    <circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none"></circle>
-    <line x1="4" y1="12" x2="20" y2="12"></line>
-    <circle cx="15" cy="12" r="1.6" fill="currentColor" stroke="none"></circle>
-    <line x1="4" y1="18" x2="20" y2="18"></line>
-    <circle cx="11" cy="18" r="1.6" fill="currentColor" stroke="none"></circle>
+  <!-- The standard "accessibility" figure (head, open arms, legs), drawn
+       solid so it stays crisp at this size, navy on the gold button. -->
+  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="currentColor">
+    <circle cx="12" cy="4.4" r="2.1"></circle>
+    <path d="M20.2 6.3c-2.5.66-5.45.95-8.2.95s-5.7-.29-8.2-.95a1 1 0 0 0-.52 1.93c1.75.47 3.74.79 5.72.96V21a1 1 0 0 0 2 0v-5.5h2V21a1 1 0 0 0 2 0V9.19c1.98-.17 3.97-.49 5.72-.96a1 1 0 0 0-.52-1.93z"></path>
   </svg>
-  <span>Accessibility</span>
   <span id="a11y-count-badge" class="a11y-badge" hidden></span>
+  <span class="a11y-tip" aria-hidden="true">Accessibility</span>
 </button>
 
 <div id="a11y-drawer" class="a11y-popover" role="dialog" aria-label="Accessibility settings" aria-modal="true" hidden>
   <div class="a11y-popover-head">
-    <h2 class="font-serif text-base font-bold on-navy">Accessibility settings</h2>
-    <button type="button" id="a11y-close-button" class="a11y-popover-close" aria-label="Close accessibility settings">&times;</button>
+    <h2 class="font-serif text-base font-bold on-navy">Accessibility</h2>
+    <button type="button" id="a11y-close-button" class="a11y-popover-close" aria-label="Close accessibility settings">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
   </div>
 
   <div class="a11y-popover-body">
     <div class="a11y-font-row">
-      <div>
-        <p class="font-semibold text-sm">Text size</p>
-        <p class="text-xs text-slate-500">Applies to the whole site.</p>
-      </div>
+      <span class="a11y-font-icon" title="Text size">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18l4.5-11L12 18M4.6 14.2h5.8"></path>
+          <path d="M14.5 18l3-7 3 7M15.6 15.5h3.8"></path>
+        </svg>
+        <span class="sr-only">Text size</span>
+      </span>
       <div class="a11y-font-stepper">
-        <button type="button" data-a11y-font="dec" aria-label="Decrease text size">A&minus;</button>
+        <button type="button" data-a11y-font="dec" aria-label="Decrease text size">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"></path></svg>
+        </button>
         <span id="a11y-font-value">100%</span>
-        <button type="button" data-a11y-font="inc" aria-label="Increase text size">A+</button>
+        <button type="button" data-a11y-font="inc" aria-label="Increase text size">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12M12 6v12"></path></svg>
+        </button>
       </div>
     </div>
 
-    <ul class="a11y-toggle-list">
+    <ul class="a11y-tile-grid">
       {toggles.map((t) => (
         <li>
-          <label class="a11y-toggle-row">
-            <span>
-              <span class="block font-semibold text-sm">{t.label}</span>
-              <span class="block text-xs text-slate-500">{t.hint}</span>
-            </span>
-            <span class="a11y-switch">
-              <input type="checkbox" data-a11y-toggle={t.key} />
-              <span class="a11y-switch-track" aria-hidden="true"></span>
+          <label class="a11y-tile" title={t.hint}>
+            <input type="checkbox" class="a11y-tile-input" data-a11y-toggle={t.key} />
+            <span class="a11y-tile-face">
+              <span class="a11y-tile-check" aria-hidden="true">
+                <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2l2.3 2.3 4.7-5"></path></svg>
+              </span>
+              <svg class="a11y-tile-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={t.icon} />
+              <span class="a11y-tile-label">{t.label}</span>
+              <span class="sr-only">{t.hint}</span>
             </span>
           </label>
         </li>
       ))}
+      <li class="a11y-reset-cell">
+        <button type="button" id="a11y-reset-button" class="a11y-reset">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.5 13.5a8.5 8.5 0 1 0 2.3-6.2M3.5 4v4h4"></path>
+          </svg>
+          Reset all
+        </button>
+      </li>
     </ul>
 
-    <button type="button" id="a11y-reset-button" class="btn-secondary w-full justify-center mt-2">Reset all</button>
-    <p class="text-xs text-slate-500 mt-3">Saved on this device only. Press <kbd class="a11y-kbd">Esc</kbd> to close.</p>
+    <p class="a11y-note">Saved on this device only. <kbd class="a11y-kbd">Esc</kbd> closes this panel.</p>
   </div>
 </div>
 
 <div id="a11y-reading-guide" aria-hidden="true" hidden></div>
 
 <style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---------- Launcher: a round icon button ---------- */
   .a11y-pill {
     position: fixed;
     left: 1.1rem;
-    bottom: var(--a11y-lift, 1.1rem);
+    /* --sticky-cta-h clears the mobile CTA bar. --a11y-lift (set by the
+       script when the cookie card is showing) raises the button with a
+       transform, so the move is smooth and never shifts the layout. */
+    bottom: calc(1.1rem + var(--sticky-cta-h, 0px));
+    translate: 0 calc(-1 * var(--a11y-lift, 0px));
     z-index: 2147482999;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: var(--color-navy-900);
-    color: var(--color-offwhite-100);
-    border: 1.5px solid var(--color-gold-300);
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    /* Solid gold with a navy figure: reads as one clear, friendly button
+       on both the ivory and the navy sections it floats over. */
+    background-color: var(--color-gold-300);
+    color: var(--color-navy-900);
+    border: 3px solid var(--color-navy-900);
     border-radius: 999px;
-    padding: 0.65rem 1.1rem 0.65rem 0.9rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    box-shadow: var(--shadow-lg);
-    transition: bottom var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+    box-shadow: 0 0 0 1.5px var(--color-gold-300), var(--shadow-lg);
+    cursor: pointer;
+    transition: translate var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+  .a11y-pill[aria-expanded="true"] {
+    background-color: var(--color-gold-500);
+  }
+  .a11y-pill:active {
+    transform: scale(0.95);
   }
   @media (prefers-reduced-motion: reduce) {
-    .a11y-pill { transition: bottom var(--duration-base) linear; }
+    .a11y-pill { transition: none; }
+  }
+
+  /* Count of active adjustments, on the button's corner. */
+  .a11y-badge {
+    position: absolute;
+    top: -0.3rem;
+    right: -0.3rem;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.2rem;
+    height: 1.2rem;
+    padding-inline: 0.25rem;
+    border-radius: 999px;
+    background-color: var(--color-navy-900);
+    color: var(--color-gold-300);
+    box-shadow: 0 0 0 2px var(--color-gold-300);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .a11y-badge[hidden] {
+    display: none;
+  }
+
+  /* The word only appears as a tooltip for mouse users, on hover. */
+  .a11y-tip {
+    position: absolute;
+    left: calc(100% + 0.6rem);
+    top: 50%;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+    background-color: var(--color-navy-900);
+    color: var(--color-offwhite-100);
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translate(-4px, -50%);
+    pointer-events: none;
+    transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
     .a11y-pill:hover {
-      box-shadow: 0 8px 28px -6px rgba(230, 184, 92, 0.5);
-      transform: translateY(-1px);
+      box-shadow: 0 8px 28px -6px rgba(230, 184, 92, 0.55);
+      transform: translateY(-2px);
+    }
+    .a11y-pill[aria-expanded="false"]:hover .a11y-tip {
+      opacity: 1;
+      transform: translate(0, -50%);
     }
   }
-  @media (max-width: 480px) {
-    .a11y-pill span:not(.a11y-badge) { display: none; }
-    .a11y-pill { padding: 0.7rem; }
-  }
 
-  .a11y-badge {
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.1rem;
-    height: 1.1rem;
-    padding-inline: 0.25rem;
-    border-radius: 999px;
-    background-color: var(--color-gold-300);
-    color: var(--color-navy-900);
-    font-size: 0.65rem;
-    font-weight: 700;
-  }
-
+  /* ---------- Panel ---------- */
   .a11y-popover {
     position: fixed;
     left: 1.1rem;
     right: 1.1rem;
-    bottom: calc(var(--a11y-lift, 1.1rem) + 3.6rem);
+    bottom: calc(1.1rem + var(--a11y-lift, 0px) + var(--sticky-cta-h, 0px) + 3.6rem);
     z-index: 2147483002;
     margin-inline: auto;
-    max-width: 23rem;
-    max-height: min(32rem, calc(100dvh - 6.5rem));
+    max-width: 21.5rem;
+    max-height: min(37rem, calc(100dvh - 6.5rem - var(--sticky-cta-h, 0px)));
     background-color: var(--color-ivory-50);
-    border-radius: 18px;
-    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-navy-100);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -20px rgba(8, 31, 51, 0.45);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    /* Grows out of the launcher button below it, not from its own center. */
     transform-origin: bottom left;
     animation: a11y-popover-in var(--duration-base) var(--ease-out) both;
+  }
+  .a11y-popover[hidden] {
+    display: none;
   }
   @keyframes a11y-popover-in {
     from { opacity: 0; transform: scale(0.96) translateY(8px); }
@@ -157,7 +285,7 @@ const toggles = [
     .a11y-popover { animation: none; }
   }
   @media (min-width: 640px) {
-    .a11y-popover { right: auto; }
+    .a11y-popover { right: auto; width: 21.5rem; }
   }
 
   .a11y-popover-head {
@@ -166,19 +294,19 @@ const toggles = [
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.1rem 1.25rem;
+    padding: 0.9rem 1rem 0.9rem 1.25rem;
     background-color: var(--color-navy-900);
   }
   .a11y-popover-close {
-    width: 2rem;
-    height: 2rem;
+    width: 2.25rem;
+    height: 2.25rem;
     flex-shrink: 0;
     display: grid;
     place-items: center;
     border-radius: 999px;
     color: var(--color-offwhite-100);
-    font-size: 1.4rem;
-    line-height: 1;
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover);
   }
   @media (hover: hover) and (pointer: fine) {
     .a11y-popover-close:hover { background-color: var(--color-navy-700); color: var(--color-gold-300); }
@@ -187,113 +315,192 @@ const toggles = [
   .a11y-popover-body {
     flex: 1;
     overflow-y: auto;
-    padding: 1.1rem 1.25rem;
+    padding: 1rem;
   }
 
+  /* Text size: one icon, then the stepper. */
   .a11y-font-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-bottom: 1.1rem;
-    margin-bottom: 1.1rem;
-    border-bottom: 1px solid var(--color-navy-100);
+    padding: 0.5rem 0.5rem 0.5rem 0.85rem;
+    margin-bottom: 0.6rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .a11y-font-icon {
+    display: flex;
+    color: var(--color-navy-700);
   }
   .a11y-font-stepper {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.35rem;
     flex-shrink: 0;
   }
   .a11y-font-stepper button {
-    width: 2.25rem;
-    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 999px;
-    border: 1.5px solid var(--color-navy-100);
-    font-weight: 700;
-    font-size: 0.85rem;
+    background: var(--color-navy-100);
+    color: var(--color-navy-900);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .a11y-font-stepper button:active {
+    transform: scale(0.94);
   }
   @media (hover: hover) and (pointer: fine) {
-    .a11y-font-stepper button:hover { border-color: var(--color-gold-300); color: var(--color-gold-500); }
+    .a11y-font-stepper button:hover { background: var(--color-gold-300); }
   }
   #a11y-font-value {
-    min-width: 3rem;
+    min-width: 3.25rem;
     text-align: center;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
   }
 
-  .a11y-toggle-list {
+  /* ---------- Icon tiles ---------- */
+  .a11y-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+  .a11y-tile {
+    position: relative;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+  }
+  /* The real checkbox stays in place (invisible) so it keeps keyboard
+     focus, Space-to-toggle and screen reader semantics. */
+  .a11y-tile-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .a11y-tile-face {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
-  }
-  .a11y-toggle-row {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.75rem 0.25rem;
-    border-bottom: 1px solid var(--color-navy-100);
-    cursor: pointer;
+    justify-content: center;
+    gap: 0.45rem;
+    height: 100%;
+    min-height: 5.1rem;
+    padding: 0.7rem 0.35rem 0.6rem;
+    border: 1.5px solid var(--color-navy-100);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--color-navy-700);
+    text-align: center;
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
   }
-  .a11y-toggle-list li:last-child .a11y-toggle-row {
-    border-bottom: none;
+  .a11y-tile-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-ink-900);
   }
-
-  .a11y-switch {
-    position: relative;
-    flex-shrink: 0;
-    display: inline-block;
-    width: 2.6rem;
-    height: 1.5rem;
-  }
-  .a11y-switch input {
+  .a11y-tile-check {
     position: absolute;
-    inset: 0;
+    top: 0.4rem;
+    right: 0.4rem;
+    display: grid;
+    place-items: center;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
     opacity: 0;
-    margin: 0;
-    cursor: pointer;
+    transform: scale(0.6);
+    transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
-  .a11y-switch-track {
-    position: absolute;
-    inset: 0;
-    background-color: var(--color-navy-100);
-    border-radius: 999px;
-    transition: background-color var(--duration-fast) var(--ease-hover);
+  /* On: navy tile, gold icon, a small check in the corner (so "on" never
+     depends on color alone). */
+  .a11y-tile-input:checked + .a11y-tile-face {
+    background: var(--color-navy-900);
+    border-color: var(--color-navy-900);
+    color: var(--color-gold-300);
   }
-  .a11y-switch-track::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 999px;
-    background-color: #fff;
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--duration-fast) var(--ease-out);
+  .a11y-tile-input:checked + .a11y-tile-face .a11y-tile-label {
+    color: var(--color-offwhite-100);
   }
-  .a11y-switch input:checked + .a11y-switch-track {
-    background-color: var(--color-gold-300);
+  .a11y-tile-input:checked + .a11y-tile-face .a11y-tile-check {
+    opacity: 1;
+    transform: scale(1);
   }
-  .a11y-switch input:checked + .a11y-switch-track::before {
-    transform: translateX(1.1rem);
+  .a11y-tile-input:active + .a11y-tile-face {
+    transform: scale(0.96);
   }
-  .a11y-switch input:focus-visible + .a11y-switch-track {
+  .a11y-tile-input:focus-visible + .a11y-tile-face {
     outline: 2px solid var(--color-gold-500);
     outline-offset: 2px;
   }
+  @media (hover: hover) and (pointer: fine) {
+    .a11y-tile:hover .a11y-tile-face {
+      border-color: var(--color-gold-300);
+    }
+    .a11y-tile:hover .a11y-tile-input:not(:checked) + .a11y-tile-face {
+      background: var(--color-gold-100);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .a11y-switch-track, .a11y-switch-track::before { transition: none; }
+    .a11y-tile-face, .a11y-tile-check { transition: none; }
   }
 
+  /* Reset fills the two cells left over in the last row. */
+  .a11y-reset-cell {
+    grid-column: span 2;
+  }
+  .a11y-reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    min-height: 5.1rem;
+    border: 1.5px dashed var(--color-navy-600);
+    border-radius: 14px;
+    color: var(--color-navy-700);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .a11y-reset:active {
+    transform: scale(0.97);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .a11y-reset:hover { background: var(--color-navy-100); }
+  }
+
+  .a11y-note {
+    margin-top: 0.85rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--color-slate-500);
+  }
   .a11y-kbd {
     border: 1px solid var(--color-navy-100);
     border-radius: 4px;
     padding: 0.05rem 0.35rem;
     font-family: var(--font-sans);
     font-size: 0.7rem;
+    background: #fff;
   }
 
   #a11y-reading-guide {

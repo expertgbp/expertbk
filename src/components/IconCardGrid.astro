@@ -1,0 +1,168 @@
+---
+/**
+ * A grid of link cards that each lead with an icon tile: the richer sibling
+ * of CardGrid, for index and hub pages where every item has its own icon
+ * (src/data/nav.ts) and the card is the main thing on the page.
+ *
+ * Built on the shared .card surface, so the hover lift, sheen and tilt come
+ * for free; this only adds the icon tile turning gold in the same moment.
+ *
+ *   headingTag  the element the card title renders as. Pass "h2" when the
+ *               cards are the section's own headings, "h3" (default) when
+ *               they sit under a section heading.
+ *   numbered    shows 01, 02, ... in the card's top-right corner
+ *   kicker      small uppercase label above the title (per item)
+ *   cta         becomes the link's data-cta attribute (per item)
+ *
+ * In a two-column grid an odd last card spans the full row, so the grid
+ * never ends on a half-empty line.
+ */
+import { pageIcons } from "./pageIcons";
+
+interface Item {
+  title: string;
+  href: string;
+  description?: string;
+  icon?: string;
+  kicker?: string;
+  cta?: string;
+}
+interface Props {
+  items: Item[];
+  columns?: 2 | 3;
+  headingTag?: "h2" | "h3" | "p";
+  linkLabel?: string;
+  numbered?: boolean;
+}
+const { items, columns = 3, headingTag = "h3", linkLabel = "Read more", numbered = false } = Astro.props;
+const Title = headingTag;
+---
+
+<div class:list={["icon-grid", `icon-grid-${columns}`]}>
+  {items.map((item, i) => (
+    <a href={item.href} class="card icon-card arrow-link" data-cta={item.cta}>
+      <span class="icon-card-top">
+        <span class="icon-card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={item.icon ?? pageIcons.book} />
+        </span>
+        {numbered && <span class="icon-card-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>}
+      </span>
+      {item.kicker && <span class="icon-card-kicker">{item.kicker}</span>}
+      <Title class="icon-card-title">{item.title}</Title>
+      {item.description && <p class="icon-card-desc">{item.description}</p>}
+      <span class="icon-card-more">
+        {linkLabel} <span class="arrow" aria-hidden="true">&rarr;</span>
+      </span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .icon-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .icon-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+    .icon-grid-2 > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1024px) {
+    .icon-grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .icon-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+  @media (min-width: 768px) {
+    .icon-card {
+      padding: 1.75rem;
+    }
+  }
+  .icon-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .icon-card-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .icon-card-num {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-navy-100);
+    transition: color var(--duration-base) var(--ease-hover);
+  }
+  .icon-card-kicker {
+    margin-top: 1.25rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-500);
+  }
+  /* The title is a dynamic tag (h2 / h3 / p), so it's styled through the
+     card rather than by its own scoped class, and its size is set here so
+     an h2 card title doesn't take the page-level h2 size. */
+  .icon-card :global(.icon-card-title) {
+    margin-top: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-navy-900);
+    overflow-wrap: anywhere;
+  }
+  .icon-card-kicker + :global(.icon-card-title) {
+    margin-top: 0.4rem;
+  }
+  .icon-card-desc {
+    max-width: 62ch;
+    margin-top: 0.6rem;
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: var(--color-slate-500);
+  }
+  .icon-card-more {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .icon-card:hover .icon-card-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+    .icon-card:hover .icon-card-num,
+    .icon-card:hover .icon-card-more {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

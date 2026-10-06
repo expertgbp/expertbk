@@ -2,8 +2,29 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import IconLinkGrid from "../components/IconLinkGrid.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import { entity } from "../data/entity";
+import { resourceLinks, serviceLinks } from "../data/nav";
+
+// The pages the answers below point to ("/pricing-and-cost", "/trust",
+// "/services/book-relaunch", "/services/book-marketing"), as real links.
+// Labels, descriptions and icons come from src/data/nav.ts; the trust page
+// has no nav description, so its line is cut from that page's own summary.
+const byHref = (href: string) => [...resourceLinks, ...serviceLinks].find((l) => l.href === href);
+const deeperLinks = [
+  byHref("/pricing-and-cost"),
+  {
+    label: "Trust",
+    href: "/trust",
+    description: "Contract highlights, our rights policy, and how to verify our founders.",
+    icon: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  byHref("/services/book-relaunch"),
+  byHref("/services/book-marketing"),
+].filter((l): l is NonNullable<typeof l> => Boolean(l));
 
 const faqs = [
   {
@@ -79,18 +100,27 @@ const faqs = [
     <BreadcrumbSchema items={[{ name: "FAQ", path: "/faq" }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 text-center">
-      <p class="eyebrow mb-4">EVERY QUESTION, IN ONE PLACE</p>
-      <h1 class="on-navy">Frequently Asked Questions</h1>
-      <p class="mt-6 text-lg opacity-90">
-        Cost, timeline, rights, your voice, your specialty, and the scam question. Straight answers,
-        with links deeper wherever one page can't cover it all.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="EVERY QUESTION, IN ONE PLACE"
+    heading="Frequently Asked Questions"
+    lead="Cost, timeline, rights, your voice, your specialty, and the scam question. Straight answers, with links deeper wherever one page can't cover it all."
+    crumbs={[{ label: "FAQ" }]}
+    primaryLabel="Book a Free Book Strategy Call"
+    secondaryLabel="Get the free Blueprint"
+    ctaId="faq-hero"
+  />
 
   <FAQAccordion faqs={faqs} heading="Ask us anything" />
+
+  <!-- The "links deeper" the hero promises: the pages the answers name. -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Go deeper" heading="The pages these answers point to" />
+      <div class="mt-10 md:mt-12">
+        <IconLinkGrid items={deeperLinks} columns={4} ctaPrefix="faq-deeper" />
+      </div>
+    </div>
+  </section>
 
   <FinalDoorCTA
     heading="Still have a question this page didn't answer?"

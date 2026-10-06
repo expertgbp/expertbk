@@ -1,0 +1,537 @@
+---
+/**
+ * The whole blog index page for one page of results. Both listing routes
+ * render this and nothing else, so page 1 (/blog) and page N
+ * (/blog/page/N) can never drift apart:
+ *   src/pages/blog/index.astro          <BlogListing page={1} />
+ *   src/pages/blog/page/[page].astro    <BlogListing page={N} />
+ *
+ * Page 1 opens on the newest post as a wide lead card, then the grid.
+ * Later pages are the grid only. Page size, sort order and URLs come from
+ * src/utils/blog.ts (the sitemap reads the same helpers).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Pagination from "./Pagination.astro";
+import FinalDoorCTA from "./FinalDoorCTA.astro";
+import BreadcrumbSchema from "./schema/BreadcrumbSchema.astro";
+import { BLOG_PAGE_SIZE, blogPageCount, blogPagePath, clusterAnchor, getSortedPosts } from "../utils/blog";
+
+interface Props {
+  page: number;
+}
+const { page } = Astro.props;
+
+const posts = await getSortedPosts();
+const totalPages = blogPageCount(posts.length);
+const start = (page - 1) * BLOG_PAGE_SIZE;
+const pagePosts = posts.slice(start, start + BLOG_PAGE_SIZE);
+
+const lead = page === 1 ? pagePosts[0] : undefined;
+const gridPosts = lead ? pagePosts.slice(1) : pagePosts;
+
+// A topic chip jumps to the newest post in that topic. With the list split
+// across pages, that post may live on another page, so each chip carries
+// the right page in its link (and a bare #anchor when it's on this one).
+const clusters = [...new Set(posts.map((p) => p.data.cluster))].map((name) => {
+  const index = posts.findIndex((p) => p.data.cluster === name);
+  const onPage = Math.floor(index / BLOG_PAGE_SIZE) + 1;
+  return { name, href: `${onPage === page ? "" : blogPagePath(onPage)}#${clusterAnchor(name)}` };
+});
+
+// Only the first card of each topic on this page carries the anchor id
+// (an id has to be unique, and the first match is where a jump lands).
+const anchorOwner = new Map<string, string>();
+for (const p of pagePosts) {
+  const anchor = clusterAnchor(p.data.cluster);
+  if (!anchorOwner.has(anchor)) anchorOwner.set(anchor, p.id);
+}
+const anchorFor = (p: (typeof posts)[number]) => {
+  const anchor = clusterAnchor(p.data.cluster);
+  return anchorOwner.get(anchor) === p.id ? anchor : undefined;
+};
+
+// Hero images ship at two widths (scripts/optimize-blog-images.mjs).
+const srcsetFor = (src: string) =>
+  src.endsWith(".webp") ? `${src.replace(/.webp$/, "-800.webp")} 800w, ${src} 1600w` : undefined;
+
+const initials = (name: string) => name.split(" ").map((w) => w[0]).join("");
+const formatDate = (d: Date) => d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+
+const baseTitle = "The Author's Field Notes";
+const baseDescription =
+  "Answers to the real questions professionals ask before writing and publishing their first book, sourced from real intake conversations.";
+const title = page === 1 ? baseTitle : `${baseTitle}: Page ${page}`;
+const description = page === 1 ? baseDescription : `${baseDescription} Page ${page} of ${totalPages}.`;
+
+// rel="prev"/"next" use the same trailing-slash form as the canonical URL
+// BaseLayout derives for each page.
+const absolute = (path: string) => new URL(`${path}/`, Astro.site).toString();
+const prevUrl = page > 1 ? absolute(blogPagePath(page - 1)) : undefined;
+const nextUrl = page < totalPages ? absolute(blogPagePath(page + 1)) : undefined;
+
+const crumbs = page === 1 ? [{ label: "Blog" }] : [{ label: "Blog", href: "/blog" }, { label: `Page ${page}` }];
+const schemaCrumbs =
+  page === 1
+    ? [{ name: "Blog", path: "/blog" }]
+    : [{ name: "Blog", path: "/blog" }, { name: `Page ${page}`, path: blogPagePath(page) }];
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    {prevUrl && <link rel="prev" href={prevUrl} />}
+    {nextUrl && <link rel="next" href={nextUrl} />}
+    <BreadcrumbSchema items={schemaCrumbs} />
+  </Fragment>
+
+  <!-- Masthead: a centered editorial opener (not the two-column PageHero
+       other inner pages use). The title is the feature, the topic chips
+       run as one row beneath it, and on page 1 the newest article's card
+       rises up over the masthead's bottom edge. -->
+  <section class:list={["blog-hero relative overflow-hidden bg-navy-900 text-offwhite-100", lead && "has-lead"]}>
+    <div class="blog-hero-light pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="blog-hero-inner hero-enter relative mx-auto max-w-4xl px-4 text-center">
+      <nav class="blog-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          {crumbs.map((c, i) => (
+            <li>
+              <span aria-hidden="true">/</span>
+              {c.href && i < crumbs.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <h1 class="blog-title on-navy">The Author's <span class="blog-title-hl">Field Notes</span></h1>
+      <p class="blog-lead">Every article here answers one real question, asked by one real prospect, before any keyword tool got involved.</p>
+      <p class="blog-meta">
+        <span>{posts.length} articles</span>
+        <span class="blog-meta-dot" aria-hidden="true"></span>
+        <span>{clusters.length} topics</span>
+        {totalPages > 1 && (
+          <Fragment>
+            <span class="blog-meta-dot" aria-hidden="true"></span>
+            <span>Page {page} of {totalPages}</span>
+          </Fragment>
+        )}
+      </p>
+      {clusters.length > 0 && (
+        <nav class="topics" aria-label="Topics">
+          <p class="topics-kicker">Browse by topic</p>
+          <ul class="topics-list">
+            {clusters.map((c) => (
+              <li><a href={c.href} class="topic-chip">{c.name}</a></li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </div>
+  </section>
+
+  <section class="bg-ivory-50">
+    <div class:list={["relative mx-auto max-w-6xl px-4 pb-16 md:pb-24", lead ? "blog-pull" : "pt-16 md:pt-24"]}>
+      {posts.length === 0 && (
+        <p class="text-slate-500">New articles are on the way. Meanwhile, the pillar guides at <a href="/guides" class="underline font-semibold">/guides</a> cover the full path.</p>
+      )}
+
+      {lead && (
+        <a href={`/blog/${lead.id}`} class:list={["card post-lead arrow-link", lead.data.heroImage && "has-media"]} id={anchorFor(lead)}>
+          {lead.data.heroImage && (
+            <div class="post-media">
+              <img src={lead.data.heroImage} srcset={srcsetFor(lead.data.heroImage)} sizes="(min-width: 768px) 620px, 100vw" alt="" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" />
+            </div>
+          )}
+          <div class="post-lead-body">
+            <p class="post-tags">
+              <span class="post-chip">{lead.data.cluster}</span>
+              <span class="post-flag">Latest</span>
+            </p>
+            <h2 class="post-lead-title">{lead.data.title}</h2>
+            <p class="post-lead-desc">{lead.data.description}</p>
+            <p class="post-byline">
+              <span class="post-avatar" aria-hidden="true">{initials(lead.data.author)}</span>
+              <span>{lead.data.author} &middot; <time datetime={lead.data.publishDate.toISOString().slice(0, 10)}>{formatDate(lead.data.publishDate)}</time></span>
+            </p>
+            <span class="post-more">Read the article <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      )}
+
+      {gridPosts.length > 0 && (
+        <div class:list={["post-grid-head", lead && "mt-14 md:mt-16"]}>
+          <p class="eyebrow">{lead ? "More articles" : `Page ${page} of ${totalPages}`}</p>
+          <span class="post-grid-rule" aria-hidden="true"></span>
+        </div>
+      )}
+
+      <div class="mt-7 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {gridPosts.map((post) => (
+          <a href={`/blog/${post.id}`} class="card post-card arrow-link" id={anchorFor(post)}>
+            {post.data.heroImage && (
+              <div class="post-media">
+                <img src={post.data.heroImage} srcset={srcsetFor(post.data.heroImage)} sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+              </div>
+            )}
+            <div class="post-body">
+              <p class="post-tags"><span class="post-chip">{post.data.cluster}</span></p>
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-desc">{post.data.description}</p>
+              <div class="post-foot">
+                <p class="post-byline">
+                  <span class="post-avatar" aria-hidden="true">{initials(post.data.author)}</span>
+                  <span>{post.data.author} &middot; <time datetime={post.data.publishDate.toISOString().slice(0, 10)}>{formatDate(post.data.publishDate)}</time></span>
+                </p>
+                <span class="post-more">Read the article <span class="arrow" aria-hidden="true">&rarr;</span></span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-14 md:mt-16">
+        <Pagination current={page} total={totalPages} basePath="/blog" label="Blog pages" />
+      </div>
+    </div>
+  </section>
+
+  <FinalDoorCTA />
+</BaseLayout>
+
+<style>
+  /* ---------- Masthead ---------- */
+  .blog-hero-light {
+    background:
+      radial-gradient(ellipse 55% 70% at 50% -10%, rgba(255, 217, 138, 0.26), transparent 70%),
+      radial-gradient(ellipse 40% 60% at 0% 100%, rgba(27, 58, 102, 0.8), transparent 70%),
+      radial-gradient(ellipse 40% 60% at 100% 100%, rgba(27, 58, 102, 0.8), transparent 70%);
+  }
+  .blog-hero-inner {
+    padding-block: 3.5rem 4rem;
+  }
+  @media (min-width: 768px) {
+    .blog-hero-inner {
+      padding-block: 5rem 5.5rem;
+    }
+  }
+  /* Page 1: extra room at the bottom for the lead card to overlap into. */
+  .blog-hero.has-lead .blog-hero-inner {
+    padding-bottom: 8rem;
+  }
+  @media (min-width: 768px) {
+    .blog-hero.has-lead .blog-hero-inner {
+      padding-bottom: 11rem;
+    }
+  }
+  .blog-pull {
+    margin-top: -5rem;
+  }
+  @media (min-width: 768px) {
+    .blog-pull {
+      margin-top: -7.5rem;
+    }
+  }
+
+  .blog-crumbs {
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .blog-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 0.5rem;
+  }
+  .blog-crumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(245, 241, 232, 0.6);
+  }
+  .blog-crumbs a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem; /* 44px touch target */
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .blog-crumbs [aria-current="page"] {
+    color: var(--color-gold-300);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .blog-crumbs a:hover {
+      color: var(--color-offwhite-100);
+    }
+  }
+
+  .blog-title {
+    font-size: clamp(2.6rem, 1.8rem + 4vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+  /* "Field Notes" in gold italic, with the same self-drawing underline as
+     the homepage headline. */
+  .blog-title-hl {
+    color: var(--color-gold-300);
+    font-style: italic;
+    background-image: linear-gradient(var(--color-gold-500), var(--color-gold-500));
+    background-repeat: no-repeat;
+    background-position: 0 96%;
+    background-size: 100% 3px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding-bottom: 0.06em;
+    animation: blog-hl-draw 900ms var(--ease-out) 550ms both;
+  }
+  @keyframes blog-hl-draw {
+    from {
+      background-size: 0% 3px;
+    }
+  }
+  .blog-lead {
+    max-width: 38rem;
+    margin: 1.5rem auto 0;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    opacity: 0.88;
+  }
+  @media (min-width: 768px) {
+    .blog-lead {
+      font-size: 1.25rem;
+    }
+  }
+  .blog-meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem 0.75rem;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .blog-meta-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 217, 138, 0.6);
+  }
+
+  /* ---------- Topic chips: one centered row under the title ---------- */
+  .topics {
+    margin-top: 2.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgba(245, 241, 232, 0.12);
+  }
+  .topics-kicker {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .topic-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem; /* 44px touch target */
+    padding: 0 1.1rem;
+    border: 1px solid rgba(255, 217, 138, 0.3);
+    border-radius: 999px;
+    background: rgba(27, 58, 102, 0.45);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .topic-chip:hover {
+      border-color: var(--color-gold-300);
+      background-color: var(--color-gold-300);
+      color: var(--color-navy-900);
+      transform: translateY(-2px);
+    }
+  }
+  .topic-chip:active {
+    transform: translateY(1px);
+    border-color: var(--color-gold-300);
+  }
+
+  /* ---------- Post cards ---------- */
+  /* Lift, gold edge and sheen come from the shared .card class; this only
+     rounds the corners up to the homepage's card radius and lays the card
+     out. A jump from a topic chip lands clear of the sticky header. */
+  .post-lead,
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    scroll-margin-top: 6.5rem;
+  }
+  .post-media {
+    overflow: hidden;
+    background: var(--color-navy-900);
+  }
+  .post-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .post-lead:hover .post-media img,
+    .post-card:hover .post-media img {
+      transform: scale(1.03);
+    }
+    .post-lead:hover .post-more,
+    .post-card:hover .post-more {
+      color: var(--color-gold-500);
+    }
+  }
+
+  .post-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.4rem 1.4rem 1.5rem;
+  }
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .post-chip,
+  .post-flag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .post-chip {
+    background: var(--color-gold-100);
+    color: var(--color-navy-900);
+  }
+  .post-flag {
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .post-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+  }
+  /* Grid cards keep to three lines of summary so a row stays even; the
+     full sentence is still in the page for readers and crawlers. */
+  .post-desc {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-slate-500);
+  }
+  .post-foot {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .post-byline {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--color-slate-500);
+  }
+  .post-avatar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    font-family: var(--font-serif);
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--color-gold-300);
+  }
+  .post-more {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+
+  /* ---------- Lead card (page 1 only) ---------- */
+  .post-lead-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.5rem 1.4rem 1.75rem;
+  }
+  .post-lead-title {
+    font-size: clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem);
+    line-height: 1.2;
+    color: var(--color-navy-900);
+  }
+  .post-lead-desc {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-slate-500);
+  }
+  .post-lead .post-byline {
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+  }
+  .post-lead .post-more {
+    font-size: 1rem;
+  }
+  @media (min-width: 1024px) {
+    .post-lead.has-media {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .post-lead.has-media .post-media img {
+      height: 100%;
+    }
+    .post-lead-body {
+      justify-content: center;
+      padding: 2.75rem 2.75rem 2.75rem 2.5rem;
+    }
+  }
+
+  /* "More articles", with a hairline running to the edge of the grid. */
+  .post-grid-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .post-grid-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--color-navy-100);
+  }
+</style>

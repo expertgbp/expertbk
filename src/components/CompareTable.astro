@@ -1,4 +1,17 @@
 ---
+/**
+ * Side-by-side comparison as a set of cards, one per option, instead of a
+ * ruled table: every card carries its own row labels, so each option reads
+ * top to bottom as a complete answer, and on phones the cards simply stack
+ * (the highlighted one first) with no sideways scrolling.
+ *
+ * On desktop the cards share one set of grid rows (CSS subgrid), so
+ * "Who owns your rights" sits on the same line in all of them and the eye
+ * can still compare straight across.
+ *
+ * The highlighted option is the navy card: it stands a little taller than
+ * its neighbors and wears a small gold badge.
+ */
 interface Column {
   label: string;
   highlighted?: boolean;
@@ -12,90 +25,228 @@ interface Props {
   cells: string[][];
   compareHref?: string;
   compareLabel?: string;
+  /** Badge on the highlighted card. */
+  highlightLabel?: string;
 }
-const { heading, intro, rowLabels, columns, cells, compareHref, compareLabel = "Read the full comparison" } = Astro.props;
+const {
+  heading,
+  intro,
+  rowLabels,
+  columns,
+  cells,
+  compareHref,
+  compareLabel = "Read the full comparison",
+  highlightLabel = "Our model",
+} = Astro.props;
 ---
 
 <section class="bg-ivory-50">
-  <div class="mx-auto max-w-5xl px-4 py-16">
-    <h2 class="text-center">{heading}</h2>
-    {intro && <p class="text-center text-slate-500 mt-3 max-w-2xl mx-auto">{intro}</p>}
-    <div class="overflow-x-auto mt-10 table-scroll" data-table-scroll>
-      <table class="w-full border-collapse min-w-[42rem]">
-        <thead>
-          <tr>
-            <th class="text-left py-3 pr-4"></th>
-            {columns.map((c) => (
-              <th
-                class={`text-left py-3 px-4 font-serif ${c.highlighted ? "bg-white border-2 border-gold-300 rounded-t-xl" : ""}`}
-                data-highlighted-col={c.highlighted}
-              >
-                {c.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rowLabels.map((row, r) => (
-            <tr class="border-t border-navy-100">
-              <td class="py-3 pr-4 font-semibold text-slate-500 align-top">{row}</td>
-              {columns.map((c, ci) => (
-                <td class={`py-3 px-4 align-top ${c.highlighted ? "bg-white border-x-2 border-gold-300" : ""}`}>
-                  {cells[r]?.[ci]}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="eyebrow">Compare</p>
+      <h2 class="mt-3">{heading}</h2>
+      {intro && <p class="mt-4 text-lg text-slate-500 leading-relaxed">{intro}</p>}
     </div>
+
+    <div class="compare mt-12 md:mt-20" style={`--cols:${columns.length}; --rows:${rowLabels.length}; --span:${rowLabels.length + 1}`}>
+      {columns.map((c, ci) => (
+        <article class:list={["compare-card", c.highlighted && "is-highlighted"]} data-reveal="item">
+          <header class="compare-head">
+            {c.highlighted && (
+              <span class="compare-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 2l2.7 6.1 6.6.6-5 4.5 1.5 6.5L12 16.6 6.2 19.7l1.5-6.5-5-4.5 6.6-.6z" fill="currentColor" />
+                </svg>
+                {highlightLabel}
+              </span>
+            )}
+            <h3 class="compare-title">{c.label}</h3>
+          </header>
+          <dl class="compare-list">
+            {rowLabels.map((row, r) => (
+              <div class="compare-item">
+                <dt>{row}</dt>
+                <dd>
+                  <span class="compare-mark" aria-hidden="true">
+                    {c.highlighted && (
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    )}
+                  </span>
+                  <span>{cells[r]?.[ci]}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
+
     {compareHref && (
-      <p class="mt-6 text-center">
-        <a href={compareHref} class="font-semibold text-navy-700 hover:text-gold-500">{compareLabel} &rarr;</a>
+      <p class="mt-12 md:mt-16 text-center">
+        <a href={compareHref} class="arrow-link font-semibold text-navy-700 hover:text-gold-500">{compareLabel} <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </p>
     )}
   </div>
 </section>
 
 <style>
-  /*
-    Scroll-shadow affordance: makes the horizontal scroll on narrow
-    screens discoverable (impeccable's "adapt" guidance — a scrollable
-    table is fine as long as it's obviously scrollable). Pure CSS: the
-    "local"-attached layers travel with the table content and mask the
-    "scroll"-attached tint layers except right at the edge that still has
-    more content to reveal, so the cue self-hides once the table already
-    fits (desktop) or once fully scrolled to an edge.
-  */
-  .table-scroll {
-    background-repeat: no-repeat;
-    background-attachment: local, local, scroll, scroll;
-    background-position: left center, right center, left center, right center;
-    background-size: 28px 100%, 28px 100%, 12px 100%, 12px 100%;
-    background-image:
-      linear-gradient(to right, var(--color-ivory-50), transparent),
-      linear-gradient(to left, var(--color-ivory-50), transparent),
-      linear-gradient(to right, rgba(8, 31, 51, 0.14), transparent),
-      linear-gradient(to left, rgba(8, 31, 51, 0.14), transparent);
+  .compare {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .compare-card {
+    position: relative;
+    padding: 1.6rem 1.4rem 1.5rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 20px;
+    background: #fff;
+    transition: box-shadow var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+  }
+  .compare-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding-bottom: 1.1rem;
+  }
+  .compare-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-navy-900);
+  }
+  .compare-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .compare-item {
+    padding: 0.95rem 0;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .compare-item dt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-slate-500);
+  }
+  .compare-item dd {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-ink-900);
+  }
+  /* A plain dot for the other options (their answers aren't "wrong", so
+     no red crosses), a gold check for the highlighted one. */
+  .compare-mark {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-top: 0.1rem;
+    border-radius: 999px;
+    background: var(--color-navy-100);
+  }
+  .compare-mark:empty::after {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-slate-500);
+    opacity: 0.6;
+  }
+
+  /* The highlighted option */
+  .compare-card.is-highlighted {
+    order: -1; /* first on phones */
+    border-color: transparent;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 100% 45% at 100% 0%, rgba(255, 217, 138, 0.22), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: 0 30px 60px -26px rgba(8, 31, 51, 0.6), 0 0 0 1.5px var(--color-gold-300);
+  }
+  .is-highlighted .compare-title {
+    color: var(--color-offwhite-100);
+  }
+  .is-highlighted .compare-item {
+    border-top-color: rgba(245, 241, 232, 0.12);
+  }
+  .is-highlighted .compare-item dt {
+    color: var(--color-gold-300);
+    opacity: 0.85;
+  }
+  .is-highlighted .compare-item dd {
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+  }
+  .is-highlighted .compare-mark {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .compare-card:not(.is-highlighted):hover {
+      border-color: var(--color-gold-300);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  /* ---------- Desktop: cards in a row, rows aligned across them ---------- */
+  @media (min-width: 900px) {
+    .compare {
+      grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+      grid-template-rows: auto repeat(var(--rows), auto);
+      gap: 0 1.25rem;
+      /* Two-option comparisons shouldn't stretch across the full width. */
+      max-width: calc(var(--cols) * 24rem);
+      margin-inline: auto;
+    }
+    .compare-card {
+      display: grid;
+      grid-row: span var(--span);
+      grid-template-rows: subgrid;
+      padding: 1.9rem 1.75rem 1.4rem;
+    }
+    .compare-card.is-highlighted {
+      order: 0;
+    }
+    .compare-list {
+      display: grid;
+      grid-row: span var(--rows);
+      grid-template-rows: subgrid;
+    }
+    .compare-head {
+      justify-content: flex-end;
+    }
+    /* The badge floats on the card's top edge instead of pushing the title
+       down, so all titles stay on one line across the row. */
+    .compare-badge {
+      position: absolute;
+      top: -0.85rem;
+      left: 1.75rem;
+      box-shadow: 0 0 0 4px var(--color-ivory-50);
+    }
+    /* The navy card stands 14px taller than its neighbors, top and bottom. */
+    .compare-card.is-highlighted {
+      margin-block: -14px;
+      padding-block: calc(1.9rem + 14px) calc(1.4rem + 14px);
+    }
   }
 </style>
-
-<script>
-  // The highlighted "Partnership publishing" column is the recommended
-  // option, but on a narrow screen it can start out of view since the
-  // table scrolls horizontally. If it's not already visible once the
-  // table has laid out, bring it into view so it isn't missed.
-  document.querySelectorAll("[data-table-scroll]").forEach((scrollEl) => {
-    const highlighted = scrollEl.querySelector("[data-highlighted-col]");
-    if (!highlighted) return;
-    requestAnimationFrame(() => {
-      if (scrollEl.scrollWidth <= scrollEl.clientWidth) return;
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      highlighted.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-    });
-  });
-</script>

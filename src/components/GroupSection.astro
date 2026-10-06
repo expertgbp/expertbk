@@ -1,0 +1,151 @@
+---
+/**
+ * One group on an index page (a market on /for, a hub on /books): the
+ * group's icon, name and description sit on the left and stay pinned while
+ * its cards scroll past on the right. Replaces "H2, then a full-width card
+ * grid", which made five groups in a row read as one long undivided wall.
+ *
+ *   icon         inner markup of a 24x24 line icon (src/data/nav.ts)
+ *   index        e.g. "01 / 05", shown beside the icon
+ *   meta         e.g. "7 professions", shown under the description
+ *   headingHref  makes the heading a link (the /books hubs)
+ *   tone         background: "ivory" (default), "mist" (navy-100) or "white"
+ * The default slot is the cards.
+ */
+interface Props {
+  heading: string;
+  id?: string;
+  headingHref?: string;
+  description?: string;
+  icon?: string;
+  index?: string;
+  meta?: string;
+  tone?: "ivory" | "mist" | "white";
+}
+const { heading, id, headingHref, description, icon, index, meta, tone = "ivory" } = Astro.props;
+const bg = { ivory: "bg-ivory-50", mist: "bg-navy-100", white: "bg-white" }[tone];
+---
+
+<section id={id} class:list={[bg, "scroll-mt-24"]}>
+  <div class="gsec mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="gsec-head">
+      <div class="gsec-top">
+        {icon && (
+          <span class="gsec-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" set:html={icon} />
+          </span>
+        )}
+        {index && <span class="gsec-index" aria-hidden="true">{index}</span>}
+      </div>
+      <h2 class="gsec-title">
+        {headingHref ? (
+          <a href={headingHref} class="gsec-link arrow-link">
+            {heading} <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        ) : (
+          heading
+        )}
+      </h2>
+      {description && <p class="gsec-desc">{description}</p>}
+      {meta && <p class="gsec-meta">{meta}</p>}
+    </div>
+    <div class="gsec-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .gsec {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .gsec {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.6fr);
+      gap: 4rem;
+      align-items: start;
+    }
+    .gsec-head {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+  }
+  .gsec-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  /* Navy tile with the door glow in its corner: the same surface as the
+     homepage's navy cards, at icon size. */
+  .gsec-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 18px;
+    color: var(--color-gold-300);
+    background:
+      radial-gradient(ellipse 90% 90% at 100% 0%, rgba(255, 217, 138, 0.28), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: var(--shadow-md);
+  }
+  .gsec-index {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-700);
+  }
+  .gsec-title {
+    margin-top: 1.5rem;
+  }
+  /* A short gold rule under the heading: the door motif as a divider. */
+  .gsec-title::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    margin-top: 1.25rem;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  .gsec-link {
+    /* Pads the heading link out to a 44px touch target. */
+    display: inline-block;
+    padding-block: 0.25rem;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .gsec-link .arrow {
+    font-size: 0.7em;
+    color: var(--color-gold-500);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .gsec-link:hover {
+      color: var(--color-gold-500);
+    }
+  }
+  .gsec-desc {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  .gsec-meta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    margin-top: 1.25rem;
+    padding: 0.25rem 0.85rem;
+    border: 1px solid rgba(8, 31, 51, 0.12);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-navy-700);
+  }
+</style>

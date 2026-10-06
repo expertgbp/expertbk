@@ -38,7 +38,7 @@ const slugify = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-
         type="text"
         required
         autocomplete="given-name"
-        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+        class="lead-input w-full rounded-xl border border-navy-100 px-4 py-3 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
       />
     </div>
     <div>
@@ -49,7 +49,7 @@ const slugify = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-
         type="email"
         required
         autocomplete="email"
-        class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+        class="lead-input w-full rounded-xl border border-navy-100 px-4 py-3 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
       />
     </div>
   </div>
@@ -60,7 +60,7 @@ const slugify = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-
       id={`${formId}-profession`}
       name="profession"
       required
-      class="w-full rounded-lg border border-navy-100 px-3 py-2.5 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+      class="lead-input w-full rounded-xl border border-navy-100 px-4 py-3 bg-white text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
     >
       <option value="">Choose one</option>
       {professionGroups.map((group) => (
@@ -104,6 +104,23 @@ const slugify = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-
       opacity: 1;
     }
   }
+  /* Fields: a slightly tinted fill at rest so they read as inputs on a
+     white card, turning white with a gold edge once in use. 16px text so
+     iOS doesn't zoom the page on focus. */
+  .lead-input {
+    min-height: 3rem;
+    font-size: 1rem;
+    background-color: var(--color-ivory-50);
+    transition: border-color var(--duration-fast) var(--ease-hover), background-color var(--duration-fast) var(--ease-hover);
+  }
+  .lead-input:hover {
+    border-color: var(--color-gold-500);
+  }
+  .lead-input:focus {
+    border-color: var(--color-gold-500);
+    background-color: #fff;
+  }
+
   [data-form-error]:not(.hidden) {
     animation: form-error-in var(--duration-fast) var(--ease-out);
   }

@@ -1,7 +1,7 @@
 ---
 title: "Is Hybrid Publishing Actually the Smart Move in 2026?"
 description: "Traditional, self-publishing, or hybrid: what the 2026 publishing data actually shows about why more professionals are choosing the middle path."
-heroImage: "/images/blog/is-hybrid-publishing-the-smart-move-in-2026.png"
+heroImage: "/images/blog/is-hybrid-publishing-the-smart-move-in-2026.webp"
 heroImageAlt: "A stack of 2026 publishing industry trade reports and magazines with a highlighter resting on top, on a wooden desk"
 cluster: "Trends"
 pillar: "where-to-start"
@@ -52,7 +52,7 @@ It's not a rebrand. The pattern shows up across 2026 publishing trend coverage: 
 The reasons authors give for the switch are consistent: faster timelines than traditional deals, higher royalties, and keeping ownership of their own rights.
 
 <figure>
-  <img src="/images/blog/inline/2026-why-authors-switch.png" alt="Flat infographic listing three reasons authors give for switching to hybrid publishing in 2026: Faster Timelines, Higher Royalties, Keep Ownership" loading="lazy" />
+  <img src="/images/blog/inline/2026-why-authors-switch.webp" alt="Flat infographic listing three reasons authors give for switching to hybrid publishing in 2026: Faster Timelines, Higher Royalties, Keep Ownership" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>The three reasons that come up most often on our own strategy calls with authors who considered traditional or self-publishing first.</figcaption>
 </figure>
 
@@ -67,7 +67,7 @@ That shift didn't happen overnight, and it isn't uniform across every company us
 That's also why the label alone still isn't a safe filter. "Hybrid" describes a business model (the author funds production and keeps the rights), not a quality guarantee. A company can call itself hybrid and still cut every corner a vanity press cuts. The seven checkable differences in [our comparison guide](/blog/hybrid-publisher-vs-vanity-press-7-differences), sample edits, itemized pricing, verifiable founders, and the rest, are what tell you which kind of company you're actually talking to, regardless of which word is on their homepage.
 
 <figure>
-  <img src="/images/blog/inline/2026-three-paths-comparison.png" alt="Flat infographic comparing three publishing paths across three factors: Traditional Publishing shows Slow speed, Publisher owns rights, and Full support; Self-Publishing shows Fast speed, Author owns rights, and No support; Hybrid Publishing shows Fast speed, Author owns rights, and Full support" loading="lazy" />
+  <img src="/images/blog/inline/2026-three-paths-comparison.webp" alt="Flat infographic comparing three publishing paths across three factors: Traditional Publishing shows Slow speed, Publisher owns rights, and Full support; Self-Publishing shows Fast speed, Author owns rights, and No support; Hybrid Publishing shows Fast speed, Author owns rights, and Full support" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>The three paths compared on the three factors authors weigh most: how fast the book gets published, who owns the rights, and how much professional support is included.</figcaption>
 </figure>
 
@@ -86,7 +86,7 @@ Laid out side by side, the appeal of the middle path is less about any one advan
 A traditional deal can take 12 to 24 months before you even get an answer, and that's before the book is written. Most hybrid paths, including ours, run 6 to 12 months from a decided position to a published book. For a [consultant](/for/consultants) or executive using the book to open doors now, not in two years, that gap is the whole decision.
 
 <figure>
-  <img src="/images/blog/inline/2026-timeline-comparison.png" alt="Flat infographic bar chart comparing time to a published book: Traditional Publishing 12 to 24 months versus Hybrid Publishing 6 to 12 months" loading="lazy" />
+  <img src="/images/blog/inline/2026-timeline-comparison.webp" alt="Flat infographic bar chart comparing time to a published book: Traditional Publishing 12 to 24 months versus Hybrid Publishing 6 to 12 months" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Timeline ranges as described in this article; not a guarantee for any individual author.</figcaption>
 </figure>
 

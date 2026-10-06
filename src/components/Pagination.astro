@@ -1,0 +1,167 @@
+---
+/**
+ * Page links for a paginated listing: Previous / Next plus numbered pages.
+ * Plain links, no script, so every page is a real URL a crawler can follow.
+ *
+ *   current   the page being shown (1-based)
+ *   total     how many pages exist
+ *   basePath  page 1 lives here, page N at `${basePath}/page/N`
+ *   label     the <nav> landmark's name
+ *
+ * The ends are rendered as plain text, not links, when there is nowhere to
+ * go (Previous on page 1, Next on the last page). Long runs collapse to
+ * first, last and the pages around the current one.
+ */
+interface Props {
+  current: number;
+  total: number;
+  basePath: string;
+  label?: string;
+}
+const { current, total, basePath, label = "Pages" } = Astro.props;
+
+const hrefFor = (n: number) => (n <= 1 ? basePath : `${basePath}/page/${n}`);
+
+// 1 … 4 5 6 … 12: always the two ends, plus one page either side of the
+// current one. A gap of exactly one page is shown as that page, not as "…".
+const wanted = new Set([1, total, current - 1, current, current + 1].filter((n) => n >= 1 && n <= total));
+const sorted = [...wanted].sort((a, b) => a - b);
+const items: (number | "gap")[] = [];
+sorted.forEach((n, i) => {
+  const prev = sorted[i - 1];
+  if (prev !== undefined && n - prev === 2) items.push(prev + 1);
+  else if (prev !== undefined && n - prev > 2) items.push("gap");
+  items.push(n);
+});
+---
+
+{total > 1 && (
+  <nav class="pager" aria-label={label} data-reveal="item">
+    {current > 1 ? (
+      <a href={hrefFor(current - 1)} class="pager-step" rel="prev">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        Previous
+      </a>
+    ) : (
+      <span class="pager-step is-disabled" aria-disabled="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        Previous
+      </span>
+    )}
+
+    <ol class="pager-pages">
+      {items.map((item) => (
+        <li>
+          {item === "gap" ? (
+            <span class="pager-gap" aria-hidden="true">&hellip;</span>
+          ) : (
+            <a
+              href={hrefFor(item)}
+              class="pager-page"
+              aria-label={`Page ${item}`}
+              aria-current={item === current ? "page" : undefined}
+            >
+              {item}
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+
+    {current < total ? (
+      <a href={hrefFor(current + 1)} class="pager-step" rel="next">
+        Next
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+    ) : (
+      <span class="pager-step is-disabled" aria-disabled="true">
+        Next
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </span>
+    )}
+
+    <p class="pager-status">Page {current} of {total}</p>
+  </nav>
+)}
+
+<style>
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .pager-pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Every target is a pill at least 44px tall and wide. */
+  .pager-step,
+  .pager-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-navy-900);
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .pager-step {
+    gap: 0.4rem;
+    padding: 0 1.15rem;
+  }
+  .pager-page {
+    min-width: 2.75rem;
+    padding: 0 0.6rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .pager-gap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    color: var(--color-slate-500);
+  }
+
+  /* The page you're on: the one navy pill in the row, gold numeral. */
+  .pager-page[aria-current="page"] {
+    border-color: var(--color-navy-900);
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .pager-step.is-disabled {
+    background: transparent;
+    color: var(--color-slate-500);
+    opacity: 0.55;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a.pager-step:hover,
+    .pager-page:not([aria-current="page"]):hover {
+      border-color: var(--color-gold-500);
+      background: var(--color-gold-300);
+    }
+  }
+  a.pager-step:active,
+  .pager-page:active {
+    transform: translateY(1px);
+  }
+
+  .pager-status {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-slate-500);
+  }
+</style>

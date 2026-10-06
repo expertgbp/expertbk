@@ -1,0 +1,26 @@
+---
+/**
+ * The heading block that opens a section: optional gold eyebrow, the H2,
+ * optional intro line. One component so every section on every page opens
+ * the same way (same sizes, same gaps) instead of each page hand-rolling
+ * `<h2 class="mb-8">`.
+ *
+ *   align  "left" (default) or "center"
+ *   dark   true on navy sections (off-white heading, lighter intro)
+ */
+interface Props {
+  heading: string;
+  eyebrow?: string;
+  intro?: string;
+  align?: "left" | "center";
+  dark?: boolean;
+  class?: string;
+}
+const { heading, eyebrow, intro, align = "left", dark = false, class: className } = Astro.props;
+---
+
+<div class:list={["max-w-2xl", align === "center" && "mx-auto text-center", className]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h2 class:list={[eyebrow && "mt-3", dark && "on-navy"]}>{heading}</h2>
+  {intro && <p class:list={["mt-4 text-lg leading-relaxed", dark ? "opacity-80" : "text-slate-500"]}>{intro}</p>}
+</div>

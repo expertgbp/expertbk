@@ -1,0 +1,79 @@
+---
+/**
+ * A list where every line is led by a gold check badge (the same badge the
+ * homepage Blueprint card uses). For turning a sentence of commitments or
+ * facts into lines the eye can count.
+ *
+ *   items  the lines, as plain strings (pull numbers from entity.ts)
+ *   dark   true on navy surfaces (off-white text)
+ *   large  serif, bigger lines: for two or three headline commitments
+ */
+interface Props {
+  items: string[];
+  dark?: boolean;
+  large?: boolean;
+  class?: string;
+}
+const { items, dark = false, large = false, class: className } = Astro.props;
+---
+
+<ul class:list={["check-list", dark && "is-dark", large && "is-large", className]}>
+  {items.map((item) => (
+    <li>
+      <span class="check-badge" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </span>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .check-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--color-ink-900);
+  }
+  .check-list.is-dark li {
+    color: var(--color-offwhite-100);
+  }
+  .check-badge {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.05rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .check-list.is-large {
+    gap: 1.1rem;
+  }
+  .check-list.is-large li {
+    gap: 1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.65rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+  }
+  .check-list.is-large .check-badge {
+    width: 2rem;
+    height: 2rem;
+    margin-top: 0.1rem;
+  }
+  .check-list.is-large .check-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+</style>

@@ -2,14 +2,22 @@
 /**
  * Homepage-only "Featured case studies" spotlight: 3 real authors (picked
  * because their real published video titles name a real book, giving
- * something concrete to feature — not picked at random), presented as a
- * static editorial grid rather than the auto-advancing proof carousel
- * (VideoTestimonialSlider) elsewhere on this page. Distinct in form and
- * purpose: that carousel is broad social proof ("9 authors walked this
- * path"), this is depth on 3 specific stories, each linking to the fuller
- * write-up on /case-studies.
+ * something concrete to feature, not picked at random).
+ *
+ * Laid out as a player with a playlist, not three look-alike cards: one
+ * large video stage on the left, and the three authors as numbered rows on
+ * the right. Picking a row swaps the stage to that author's video. That
+ * keeps it clearly different from the auto-advancing proof carousel
+ * (VideoTestimonialSlider) higher up the page: that one is breadth ("nine
+ * authors walked this path"), this is depth on three specific stories,
+ * with a link through to the fuller write-ups on /case-studies.
+ *
+ * A YouTube iframe only loads when a thumbnail is clicked (same lazy
+ * discipline as the slider). Without JS the first video and all three
+ * rows are still shown, and the rows simply aren't switchable.
  */
 import { videoTestimonials } from "../data/testimonials";
+import VideoThumb from "./VideoThumb.astro";
 
 const spotlightIds = ["F6fEzTgmRJU", "wp_pjolLuOo", "UTyHmnS1RV0"]; // Annette, Gavin, Penny
 const spotlight = spotlightIds
@@ -18,7 +26,7 @@ const spotlight = spotlightIds
 ---
 
 <section class="bg-ivory-50">
-  <div class="mx-auto max-w-5xl px-4 py-20 md:py-24">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <div class="max-w-xl">
         <p class="eyebrow">Featured case studies</p>
@@ -29,124 +37,299 @@ const spotlight = spotlightIds
       </a>
     </div>
 
-    <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
-      {spotlight.map((t) => (
-        <a href="/case-studies" class="case-study-card card flex flex-col gap-4 p-5" data-cta={`case-study-${t.youtubeId}`}>
-          <button
-            type="button"
-            class="video-thumb"
-            data-youtube-id={t.youtubeId}
-            aria-label={`Play video: ${t.name}, author of ${t.bookTitle}`}
+    <div class="cases mt-12" data-cases data-reveal="item">
+      <!-- Stage: the selected author's video. -->
+      <div class="cases-stage">
+        {spotlight.map((t, i) => (
+          <div
+            class="case-panel"
+            id={`case-panel-${i}`}
+            role="tabpanel"
+            aria-labelledby={`case-tab-${i}`}
+            data-case-panel
+            data-active={i === 0 ? "" : undefined}
           >
-            <img
-              src={`https://i.ytimg.com/vi/${t.youtubeId}/hqdefault.jpg`}
-              alt=""
-              loading="lazy"
-              width="480"
-              height="360"
-            />
-            <span class="play-badge" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="#081F33"/></svg>
-            </span>
-          </button>
-          <div>
-            <p class="font-serif text-lg font-semibold text-navy-900">{t.name}</p>
-            <p class="mt-1 text-sm text-slate-500">Author of <em>{t.bookTitle}</em></p>
+            <VideoThumb youtubeId={t.youtubeId} name={t.name} bookTitle={t.bookTitle} lowResThumb={t.lowResThumb} />
           </div>
-          <span class="mt-auto text-sm font-semibold text-navy-700">Read the full story &rarr;</span>
+        ))}
+      </div>
+
+      <!-- Playlist: the three authors. -->
+      <div class="cases-side">
+        <div class="cases-list" role="tablist" aria-label="Featured authors" aria-orientation="vertical">
+          {spotlight.map((t, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`case-tab-${i}`}
+              class="case-tab"
+              aria-selected={i === 0 ? "true" : "false"}
+              aria-controls={`case-panel-${i}`}
+              tabindex={i === 0 ? 0 : -1}
+              data-case-tab
+            >
+              <span class="case-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <span class="case-text">
+                <span class="case-name">{t.name}</span>
+                <span class="case-book">Author of <em>{t.bookTitle}</em></span>
+              </span>
+              <span class="case-play" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </span>
+            </button>
+          ))}
+        </div>
+        <a href="/case-studies" class="case-more arrow-link" data-cta="case-studies-full-stories">
+          Read the full stories <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
-      ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .case-study-card {
-    text-decoration: none;
+  .cases {
+    display: grid;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-radius: 28px;
+    background:
+      radial-gradient(ellipse 60% 70% at 0% 0%, rgba(255, 217, 138, 0.18), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: 0 40px 80px -40px rgba(8, 31, 51, 0.6);
   }
-  .video-thumb {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 10px;
-    overflow: hidden;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    background: var(--color-navy-900);
-    /* Frame ring via box-shadow (not `border`, to leave the button's box
-       model alone) so the thumbnail reads as a distinct object inside
-       the card, not a bare image — matches the navy-100 border already
-       used on .card elsewhere on this light background. */
-    box-shadow: 0 0 0 1px var(--color-navy-100);
-    transition: box-shadow var(--duration-fast) var(--ease-hover);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .video-thumb:hover {
-      box-shadow: 0 0 0 1.5px var(--color-gold-300);
+  @media (min-width: 900px) {
+    .cases {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1.25rem;
+      padding: 1.25rem;
+      border-radius: 32px;
     }
   }
-  .video-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+
+  /* ---------- Stage ---------- */
+  .cases-stage {
+    display: grid;
   }
-  .play-badge {
+  .case-panel {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+  /* With JS, only the selected video is shown. (Without it, the first.) */
+  .case-panel:not([data-active]) {
+    display: none;
+  }
+  @keyframes case-in {
+    from {
+      opacity: 0;
+      scale: 0.985;
+    }
+  }
+  .cases[data-switched] .case-panel[data-active] {
+    animation: case-in 260ms var(--ease-out) both;
+  }
+  .case-panel :global(.vthumb) {
+    border-radius: 20px;
+  }
+  .video-embed {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+  }
+
+  /* ---------- Playlist ---------- */
+  .cases-side {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+  .cases-list {
+    display: grid;
+    gap: 0.6rem;
+  }
+  @media (min-width: 900px) {
+    .cases-list {
+      flex: 1;
+      grid-auto-rows: 1fr;
+    }
+  }
+  .case-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.5rem;
+    padding: 0.9rem 1rem 0.9rem 1.25rem;
+    border: 1px solid rgba(245, 241, 232, 0.1);
+    border-radius: 18px;
+    background: rgba(27, 58, 102, 0.35);
+    text-align: left;
+    color: var(--color-offwhite-100);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover);
+  }
+  /* The door rule: opens on the selected author. */
+  .case-tab::before {
+    content: "";
     position: absolute;
-    inset: 0;
+    left: 0;
+    top: 24%;
+    bottom: 24%;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+    transform: scaleY(0);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .case-num {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-300);
+    opacity: 0.7;
+  }
+  .case-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+  .case-name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .case-book {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    opacity: 0.7;
+  }
+  .case-play {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: rgba(255, 217, 138, 0.14);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover);
+  }
+  .case-tab[aria-selected="true"] {
+    border-color: rgba(255, 217, 138, 0.45);
+    background: var(--color-navy-700);
+  }
+  .case-tab[aria-selected="true"]::before {
+    transform: scaleY(1);
+  }
+  .case-tab[aria-selected="true"] .case-num {
+    opacity: 1;
+  }
+  .case-tab[aria-selected="true"] .case-play {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .case-tab:hover {
+      border-color: rgba(255, 217, 138, 0.35);
+      background: rgba(27, 58, 102, 0.7);
+    }
+  }
+  .case-tab:focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 2px;
+  }
+
+  .case-more {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .play-badge::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(8, 31, 51, 0.15);
-  }
-  .play-badge svg {
-    position: relative;
-    width: 48px;
-    height: 48px;
-    padding: 13px;
-    box-sizing: border-box;
-    border-radius: 999px;
+    gap: 0.4rem;
+    min-height: 3.25rem;
+    border-radius: 18px;
     background: var(--color-gold-300);
-    box-shadow: var(--shadow-lg);
+    font-weight: 600;
+    color: var(--color-navy-900);
+    transition: background-color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .case-more:active {
+    transform: scale(0.98);
   }
   @media (hover: hover) and (pointer: fine) {
-    .video-thumb:hover .play-badge svg {
+    .case-more:hover {
       background: var(--color-gold-500);
     }
-  }
-  .video-embed {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 10px;
-    overflow: hidden;
-    border: none;
-    box-shadow: 0 0 0 1.5px var(--color-gold-300), var(--shadow-lg);
   }
 </style>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>(".case-study-card [data-youtube-id]").forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      // The button sits inside a card that's otherwise a link to
-      // /case-studies; clicking the thumbnail plays the video in place
-      // instead of navigating away.
-      event.preventDefault();
-      event.stopPropagation();
-      const id = btn.dataset.youtubeId;
-      const iframe = document.createElement("iframe");
-      iframe.className = "video-embed";
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-      iframe.title = btn.getAttribute("aria-label") || "Video testimonial";
-      iframe.allow = "accelerate-compute; autoplay; encrypted-media; picture-in-picture";
-      iframe.allowFullscreen = true;
-      btn.replaceWith(iframe);
+  document.querySelectorAll<HTMLElement>("[data-cases]").forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-case-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-case-panel]"));
+    if (!tabs.length || tabs.length !== panels.length) return;
+
+    // Each panel's original thumbnail button, so a playing video can be put
+    // back to its thumbnail when the visitor switches to another author
+    // (otherwise it would keep playing, unseen, behind the new one).
+    const thumbs = panels.map((panel) => panel.querySelector<HTMLButtonElement>("[data-youtube-id]"));
+    let current = 0;
+
+    function resetPanel(i: number) {
+      const iframe = panels[i].querySelector("iframe");
+      const thumb = thumbs[i];
+      if (iframe && thumb) iframe.replaceWith(thumb);
+    }
+
+    function select(index: number, focus = false) {
+      if (index === current) return;
+      resetPanel(current);
+      current = index;
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].toggleAttribute("data-active", on);
+      });
+      root.setAttribute("data-switched", "");
+      if (focus) tabs[index].focus();
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(i));
+      tab.addEventListener("keydown", (event) => {
+        const last = tabs.length - 1;
+        let next = -1;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") next = i === last ? 0 : i + 1;
+        else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = i === 0 ? last : i - 1;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = last;
+        if (next < 0) return;
+        event.preventDefault();
+        select(next, true);
+      });
+    });
+
+    // Click-to-load: swap the thumbnail for a real YouTube iframe.
+    thumbs.forEach((thumb) => {
+      thumb?.addEventListener("click", () => {
+        const id = thumb.dataset.youtubeId;
+        const iframe = document.createElement("iframe");
+        iframe.className = "video-embed";
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        iframe.title = thumb.dataset.title || "Video testimonial";
+        iframe.allow = "accelerate-compute; autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        thumb.replaceWith(iframe);
+      });
     });
   });
 </script>

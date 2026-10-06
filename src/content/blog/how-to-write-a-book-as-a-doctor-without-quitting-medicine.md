@@ -1,7 +1,7 @@
 ---
 title: "How to Write a Book as a Doctor Without Quitting Medicine"
 description: "How practicing physicians write and publish a book around rounds, charts, and clinic hours, without taking a leave of absence."
-heroImage: "/images/blog/how-to-write-a-book-as-a-doctor-without-quitting-medicine.png"
+heroImage: "/images/blog/how-to-write-a-book-as-a-doctor-without-quitting-medicine.webp"
 heroImageAlt: "A digital voice recorder and a stack of handwritten index cards beside reading glasses on a clinic desk, a medical journal softly out of focus in the background"
 cluster: "Doctors"
 pillar: "finish-your-book"
@@ -48,7 +48,7 @@ ctaVariant:
 Not from a sabbatical, and not from your weekends either, if the process is built correctly. Structured extraction means short, scheduled sessions where you talk through what you already know, the same way you'd walk a resident through a case. Someone else turns that into a manuscript. You're not staring at a blank page at 11 p.m. after a full day of patients.
 
 <figure>
-  <img src="/images/blog/inline/doctor-sessions-fit.png" alt="An infographic titled Sessions Fit Your Calendar with four short labels each beside a clock icon: Before Rounds, Lunch Break, Post-Call, Weekend Session" loading="lazy" />
+  <img src="/images/blog/inline/doctor-sessions-fit.webp" alt="An infographic titled Sessions Fit Your Calendar with four short labels each beside a clock icon: Before Rounds, Lunch Break, Post-Call, Weekend Session" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 The actual scheduling looks less like a writing retreat and more like fitting in one more short appointment a week. Some physician-authors prefer a slot before rounds start, when the day hasn't filled up yet. Others use a lunch break between clinic blocks, or the quieter hour right after a call shift ends, when the day's cases are still fresh enough to talk through easily. A weekend morning session works for physicians whose weekday schedule genuinely has no gaps. None of these require blocking out a full day, which is exactly why the process fits around a real clinical schedule instead of competing with it.
@@ -60,7 +60,7 @@ One nurse of 53 years came to us with 25 years of knowledge and no idea how to s
 Everything gets abstracted or composited the same way you'd present a case at grand rounds. No patient is identifiable, and that standard applies to more than just removing a name.
 
 <figure>
-  <img src="/images/blog/inline/doctor.png" alt="A stethoscope resting on an open notebook of handwritten notes, with a white coat softly out of focus in the background" loading="lazy" />
+  <img src="/images/blog/inline/doctor.webp" alt="A stethoscope resting on an open notebook of handwritten notes, with a white coat softly out of focus in the background" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 De-identification for a book needs to go further than the eighteen identifiers HIPAA lists for research data, because a book reaches a much wider audience than a chart ever will. A composite patient typically blends details from several real cases so no single patient, family member, or referring colleague could recognize themselves in it: the age gets shifted, the exact diagnosis timeline gets adjusted, the specific clinic or town gets removed, and any detail rare enough to be a fingerprint (an unusual occupation, a distinctive family situation, a rare disease combined with an identifiable location) gets changed or dropped entirely. A rare-disease case is worth flagging specifically, since a condition uncommon enough gets identifiable fast even without a name attached, simply because so few people in a given area could have it.
@@ -141,13 +141,13 @@ In our intake data, physicians consistently name the same two blockers before an
 Whether you're working with us or building this on your own, these are worth having clear answers to before a manuscript goes anywhere near a printer.
 
 <figure>
-  <img src="/images/blog/inline/doctor-questions.png" alt="A checklist infographic with four items: Hospital Policy Reviewed, Board Rules Checked, Sample Chapter Reviewed, Malpractice Carrier Notified" loading="lazy" />
+  <img src="/images/blog/inline/doctor-questions.webp" alt="A checklist infographic with four items: Hospital Policy Reviewed, Board Rules Checked, Sample Chapter Reviewed, Malpractice Carrier Notified" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Have you found and read your employer's outside-publication or media policy, if one exists, rather than assuming a book falls outside it? Have you checked your specialty board's rules on advertising and specialization claims? Has at least one sample chapter, ideally one that includes a patient story, been reviewed by someone other than you specifically for de-identification, not just for prose quality? Have you had the malpractice-and-publishing conversation with your carrier or broker directly? If any of these don't have a clear answer yet, that's useful information now, while it's still cheap to resolve, not after the book is printed and the launch date is public.
 
 <figure>
-  <img src="/images/blog/inline/doctor-privacy-checklist.png" alt="A checklist infographic with four items: Details Composited, Rare Cases Reviewed Twice, Scope Language Checked, Consent Obtained If Needed" loading="lazy" />
+  <img src="/images/blog/inline/doctor-privacy-checklist.webp" alt="A checklist infographic with four items: Details Composited, Rare Cases Reviewed Twice, Scope Language Checked, Consent Obtained If Needed" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 ## Is this the right time for you specifically?

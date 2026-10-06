@@ -10,11 +10,22 @@ import CompareTable from "../components/CompareTable.astro";
 import ProfessionCategoryRouter from "../components/ProfessionCategoryRouter.astro";
 import VideoTestimonialSlider from "../components/VideoTestimonialSlider.astro";
 import FeaturedCaseStudies from "../components/FeaturedCaseStudies.astro";
+import ProofCards from "../components/ProofCards.astro";
 import LeadMagnetForm from "../components/LeadMagnetForm.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
 import SpeakableSchema from "../components/schema/SpeakableSchema.astro";
+import { Image } from "astro:assets";
+import blueprintMockup from "../assets/images/homepage/blueprint-mockup.png";
+
+// The three things the Blueprint covers, as already stated in this
+// section's original paragraph: same claims, now one per line.
+const blueprintPoints = [
+  "How professionals structure a book around a full calendar",
+  "What publishing actually costs",
+  "The three decisions to make before you write a word",
+];
 
 const walls = [
   {
@@ -93,8 +104,9 @@ const faqs = [
     trustPoints={["Keep 100% of your rights and royalties", "6 to 12 months, guided start to finish"]}
     microTrust="Founded by USA Today and Wall Street Journal bestselling authors"
     ctaId="home-hero"
-    showMethodCard={false}
+    highlight="how experts actually do it."
     showPhoto
+    showParticles
   />
 
   <!-- Section 1b: As seen on / published everywhere -->
@@ -108,24 +120,24 @@ const faqs = [
 
   <!-- Section 4: The three walls -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-5xl px-4 py-20">
-      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div class="mx-auto max-w-5xl px-4 py-16 md:py-24">
+      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
         <h2 class="max-w-lg">You're not short on expertise. You're short on a path.</h2>
         <p class="max-w-md text-lg leading-relaxed text-slate-500">
           Most experts sit on a book for years. One of our authors waited 51 years. The problem was never
           talent. It was the same three walls everyone hits.
         </p>
       </div>
-      <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
         {walls.map((wall) => (
-          <a href={wall.href} class="card p-7 flex flex-col gap-4" data-cta={`wall-${wall.href.split("/").pop()}`}>
-            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-900 text-gold-300" aria-hidden="true">
+          <a href={wall.href} class="card wall-card arrow-link p-7 md:p-8 flex flex-col gap-4" data-cta={`wall-${wall.href.split("/").pop()}`}>
+            <span class="wall-icon flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-900 text-gold-300" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={wall.icon} />
             </span>
             <p class="eyebrow">{wall.eyebrow}</p>
             <p class="font-serif text-xl font-semibold leading-snug text-navy-900">&ldquo;{wall.quote}&rdquo;</p>
             <p class="text-sm text-slate-500 leading-relaxed">{wall.body}</p>
-            <span class="mt-auto pt-1 text-sm font-semibold text-navy-700">{wall.linkLabel} &rarr;</span>
+            <span class="mt-auto pt-2 text-sm font-semibold text-navy-700">{wall.linkLabel} <span class="arrow" aria-hidden="true">&rarr;</span></span>
           </a>
         ))}
       </div>
@@ -133,9 +145,9 @@ const faqs = [
   </section>
 
   <!-- Section 5: The EPIC Publishing Path -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-5xl px-4 py-20">
-      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+  <section class="epic-band relative overflow-hidden bg-navy-900 text-offwhite-100">
+    <div class="relative mx-auto max-w-5xl px-4 py-16 md:py-24">
+      <div class="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="eyebrow">Our method</p>
           <h2 class="on-navy mt-3">The EPIC Publishing Path</h2>
@@ -143,7 +155,7 @@ const faqs = [
         </div>
         <a href="/book-a-call" class="btn-primary shrink-0" data-cta="path-call">See how it works on a call</a>
       </div>
-      <div class="mt-14">
+      <div class="mt-14 md:mt-16">
         <PathSteps theme="dark" />
       </div>
     </div>
@@ -185,31 +197,27 @@ const faqs = [
   <ProfessionCategoryRouter />
 
   <!-- Section 9: Results -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-5xl px-4 py-20">
-      <p class="eyebrow">Results</p>
-      <h2 class="on-navy mt-3 mb-10">Authors who walked this path</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="rounded-2xl bg-navy-700 p-8 flex items-center gap-6">
-          <div class="shrink-0 text-center">
-            <p class="font-serif text-lg opacity-60 line-through decoration-2">15 sales</p>
-            <p class="font-serif text-2xl font-bold text-gold-300 mt-1">Bestseller</p>
-          </div>
-          <p class="text-lg leading-snug">{entity.proofBank.rescueStat}</p>
+  <section class="results-band relative overflow-hidden bg-navy-900 text-offwhite-100">
+    <div class="relative mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
+        <div>
+          <p class="eyebrow">Results</p>
+          <h2 class="on-navy mt-3">Authors who walked this path</h2>
         </div>
-        <div class="rounded-2xl bg-navy-700 p-8 flex items-center gap-6">
-          <div class="shrink-0 text-center min-w-[7rem]">
-            <p class="font-serif text-4xl font-bold text-gold-300 leading-none">1,000+</p>
-            <p class="text-sm opacity-70 mt-1.5">books in 5 days</p>
-          </div>
-          <p class="text-lg leading-snug">{entity.proofBank.fastSaleStat}</p>
-        </div>
+        <p class="max-w-sm text-lg leading-relaxed opacity-75">
+          Two results from our own client work, then the authors in their own words.
+        </p>
       </div>
-      <div class="mt-10">
+
+      <div class="mt-12">
+        <ProofCards disclaimer={false} dark />
+      </div>
+
+      <div class="mt-14 md:mt-20" data-reveal="item">
         <VideoTestimonialSlider />
       </div>
-      <p class="mt-6 text-sm opacity-70">
-        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
+      <p class="mt-8 text-sm opacity-70">
+        <a href="/disclaimer" class="underline underline-offset-2">{entity.incomeDisclaimerLine}</a>
       </p>
     </div>
   </section>
@@ -219,8 +227,8 @@ const faqs = [
 
   <!-- Section 10: Founders -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-5xl px-4 py-24 grid sm:grid-cols-[260px_1fr] gap-14 items-center">
-      <div class="relative mx-auto w-full max-w-[260px] sm:max-w-none">
+    <div class="mx-auto max-w-5xl px-4 py-16 md:py-24 grid md:grid-cols-[280px_1fr] gap-12 md:gap-16 items-center">
+      <div class="relative mx-auto w-full max-w-[260px] md:max-w-none">
         <div class="absolute -left-3 -top-3 h-16 w-16 rounded-2xl bg-gold-300" aria-hidden="true"></div>
         <div
           class="relative aspect-square rounded-[28px] bg-navy-100 border border-navy-100 flex flex-col items-center justify-center gap-2 text-center p-6 text-slate-500"
@@ -232,7 +240,7 @@ const faqs = [
           </svg>
           <p class="text-sm font-semibold">[Real photo: Sush Dutta &amp; Ash Goel]</p>
         </div>
-        <div class="absolute -right-6 bottom-8 hidden sm:block rounded-2xl bg-navy-900 text-offwhite-100 px-5 py-4 shadow-lg">
+        <div class="absolute -right-6 bottom-8 hidden md:block rounded-2xl bg-navy-900 text-offwhite-100 px-5 py-4 shadow-lg">
           <p class="text-xs font-bold tracking-[0.12em] text-gold-300">SINCE {entity.founded}</p>
           <p class="font-serif text-lg font-semibold mt-1">Global Book Publishing</p>
         </div>
@@ -252,25 +260,46 @@ const faqs = [
   </section>
 
   <!-- Section 11: Lead magnet -->
-  <section class="px-4">
-    <div class="mx-auto max-w-5xl rounded-[32px] bg-gold-300 px-6 py-16 sm:px-14 sm:py-20 grid gap-12 sm:grid-cols-[240px_1fr] sm:items-center">
-      <img
-        src="/images/home/blueprint-mockup.png"
-        alt="The Expert Book Blueprint guide cover"
-        width="240"
-        height="345"
-        loading="lazy"
-        class="order-1 mx-auto w-40 sm:w-full max-w-[240px] -rotate-3 drop-shadow-xl rounded-lg"
-      />
-      <div class="order-2">
-        <h2 class="text-navy-900">Not ready to talk? Take the Blueprint.</h2>
-        <p class="mt-4 text-lg leading-relaxed text-navy-900/80">
-          The Expert Book Blueprint is a free, plain-English guide: how professionals structure a book around
-          a full calendar, what publishing actually costs, and the three decisions to make before you write a word.
+  <!-- A navy card on the ivory page: the pitch and what's inside on the
+       left, the form on its own white card on the right with the guide's
+       cover standing out of its top edge. (The old all-gold band put a
+       gold button on a gold background, so the one thing to click was the
+       hardest thing to see.) -->
+  <section class="px-4 py-4 md:py-8">
+    <div class="blueprint-band on-navy-surface">
+      <div class="blueprint-copy">
+        <p class="eyebrow">Free guide</p>
+        <h2 class="on-navy mt-3">Not ready to talk? Take the Blueprint.</h2>
+        <p class="mt-5 text-lg leading-relaxed opacity-80">
+          The Expert Book Blueprint is a free, plain-English guide. Here's what's inside:
         </p>
-        <div class="mt-8">
-          <LeadMagnetForm formId="home-blueprint" segmentTag="blueprint-general" />
+        <ul class="blueprint-points">
+          {blueprintPoints.map((point) => (
+            <li>
+              <span class="blueprint-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="blueprint-form bg-white">
+        <div class="blueprint-form-head">
+          <Image
+            src={blueprintMockup}
+            alt="The Expert Book Blueprint guide cover"
+            width={260}
+            height={260}
+            class="blueprint-mockup"
+          />
+          <div>
+            <p class="font-serif text-xl font-semibold leading-tight text-navy-900">Get your free copy</p>
+            <p class="mt-1 text-sm text-slate-500">It takes less than a minute.</p>
+          </div>
         </div>
+        <LeadMagnetForm formId="home-blueprint" segmentTag="blueprint-general" />
       </div>
     </div>
   </section>
@@ -281,3 +310,164 @@ const faqs = [
   <!-- Section 13: Final door -->
   <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  /* The wall card's icon tile flips to gold when its card is hovered: the
+     card's lift and sheen already come from the shared .card style, this
+     ties the icon into the same moment. Color only, no extra movement. */
+  .wall-icon {
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wall-card:hover .wall-icon {
+      background-color: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
+  /* The door-glow language from the hero, quieter, so the method band has
+     depth instead of being a flat navy slab. */
+  .epic-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 55% 70% at 100% 0%, rgba(255, 217, 138, 0.12), transparent 70%);
+  }
+
+  /* ---------- Results ---------- */
+  .results-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 50% 45% at 0% 0%, rgba(255, 217, 138, 0.1), transparent 70%);
+  }
+
+  /* ---------- Blueprint (lead magnet) ---------- */
+  .blueprint-band {
+    position: relative;
+    display: grid;
+    gap: 2.5rem;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: 2.5rem 1.25rem 1.25rem;
+    border-radius: 28px;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 60% 70% at 0% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+      radial-gradient(ellipse 45% 60% at 100% 100%, rgba(27, 58, 102, 0.7), transparent 70%),
+      var(--color-navy-900);
+    box-shadow: 0 40px 80px -40px rgba(8, 31, 51, 0.6);
+  }
+  @media (min-width: 640px) {
+    .blueprint-band {
+      padding: 3rem 2rem 2rem;
+    }
+  }
+  @media (min-width: 960px) {
+    .blueprint-band {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      align-items: center;
+      gap: 4rem;
+      padding: 4.5rem 4rem;
+      border-radius: 36px;
+    }
+  }
+  .blueprint-copy {
+    padding-inline: 0.5rem;
+  }
+  .blueprint-points {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+  .blueprint-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .blueprint-check {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.05rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+
+  /* The form sits on its own white card, so the gold button finally has
+     something to stand out against. */
+  .blueprint-form {
+    position: relative;
+    padding: 1.5rem 1.25rem 1.75rem;
+    border-radius: 22px;
+    background: #fff;
+    color: var(--color-ink-900);
+    box-shadow: 0 30px 60px -28px rgba(3, 12, 22, 0.75);
+  }
+  @media (min-width: 640px) {
+    .blueprint-form {
+      padding: 2rem 2rem 2.25rem;
+    }
+  }
+  .blueprint-form-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-radius: 16px;
+    background: var(--color-gold-100);
+  }
+  /* The cover stands out of the top of its strip and rests at a tilt; it
+     squares up when the card is hovered (the same "turn to face you"
+     gesture as the bookshelf covers). */
+  .blueprint-mockup {
+    flex-shrink: 0;
+    width: 6.5rem;
+    height: auto;
+    margin: -1.75rem 0 -0.75rem -0.5rem;
+    filter: drop-shadow(0 12px 14px rgba(8, 31, 51, 0.3));
+    transform: rotate(-4deg);
+    transition: transform 500ms var(--ease-out);
+  }
+  @media (min-width: 640px) {
+    .blueprint-mockup {
+      width: 8rem;
+      margin: -2.75rem 0 -1rem -0.75rem;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .blueprint-form:hover .blueprint-mockup {
+      transform: rotate(0deg) translateY(-4px) scale(1.04);
+    }
+  }
+  /* Inside this card the form fills the width and its button spans it. */
+  .blueprint-form :global(form) {
+    max-width: none;
+  }
+  .blueprint-form :global(button[type="submit"]) {
+    width: 100%;
+  }
+</style>
+
+<!-- Homepage only (this stylesheet is inlined into this page alone): the
+     sections from the third one down are not rendered until they are near
+     the screen. This page is by far the longest on the site (about 2,700
+     elements), and without this the browser styles and lays out all of it
+     before the first paint. Kept off the other pages, which are short
+     enough not to need it. -->
+<style is:global>
+  main > section:nth-child(n + 3) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+</style>

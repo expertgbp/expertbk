@@ -8,6 +8,7 @@
  * on this site.
  */
 import { videoTestimonials } from "../data/testimonials";
+import VideoThumb from "./VideoThumb.astro";
 
 // Two clones of the first two real items appended, so the auto-advance can
 // scroll straight through the wrap point (see script below) instead of
@@ -16,42 +17,25 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
 ---
 
 <div class="testimonial-slider" data-testimonial-slider aria-roledescription="carousel" aria-label="Author video testimonials">
+  <div class="slider-head">
+    <h3 class="slider-title">In their own words</h3>
+    <div class="slider-controls">
+      <button type="button" class="slider-btn" data-prev aria-label="Previous testimonial">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="slider-btn" data-next aria-label="Next testimonial">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
   <div class="slider-viewport">
     <div class="slider-track" data-track>
-      {track.map((t, i) => (
+      {track.map((t) => (
         <div class="slide" data-slide>
-          <button
-            type="button"
-            class="video-thumb"
-            data-youtube-id={t.youtubeId}
-            aria-label={`Play video testimonial: ${t.name}${t.bookTitle ? ", author of " + t.bookTitle : ""}`}
-          >
-            <img
-              src={`https://i.ytimg.com/vi/${t.youtubeId}/hqdefault.jpg`}
-              alt=""
-              loading={i < 3 ? "eager" : "lazy"}
-              width="480"
-              height="360"
-            />
-            <span class="play-badge" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="#081F33"/></svg>
-            </span>
-          </button>
-          <p class="slide-caption">
-            <strong>{t.name}</strong>
-            {t.bookTitle && <span>, author of <em>{t.bookTitle}</em></span>}
-          </p>
+          <VideoThumb youtubeId={t.youtubeId} name={t.name} bookTitle={t.bookTitle} lowResThumb={t.lowResThumb} />
         </div>
       ))}
     </div>
-  </div>
-  <div class="slider-controls">
-    <button type="button" class="slider-btn" data-prev aria-label="Previous testimonial">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8l6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <button type="button" class="slider-btn" data-next aria-label="Next testimonial">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
 </div>
 
@@ -59,10 +43,26 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
   .testimonial-slider {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1.5rem;
   }
+  .slider-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .slider-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+  }
+  /* The -10px margin lets the outer slides line up with the section's own
+     left and right edges, despite each slide's 10px gutter. */
   .slider-viewport {
     overflow: hidden;
+    margin-inline: -10px;
+    padding-block: 4px; /* room for the cards' 3px hover lift */
   }
   .slider-track {
     display: flex;
@@ -70,7 +70,7 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
   }
   .slide {
     flex: 0 0 100%;
-    padding: 0 8px;
+    padding: 0 10px;
     box-sizing: border-box;
   }
   @media (min-width: 640px) {
@@ -79,109 +79,53 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
   @media (min-width: 1024px) {
     .slide { flex-basis: 33.3333%; }
   }
-  .video-thumb {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 14px;
-    overflow: hidden;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    background: var(--color-navy-900);
-    /* A visible frame ring (via box-shadow, not `border`, so it doesn't
-       disturb the button's box model) plus real elevation — on the dark
-       Results section, a thin gold-tinted ring reads as a deliberate
-       frame around the graphic instead of an image floating bare. */
-    box-shadow: 0 0 0 1px rgba(255, 217, 138, 0.35), var(--shadow-lg);
-    transition: box-shadow var(--duration-fast) var(--ease-hover);
+  /* Each slide is one designed thumbnail (VideoThumb); it lifts on hover. */
+  .slide :global(.vthumb) {
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(255, 217, 138, 0.18);
+    transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
-    .video-thumb:hover {
-      box-shadow: 0 0 0 1.5px rgba(255, 217, 138, 0.6), var(--shadow-lg);
-    }
-  }
-  .video-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .play-badge {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .play-badge::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(8, 31, 51, 0.15);
-  }
-  .play-badge svg {
-    position: relative;
-    width: 52px;
-    height: 52px;
-    padding: 15px;
-    box-sizing: border-box;
-    border-radius: 999px;
-    background: var(--color-gold-300);
-    box-shadow: var(--shadow-lg);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .video-thumb:hover .play-badge svg {
-      background: var(--color-gold-500);
+    .slide :global(.vthumb:hover) {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 1.5px rgba(255, 217, 138, 0.55);
     }
   }
   .video-embed {
+    display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 14px;
+    aspect-ratio: 16 / 9;
+    border-radius: 18px;
     overflow: hidden;
     border: none;
-    box-shadow: 0 0 0 1.5px var(--color-gold-300), var(--shadow-lg);
-  }
-  /* This slider currently only ships on the homepage's dark navy Results
-     section, so the caption is styled for that surface directly (light
-     text) rather than as a reusable light/dark-agnostic default. */
-  .slide-caption {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: var(--color-offwhite-100);
-    opacity: 0.8;
-    text-align: center;
-  }
-  .slide-caption strong {
-    color: var(--color-offwhite-100);
-    opacity: 1;
-    font-family: var(--font-serif);
   }
 
   .slider-controls {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    flex-shrink: 0;
+    gap: 0.6rem;
   }
   .slider-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 999px;
-    border: 1.5px solid var(--color-navy-100);
-    background: #fff;
-    color: var(--color-navy-700);
+    border: 1.5px solid rgba(255, 217, 138, 0.45);
+    background: transparent;
+    color: var(--color-gold-300);
     cursor: pointer;
-    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .slider-btn:active {
+    transform: scale(0.94);
   }
   @media (hover: hover) and (pointer: fine) {
     .slider-btn:hover {
-      background: var(--color-gold-100);
-      border-color: var(--color-gold-300);
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
     }
   }
 
@@ -193,7 +137,9 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-testimonial-slider]").forEach((root) => {
+  // Runs once the browser is idle: the slider sits far below the fold and its
+  // setup reads layout, which would otherwise interrupt the page's first render.
+  const initSliders = () => document.querySelectorAll<HTMLElement>("[data-testimonial-slider]").forEach((root) => {
     const track = root.querySelector<HTMLElement>("[data-track]");
     const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-slide]"));
     const prevBtn = root.querySelector<HTMLButtonElement>("[data-prev]");
@@ -285,7 +231,7 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
         const iframe = document.createElement("iframe");
         iframe.className = "video-embed";
         iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-        iframe.title = btn.getAttribute("aria-label") || "Video testimonial";
+        iframe.title = btn.dataset.title || "Video testimonial";
         iframe.allow = "accelerate-compute; autoplay; encrypted-media; picture-in-picture";
         iframe.allowFullscreen = true;
         btn.replaceWith(iframe);
@@ -295,4 +241,6 @@ const track = [...videoTestimonials, videoTestimonials[0], videoTestimonials[1]]
     paint(false);
     startAuto();
   });
+  if ("requestIdleCallback" in window) window.requestIdleCallback(initSliders, { timeout: 2000 });
+  else window.setTimeout(initSliders, 400);
 </script>

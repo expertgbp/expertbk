@@ -1,6 +1,11 @@
 ---
 import { getEntry, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SplitSection from "../components/SplitSection.astro";
+import ObstacleCards from "../components/ObstacleCards.astro";
+import ProofCards from "../components/ProofCards.astro";
 import PathSteps from "../components/PathSteps.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import CardGrid from "../components/CardGrid.astro";
@@ -8,7 +13,6 @@ import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import SpeakableSchema from "../components/schema/SpeakableSchema.astro";
-import { entity } from "../data/entity";
 
 interface Props {
   entry: CollectionEntry<"professions">;
@@ -16,6 +20,7 @@ interface Props {
 const { entry } = Astro.props;
 const p = entry.data;
 const { Content } = await render(entry);
+const label = p.professionLabel.toLowerCase();
 
 const relatedBooks = (
   await Promise.all(p.relatedBooks.map((slug) => getEntry("books", slug)))
@@ -29,85 +34,75 @@ const relatedBooks = (
   </Fragment>
 
   <!-- 1. H1 + 2. Direct answer block -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <p class="eyebrow mb-4">For {p.professionLabel}s</p>
-      <h1 class="on-navy">{p.title}</h1>
-      <p class="direct-answer mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
-        {p.answerBlock}
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/book-a-call" class="btn-primary" data-cta="profession-hero-call">{p.cta.primaryLabel}</a>
-        <a href={p.cta.leadMagnetSlug} class="btn-secondary on-navy" data-cta="profession-hero-blueprint">{p.cta.leadMagnetLabel}</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow={`For ${p.professionLabel}s`}
+    heading={p.title}
+    answer={p.answerBlock}
+    crumbs={[{ label: "For Experts", href: "/for" }, { label: p.professionLabel }]}
+    primaryLabel={p.cta.primaryLabel}
+    secondaryLabel={p.cta.leadMagnetLabel}
+    secondaryHref={p.cta.leadMagnetSlug}
+    ctaId="profession-hero"
+  />
 
   <!-- 3. Identity mirror -->
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-12 md:py-14">
-      <p class="text-lg leading-relaxed">{p.identityMirror}</p>
-      {p.crossLinks && p.crossLinks.length > 0 && (
-        <div class="mt-4 space-y-1">
-          {p.crossLinks.map((c) => (
-            <p class="text-sm text-slate-500">
-              {c.prefix} <a href={c.href} class="underline font-semibold text-navy-700 hover:text-gold-500">{c.linkLabel}</a>
-            </p>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+  <SplitSection eyebrow="Where you are now" heading="Sound familiar?">
+    <p>{p.identityMirror}</p>
+    {p.crossLinks && p.crossLinks.length > 0 && (
+      <ul class="cross-links">
+        {p.crossLinks.map((c) => (
+          <li>
+            {c.prefix} <a href={c.href} class="arrow-link">{c.linkLabel} <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </SplitSection>
 
   <!-- 4. Obstacle map -->
   <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14 md:py-16">
-      <h2 class="mb-8">What's actually in your way</h2>
-      <div class="space-y-6">
-        {p.obstacles.map((o) => (
-          <div class="card p-5 bg-white">
-            <p class="font-semibold italic text-navy-700">&ldquo;{o.objection}&rdquo;</p>
-            <p class="mt-3 text-slate-500 leading-relaxed">{o.reframe}</p>
-          </div>
-        ))}
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="The obstacles" heading="What's actually in your way" />
+      <div class="mt-10 md:mt-12">
+        <ObstacleCards items={p.obstacles} />
       </div>
     </div>
   </section>
 
   <!-- 5. What your book does -->
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-12 md:py-14">
-      <h2 class="mb-6">What your book does for a {p.professionLabel.toLowerCase()}</h2>
-      <p class="text-lg leading-relaxed">{p.whatItDoes}</p>
-    </div>
-  </section>
+  <SplitSection eyebrow="The payoff" heading={`What your book does for a ${label}`}>
+    <p>{p.whatItDoes}</p>
+  </SplitSection>
 
   <!-- 6. The path -->
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-      <h2 class="mb-10 text-center">The EPIC Publishing Path, for your calendar</h2>
-      <PathSteps overrides={p.pathNote ? { engineer: p.pathNote } : {}} />
+  <section class="path-band relative overflow-hidden bg-navy-900 text-offwhite-100">
+    <div class="relative mx-auto max-w-5xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Our method" heading="The EPIC Publishing Path, for your calendar" align="center" dark />
+      <div class="mt-14 md:mt-16">
+        <PathSteps theme="dark" overrides={p.pathNote ? { engineer: p.pathNote } : {}} />
+      </div>
     </div>
   </section>
 
   <!-- 7. Proof -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Proof from the path you're on</h2>
-      <TestimonialCard {...p.proof} />
-      <p class="mt-4 text-sm text-slate-500">
-        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
-        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
-      </p>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Proof" heading="Proof from the path you're on" />
+      <div class="mt-10 md:mt-12 grid gap-5">
+        <TestimonialCard {...p.proof} />
+        <ProofCards />
+      </div>
     </div>
   </section>
 
   <!-- 8. Book types this profession writes -->
   {relatedBooks.length > 0 && (
     <section class="bg-navy-100">
-      <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-        <h2 class="mb-8">Book types {p.professionLabel.toLowerCase()}s write</h2>
-        <CardGrid items={relatedBooks.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 90) + "…", href: `/books/${b.id}` }))} />
+      <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+        <SectionHeading eyebrow="Your book" heading={`Book types ${label}s write`} />
+        <div class="mt-10 md:mt-12">
+          <CardGrid items={relatedBooks.map((b) => ({ title: b.data.bookTypeLabel, description: b.data.answerBlock.slice(0, 90) + "…", href: `/books/${b.id}` }))} />
+        </div>
       </div>
     </section>
   )}
@@ -118,8 +113,37 @@ const relatedBooks = (
   </section>
 
   <!-- 9. FAQ -->
-  <FAQAccordion faqs={p.faqs} heading={`Questions ${p.professionLabel.toLowerCase()}s ask us`} />
+  <FAQAccordion faqs={p.faqs} heading={`Questions ${label}s ask us`} />
 
   <!-- 10. CTA band -->
   <FinalDoorCTA secondaryLabel={p.cta.leadMagnetLabel} secondaryHref={p.cta.leadMagnetSlug} />
 </BaseLayout>
+
+<style>
+  .cross-links {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-navy-100);
+    font-size: 1rem;
+    color: var(--color-slate-500);
+  }
+  .cross-links a {
+    font-weight: 600;
+    color: var(--color-navy-700);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cross-links a:hover {
+      color: var(--color-gold-500);
+    }
+  }
+  /* The door-glow, quieter, so the method band isn't a flat navy slab. */
+  .path-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 55% 70% at 100% 0%, rgba(255, 217, 138, 0.12), transparent 70%);
+  }
+</style>

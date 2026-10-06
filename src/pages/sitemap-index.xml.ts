@@ -15,8 +15,10 @@ const SITEMAPS = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
+  // lastmod = this build: each child sitemap is regenerated on every deploy.
+  const built = new Date().toISOString().slice(0, 10);
   const entries = SITEMAPS.map(
-    (name) => `<sitemap><loc>${new URL(name, site).toString()}</loc></sitemap>`
+    (name) => `<sitemap><loc>${new URL(name, site).toString()}</loc><lastmod>${built}</lastmod></sitemap>`
   ).join("");
   const body = `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries}</sitemapindex>`;
   return new Response(body, {

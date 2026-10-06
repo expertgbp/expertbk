@@ -1,4 +1,15 @@
 ---
+/**
+ * "Before / after" as a shift, not a spreadsheet: each row is one line of
+ * the reader's expertise today, and what the same thing becomes as a book.
+ * The "after" side is a navy panel that stands taller than the "before"
+ * side (the heading's "a different weight", made literal), with a gold
+ * arrow on the seam of every row.
+ *
+ * Still exposed as a table to assistive tech and parsers (role="table" /
+ * row / columnheader / cell), it just isn't drawn as one. On phones each
+ * row becomes its own two-part card: today on top, the book below.
+ */
 interface Props {
   heading: string;
   rows: { before: string; after: string }[];
@@ -9,101 +20,242 @@ const { heading, rows, beforeLabel = "Your expertise today", afterLabel = "Your 
 ---
 
 <section class="bg-ivory-50">
-  <div class="mx-auto max-w-4xl px-4 py-20">
-    <h2 class="text-center mb-12">{heading}</h2>
-    <div class="before-after-scroll overflow-x-auto table-scroll rounded-2xl shadow-lg">
-      <table class="before-after w-full text-left border-collapse min-w-[36rem] bg-white rounded-2xl overflow-hidden">
-        <thead>
-          <tr>
-            <th class="py-5 px-6 font-serif text-base font-semibold text-slate-500 bg-ivory-50">{beforeLabel}</th>
-            <th class="py-5 px-6 font-serif text-base font-semibold text-gold-300 bg-navy-900">{afterLabel}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr class="border-t border-navy-100">
-              <td class="py-4 px-6 align-top text-slate-500" data-label={beforeLabel}>{row.before}</td>
-              <td class="py-4 px-6 align-top font-semibold text-navy-900 bg-gold-100/50" data-label={afterLabel}>{row.after}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <div class="mx-auto max-w-5xl px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-2xl text-center">
+      {heading.toLowerCase() !== "before and after" && <p class="eyebrow mb-3">Before and after</p>}
+      <h2>{heading}</h2>
+    </div>
+
+    <div class="shift mt-12 md:mt-20" role="table" aria-label={heading}>
+      <div class="shift-head" role="row" data-reveal="none">
+        <div class="shift-th shift-th-before" role="columnheader">{beforeLabel}</div>
+        <div class="shift-th shift-th-after" role="columnheader">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+            <path d="M12 6v13" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+          {afterLabel}
+        </div>
+      </div>
+
+      <div class="shift-rows" role="rowgroup" data-reveal="children" data-reveal-stagger="90">
+        {rows.map((row) => (
+          <div class="shift-row" role="row" data-reveal="item">
+            <div class="shift-cell shift-before" role="cell" data-label={beforeLabel}>
+              <span class="shift-mark shift-mark-before" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <span>{row.before}</span>
+            </div>
+            <span class="shift-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </span>
+            <div class="shift-cell shift-after" role="cell" data-label={afterLabel}>
+              <span class="shift-mark shift-mark-after" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <span>{row.after}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  /*
-    Scroll-shadow affordance: makes the horizontal scroll on narrow
-    screens discoverable (impeccable's "adapt" guidance — a scrollable
-    table is fine as long as it's obviously scrollable). Pure CSS: the
-    "local"-attached layers travel with the table content and mask the
-    "scroll"-attached tint layers except right at the edge that still has
-    more content to reveal, so the cue self-hides once the table already
-    fits (desktop) or once fully scrolled to an edge.
-  */
-  .table-scroll {
-    background-repeat: no-repeat;
-    background-attachment: local, local, scroll, scroll;
-    background-position: left center, right center, left center, right center;
-    background-size: 28px 100%, 28px 100%, 12px 100%, 12px 100%;
-    background-image:
-      linear-gradient(to right, #fff, transparent),
-      linear-gradient(to left, #fff, transparent),
-      linear-gradient(to right, rgba(8, 31, 51, 0.14), transparent),
-      linear-gradient(to left, rgba(8, 31, 51, 0.14), transparent);
+  .shift {
+    position: relative;
   }
 
-  /*
-    Mobile restack (F35): below 768px the two-column table scrolled
-    sideways and hid the "after" column, the section's whole payoff. Each
-    row becomes a stacked card instead; the semantic <table> markup stays
-    (AI parsers still read it as a table), only the visual presentation
-    changes. data-label + ::before reproduces the column heading inside
-    each card since <thead> is hidden. Unchanged at 1024px and up.
-  */
-  @media (max-width: 767px) {
-    .before-after-scroll {
-      overflow-x: visible;
-      box-shadow: none;
+  .shift-cell {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .shift-mark {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 999px;
+  }
+  .shift-mark-before {
+    background: var(--color-navy-100);
+    color: var(--color-slate-500);
+  }
+  .shift-mark-after {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .shift-before {
+    color: var(--color-slate-500);
+  }
+  .shift-after {
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+  }
+  .shift-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+
+  /* ---------- Desktop: two panels, the navy one stands taller ---------- */
+  @media (min-width: 768px) {
+    /* "Today": a quiet white sheet, tucked slightly under the navy panel. */
+    .shift::before {
+      content: "";
+      position: absolute;
+      inset: 0 calc(50% - 1.5rem) 0 0;
+      border: 1px solid var(--color-navy-100);
+      border-radius: 22px 0 0 22px;
+      background: #fff;
     }
-    .before-after {
+    /* "As a book": navy, 18px taller top and bottom, with the door glow. */
+    .shift::after {
+      content: "";
+      position: absolute;
+      inset: -18px 0 -18px 50%;
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse 90% 55% at 100% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+        var(--color-navy-900);
+      box-shadow: 0 30px 60px -24px rgba(8, 31, 51, 0.55);
+    }
+    .shift-head,
+    .shift-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .shift-th {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 1.5rem 2.75rem 1.1rem 2.25rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .shift-th-before {
+      color: var(--color-slate-500);
+    }
+    .shift-th-after {
+      padding-left: 2.75rem;
+      color: var(--color-gold-300);
+    }
+    .shift-cell {
+      padding: 1.2rem 2.75rem 1.2rem 2.25rem;
+      font-size: 1.0625rem;
+      line-height: 1.5;
+    }
+    .shift-before {
+      border-top: 1px solid var(--color-navy-100);
+    }
+    .shift-after {
+      padding-left: 2.75rem;
+      padding-right: 2.25rem;
+      border-top: 1px solid rgba(245, 241, 232, 0.1);
+    }
+    .shift-row:last-child .shift-cell {
+      padding-bottom: 1.6rem;
+    }
+    /* The arrow sits on the seam between the two panels. */
+    .shift-arrow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px var(--color-navy-900), var(--shadow-md);
+      transition: transform var(--duration-base) var(--ease-out);
+    }
+  }
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    /* Hovering a row nudges its arrow toward the "after" side. */
+    .shift-row:hover .shift-arrow {
+      transform: translate(calc(-50% + 5px), -50%);
+    }
+    .shift-row .shift-after {
+      transition: color var(--duration-fast) var(--ease-hover);
+    }
+    .shift-row:hover .shift-after {
+      color: var(--color-gold-300);
+    }
+  }
+
+  /* ---------- Phones: one two-part card per row ---------- */
+  @media (max-width: 767px) {
+    /* Column headers are repeated inside each card instead (data-label),
+       so the standalone header row is only kept for screen readers. */
+    .shift-head {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+    .shift-rows {
+      display: grid;
+      gap: 1.25rem;
+    }
+    .shift-row {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--color-navy-100);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .shift-cell {
+      flex-wrap: wrap;
+      padding: 1.1rem 1.15rem 1.35rem;
+      line-height: 1.5;
+    }
+    .shift-cell::before {
+      content: attr(data-label);
+      flex: 0 0 100%;
+      margin-bottom: -0.25rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .shift-cell > span:last-child {
+      flex: 1;
       min-width: 0;
     }
-    .before-after thead {
-      display: none;
-    }
-    .before-after tr {
-      display: block;
-      border: 1px solid var(--color-navy-100);
-      border-radius: var(--radius-card);
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    .before-after tr:last-child {
-      margin-bottom: 0;
-    }
-    .before-after td {
-      display: block;
-      padding: 0.5rem 0 !important;
-      border: none !important;
-      background: none !important;
-    }
-    .before-after td::before {
-      content: attr(data-label);
-      display: block;
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+    .shift-before::before {
       color: var(--color-slate-500);
-      margin-bottom: 0.25rem;
     }
-    .before-after td:first-child {
-      border-bottom: 1px solid var(--color-navy-100) !important;
-      margin-bottom: 0.5rem;
+    .shift-after {
+      padding-top: 1.6rem;
+      background:
+        radial-gradient(ellipse 90% 80% at 100% 0%, rgba(255, 217, 138, 0.18), transparent 65%),
+        var(--color-navy-900);
     }
-    .before-after td:last-child {
-      color: var(--color-navy-900);
+    .shift-after::before {
+      color: var(--color-gold-300);
+    }
+    /* Arrow turns to point down, centered on the seam between the parts. */
+    .shift-arrow {
+      position: relative;
+      z-index: 1;
+      margin: -1.125rem auto;
+      transform: rotate(90deg);
+      box-shadow: 0 0 0 4px #fff;
     }
   }
 </style>

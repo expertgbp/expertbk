@@ -1,29 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SplitSection from "../components/SplitSection.astro";
+import CheckList from "../components/CheckList.astro";
+import PullNote from "../components/PullNote.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import { entity } from "../data/entity";
 
+// `icon` is the inner markup of a 24x24 line icon, same convention as
+// src/data/nav.ts: a signed page, a shield, a checklist, a clock.
 const contractHighlights = [
   {
     title: "A written agreement, before any payment is due",
     body: "You get the full agreement to read before you commit to anything. Nothing here runs on a handshake or a verbal promise.",
+    icon: '<rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 17c1-1.5 2-1.5 3 0s2 1.5 3 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>',
   },
   {
     title: "Your rights and royalties, named explicitly",
     body: "The agreement states, in plain language, that you keep 100% of your rights and 100% of your royalties. If a contract doesn't say this clearly, don't sign it, anywhere.",
+    icon: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
   },
   {
     title: "Scope and deliverables, itemized",
     body: "What you're paying for is listed out, the same way it's listed on every service page here. Vague scope is where trust dies.",
+    icon: '<path d="M10 6h10M10 12h10M10 18h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   },
   {
     title: "Timeline commitments",
     body: "The stages of the process and the expected timeframe for each are stated in writing, not just implied on a call.",
+    icon: '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
   },
 ];
 // [NEEDS CONFIRMATION: exact clause list and cancellation/refund terms to publish verbatim]
+
+// The founder facts from the "Founder verifiability" paragraph, one per line.
+const founderFacts = [
+  `Susmita "Sush" Dutta and Ash Goel founded ${entity.legalName} in ${entity.founded}.`,
+  "Both are USA Today and Wall Street Journal bestselling authors.",
+  `Jointly they've delivered ${entity.proofBank.tedxJoint} TEDx talks; Ash alone has delivered ${entity.proofBank.tedxAshSolo}.`,
+  `Together they've taught ${entity.proofBank.studentsTaught} students.`,
+];
 
 const faqs = [
   {
@@ -58,33 +77,37 @@ const faqs = [
     <BreadcrumbSchema items={[{ name: "Trust", path: "/trust" }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20">
-      <p class="eyebrow mb-4">CHECK US BEFORE YOU TRUST US</p>
-      <h1 class="on-navy">Check Us Before You Trust Us</h1>
-      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
-        About 1 in 6 of our buyers told us they wondered, at least once, if this was a scam, and bought
-        anyway once they checked. That's the right instinct. This page is built for the checking: our
-        contract highlights, our rights policy, the warning signs of a vanity press, and how to verify our
-        founders yourself, not just from what we tell you.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="CHECK US BEFORE YOU TRUST US"
+    heading="Check Us Before You Trust Us"
+    answer="About 1 in 6 of our buyers told us they wondered, at least once, if this was a scam, and bought anyway once they checked. That's the right instinct. This page is built for the checking: our contract highlights, our rights policy, the warning signs of a vanity press, and how to verify our founders yourself, not just from what we tell you."
+    crumbs={[{ label: "Trust" }]}
+  />
 
   <!-- Contract highlights -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Contract highlights, in plain language</h2>
-      <div class="space-y-4">
-        {contractHighlights.map((item) => (
-          <div class="card p-5">
-            <p class="font-semibold">{item.title}</p>
-            <p class="mt-2 text-slate-500">{item.body}</p>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="The contract" heading="Contract highlights, in plain language" />
+      <div class="mt-10 md:mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+        {contractHighlights.map((item, i) => (
+          <div class="card clause p-6 md:p-8">
+            <div class="clause-top">
+              <span class="clause-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={item.icon} />
+              </span>
+              <span class="clause-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            </div>
+            <p class="clause-title">{item.title}</p>
+            <p class="clause-body">{item.body}</p>
           </div>
         ))}
       </div>
-      <div class="card p-4 border-dashed bg-gold-100 border-gold-500 mt-6">
-        <p class="text-sm text-slate-500">
+      <div class="pending-note mt-6" data-reveal="item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 3" />
+          <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+        <p>
           [NEEDS CONFIRMATION: the exact cancellation window, refund terms, and full clause list to publish
           verbatim here]
         </p>
@@ -93,81 +116,89 @@ const faqs = [
   </section>
 
   <!-- Rights policy -->
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-4">Rights policy: 100% yours, always</h2>
-      <p class="leading-relaxed">
-        You keep 100% of your rights. You keep 100% of your royalties. On every book, in every format, for
-        as long as the book exists. This is the entire premise of partnership publishing, and it does not
-        change based on scope, price, or how the launch goes.
-      </p>
-      <p class="mt-4 leading-relaxed">
-        If a publisher, of any kind, won't put that in writing before you pay them, that's your answer.
-      </p>
-    </div>
-  </section>
+  <SplitSection eyebrow="Your rights" heading="Rights policy: 100% yours, always" tone="mist">
+    <CheckList large items={["You keep 100% of your rights.", "You keep 100% of your royalties."]} />
+    <p class="mt-7">
+      On every book, in every format, for
+      as long as the book exists. This is the entire premise of partnership publishing, and it does not
+      change based on scope, price, or how the launch goes.
+    </p>
+    <PullNote class="mt-8">
+      <p>If a publisher, of any kind, won't put that in writing before you pay them, that's your answer.</p>
+    </PullNote>
+  </SplitSection>
 
   <!-- Vanity press warning -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
-      <h2 class="on-navy">The vanity-press warning</h2>
-      <p class="mt-4 text-lg opacity-90">
+  <section class="warning-band relative overflow-hidden bg-navy-900 text-offwhite-100">
+    <div class="relative mx-auto max-w-4xl px-4 py-16 md:py-24 text-center">
+      <span class="warning-icon mx-auto" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3l9.5 17h-19z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+          <path d="M12 10v4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <circle cx="12" cy="17.3" r="1" fill="currentColor" />
+        </svg>
+      </span>
+      <SectionHeading eyebrow="Before you sign anywhere" heading="The vanity-press warning" align="center" dark class="mt-6" />
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed opacity-90">
         A vanity press makes its money selling you services, whether or not your book is ready, whether or
         not it will work, sometimes whether or not you asked for them. Some quietly take rights while
         calling it a publishing deal.
       </p>
-      <p class="mt-6 font-serif text-2xl font-semibold text-gold-300">{entity.vanityPressWarning}</p>
+      <p class="warning-line">{entity.vanityPressWarning}</p>
     </div>
   </section>
 
   <!-- BBB / Trustpilot -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Third-party verification</h2>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div class="card p-5">
-          <p class="font-semibold">Better Business Bureau</p>
-          <p class="mt-2 text-sm text-slate-500">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Independent sources" heading="Third-party verification" />
+      <div class="mt-10 md:mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6">
+        <div class="card source p-6 md:p-8">
+          <span class="source-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l1.8 1.8L14.5 10"/></svg>
+          </span>
+          <p class="source-title">Better Business Bureau</p>
+          <p class="source-body">
             {entity.bbbUrl ? (
-              <a href={entity.bbbUrl} class="underline font-semibold">View our BBB profile &rarr;</a>
+              <a href={entity.bbbUrl} class="arrow-link source-link">View our BBB profile <span class="arrow" aria-hidden="true">&rarr;</span></a>
             ) : (
               "[NEEDS CONFIRMATION: BBB profile URL]"
             )}
           </p>
         </div>
-        <div class="card p-5">
-          <p class="font-semibold">Trustpilot</p>
-          <p class="mt-2 text-sm text-slate-500">
+        <div class="card source p-6 md:p-8">
+          <span class="source-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.2 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.6-4.2 6.1-.6z"/></svg>
+          </span>
+          <p class="source-title">Trustpilot</p>
+          <p class="source-body">
             {entity.trustpilotUrl ? (
-              <a href={entity.trustpilotUrl} class="underline font-semibold">View our Trustpilot profile &rarr;</a>
+              <a href={entity.trustpilotUrl} class="arrow-link source-link">View our Trustpilot profile <span class="arrow" aria-hidden="true">&rarr;</span></a>
             ) : (
               "[NEEDS CONFIRMATION: Trustpilot profile URL]"
             )}
           </p>
         </div>
       </div>
-      <p class="mt-6 text-sm">
-        See more aggregated third-party reviews at <a href="/reviews" class="underline font-semibold">/reviews</a>.
+      <p class="mt-8 text-base text-slate-500">
+        See more aggregated third-party reviews at <a href="/reviews" class="text-link">/reviews</a>.
       </p>
     </div>
   </section>
 
   <!-- Founder verifiability -->
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-4">Founder verifiability</h2>
-      <p class="leading-relaxed">
-        Susmita "Sush" Dutta and Ash Goel founded {entity.legalName} in {entity.founded}. Both are USA
-        Today and Wall Street Journal bestselling authors. Jointly they've delivered {entity.proofBank.tedxJoint}
-        TEDx talks; Ash alone has delivered {entity.proofBank.tedxAshSolo}. Together they've taught
-        {entity.proofBank.studentsTaught} students. None of this is a claim you have to take on faith:
-        these are public records you can search yourself.
-      </p>
-      <p class="mt-4">
-        <a href="/about" class="underline font-semibold text-navy-700">Read the full founding story &rarr;</a>
-      </p>
+  <SplitSection eyebrow="The founders" heading="Founder verifiability" tone="mist">
+    <div class="facts">
+      <CheckList items={founderFacts} />
     </div>
-  </section>
+    <p class="mt-7">
+      None of this is a claim you have to take on faith:
+      these are public records you can search yourself.
+    </p>
+    <p class="mt-5">
+      <a href="/about" class="arrow-link more-link">Read the full founding story <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </p>
+  </SplitSection>
 
   <FAQAccordion faqs={faqs} heading="Trust questions, answered directly" />
 
@@ -176,3 +207,170 @@ const faqs = [
     body="The strategy call is a real read on your book, not a pitch. Bring the questions this page didn't answer."
   />
 </BaseLayout>
+
+<style>
+  /* ---------- Contract highlights ---------- */
+  .clause {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+  }
+  .clause-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .clause-icon,
+  .source-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 16px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .clause-num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-500);
+  }
+  .clause-title,
+  .source-title {
+    margin-top: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+    text-wrap: balance;
+  }
+  .clause-body {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  /* The icon tile flips to gold with the card's own lift: color only. */
+  @media (hover: hover) and (pointer: fine) {
+    .clause:hover .clause-icon,
+    .source:hover .source-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+  /* A clearly-marked gap, in the same dashed frame the site uses for
+     pending testimonials, so nobody reads it as finished terms. */
+  .pending-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1.25rem 1.4rem;
+    border: 1.5px dashed var(--color-gold-500);
+    border-radius: 18px;
+    background: var(--color-gold-100);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-slate-500);
+  }
+  .pending-note svg {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* ---------- The warning ---------- */
+  /* The door glow, centered and quiet, so the band isn't a flat navy slab. */
+  .warning-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(255, 217, 138, 0.14), transparent 70%);
+  }
+  .warning-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 18px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  /* The one-line test, as the thing the whole band exists to say. */
+  .warning-line {
+    margin-top: 2.5rem;
+    padding: 1.75rem 1.5rem;
+    border: 1px solid rgba(255, 217, 138, 0.28);
+    border-radius: 24px;
+    background: linear-gradient(160deg, rgba(27, 58, 102, 0.75), rgba(12, 37, 64, 0.75));
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 1.15rem + 1.2vw, 2.1rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-gold-300);
+    text-wrap: balance;
+  }
+  @media (min-width: 768px) {
+    .warning-line {
+      padding: 2.5rem 3rem;
+    }
+  }
+
+  /* ---------- Third-party sources ---------- */
+  .source {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+  }
+  .source-body {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-slate-500);
+  }
+  .source-link,
+  .more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .text-link {
+    font-weight: 600;
+    color: var(--color-navy-900);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-gold-500);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .source-link:hover,
+    .more-link:hover {
+      color: var(--color-gold-500);
+    }
+    .text-link:hover {
+      color: var(--color-navy-600);
+    }
+  }
+
+  /* ---------- Founder facts ---------- */
+  .facts {
+    padding: 1.5rem;
+    border: 1px solid rgba(27, 58, 102, 0.12);
+    border-radius: 22px;
+    background: #fff;
+  }
+  @media (min-width: 768px) {
+    .facts {
+      padding: 2rem 2.25rem;
+    }
+  }
+</style>

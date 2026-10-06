@@ -1,7 +1,7 @@
 ---
 title: "The New Book Launch Playbook: Niche Podcasts Over Big Media"
 description: "Why hyper-targeted podcasts and trade newsletters are outperforming mainstream press for nonfiction book launches in 2026, and what that means for your launch plan."
-heroImage: "/images/blog/niche-podcasts-are-beating-big-media-for-book-launches.png"
+heroImage: "/images/blog/niche-podcasts-are-beating-big-media-for-book-launches.webp"
 heroImageAlt: "A vintage ribbon microphone on a wooden desk beside a stack of index cards and a pair of studio headphones, warm side lighting"
 cluster: "Launch"
 pillar: "manuscript-ready-now-what"
@@ -49,7 +49,7 @@ Book publicity coverage in 2026 keeps pointing to the same shift: hyper-targeted
 This isn't a rejection of mainstream press. It's a recalibration of where the actual return sits. A single feature in a national outlet still looks good on a media page. It rarely produces the thing most of our authors actually want from a launch: a reader who finishes the episode, looks up the book, and books a call, buys a service, or shows up to a talk.
 
 <figure>
-  <img src="/images/blog/inline/niche-podcasts-launch-shift.png" alt="Split infographic comparing the old launch playbook (national press list, one big mention, hope) to the new launch playbook (niche podcasts, trade newsletters, niche communities)" loading="lazy" />
+  <img src="/images/blog/inline/niche-podcasts-launch-shift.webp" alt="Split infographic comparing the old launch playbook (national press list, one big mention, hope) to the new launch playbook (niche podcasts, trade newsletters, niche communities)" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>The shift isn't about doing less publicity. It's about pointing the same effort at rooms your actual reader already sits in.</figcaption>
 </figure>
 
@@ -88,7 +88,7 @@ This is the part authors ask about most once they accept the logic. A few practi
 - **Check trade association newsletters before you check media outlets.** Most industries have two or three newsletters everyone in that field actually opens. Getting into one of those is often worth more than a general business media mention.
 
 <figure>
-  <img src="/images/blog/inline/niche-podcasts-list-building.png" alt="Four-step infographic for building a launch list: Your Own Feed, Ask Your Network, Study Guest Lists, Search the Problem" loading="lazy" />
+  <img src="/images/blog/inline/niche-podcasts-list-building.webp" alt="Four-step infographic for building a launch list: Your Own Feed, Ask Your Network, Study Guest Lists, Search the Problem" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 ## Does it need to be audio, or does video matter now too?
@@ -136,7 +136,7 @@ Podcasts get most of the attention in this conversation, but the same logic appl
 The biggest mistake we see isn't a bad list. It's a list built too late. Podcast bookings, especially on shows with any real editorial process, often fill four to eight weeks out, sometimes longer for the most established ones. Waiting until launch week to start pitching means settling for whichever shows happen to have an open slot, not the shows that are the best fit.
 
 <figure>
-  <img src="/images/blog/inline/niche-podcasts-timeline.png" alt="Launch timeline roadmap graphic with four connected stages: Build List, Start Pitching, Record, Publish" loading="lazy" />
+  <img src="/images/blog/inline/niche-podcasts-timeline.webp" alt="Launch timeline roadmap graphic with four connected stages: Build List, Start Pitching, Record, Publish" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 A workable rhythm looks like this: build the list of target shows, newsletters, and communities three to four months before publication, while the manuscript is still in editing. Start pitching two to three months out, since most hosts want to schedule ahead rather than turn around a recording the same week they hear from you. Record episodes in the four to six weeks before launch, so they're ready to publish on or near the book's release date. Then keep resurfacing the strongest episodes for months afterward instead of treating launch week as the finish line.

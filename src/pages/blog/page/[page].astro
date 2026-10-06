@@ -1,0 +1,18 @@
+---
+// Pages 2 onward of the blog index (/blog/page/2, /blog/page/3, ...).
+// Page 1 is /blog itself, so no /blog/page/1 is generated: one URL per page
+// of results, nothing duplicated. A named param, not a rest route, because
+// src/pages/blog/[...slug].astro already owns the rest route for posts.
+import { getCollection } from "astro:content";
+import BlogListing from "../../../components/BlogListing.astro";
+import { blogPageCount } from "../../../utils/blog";
+
+export async function getStaticPaths() {
+  const total = blogPageCount((await getCollection("blog")).length);
+  return Array.from({ length: total - 1 }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+
+const page = Number(Astro.params.page);
+---
+
+<BlogListing page={page} />

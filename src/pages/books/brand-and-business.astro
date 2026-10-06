@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import TestimonialCard from "../../components/TestimonialCard.astro";
+import PageHero from "../../components/PageHero.astro";
+import BookTypeHub from "../../components/BookTypeHub.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
-import { entity } from "../../data/entity";
 
 const bookTypes = [
   {
@@ -34,6 +34,10 @@ const bookTypes = [
   },
 ];
 
+// The hub's direct answer, shown in the hero.
+const answer =
+  "A brand or business book earns its keep when it positions you before it informs anyone. Whether it is a business book, a leadership book, a self-help book, a health and wellness guide, or general nonfiction, the process is the same: one reader, one promise, decided before a chapter exists. Most experts move from positioning to a published book in 6 to 12 months while running a full practice, and keep 100% of their rights and royalties. The type you choose changes the structure. It does not change the sequence.";
+
 const faqs = [
   {
     question: "How is a business book different from a leadership book?",
@@ -61,58 +65,19 @@ const faqs = [
     <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: "Brand & Business Books", path: Astro.url.pathname }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <p class="eyebrow mb-4">Brand &amp; Business Books</p>
-      <h1 class="on-navy">Which Business Book Should You Write to Position Yourself?</h1>
-      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
-        A brand or business book earns its keep when it positions you before it informs anyone. Whether it is a
-        business book, a leadership book, a self-help book, a health and wellness guide, or general nonfiction, the
-        process is the same: one reader, one promise, decided before a chapter exists. Most experts move from
-        positioning to a published book in 6 to 12 months while running a full practice, and keep 100% of their
-        rights and royalties. The type you choose changes the structure. It does not change the sequence.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/book-a-call" class="btn-primary" data-cta="hub-brand-hero-call">Book a Free Book Strategy Call</a>
-        <a href="/free-blueprint" class="btn-secondary on-navy" data-cta="hub-brand-hero-blueprint">Get the Expert Book Blueprint (free)</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Brand & Business Books"
+    heading="Which Business Book Should You Write to Position Yourself?"
+    answer={answer}
+    crumbs={[{ label: "Your Book", href: "/books" }, { label: "Brand & Business Books" }]}
+    primaryLabel="Book a Free Book Strategy Call"
+    secondaryLabel="Get the Expert Book Blueprint (free)"
+    ctaId="hub-brand-hero"
+  />
 
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14 space-y-10">
-      {bookTypes.map((b) => (
-        <div>
-          <h2 class="mb-3"><a href={b.href} class="hover:text-gold-500">{b.label}</a></h2>
-          <p class="leading-relaxed text-slate-500">{b.body}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <BookTypeHub hubHref="/books/brand-and-business" types={bookTypes} />
 
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Proof from the path you're on</h2>
-      <TestimonialCard status="placeholder" placeholderNote="[TESTIMONIAL: pending permission]" />
-      <p class="mt-4 text-sm text-slate-500">
-        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
-        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-12 text-center">
-      <h2 class="mb-4">Not sure which is yours?</h2>
-      <p class="text-slate-500 leading-relaxed">
-        <a href="/guides/which-book-first" class="underline font-semibold">Which book should I write first?</a> walks
-        through the decision, or <a href="/start" class="underline font-semibold">start here</a> for a guided path
-        built around your answers.
-      </p>
-    </div>
-  </section>
-
-  <FAQAccordion faqs={faqs} heading="Brand &amp; business book questions" />
+  <FAQAccordion faqs={faqs} heading="Brand & business book questions" />
 
   <FinalDoorCTA />
 </BaseLayout>

@@ -1,0 +1,81 @@
+---
+/**
+ * A row of "jump to" chips for the navy PageHero of an index page (pass it
+ * as the hero's default slot): one chip per group on the page, each with
+ * the group's icon. On phones the chips wrap; every chip is a 44px target.
+ */
+interface Props {
+  items: { label: string; href: string; icon?: string }[];
+  label?: string;
+}
+const { items, label = "Jump to a section" } = Astro.props;
+---
+
+<nav class="jump" aria-label={label}>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a href={item.href} class="jump-chip">
+          {item.icon && (
+            <span class="jump-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={item.icon} />
+            </span>
+          )}
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .jump {
+    margin-top: 2.25rem;
+  }
+  .jump ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .jump-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0.35rem 1rem 0.35rem 0.4rem;
+    border: 1px solid rgba(255, 217, 138, 0.22);
+    border-radius: 999px;
+    background: rgba(27, 58, 102, 0.45);
+    font-size: 0.925rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-offwhite-100);
+    transition: background-color var(--duration-fast) var(--ease-hover), border-color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .jump-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .jump-chip:hover {
+      border-color: var(--color-gold-300);
+      background: var(--color-navy-600);
+    }
+    .jump-chip:hover .jump-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+  .jump-chip:active {
+    transform: scale(0.97);
+  }
+</style>

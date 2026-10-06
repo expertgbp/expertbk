@@ -1,5 +1,6 @@
 ---
 import { entity } from "../data/entity";
+import { stageIcons } from "../data/stage-icons";
 
 interface Props {
   /** Optional per-page framing override for each stage's description. */
@@ -16,35 +17,44 @@ const { overrides = {}, theme = "light" } = Astro.props;
 const isDark = theme === "dark";
 ---
 
-<div class:list={["relative grid grid-cols-1 gap-10 md:grid-cols-4", isDark ? "md:gap-8" : "md:gap-6"]} data-path-theme={theme}>
+<!-- data-reveal-stagger: the four stages arrive 140ms apart (slower than the
+     site's default 70ms) so they land in step with the connector line
+     drawing across behind them. Both are driven by src/scripts/reveal.ts. -->
+<div
+  class:list={["relative grid grid-cols-1 gap-10 md:grid-cols-4", isDark ? "md:gap-8" : "md:gap-6"]}
+  data-path-theme={theme}
+  data-reveal="children"
+  data-reveal-stagger="140"
+>
   <!-- Connects the four stages into one path, not four disconnected cards.
        Sits behind the letter/number badges, only on the row layout (md+)
-       where the four are side by side. -->
+       where the four are side by side. Draws left to right on scroll. -->
   <div
-    class:list={["pointer-events-none absolute left-[12.5%] right-[12.5%] hidden md:block", isDark ? "top-[28px] h-[2px] bg-gold-300/30" : "top-[18px] h-[2px] bg-gold-300/50"]}
+    class:list={["draw-line pointer-events-none absolute left-[12.5%] right-[12.5%] hidden md:block", isDark ? "top-[31px] h-[2px] bg-gold-300/40" : "top-[23px] h-[2px] bg-gold-300/60"]}
     aria-hidden="true"
   >
   </div>
 
   {entity.method.stages.map((stage, i) => (
-    <div class="path-step relative flex flex-col items-center text-center">
-      {isDark ? (
-        <span
-          class="relative z-[1] flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold-300 font-serif text-2xl font-bold text-navy-900"
-          aria-hidden="true"
-        >
-          {stage.title[0]}
-        </span>
-      ) : (
-        <span
-          class="relative z-[1] flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-gold-300 bg-white font-serif text-lg font-bold text-gold-500"
-          aria-hidden="true"
-        >
-          {i + 1}
-        </span>
-      )}
-      <h3 class:list={["mt-4 font-serif font-semibold text-xl", isDark && "on-navy"]}>{stage.title}</h3>
-      <p class:list={["mt-2 max-w-[26ch] text-sm", isDark ? "opacity-75" : "text-slate-500"]}>
+    <div class="path-step relative flex flex-col items-center text-center" data-reveal="item">
+      {/* A real icon per stage (src/data/stage-icons.ts) instead of a bare
+          letter or number. The step number rides on the badge's corner, and
+          the E-P-I-C acronym stays readable through the gold initials in
+          the four titles below. */}
+      <span
+        class:list={[
+          "path-badge relative z-[1] flex shrink-0 items-center justify-center rounded-full",
+          isDark ? "h-16 w-16 bg-gold-300 text-navy-900" : "h-12 w-12 border-2 border-gold-300 bg-white text-navy-700",
+        ]}
+        aria-hidden="true"
+      >
+        <svg width={isDark ? 28 : 22} height={isDark ? 28 : 22} viewBox="0 0 20 20" fill="none" set:html={stageIcons[stage.key] ?? ""} />
+        <span class:list={["path-step-num", isDark ? "bg-navy-900 text-gold-300" : "bg-navy-900 text-offwhite-100"]}>{i + 1}</span>
+      </span>
+      <h3 class:list={["mt-5 font-serif font-semibold text-xl", isDark && "on-navy"]}>
+        <span class:list={[isDark ? "text-gold-300" : "text-gold-700"]}>{stage.title[0]}</span>{stage.title.slice(1)}
+      </h3>
+      <p class:list={["mt-2 max-w-[26ch] text-sm leading-relaxed", isDark ? "opacity-75" : "text-slate-500"]}>
         {overrides[stage.key] ?? stage.description}
       </p>
     </div>
@@ -52,6 +62,36 @@ const isDark = theme === "dark";
 </div>
 
 <style>
+  /* A soft gold halo on the dark-theme badges so each stage reads as a lit
+     waypoint on the path, and a small lift when its stage is hovered. */
+  [data-path-theme="dark"] .path-badge {
+    box-shadow: 0 0 0 6px rgba(255, 217, 138, 0.12), 0 0 0 8px var(--color-navy-900);
+  }
+  .path-step-num {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 0 0 2px var(--color-gold-300);
+  }
+  .path-badge {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .path-step:hover .path-badge {
+      transform: translateY(-3px) scale(1.06);
+    }
+  }
+
   /* On mobile the four stages stack in one column already reading top to
      bottom; a short gold rule through the gap between each pair of badges
      makes that order read as one path rather than four separate blocks.

@@ -1,0 +1,73 @@
+---
+/**
+ * An editorial two-column section for a block of plain text: the heading
+ * sits on the left and stays pinned while the text scrolls on the right.
+ * Replaces the old "H2, then one long paragraph in a narrow column"
+ * pattern, which read like a document, not a page.
+ *
+ *   tone  background: "ivory" (default), "mist" (navy-100) or "white"
+ * The default slot is the body. Paragraphs inside it are set large.
+ */
+interface Props {
+  heading: string;
+  eyebrow?: string;
+  tone?: "ivory" | "mist" | "white";
+}
+const { heading, eyebrow, tone = "ivory" } = Astro.props;
+const bg = { ivory: "bg-ivory-50", mist: "bg-navy-100", white: "bg-white" }[tone];
+---
+
+<section class={bg}>
+  <div class="split mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="split-head">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 class:list={[eyebrow && "mt-3"]}>{heading}</h2>
+    </div>
+    <div class="split-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 1024px) {
+    .split {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 5rem;
+      align-items: start;
+    }
+    .split-head {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+  }
+  /* A short gold rule under the heading: the door motif as a divider. */
+  .split-head::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 3px;
+    margin-top: 1.5rem;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  .split-body {
+    max-width: 44rem;
+  }
+  .split-body :global(p) {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+  .split-body :global(p + p) {
+    margin-top: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .split-body :global(p) {
+      font-size: 1.25rem;
+    }
+  }
+</style>

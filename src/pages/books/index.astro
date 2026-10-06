@@ -1,44 +1,66 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CardGrid from "../../components/CardGrid.astro";
+import PageHero from "../../components/PageHero.astro";
+import JumpChips from "../../components/JumpChips.astro";
+import GroupSection from "../../components/GroupSection.astro";
+import IconCardGrid from "../../components/IconCardGrid.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
 import { bookTypeGroups } from "../../data/nav";
 
 const all = await getCollection("books");
 const byId = new Map(all.map((b) => [b.id, b]));
+
+// Each hub section's anchor is the last part of its hub URL
+// ("/books/love-and-legacy" -> "love-and-legacy"), used by the jump chips.
+const groups = bookTypeGroups.map((group) => ({
+  ...group,
+  anchor: (group.headingHref ?? group.heading).split("/").pop()!.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+}));
+const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 <BaseLayout
   title="Which Book Should You Write?"
   description="Brand and business books, love and legacy books, and everything else: the path differs by book type. Find yours."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <h1 class="on-navy">Your book</h1>
-      <p class="mt-4 text-lg opacity-90">Every book type has its own pains and its own process. Find yours.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Book types"
+    heading="Your book"
+    lead="Every book type has its own pains and its own process. Find yours."
+    crumbs={[{ label: "Your Book" }]}
+  >
+    <JumpChips
+      label="Jump to a book hub"
+      items={groups.map((g) => ({ label: g.heading, href: `#${g.anchor}`, icon: g.icon }))}
+    />
+  </PageHero>
 
-  {bookTypeGroups.map((group, i) => (
-    <section class={i % 2 === 0 ? "bg-ivory-50 border-t border-navy-100" : "bg-navy-100"}>
-      <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-        <h2 class="mb-8">
-          {group.headingHref ? <a href={group.headingHref} class="hover:text-gold-500">{group.heading}</a> : group.heading}
-        </h2>
-        <CardGrid
-          items={group.items.map((link) => {
-            const id = link.href.replace("/books/", "");
-            const entry = byId.get(id);
-            return {
-              title: link.label,
-              description: entry ? entry.data.answerBlock.slice(0, 110) + "…" : undefined,
-              href: link.href,
-            };
-          })}
-        />
-      </div>
-    </section>
+  {groups.map((group, i) => (
+    <GroupSection
+      id={group.anchor}
+      heading={group.heading}
+      headingHref={group.headingHref}
+      description={group.description}
+      icon={group.icon}
+      index={`${pad(i + 1)} / ${pad(groups.length)}`}
+      meta={`${group.items.length} book types`}
+      tone={i % 2 === 0 ? "ivory" : "mist"}
+    >
+      <IconCardGrid
+        columns={2}
+        items={group.items.map((link) => {
+          const id = link.href.replace("/books/", "");
+          const entry = byId.get(id);
+          return {
+            title: link.label,
+            description: entry ? entry.data.answerBlock.slice(0, 110) + "…" : undefined,
+            href: link.href,
+            icon: link.icon ?? group.icon,
+          };
+        })}
+      />
+    </GroupSection>
   ))}
 
   <FinalDoorCTA

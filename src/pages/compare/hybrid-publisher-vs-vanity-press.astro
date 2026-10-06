@@ -1,10 +1,61 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import SplitSection from "../../components/SplitSection.astro";
+import CalloutCard from "../../components/CalloutCard.astro";
 import CompareTable from "../../components/CompareTable.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
 import { entity } from "../../data/entity";
+import { pageIcons, type PageIconName } from "../../components/pageIcons";
+
+// The page's direct answer, shown in the hero.
+const answer =
+  "Both a real hybrid (partnership) publisher and a vanity press charge you to publish your book. That single similarity is why the two get confused, and why this is one of the first questions careful professionals ask before signing anything. The difference isn't the fee. It's whether the fee buys real editorial work, real involvement, and real support, or just a printed file and a bill.";
+
+// `pullQuote` is set on the one flag whose text ends by quoting the
+// vanity-press warning from entity.ts "on its own line": that card is drawn
+// in navy and gives the warning the line it asks for.
+const redFlags: { icon: PageIconName; title: string; body: string; pullQuote?: string }[] = [
+  {
+    icon: "door",
+    title: "They accept almost anything.",
+    body: "If a \"publisher\" says yes to your manuscript within minutes of seeing it, with no real conversation about fit, positioning, or the market for your book, that's a sign the acceptance was never really the point. Real publishers, hybrid or traditional, have some standard, even if it's a conversation rather than a formal rejection process.",
+  },
+  {
+    icon: "eye",
+    title: "The manuscript gets published without your active review.",
+    body: "This is the single clearest warning sign in the entire industry, and it's worth repeating on its own line:",
+    pullQuote: entity.vanityPressWarning,
+  },
+  {
+    icon: "receipt",
+    title: "The price keeps growing after you've signed.",
+    body: "A legitimate process states its deliverables and cost upfront. A vanity press pattern often looks like a low entry price followed by a stream of \"recommended\" upsells (editing you thought was included, marketing packages, expedited anything) that weren't disclosed until after you'd already committed.",
+  },
+  {
+    icon: "document",
+    title: "Contract language about rights is vague, dense, or buried.",
+    body: "If you can't find a plain-language answer to \"who owns this book when we're done,\" or the contract takes a lawyer to parse, that's worth pausing on. A legitimate hybrid publisher can tell you in one sentence: you keep 100% of your rights and royalties.",
+  },
+  {
+    icon: "bolt",
+    title: "High-pressure sales tactics, especially urgency with no real reason behind it.",
+    body: "A countdown or deadline tied to a real cohort date or a real enrollment window is normal and honest. Pressure with no verifiable event behind it (a \"price goes up at midnight\" with no stated reason, repeated every time you visit) is a manufactured urgency tactic, not a real one.",
+  },
+  {
+    icon: "star",
+    title: "Guaranteed bestseller status or specific sales numbers, promised in advance.",
+    body: "No legitimate publisher, hybrid or traditional, can guarantee a specific sales outcome for a book that doesn't exist yet. Real results (ours and our clients') are always described as results, not promises, and any income example should carry that distinction explicitly.",
+  },
+  {
+    icon: "search",
+    title: "No verifiable third-party presence.",
+    body: "A real company has a real Better Business Bureau profile, real Trustpilot reviews linked to their actual source, and founders who are verifiable public people, not just a polished website. If you can't find any of that, or the links go nowhere, that's worth treating as a serious signal, not a minor omission.",
+  },
+];
 
 const faqs = [
   {
@@ -33,19 +84,12 @@ const faqs = [
     <BreadcrumbSchema items={[{ name: "Compare", path: "/compare" }, { name: "Hybrid Publisher vs. Vanity Press", path: "/compare/hybrid-publisher-vs-vanity-press" }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
-      <p class="eyebrow mb-4">HONEST COMPARISON</p>
-      <h1 class="on-navy">Hybrid Publisher vs. Vanity Press: What's the Real Difference?</h1>
-      <p class="mt-6 text-lg opacity-90 leading-relaxed">
-        Both a real hybrid (partnership) publisher and a vanity press charge you to publish your book.
-        That single similarity is why the two get confused, and why this is one of the first questions
-        careful professionals ask before signing anything. The difference isn't the fee. It's whether the
-        fee buys real editorial work, real involvement, and real support, or just a printed file and a
-        bill.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="HONEST COMPARISON"
+    heading="Hybrid Publisher vs. Vanity Press: What's the Real Difference?"
+    answer={answer}
+    crumbs={[{ label: "Hybrid Publisher vs. Vanity Press" }]}
+  />
 
   <CompareTable
     heading="Seven differences that separate the two"
@@ -74,95 +118,56 @@ const faqs = [
     ]}
   />
 
+  <!-- The red flags -->
   <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14 prose prose-lg">
-      <h2>The red flags of a vanity press dressed up as a publisher</h2>
-      <p class="mt-4">
-        Vanity presses rarely announce themselves. Most use publishing language that sounds professional,
-        because the appearance of legitimacy is part of what they're selling. Here's what to actually look
-        for, specifically, before you sign anything or send a payment.
-      </p>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Red flags"
+        heading="The red flags of a vanity press dressed up as a publisher"
+        intro="Vanity presses rarely announce themselves. Most use publishing language that sounds professional, because the appearance of legitimacy is part of what they're selling. Here's what to actually look for, specifically, before you sign anything or send a payment."
+      />
+      <ol class="flags mt-10 md:mt-12">
+        {redFlags.map((flag, i) => (
+          <li class:list={["flag", flag.pullQuote && "is-key"]} data-reveal="item">
+            <div class="flag-top">
+              <span class="flag-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={pageIcons[flag.icon]} />
+              </span>
+              <span class="flag-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            </div>
+            <h3 class="flag-title">{flag.title}</h3>
+            <p class="flag-body">{flag.body}</p>
+            {flag.pullQuote && <p class="flag-quote">{flag.pullQuote}</p>}
+          </li>
+        ))}
+      </ol>
     </div>
-    <div class="not-prose mx-auto max-w-3xl px-4 pb-14 space-y-4">
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">They accept almost anything.</p>
-        <p class="mt-2 text-slate-500">
-          If a "publisher" says yes to your manuscript within minutes of seeing it, with no real
-          conversation about fit, positioning, or the market for your book, that's a sign the acceptance
-          was never really the point. Real publishers, hybrid or traditional, have some standard, even if
-          it's a conversation rather than a formal rejection process.
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">The manuscript gets published without your active review.</p>
-        <p class="mt-2 text-slate-500">
-          This is the single clearest warning sign in the entire industry, and it's worth repeating on its
-          own line: {entity.vanityPressWarning}
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">The price keeps growing after you've signed.</p>
-        <p class="mt-2 text-slate-500">
-          A legitimate process states its deliverables and cost upfront. A vanity press pattern often looks
-          like a low entry price followed by a stream of "recommended" upsells (editing you thought was
-          included, marketing packages, expedited anything) that weren't disclosed until after you'd
-          already committed.
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">Contract language about rights is vague, dense, or buried.</p>
-        <p class="mt-2 text-slate-500">
-          If you can't find a plain-language answer to "who owns this book when we're done," or the
-          contract takes a lawyer to parse, that's worth pausing on. A legitimate hybrid publisher can tell
-          you in one sentence: you keep 100% of your rights and royalties.
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">High-pressure sales tactics, especially urgency with no real reason behind it.</p>
-        <p class="mt-2 text-slate-500">
-          A countdown or deadline tied to a real cohort date or a real enrollment window is normal and
-          honest. Pressure with no verifiable event behind it (a "price goes up at midnight" with no stated
-          reason, repeated every time you visit) is a manufactured urgency tactic, not a real one.
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">Guaranteed bestseller status or specific sales numbers, promised in advance.</p>
-        <p class="mt-2 text-slate-500">
-          No legitimate publisher, hybrid or traditional, can guarantee a specific sales outcome for a book
-          that doesn't exist yet. Real results (ours and our clients') are always described as results, not
-          promises, and any income example should carry that distinction explicitly.
-        </p>
-      </div>
-      <div class="card bg-white p-5 door-rule pl-7">
-        <p class="font-semibold">No verifiable third-party presence.</p>
-        <p class="mt-2 text-slate-500">
-          A real company has a real Better Business Bureau profile, real Trustpilot reviews linked to their
-          actual source, and founders who are verifiable public people, not just a polished website. If you
-          can't find any of that, or the links go nowhere, that's worth treating as a serious signal, not a
-          minor omission.
-        </p>
-      </div>
-    </div>
-    <div class="mx-auto max-w-3xl px-4 pb-14 prose prose-lg">
-      <h2 class="mt-0">Why this distinction matters more than the price tag</h2>
-      <p class="mt-4">
-        It's tempting to judge legitimacy by price alone, assuming "cheaper means safer" or "more expensive
-        means more legitimate." Neither is reliably true. A vanity press can charge a modest fee for
-        essentially nothing, and a real hybrid publisher's investment can look large next to it while
-        actually delivering professional editing, design, publishing, and marketing support behind the
-        number. The price tells you very little on its own. The seven differences above tell you a great
-        deal.
-      </p>
+  </section>
 
-      <h2 class="mt-10">Check us before you trust us</h2>
-      <p class="mt-4">
-        This same audience, understandably, checks review sites and business bureaus before buying, and
-        that instinct is exactly right. Roughly one in six of the people who eventually became authors
-        through a partnership path told us they'd wondered, at some point, whether the whole thing might be
-        a scam. That doubt is reasonable given how much of this industry deserves it. Read the full
-        <a href="/trust">trust page</a> for contract highlights in plain language, our BBB and Trustpilot
-        links, and the specifics of how we handle rights.
-      </p>
+  <!-- Why the distinction matters -->
+  <SplitSection eyebrow="Why it matters" heading="Why this distinction matters more than the price tag" tone="white">
+    <p>
+      It's tempting to judge legitimacy by price alone, assuming "cheaper means safer" or "more expensive
+      means more legitimate." Neither is reliably true. A vanity press can charge a modest fee for
+      essentially nothing, and a real hybrid publisher's investment can look large next to it while
+      actually delivering professional editing, design, publishing, and marketing support behind the
+      number. The price tells you very little on its own. The seven differences above tell you a great
+      deal.
+    </p>
+  </SplitSection>
+
+  <!-- Check us -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
+      <CalloutCard eyebrow="Trust" heading="Check us before you trust us" icon={pageIcons.shield}>
+        <p>
+          This same audience, understandably, checks review sites and business bureaus before buying, and
+          that instinct is exactly right. Roughly one in six of the people who eventually became authors
+          through a partnership path told us they'd wondered, at some point, whether the whole thing might be
+          a scam. That doubt is reasonable given how much of this industry deserves it. Read the
+          full <a href="/trust">trust page</a> for contract highlights in plain language, our BBB and Trustpilot links, and the specifics of how we handle rights.
+        </p>
+      </CalloutCard>
     </div>
   </section>
 
@@ -170,3 +175,132 @@ const faqs = [
 
   <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  .flags {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .flags {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+    /* Seven flags: the last one runs the full row instead of leaving a gap. */
+    .flag:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+  .flag {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: 1px solid rgba(8, 31, 51, 0.08);
+    border-radius: 20px;
+    background: #fff;
+    transition: border-color var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+  @media (min-width: 768px) {
+    .flag {
+      padding: 2rem;
+    }
+  }
+  .flag-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .flag-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .flag-num {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-slate-500);
+  }
+  .flag-title {
+    margin-top: 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+  }
+  .flag-body {
+    max-width: 68ch;
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-slate-500);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .flag:hover {
+      border-color: var(--color-gold-300);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .flag:hover .flag-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
+  /* The one flag the copy calls the clearest: navy, with the door glow, and
+     the warning itself set on its own line in the serif. */
+  .flag.is-key {
+    border-color: transparent;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 90% 70% at 100% 0%, rgba(255, 217, 138, 0.22), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: 0 30px 60px -30px rgba(8, 31, 51, 0.6);
+  }
+  .is-key .flag-icon {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .is-key .flag-num {
+    color: rgba(245, 241, 232, 0.7);
+  }
+  .is-key .flag-title {
+    color: var(--color-offwhite-100);
+  }
+  .is-key .flag-body {
+    color: rgba(245, 241, 232, 0.8);
+  }
+  .flag-quote {
+    position: relative;
+    margin-top: 1.25rem;
+    padding-left: 1.1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-gold-300);
+    text-wrap: balance;
+  }
+  .flag-quote::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+</style>

@@ -1,25 +1,199 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CardGrid from "../../components/CardGrid.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import { pageIcons, type PageIconName } from "../../components/pageIcons";
 
-const guides = await getCollection("guides");
+// The five stages in the order the page description lists them (idea only,
+// stuck mid-draft, manuscript in hand, published but not selling, too many
+// ideas), each with its own icon. A guide added later without an entry here
+// still shows, after these, with the fallback book icon.
+const stageOrder: { id: string; icon: PageIconName }[] = [
+  { id: "where-to-start", icon: "bulb" },
+  { id: "finish-your-book", icon: "loop" },
+  { id: "manuscript-ready-now-what", icon: "document" },
+  { id: "book-not-selling", icon: "chart" },
+  { id: "which-book-first", icon: "layers" },
+];
+const rank = (id: string) => {
+  const i = stageOrder.findIndex((s) => s.id === id);
+  return i === -1 ? stageOrder.length : i;
+};
+const guides = (await getCollection("guides")).sort((a, b) => rank(a.id) - rank(b.id));
+const iconFor = (id: string) => pageIcons[stageOrder.find((s) => s.id === id)?.icon ?? "book"];
 ---
 
 <BaseLayout
   title="Pillar Guides for Every Stage"
   description="Long-form, ungated guides for wherever you are: idea only, stuck mid-draft, manuscript in hand, published but not selling, or too many ideas."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
-      <h1 class="on-navy">Guides for wherever you are</h1>
-      <p class="mt-4 text-lg opacity-90">Five stages. Five guides. Find yours.</p>
+  <PageHero
+    eyebrow="Guides"
+    heading="Guides for wherever you are"
+    lead="Five stages. Five guides. Find yours."
+    crumbs={[{ label: "Guides" }]}
+  />
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Find your stage" heading="Pillar guides for every stage" />
+
+      <!-- One row per stage: the stage itself on a navy panel (the thing
+           the reader recognizes first), the guide that answers it beside it. -->
+      <ol class="stages mt-10 md:mt-12">
+        {guides.map((g, i) => (
+          <li>
+            <a href={`/guides/${g.id}`} class="card stage arrow-link">
+              <div class="stage-side">
+                <span class="stage-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={iconFor(g.id)} />
+                </span>
+                <div class="min-w-0">
+                  <p class="stage-kicker">
+                    <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span> Where you are
+                  </p>
+                  <p class="stage-name">{g.data.stage}</p>
+                </div>
+              </div>
+              <div class="stage-main">
+                <h3 class="stage-title">{g.data.title}</h3>
+                <p class="stage-desc">{g.data.description}</p>
+                <span class="stage-more">
+                  Read more <span class="arrow" aria-hidden="true">&rarr;</span>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-5xl px-4 py-14">
-      <CardGrid items={guides.map((g) => ({ title: g.data.title, description: g.data.description, href: `/guides/${g.id}` }))} />
-    </div>
-  </section>
+  <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  .stages {
+    display: grid;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .stages {
+      gap: 1.25rem;
+    }
+  }
+  .stage {
+    display: grid;
+    border-radius: 22px;
+  }
+  @media (min-width: 768px) {
+    .stage {
+      grid-template-columns: 17rem minmax(0, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .stage {
+      grid-template-columns: 20rem minmax(0, 1fr);
+    }
+  }
+
+  /* The stage: navy, with the door glow. */
+  .stage-side {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.25rem;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 100% 90% at 100% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+      var(--color-navy-900);
+  }
+  @media (min-width: 768px) {
+    .stage-side {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 2rem;
+    }
+  }
+  .stage-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-navy-700);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .stage-kicker {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .stage-name {
+    margin-top: 0.3rem;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  @media (min-width: 768px) {
+    .stage-name {
+      font-size: 1.6rem;
+    }
+  }
+
+  /* The guide */
+  .stage-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1.4rem 1.25rem 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .stage-main {
+      padding: 2rem 2.25rem;
+    }
+  }
+  .stage-title {
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-navy-900);
+  }
+  .stage-desc {
+    max-width: 62ch;
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  .stage-more {
+    margin-top: auto;
+    padding-top: 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .stage:hover .stage-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+    .stage:hover .stage-more {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

@@ -1,29 +1,57 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CardGrid from "../../components/CardGrid.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
+import { serviceLinks } from "../../data/nav";
+import { pageIcons } from "../../components/pageIcons";
 
 const all = (await getCollection("services")).sort((a, b) => a.data.order - b.data.order);
+
+// The short service name and icon come from the same nav data the header
+// menu uses, matched by URL.
+const navByHref = new Map(serviceLinks.map((link) => [link.href, link]));
 ---
 
 <BaseLayout
   title="Services: Writing, Publishing, Marketing"
   description="Book writing, book publishing, book marketing, and Book Rescue for authors already published but not selling. Explore what's included in each."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <h1 class="on-navy">Three doors, one team</h1>
-      <p class="mt-4 text-lg opacity-90">Whatever stage you're at, there's a door that fits.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Services"
+    heading="Three doors, one team"
+    lead="Whatever stage you're at, there's a door that fits."
+    crumbs={[{ label: "Services" }]}
+  />
 
-  <section class="bg-ivory-50 border-t border-navy-100">
-    <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-      <CardGrid
-        columns={3}
-        items={all.map((s) => ({ title: s.data.title, description: s.data.answerBlock.slice(0, 110) + "…", href: `/services/${s.id}` }))}
-      />
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="What we do" heading="Writing, publishing, marketing" intro="Explore what's included in each." />
+
+      <!-- Each service is a "door": a tall card with a gold rule that opens
+           down its left edge on hover, the same gesture as the FAQ rows. -->
+      <div class="doors mt-10 md:mt-12">
+        {all.map((s, i) => {
+          const nav = navByHref.get(`/services/${s.id}`);
+          return (
+            <a href={`/services/${s.id}`} class="card door arrow-link">
+              <div class="door-top">
+                <span class="door-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" set:html={nav?.icon ?? pageIcons.book} />
+                </span>
+                <span class="door-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              </div>
+              {nav && <p class="door-kicker">{nav.label}</p>}
+              <h3 class="door-title">{s.data.title}</h3>
+              <p class="door-desc">{s.data.answerBlock.slice(0, 110) + "…"}</p>
+              <span class="door-more">
+                Read more <span class="arrow" aria-hidden="true">&rarr;</span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
     </div>
   </section>
 
@@ -34,3 +62,113 @@ const all = (await getCollection("services")).sort((a, b) => a.data.order - b.da
     secondaryHref="/services/book-relaunch"
   />
 </BaseLayout>
+
+<style>
+  .doors {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .doors {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+  .door {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.5rem;
+    border-radius: 24px;
+  }
+  @media (min-width: 768px) {
+    .door {
+      padding: 2.5rem;
+    }
+  }
+  /* The door rule: opens down the card's left edge on hover. */
+  .door::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-gold-300);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .door-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .door-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 16px;
+    color: var(--color-gold-300);
+    background:
+      radial-gradient(ellipse 90% 90% at 100% 0%, rgba(255, 217, 138, 0.28), transparent 65%),
+      var(--color-navy-900);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .door-num {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-navy-100);
+    transition: color var(--duration-base) var(--ease-hover);
+  }
+  .door-kicker {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold-500);
+  }
+  .door-title {
+    margin-top: 0.5rem;
+    font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-navy-900);
+  }
+  .door-desc {
+    max-width: 60ch;
+    margin-top: 0.85rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  .door-more {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .door:hover::after {
+      transform: scaleY(1);
+    }
+    .door:hover .door-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+    .door:hover .door-num,
+    .door:hover .door-more {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

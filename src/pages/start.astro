@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 
 const stageOptions = [
@@ -53,6 +54,26 @@ const fieldGroupOptions = [
   },
 ];
 const fieldTrailingOption = "Something else";
+
+// One line icon per stage option, keyed by the option's value so the two
+// can't drift apart (inner markup of a 24x24 icon, as in src/data/nav.ts):
+// a light bulb, a pen, a finished page, an open book.
+const stageOptionIcons: Record<string, string> = {
+  idea: '<path d="M9 18h6M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 .9 1.7v.4h5.2v-.4c0-.7.3-1.2.9-1.7A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  "half-written": '<path d="M12 20h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  "manuscript-done": '<path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 14.5l2 2 4-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  published: '<path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6v13" stroke="currentColor" stroke-width="1.5"/>',
+};
+
+// The four questions, in order. `legend` is the question as asked (used on
+// its card and in the hero's preview); `short` is the label for the
+// progress rail.
+const questions = [
+  { short: "Your stage", legend: "Where is your book today?" },
+  { short: "Your book", legend: "What kind of book is it (or would it be)?" },
+  { short: "Your field", legend: "What's your field?" },
+  { short: "Your deadline", legend: "When does this need to exist by, and why?" },
+];
 ---
 
 <BaseLayout
@@ -63,171 +84,222 @@ const fieldTrailingOption = "Something else";
     <BreadcrumbSchema items={[{ name: "Start Here", path: "/start" }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-2xl px-4 py-16 text-center">
-      <p class="eyebrow mb-4">START HERE</p>
-      <h1 class="on-navy">Where is your book today?</h1>
-      <p class="mt-4 text-lg opacity-90">
-        Four quick questions. No email required. You'll land on the exact guide built for your stage, and
-        a clear next step from there.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="START HERE"
+    heading="Where is your book today?"
+    lead="Four quick questions. No email required. You'll land on the exact guide built for your stage, and a clear next step from there."
+    crumbs={[{ label: "Start Here" }]}
+  >
+    <!-- In place of the proof card: a preview of the four questions. -->
+    <aside slot="aside" class="ask" aria-label="The four questions">
+      <p class="ask-kicker">The four questions</p>
+      <ol class="ask-list">
+        {questions.map((q, i) => (
+          <li>
+            <span class="ask-num" aria-hidden="true">{i + 1}</span>
+            <span>{q.legend}</span>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  </PageHero>
 
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-2xl px-4 py-14">
-      <noscript>
-        <div class="card p-6 mb-8">
-          <p class="font-semibold">This quiz needs JavaScript to run interactively.</p>
-          <p class="mt-2 text-slate-500">
-            In the meantime, jump straight to a guide: <a class="underline font-semibold" href="/guides/where-to-start">Where do I even start?</a>,
-            <a class="underline font-semibold" href="/guides/finish-your-book">Finish your book</a>,
-            <a class="underline font-semibold" href="/guides/manuscript-ready-now-what">Manuscript in hand, now what?</a>, or
-            <a class="underline font-semibold" href="/guides/book-not-selling">My book isn't selling</a>.
-            Or skip straight to <a class="underline font-semibold" href="/book-a-call">booking a free call</a>.
-          </p>
-        </div>
-      </noscript>
-
-      <!-- Progress -->
-      <div class="mb-8" data-quiz-progress>
-        <div class="h-2 rounded-full bg-navy-100 overflow-hidden">
+    <!-- An interactive tool, not content: it never fades in on scroll. -->
+    <div class="quiz-layout mx-auto max-w-6xl px-4 py-12 md:py-20" data-reveal="none">
+      <!-- Progress. A rail with the four steps on desktop; on phones just
+           the bar and its label. The script hides this whole block when
+           the results show. -->
+      <aside class="quiz-rail" data-quiz-progress>
+        <p class="eyebrow quiz-rail-title">Your progress</p>
+        <ol class="steps">
+          {questions.map((q, i) => (
+            <li class="step" data-step={i + 1} data-state={i === 0 ? "current" : "todo"}>
+              <span class="step-dot" aria-hidden="true">
+                <span class="step-num">{i + 1}</span>
+                <svg class="step-check" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <span class="step-label">{q.short}</span>
+            </li>
+          ))}
+        </ol>
+        <div class="quiz-bar h-2 rounded-full bg-navy-100 overflow-hidden">
           <div class="h-full bg-gold-300 transition-all" data-progress-bar style="width: 25%"></div>
         </div>
         <p class="mt-2 text-sm text-slate-500" data-progress-label>Question 1 of 4</p>
-      </div>
+      </aside>
 
-      <form id="start-quiz" novalidate>
-        <!-- Question 1: stage -->
-        <fieldset class="card p-6" data-question="1">
-          <legend class="font-serif text-xl font-semibold mb-1">Where is your book today?</legend>
-          <p class="text-sm text-slate-500 mb-5">Pick the one that fits right now, not where you wish you were.</p>
-          <div class="grid gap-3 sm:grid-cols-2">
-            {stageOptions.map((opt) => (
-              <label class="quiz-option flex min-h-11 flex-col gap-1 rounded-xl border border-navy-100 p-4 cursor-pointer hover:border-gold-500">
-                <span class="flex items-center gap-2 font-semibold">
-                  <input type="radio" name="stage" value={opt.value} required class="accent-gold-500" />
-                  {opt.label}
-                </span>
-                <span class="text-sm text-slate-500 pl-6">{opt.helper}</span>
-              </label>
-            ))}
+      <div class="quiz-main">
+        <noscript>
+          <div class="quiz-card mb-8">
+            <p class="font-semibold">This quiz needs JavaScript to run interactively.</p>
+            <p class="mt-2 text-slate-500">
+              In the meantime, jump straight to a guide: <a class="underline font-semibold" href="/guides/where-to-start">Where do I even start?</a>,{" "}
+              <a class="underline font-semibold" href="/guides/finish-your-book">Finish your book</a>,{" "}
+              <a class="underline font-semibold" href="/guides/manuscript-ready-now-what">Manuscript in hand, now what?</a>, or{" "}
+              <a class="underline font-semibold" href="/guides/book-not-selling">My book isn't selling</a>.
+              Or skip straight to <a class="underline font-semibold" href="/book-a-call">booking a free call</a>.
+            </p>
           </div>
-          <div class="mt-6 flex flex-col sm:flex-row sm:justify-end">
-            <button type="button" class="btn-primary w-full sm:w-auto" data-next="1" data-cta="quiz-next-1">Next &rarr;</button>
-          </div>
-        </fieldset>
+        </noscript>
 
-        <!-- Question 2: book type -->
-        <fieldset class="card p-6 hidden" data-question="2">
-          <legend class="font-serif text-xl font-semibold mb-1">What kind of book is it (or would it be)?</legend>
-          <p class="text-sm text-slate-500 mb-5">Best guess is fine if it isn't locked in yet.</p>
-          {bookTypeGroupOptions.map((group) => (
-            <div class="mb-5 last:mb-0">
-              <p class="eyebrow mb-2">{group.heading}</p>
+        <form id="start-quiz" novalidate>
+          <!-- Question 1: stage -->
+          <fieldset class="quiz-card" data-question="1">
+            <legend class="quiz-legend">{questions[0].legend}</legend>
+            <div class="quiz-body">
+              <p class="quiz-hint">Pick the one that fits right now, not where you wish you were.</p>
               <div class="grid gap-3 sm:grid-cols-2">
-                {group.items.map((label) => (
-                  <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
-                    <input type="radio" name="bookType" value={label} required class="accent-gold-500" />
-                    <span>{label}</span>
+                {stageOptions.map((opt) => (
+                  <label class="quiz-option quiz-option-stage">
+                    <span class="quiz-option-icon" aria-hidden="true">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={stageOptionIcons[opt.value]} />
+                    </span>
+                    <span class="quiz-option-text">
+                      <span class="font-semibold">{opt.label}</span>
+                      <span class="text-sm text-slate-500">{opt.helper}</span>
+                    </span>
+                    <input type="radio" name="stage" value={opt.value} required class="quiz-radio" />
                   </label>
                 ))}
               </div>
-            </div>
-          ))}
-          <div class="grid gap-3 sm:grid-cols-2">
-            <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
-              <input type="radio" name="bookType" value={bookTypeTrailingOption} required class="accent-gold-500" />
-              <span>{bookTypeTrailingOption}</span>
-            </label>
-          </div>
-          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
-            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="2" data-cta="quiz-back-2">&larr; Back</button>
-            <button type="button" class="btn-primary w-full sm:w-auto" data-next="2" data-cta="quiz-next-2">Next &rarr;</button>
-          </div>
-        </fieldset>
-
-        <!-- Question 3: field -->
-        <fieldset class="card p-6 hidden" data-question="3">
-          <legend class="font-serif text-xl font-semibold mb-1">What's your field?</legend>
-          <p class="text-sm text-slate-500 mb-5">The advice changes when we know the world you work in.</p>
-          {fieldGroupOptions.map((group) => (
-            <div class="mb-5 last:mb-0">
-              <p class="eyebrow mb-2">{group.heading}</p>
-              <div class="grid gap-3 sm:grid-cols-2">
-                {group.items.map((label) => (
-                  <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
-                    <input type="radio" name="field" value={label} required class="accent-gold-500" />
-                    <span>{label}</span>
-                  </label>
-                ))}
+              <div class="quiz-actions sm:justify-end">
+                <button type="button" class="btn-primary w-full sm:w-auto" data-next="1" data-cta="quiz-next-1">Next &rarr;</button>
               </div>
             </div>
-          ))}
-          <div class="grid gap-3 sm:grid-cols-2">
-            <label class="quiz-option flex min-h-11 items-center gap-2 rounded-xl border border-navy-100 p-3 cursor-pointer hover:border-gold-500">
-              <input type="radio" name="field" value={fieldTrailingOption} required class="accent-gold-500" />
-              <span>{fieldTrailingOption}</span>
-            </label>
+          </fieldset>
+
+          <!-- Question 2: book type -->
+          <fieldset class="quiz-card hidden" data-question="2">
+            <legend class="quiz-legend">{questions[1].legend}</legend>
+            <div class="quiz-body">
+              <p class="quiz-hint">Best guess is fine if it isn't locked in yet.</p>
+              {bookTypeGroupOptions.map((group) => (
+                <div class="quiz-group">
+                  <p class="eyebrow quiz-group-title">{group.heading}</p>
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    {group.items.map((label) => (
+                      <label class="quiz-option">
+                        <input type="radio" name="bookType" value={label} required class="quiz-radio" />
+                        <span>{label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div class="quiz-group grid gap-3 sm:grid-cols-2">
+                <label class="quiz-option">
+                  <input type="radio" name="bookType" value={bookTypeTrailingOption} required class="quiz-radio" />
+                  <span>{bookTypeTrailingOption}</span>
+                </label>
+              </div>
+              <div class="quiz-actions sm:justify-between">
+                <button type="button" class="btn-secondary w-full sm:w-auto" data-back="2" data-cta="quiz-back-2">&larr; Back</button>
+                <button type="button" class="btn-primary w-full sm:w-auto" data-next="2" data-cta="quiz-next-2">Next &rarr;</button>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Question 3: field -->
+          <fieldset class="quiz-card hidden" data-question="3">
+            <legend class="quiz-legend">{questions[2].legend}</legend>
+            <div class="quiz-body">
+              <p class="quiz-hint">The advice changes when we know the world you work in.</p>
+              {fieldGroupOptions.map((group) => (
+                <div class="quiz-group">
+                  <p class="eyebrow quiz-group-title">{group.heading}</p>
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    {group.items.map((label) => (
+                      <label class="quiz-option">
+                        <input type="radio" name="field" value={label} required class="quiz-radio" />
+                        <span>{label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div class="quiz-group grid gap-3 sm:grid-cols-2">
+                <label class="quiz-option">
+                  <input type="radio" name="field" value={fieldTrailingOption} required class="quiz-radio" />
+                  <span>{fieldTrailingOption}</span>
+                </label>
+              </div>
+              <div class="quiz-actions sm:justify-between">
+                <button type="button" class="btn-secondary w-full sm:w-auto" data-back="3" data-cta="quiz-back-3">&larr; Back</button>
+                <button type="button" class="btn-primary w-full sm:w-auto" data-next="3" data-cta="quiz-next-3">Next &rarr;</button>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Question 4: deadline / why (free text) -->
+          <fieldset class="quiz-card hidden" data-question="4">
+            <legend class="quiz-legend">{questions[3].legend}</legend>
+            <div class="quiz-body">
+              <p class="quiz-hint">
+                A birthday, a retirement, a launch, a promise you made someone. Real deadlines help us give you
+                a real answer. There's no wrong response here, including "no deadline, I just want it done."
+              </p>
+              <textarea
+                name="deadline"
+                rows="4"
+                class="quiz-textarea"
+                aria-label={questions[3].legend}
+                placeholder="For example: my father's 80th birthday is next June, and I want to hand him the finished book."
+              ></textarea>
+              <div class="quiz-actions sm:justify-between">
+                <button type="button" class="btn-secondary w-full sm:w-auto" data-back="4" data-cta="quiz-back-4">&larr; Back</button>
+                <button type="button" class="btn-primary w-full sm:w-auto" data-next="4" data-cta="quiz-see-results">See my results &rarr;</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+
+        <!-- Results -->
+        <div class="quiz-card quiz-results hidden" data-results>
+          <div class="quiz-body">
+            <p class="eyebrow mb-3">YOUR PATH</p>
+            <h2 class="mb-4" data-results-heading>Here's where to go next</h2>
+            <p class="text-lg leading-relaxed" data-results-body>
+              Based on what you told us, this guide is the best next read for exactly where your book stands
+              today.
+            </p>
+            <a
+              class="result-guide"
+              data-results-guide-link
+              data-cta="quiz-result-guide"
+              href="/guides/where-to-start"
+            >
+              <span class="result-guide-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span class="result-guide-copy">
+                <span class="result-guide-kicker">Your guide</span>
+                <span class="result-guide-label" data-results-guide-label>Read the guide &rarr;</span>
+              </span>
+            </a>
+
+            <div class="result-call">
+              <div>
+                <p class="font-serif text-xl font-semibold text-navy-900">Not ready to read? Talk it through instead.</p>
+                <p class="mt-2 text-slate-500">
+                  One call. A real read on your idea, your positioning, and your path, whether or not we work
+                  together.
+                </p>
+              </div>
+              <a class="btn-primary w-full sm:w-auto" data-results-call-link data-cta="quiz-result-call" href="/book-a-call">
+                Book a Free Book Strategy Call
+              </a>
+            </div>
+
+            <div class="mt-4 text-center">
+              <button type="button" class="quiz-restart" data-restart data-cta="quiz-restart">
+                Start over
+              </button>
+            </div>
           </div>
-          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
-            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="3" data-cta="quiz-back-3">&larr; Back</button>
-            <button type="button" class="btn-primary w-full sm:w-auto" data-next="3" data-cta="quiz-next-3">Next &rarr;</button>
-          </div>
-        </fieldset>
-
-        <!-- Question 4: deadline / why (free text) -->
-        <fieldset class="card p-6 hidden" data-question="4">
-          <legend class="font-serif text-xl font-semibold mb-1">When does this need to exist by, and why?</legend>
-          <p class="text-sm text-slate-500 mb-5">
-            A birthday, a retirement, a launch, a promise you made someone. Real deadlines help us give you
-            a real answer. There's no wrong response here, including "no deadline, I just want it done."
-          </p>
-          <textarea
-            name="deadline"
-            rows="4"
-            class="w-full rounded-xl border border-navy-100 p-4 focus:border-gold-500"
-            placeholder="For example: my father's 80th birthday is next June, and I want to hand him the finished book."
-          ></textarea>
-          <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
-            <button type="button" class="btn-secondary w-full sm:w-auto" data-back="4" data-cta="quiz-back-4">&larr; Back</button>
-            <button type="button" class="btn-primary w-full sm:w-auto" data-next="4" data-cta="quiz-see-results">See my results &rarr;</button>
-          </div>
-        </fieldset>
-      </form>
-
-      <!-- Results -->
-      <div class="card p-8 hidden" data-results>
-        <p class="eyebrow mb-3">YOUR PATH</p>
-        <h2 class="mb-4" data-results-heading>Here's where to go next</h2>
-        <p class="text-lg leading-relaxed" data-results-body>
-          Based on what you told us, this guide is the best next read for exactly where your book stands
-          today.
-        </p>
-        <a
-          class="mt-6 inline-flex card bg-navy-100 p-5 font-semibold text-navy-700 hover:text-gold-500"
-          data-results-guide-link
-          data-cta="quiz-result-guide"
-          href="/guides/where-to-start"
-        >
-          <span data-results-guide-label>Read the guide &rarr;</span>
-        </a>
-
-        <div class="mt-10 border-t border-navy-100 pt-8 text-center">
-          <p class="font-serif text-lg font-semibold mb-2">Not ready to read? Talk it through instead.</p>
-          <p class="text-slate-500 mb-5">
-            One call. A real read on your idea, your positioning, and your path, whether or not we work
-            together.
-          </p>
-          <a class="btn-primary" data-results-call-link data-cta="quiz-result-call" href="/book-a-call">
-            Book a Free Book Strategy Call
-          </a>
-        </div>
-
-        <div class="mt-6 text-center">
-          <button type="button" class="text-sm underline text-slate-500" data-restart data-cta="quiz-restart">
-            Start over
-          </button>
         </div>
       </div>
     </div>
@@ -287,6 +359,13 @@ const fieldTrailingOption = "Something else";
     });
     if (progressBar) progressBar.style.width = `${(n / totalQuestions) * 100}%`;
     if (progressLabel) progressLabel.textContent = `Question ${n} of ${totalQuestions}`;
+    // The desktop progress rail: earlier steps show as done, this one as current.
+    document.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => {
+      const step = Number(el.dataset.step);
+      el.dataset.state = step < n ? "done" : step === n ? "current" : "todo";
+      if (step === n) el.setAttribute("aria-current", "step");
+      else el.removeAttribute("aria-current");
+    });
   }
 
   // Which hub each bookType answer belongs to (change-spec Change 6/B13,
@@ -398,3 +477,459 @@ const fieldTrailingOption = "Something else";
   // statically; this just narrows the view to one question at a time).
   showQuestion(current);
 </script>
+
+<style>
+  /* ---------- Hero aside: the four questions ---------- */
+  .ask {
+    padding: 1.6rem;
+    border: 1px solid rgba(255, 217, 138, 0.2);
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(27, 58, 102, 0.75), rgba(12, 37, 64, 0.75));
+    box-shadow: 0 30px 60px -30px rgba(3, 12, 22, 0.9);
+  }
+  .ask-kicker {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .ask-list {
+    display: grid;
+    margin-top: 0.75rem;
+  }
+  .ask-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.85rem 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .ask-list li + li {
+    border-top: 1px solid rgba(245, 241, 232, 0.12);
+  }
+  .ask-list li:last-child {
+    padding-bottom: 0;
+  }
+  .ask-num {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-navy-900);
+  }
+
+  /* ---------- Layout: progress rail + question card ---------- */
+  /* Note for anything the script shows and hides (.quiz-rail, .quiz-card):
+     no `display` is set on them here, so Tailwind's `hidden` keeps working. */
+  .quiz-layout {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .quiz-layout {
+      grid-template-columns: 17rem minmax(0, 1fr);
+      gap: 3.5rem;
+      align-items: start;
+    }
+    /* Results: the rail is hidden, so the card takes the stage alone. */
+    .quiz-layout:has(> .quiz-rail.hidden) {
+      grid-template-columns: minmax(0, 50rem);
+      justify-content: center;
+    }
+    .quiz-rail {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+      padding: 1.5rem;
+      border: 1px solid var(--color-navy-100);
+      border-radius: 22px;
+      background: #fff;
+    }
+  }
+  .quiz-rail-title,
+  .steps {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .quiz-rail-title {
+      display: block;
+    }
+    .steps {
+      display: grid;
+      margin: 1.1rem 0 1.5rem;
+    }
+  }
+
+  /* The four steps, joined by a line. Done = gold check, current = navy. */
+  .step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-bottom: 1.15rem;
+    font-size: 0.95rem;
+    color: var(--color-slate-500);
+  }
+  .step:last-child {
+    padding-bottom: 0;
+  }
+  .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: calc(1rem - 1px);
+    top: 2rem;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-navy-100);
+    transition: background-color var(--duration-base) var(--ease-hover);
+  }
+  .step[data-state="done"]:not(:last-child)::after {
+    background: var(--color-gold-300);
+  }
+  .step-dot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid var(--color-navy-100);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-slate-500);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover),
+      border-color var(--duration-base) var(--ease-hover);
+  }
+  .step-check {
+    display: none;
+  }
+  .step[data-state="current"] {
+    font-weight: 600;
+    color: var(--color-navy-900);
+  }
+  .step[data-state="current"] .step-dot {
+    border-color: var(--color-navy-900);
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .step[data-state="done"] {
+    color: var(--color-navy-700);
+  }
+  .step[data-state="done"] .step-dot {
+    border-color: var(--color-gold-300);
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .step[data-state="done"] .step-num {
+    display: none;
+  }
+  .step[data-state="done"] .step-check {
+    display: block;
+  }
+
+  /* ---------- The question card ---------- */
+  .quiz-card {
+    min-width: 0; /* a fieldset defaults to min-content and would overflow on phones */
+    padding: 1.5rem 1.25rem 1.75rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: var(--shadow-md);
+  }
+  @media (min-width: 768px) {
+    .quiz-card {
+      padding: 2.5rem 2.75rem 2.75rem;
+      border-radius: 28px;
+    }
+  }
+  /* The script scrolls the form (on "Start over") and the results into
+     view; this keeps their top edge clear of the sticky header. */
+  #start-quiz,
+  .quiz-results {
+    scroll-margin-top: 7rem;
+  }
+  /* A <legend> normally sits on the fieldset's top edge and ignores its
+     padding. Floating it makes it behave like a normal heading inside the
+     card (.quiz-body clears it). */
+  .quiz-legend {
+    float: left;
+    width: 100%;
+    padding: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 1.2rem + 0.9vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--color-navy-900);
+    text-wrap: balance;
+  }
+  /* Each card's content rises in when its question is shown. On the inner
+     wrapper, not the fieldset: the script's "pick one" pulse animates the
+     fieldset itself, and the two must not fight over `animation`. */
+  .quiz-body {
+    clear: both;
+    animation: quiz-in var(--duration-base) var(--ease-out) both;
+  }
+  @keyframes quiz-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+  .quiz-hint {
+    margin: 0.6rem 0 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-slate-500);
+  }
+  .quiz-group {
+    margin-bottom: 1.5rem;
+  }
+  .quiz-group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .quiz-group-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-navy-100);
+  }
+  .quiz-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  @media (min-width: 640px) {
+    .quiz-actions {
+      flex-direction: row;
+    }
+  }
+
+  /* ---------- Options ---------- */
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.25rem;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: #fff;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-hover), background-color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .quiz-option:active {
+    transform: scale(0.99);
+  }
+  /* The picked option: gold edge, gold-100 fill. */
+  .quiz-option:has(.quiz-radio:checked) {
+    border-color: var(--color-gold-500);
+    background: var(--color-gold-100);
+  }
+  /* Keyboard focus shows on the whole option, not just the small dot. */
+  .quiz-option:has(.quiz-radio:focus-visible) {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 217, 138, 0.35);
+  }
+  .quiz-radio {
+    appearance: none;
+    display: grid;
+    flex-shrink: 0;
+    place-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin: 0;
+    border: 1.5px solid rgba(27, 58, 102, 0.45);
+    border-radius: 999px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-hover), background-color var(--duration-fast) var(--ease-hover);
+  }
+  .quiz-radio::before {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    transform: scale(0);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .quiz-radio:checked {
+    border-color: var(--color-gold-500);
+    background: var(--color-gold-300);
+  }
+  .quiz-radio:checked::before {
+    transform: scale(1);
+  }
+  .quiz-radio:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Question 1's options are bigger tiles, each with its own icon. */
+  .quiz-option-stage {
+    gap: 0.9rem;
+    padding: 1rem;
+    border-radius: 18px;
+  }
+  .quiz-option-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 14px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .quiz-option-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+  .quiz-option-stage:has(.quiz-radio:checked) .quiz-option-icon {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .quiz-option:hover {
+      border-color: var(--color-gold-500);
+    }
+    .quiz-option-stage:hover .quiz-option-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
+  .quiz-textarea {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: 1.5px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: var(--color-ivory-50);
+    font-size: 1rem;
+    line-height: 1.6;
+    transition: border-color var(--duration-fast) var(--ease-hover), background-color var(--duration-fast) var(--ease-hover);
+  }
+  .quiz-textarea:focus {
+    border-color: var(--color-gold-500);
+    background: #fff;
+  }
+
+  /* ---------- Results ---------- */
+  /* The matched guide: the one navy card on the page, with the door glow. */
+  .result-guide {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin-top: 1.75rem;
+    padding: 1.4rem 1.25rem;
+    border-radius: 22px;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 70% 90% at 100% 0%, rgba(255, 217, 138, 0.22), transparent 65%),
+      var(--color-navy-900);
+    transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  }
+  @media (min-width: 768px) {
+    .result-guide {
+      padding: 1.75rem 2rem;
+    }
+  }
+  .result-guide-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 16px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .result-guide-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+  .result-guide-kicker {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .result-guide-label {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .result-guide:active {
+    transform: translateY(0);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .result-guide:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 40px -24px rgba(8, 31, 51, 0.7);
+    }
+  }
+  .result-call {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    padding: 1.4rem 1.25rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 22px;
+    background: var(--color-ivory-50);
+  }
+  @media (min-width: 768px) {
+    .result-call {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.75rem 2rem;
+    }
+  }
+  .quiz-restart {
+    min-height: 44px;
+    padding: 0 0.75rem;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--color-slate-500);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .quiz-restart:hover {
+      color: var(--color-navy-900);
+    }
+  }
+</style>

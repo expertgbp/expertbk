@@ -175,7 +175,9 @@ function syncLift() {
   const lift = visible && overlapsHorizontally ? cookieCard!.offsetHeight + 28 : 0;
   html.style.setProperty("--a11y-lift", `${Math.round(lift)}px`);
 }
-syncLift();
+// First measurement waits for an idle moment (it reads layout).
+if ("requestIdleCallback" in window) window.requestIdleCallback(syncLift, { timeout: 1500 });
+else window.setTimeout(syncLift, 300);
 window.addEventListener("resize", syncLift);
 if (cookieCard && "MutationObserver" in window) {
   new MutationObserver(syncLift).observe(cookieCard, { attributes: true, attributeFilter: ["hidden"] });

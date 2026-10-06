@@ -1,7 +1,7 @@
 ---
 title: "Should You Use AI to Write Your Nonfiction Book in 2026?"
 description: "What the 2026 publishing data actually shows about AI-drafted books, and where AI genuinely helps versus where it quietly costs you the book's real value."
-heroImage: "/images/blog/should-you-use-ai-to-write-your-nonfiction-book.png"
+heroImage: "/images/blog/should-you-use-ai-to-write-your-nonfiction-book.webp"
 heroImageAlt: "An open handwritten notebook full of notes and underlines beside a laptop showing a blank document, on a wooden desk"
 cluster: "AI & Ghostwriting"
 pillar: "finish-your-book"
@@ -52,7 +52,7 @@ That last part is the real tell. A prompt can produce competent sentences. It ca
 The early enthusiasm made sense at the time. A blank page is intimidating, and a tool that fills it in seconds feels like it's solving the actual problem. It isn't. The blank page was never the real obstacle. Getting your own knowledge out of your head and onto the page in a shape a reader wants to follow was always the real work, and that work still requires you.
 
 <figure>
-  <img src="/images/blog/inline/should-you-use-ai-where-ai-helps.png" alt="Split infographic: left side WHERE AI HELPS lists Summarize Notes, Draft Outline, Flag Gaps; right side ONLY YOU CAN DO lists Live Sessions, Real Stories, Final Voice" loading="lazy" />
+  <img src="/images/blog/inline/should-you-use-ai-where-ai-helps.webp" alt="Split infographic: left side WHERE AI HELPS lists Summarize Notes, Draft Outline, Flag Gaps; right side ONLY YOU CAN DO lists Live Sessions, Real Stories, Final Voice" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Based on the guidance described in this article.</figcaption>
 </figure>
 
@@ -68,7 +68,7 @@ This isn't an anti-AI argument. Used for the right jobs, it's a real time-saver:
 What it shouldn't do is replace the sessions where you talk through what you actually know. That's the part no one else can do for you, AI included.
 
 <figure>
-  <img src="/images/blog/inline/should-you-use-ai-good-uses.png" alt="Checklist infographic of legitimate AI uses in book writing: Summarize Notes, Draft an Outline, Flag Gaps, Check Consistency" loading="lazy" />
+  <img src="/images/blog/inline/should-you-use-ai-good-uses.webp" alt="Checklist infographic of legitimate AI uses in book writing: Summarize Notes, Draft an Outline, Flag Gaps, Check Consistency" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 ## How readers and reviewers actually spot an AI-heavy book
@@ -84,7 +84,7 @@ Readers don't need to know how a book was written to feel that something is off.
 **A voice that could be anyone's.** Your actual speech patterns, the phrases you reach for, the way you explain a hard concept to a client, are what make a book sound like you instead of a competent stranger.
 
 <figure>
-  <img src="/images/blog/inline/should-you-use-ai-warning-signs.png" alt="Warning signs checklist infographic: Flat Pacing, Generic Phrasing, No Real Stories, Forgettable Voice" loading="lazy" />
+  <img src="/images/blog/inline/should-you-use-ai-warning-signs.webp" alt="Warning signs checklist infographic: Flat Pacing, Generic Phrasing, No Real Stories, Forgettable Voice" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 None of these show up in a single sentence. They show up across a whole chapter, which is exactly why they're easy to miss while you're writing and obvious to a reader once the book is finished.

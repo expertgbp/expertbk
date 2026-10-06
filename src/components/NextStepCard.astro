@@ -1,0 +1,107 @@
+---
+/**
+ * The one next step under a confirmation: a single white card with an icon
+ * tile, the heading, a line of text and one button. One card, one link, so
+ * a thank-you page never turns back into a menu.
+ *
+ *   cta    the button's data-cta value (kept from the page it replaced)
+ *   icon   inner markup of a 24x24 line icon (see src/data/nav.ts)
+ */
+interface Props {
+  heading: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+  cta: string;
+  eyebrow?: string;
+  icon?: string;
+}
+const {
+  heading,
+  body,
+  ctaLabel,
+  ctaHref,
+  cta,
+  eyebrow = "Next step",
+  icon = '<path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+} = Astro.props;
+---
+
+<section class="bg-ivory-50">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="next-step" data-reveal="item">
+      <span class="next-step-tile" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" set:html={icon} />
+      </span>
+      <div class="next-step-copy">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 class="mt-3">{heading}</h2>
+        <p class="next-step-text">{body}</p>
+      </div>
+      <div class="next-step-action">
+        <a href={ctaHref} class="btn-primary" data-cta={cta}>{ctaLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .next-step {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: var(--shadow-md);
+  }
+  /* The door rule, down the card's left edge. */
+  .next-step::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2rem;
+    bottom: 2rem;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  .next-step-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 18px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .next-step-text {
+    max-width: 36rem;
+    margin-top: 0.9rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  .next-step-action :global(a) {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .next-step-action :global(a) {
+      width: auto;
+    }
+  }
+  @media (min-width: 900px) {
+    .next-step {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 2.25rem;
+      padding: 3rem 3rem 3rem 3.25rem;
+      border-radius: 28px;
+    }
+    .next-step-tile {
+      align-self: start;
+    }
+  }
+</style>

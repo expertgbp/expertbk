@@ -1,7 +1,7 @@
 ---
 title: "Hybrid Publisher vs. Vanity Press: 7 Differences That Protect You"
 description: "Seven concrete differences between a real hybrid (partnership) publisher and a vanity press, so you know exactly what to check before you sign."
-heroImage: "/images/blog/hybrid-publisher-vs-vanity-press-7-differences.png"
+heroImage: "/images/blog/hybrid-publisher-vs-vanity-press-7-differences.webp"
 heroImageAlt: "A publishing contract on a wooden desk with a magnifying glass held over the fine print and a fountain pen resting beside it"
 cluster: "Comparison"
 pillar: "where-to-start"
@@ -52,7 +52,7 @@ A vanity press typically runs a light proofread, if that, and sends the file to 
 Ask to see a sample edit before you commit. A real editor will mark up a page of your own writing and show you exactly what they'd change and why. If the answer is vague, or the company can't produce a sample edit at all, that's the answer. Structural editing (does the book's argument or story hold together), line editing (does each sentence do its job), and copy editing (grammar, consistency, typos) are three different skills done by three different passes. A vanity press collapses all three into "we'll fix any typos we notice." A partnership publisher treats each pass as its own deliverable, because skipping any one of them shows up in reviews later, not before you've already paid.
 
 <figure>
-  <img src="/images/blog/inline/vanity-comparison-editing-rights.png" alt="Flat comparison infographic: Editing, vanity press none versus partnership structural and line; Rights and Royalties, vanity press unclear versus partnership 100% yours; Positioning, vanity press no versus partnership yes; Launch Support, vanity press stops at print versus partnership full launch plan" loading="lazy" />
+  <img src="/images/blog/inline/vanity-comparison-editing-rights.webp" alt="Flat comparison infographic: Editing, vanity press none versus partnership structural and line; Rights and Royalties, vanity press unclear versus partnership 100% yours; Positioning, vanity press no versus partnership yes; Launch Support, vanity press stops at print versus partnership full launch plan" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>The first four of the seven differences: what a vanity press skips, and what a real partnership publisher does instead.</figcaption>
 </figure>
 
@@ -85,7 +85,7 @@ This matters more in publishing than in most industries, because the product is 
 A partnership publisher should be able to tell you exactly what you're paying for: writing support, editing passes, design, distribution, and launch, each priced on its own, the same way a contractor itemizes a renovation instead of quoting "the whole house, one number." A vanity press often quotes one bundled number designed to be hard to compare against anything else, or against what you'd pay piecing the same services together yourself. Vagueness is the tell, not the price itself. A high price with a clear itemized breakdown is a legitimate business decision you can evaluate. A vague price, high or low, is a decision you're being asked to make blind.
 
 <figure>
-  <img src="/images/blog/inline/vanity-comparison-founders-pricing.png" alt="Two side-by-side cards comparing vanity press and partnership publisher: Founders Unclear versus Verifiable, Pricing One Bundle versus Itemized, Reviews Hidden versus Checkable" loading="lazy" />
+  <img src="/images/blog/inline/vanity-comparison-founders-pricing.webp" alt="Two side-by-side cards comparing vanity press and partnership publisher: Founders Unclear versus Verifiable, Pricing One Bundle versus Itemized, Reviews Hidden versus Checkable" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>The remaining three differences: reputation, pricing transparency, and how easy the company is to verify before you sign.</figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ Same industry, same claimed category ("we help you publish your book"), complete
 You don't need weeks of research to protect yourself here. Most of what matters shows up in the first conversation, if you know what to listen for.
 
 <figure>
-  <img src="/images/blog/inline/vanity-warning-signs.png" alt="Flat infographic checklist of five warning signs: Pressure To Sign Today, No Sample Edit Offered, Vague Bundled Price, No Named Founders, Rights Language Unclear" loading="lazy" />
+  <img src="/images/blog/inline/vanity-warning-signs.webp" alt="Flat infographic checklist of five warning signs: Pressure To Sign Today, No Sample Edit Offered, Vague Bundled Price, No Named Founders, Rights Language Unclear" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Warning signs worth treating as information, not an oversight, if you hear or see any of them before you sign.</figcaption>
 </figure>
 

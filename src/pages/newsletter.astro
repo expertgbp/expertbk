@@ -1,54 +1,210 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import FormCard from "../components/FormCard.astro";
 import LeadMagnetForm from "../components/LeadMagnetForm.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
+
+// "What you'll actually get": the page's original four bullet points, one
+// per tile, each with a line icon.
+const benefits = [
+  {
+    text: "One idea a week, not a daily inbox flood.",
+    icon: '<rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9 14.5l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  {
+    text: "Real questions from real authors, answered in public.",
+    icon: '<path d="M4 5h16v11H9l-5 4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 9.5h7M8.5 12.5h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+  },
+  {
+    text: "Occasional notes on a launch, a cohort, or a resource, always clearly labeled as such.",
+    icon: '<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7a1 1 0 0 1 .7.3l7.3 7.3a1 1 0 0 1 0 1.4l-7.7 7.7a1 1 0 0 1-1.4 0l-7.3-7.3a1 1 0 0 1-.3-.7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.4" stroke="currentColor" stroke-width="1.5"/>',
+  },
+  {
+    text: "No pressure, no fake urgency, and an unsubscribe link that actually works.",
+    icon: '<path d="M12 3l7.5 3v5.6c0 4.4-3 7.9-7.5 9.4-4.5-1.5-7.5-5-7.5-9.4V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.8 12.2l2.3 2.3 4.2-4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+];
+
+const mailIcon =
+  '<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 7l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>';
 ---
 
 <BaseLayout
   title="The Expert Book Letter"
   description="One useful idea about writing, publishing, and turning your expertise into a book, delivered weekly. No spam, unsubscribe anytime."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-2xl px-4 py-16 text-center">
-      <p class="eyebrow mb-4">THE EXPERT BOOK LETTER</p>
-      <h1 class="on-navy">One useful idea about authorship, every week</h1>
-      <p class="mt-4 text-lg opacity-90">
-        Not a sales letter. A short, plain-English idea about writing, positioning, publishing, or launching
-        a book, the kind of thing we'd tell a friend who asked us over coffee.
-      </p>
-    </div>
-  </section>
+  <!-- Pitch on the left of the navy hero, the signup form on its own white
+       card on the right (the homepage Blueprint section's model), so the
+       form is on screen before any scrolling. -->
+  <PageHero
+    asideWidth="wide"
+    eyebrow="THE EXPERT BOOK LETTER"
+    heading="One useful idea about authorship, every week"
+    lead="Not a sales letter. A short, plain-English idea about writing, positioning, publishing, or launching a book, the kind of thing we'd tell a friend who asked us over coffee."
+    crumbs={[{ label: "Newsletter" }]}
+  >
+    <FormCard slot="aside" title="Get the weekly letter" note="It takes less than a minute." icon={mailIcon}>
+      <LeadMagnetForm
+        formId="newsletter-page"
+        segmentTag="newsletter"
+        submitLabel="Subscribe"
+        redirectTo="/thank-you/newsletter"
+      />
+    </FormCard>
+  </PageHero>
 
-  <section class="bg-gold-100">
-    <div class="mx-auto max-w-2xl px-4 py-16">
-      <h2>What you'll actually get</h2>
-      <ul class="mt-6 space-y-3 list-disc pl-5 leading-relaxed">
-        <li>One idea a week, not a daily inbox flood.</li>
-        <li>Real questions from real authors, answered in public.</li>
-        <li>Occasional notes on a launch, a cohort, or a resource, always clearly labeled as such.</li>
-        <li>No pressure, no fake urgency, and an unsubscribe link that actually works.</li>
-      </ul>
-      <div class="mt-10">
-        <LeadMagnetForm
-          formId="newsletter-page"
-          segmentTag="newsletter"
-          submitLabel="Subscribe"
-          redirectTo="/thank-you/newsletter"
-        />
-      </div>
-    </div>
-  </section>
-
+  <!-- What you'll actually get: heading pinned on the left, the four
+       promises as icon tiles on the right. -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-2xl px-4 py-14">
-      <h2>Not ready to commit to a weekly email?</h2>
-      <p class="mt-4 leading-relaxed">
-        Start with the <a href="/free-blueprint" class="underline font-semibold">free Expert Book Blueprint</a>
-        instead, a one-time guide instead of a subscription. Or, if you'd rather talk through your specific
-        book idea, <a href="/book-a-call" class="underline font-semibold">book a free strategy call</a>.
-      </p>
+    <div class="benefits mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Inside the letter" heading="What you'll actually get" class="benefits-head" />
+      <ul class="benefit-grid">
+        {benefits.map((b, i) => (
+          <li class="benefit" data-reveal="item">
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={b.icon} />
+            </span>
+            <span class="benefit-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <p class="benefit-text">{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- The two other ways in, for anyone not ready for a weekly email. -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div class="alt-card" data-reveal="item">
+        <div>
+          <p class="eyebrow">Another way in</p>
+          <h2 class="mt-3">Not ready to commit to a weekly email?</h2>
+        </div>
+        <p class="alt-body">
+          {/* The link and the word after it share a line on purpose: a line
+              break straight after </a> loses the space between them. */}
+          Start with the
+          <a href="/free-blueprint" class="underline font-semibold">free Expert Book Blueprint</a> instead,
+          a one-time guide instead of a subscription. Or, if you'd rather talk through your specific
+          book idea, <a href="/book-a-call" class="underline font-semibold">book a free strategy call</a>.
+        </p>
+      </div>
     </div>
   </section>
 
   <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  /* ---------- What you'll actually get ---------- */
+  .benefits {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .benefits {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: start;
+      gap: 5rem;
+    }
+    .benefits :global(.benefits-head) {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+  }
+  .benefit-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .benefit-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+  /* A tile, not a link: it takes the icon color flip on hover but no lift,
+     so it never reads as something to click. */
+  .benefit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 20px;
+    background: #fff;
+    transition: border-color var(--duration-base) var(--ease-hover);
+  }
+  .benefit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 16px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .benefit-num {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-500);
+  }
+  .benefit-text {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--color-navy-900);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .benefit:hover {
+      border-color: var(--color-gold-300);
+    }
+    .benefit:hover .benefit-icon {
+      background-color: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
+  /* ---------- Not ready to commit? ---------- */
+  .alt-card {
+    display: grid;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: var(--shadow-md);
+  }
+  @media (min-width: 900px) {
+    .alt-card {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: 4rem;
+      padding: 3.25rem 3.5rem;
+      border-radius: 28px;
+    }
+  }
+  .alt-body {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+  .alt-body a {
+    color: var(--color-navy-700);
+    text-decoration-color: var(--color-gold-500);
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .alt-body a:hover {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

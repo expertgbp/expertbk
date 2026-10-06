@@ -1,6 +1,9 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import BeforeAfterTable from "../components/BeforeAfterTable.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
@@ -15,6 +18,9 @@ interface Props {
 const { entry } = Astro.props;
 const s = entry.data;
 const { Content } = await render(entry);
+
+const check = '<path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />';
+const dash = '<path d="M2.5 6h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />';
 ---
 
 <BaseLayout title={s.title} description={s.answerBlock.slice(0, 150)}>
@@ -25,61 +31,79 @@ const { Content } = await render(entry);
   </Fragment>
 
   <!-- 1. Outcome promise + 2. direct answer -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <h1 class="on-navy">{s.title}</h1>
-      <p class="direct-answer mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">{s.answerBlock}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/book-a-call" class="btn-primary" data-cta="service-hero-call">{s.cta.primaryLabel}</a>
-        <a href={s.cta.leadMagnetSlug} class="btn-secondary on-navy" data-cta="service-hero-blueprint">{s.cta.leadMagnetLabel}</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Services"
+    heading={s.title}
+    answer={s.answerBlock}
+    crumbs={[{ label: "Services", href: "/services" }, { label: s.title }]}
+    primaryLabel={s.cta.primaryLabel}
+    secondaryLabel={s.cta.leadMagnetLabel}
+    secondaryHref={s.cta.leadMagnetSlug}
+    ctaId="service-hero"
+  />
 
-  <!-- 3. Who it's for / not for -->
+  <!-- 3. Who it's for / not for: two cards side by side, the "for" one lit -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14 grid sm:grid-cols-2 gap-8">
-      <div>
-        <h2 class="text-xl mb-4">This is for you if</h2>
-        <ul class="space-y-2">
-          {s.whoForNotFor.for.map((item) => (<li class="pl-4 door-rule">{item}</li>))}
-        </ul>
-      </div>
-      <div class="border-t border-navy-100 pt-6 sm:border-t-0 sm:pt-0 sm:border-l sm:pl-6">
-        <h2 class="text-xl mb-4">This isn't for you if</h2>
-        <ul class="space-y-2 text-slate-500">
-          {s.whoForNotFor.notFor.map((item) => (<li>{item}</li>))}
-        </ul>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="The fit" heading="Is this the right door for you?" />
+      <div class="mt-10 md:mt-12 grid gap-5 md:grid-cols-2 md:gap-6">
+        <div class="fit-card fit-yes on-navy-surface">
+          <h3 class="fit-title">This is for you if</h3>
+          <ul class="fit-list">
+            {s.whoForNotFor.for.map((item) => (
+              <li>
+                <span class="fit-mark" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" set:html={check} /></span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="fit-card fit-no">
+          <h3 class="fit-title">This isn't for you if</h3>
+          <ul class="fit-list">
+            {s.whoForNotFor.notFor.map((item) => (
+              <li>
+                <span class="fit-mark" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" set:html={dash} /></span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Exactly what's included -->
+  <!-- 4. Exactly what's included: a grid of numbered deliverable tiles -->
   <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Exactly what's included</h2>
-      <ul class="space-y-4">
-        {s.deliverables.map((d) => (
-          <li class="flex gap-3 items-start">
-            <svg width="18" height="18" viewBox="0 0 18 18" class="mt-1 shrink-0 text-success-600" aria-hidden="true"><path d="M3 9l4 4 8-9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="leading-snug">{d}</span>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Deliverables" heading="Exactly what's included" />
+      <ul class="mt-10 md:mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-5">
+        {s.deliverables.map((d, i) => (
+          <li class="card deliverable">
+            <span class="deliverable-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <span class="deliverable-text">{d}</span>
           </li>
         ))}
       </ul>
     </div>
   </section>
 
-  <!-- 5. Process with timeline -->
+  <!-- 5. Process: a vertical timeline, each step with its own time pill -->
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-8">The process</h2>
-      <ol class="space-y-6">
+    <div class="process mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div class="process-head">
+        <SectionHeading eyebrow="How it runs" heading="The process" />
+      </div>
+      <ol class="timeline" data-reveal="children">
         {s.process.map((step, i) => (
-          <li class="flex gap-4 items-start">
-            <span class="font-serif text-2xl font-bold text-gold-500 shrink-0 leading-none">{i + 1}</span>
-            <div>
-              <p class="font-semibold leading-snug">{step.step}</p>
-              <p class="text-sm text-slate-500 mt-1">{step.timeline}</p>
+          <li class="timeline-step" data-reveal="item">
+            <span class="timeline-node" aria-hidden="true">{i + 1}</span>
+            <div class="timeline-body">
+              <p class="timeline-title">{step.step}</p>
+              <p class="timeline-time">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" /><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                {step.timeline}
+              </p>
             </div>
           </li>
         ))}
@@ -87,66 +111,46 @@ const { Content } = await render(entry);
     </div>
   </section>
 
-  <!-- 6. Before/after table -->
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="on-navy mb-8 text-center">Before and after</h2>
-      <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
-          <tbody>
-            {s.beforeAfter.map((row) => (
-              <tr class="block sm:table-row border-b border-navy-700 py-4 sm:py-0">
-                <td class="block sm:table-cell py-1 sm:py-3 pr-0 sm:pr-4 opacity-70 align-top leading-snug">
-                  <span class="eyebrow sm:hidden block mb-1">Before</span>
-                  {row.before}
-                </td>
-                <td class="block sm:table-cell py-1 sm:py-3 pl-0 sm:pl-4 mt-3 sm:mt-0 font-medium align-top sm:border-l sm:border-navy-700 leading-snug">
-                  <span class="eyebrow sm:hidden block mb-1">After</span>
-                  {row.after}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <!-- 6. Before/after: the same split panel as the homepage -->
+  <BeforeAfterTable heading="Before and after" beforeLabel="Before" afterLabel="After" rows={s.beforeAfter} />
 
   <!-- 7. Proof -->
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Proof</h2>
-      <TestimonialCard {...s.proof} />
-    </div>
-  </section>
-
-  <!-- 8. Investment -->
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-4">Investment</h2>
-      <p class="font-serif text-2xl md:text-3xl font-bold text-navy-900">{s.investmentRange}</p>
-      <p class="text-slate-500 mt-3">{s.paymentPlansNote}</p>
-      <p class="text-sm text-slate-500 mt-4">
-        A book done wrong costs the same money twice.
-        <a href="/pricing-and-cost" class="underline font-semibold">See the full honest cost guide &rarr;</a>
-      </p>
-      <p class="text-xs text-slate-500 mt-2">
-        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
-      </p>
-    </div>
-  </section>
-
-  <!-- 9. Guarantee -->
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-2xl px-4 py-12">
-      <div class="card p-6 md:p-8 border-gold-300 border-2">
-        <h2 class="text-xl mb-3">The guarantee</h2>
-        <p class="text-slate-500 leading-relaxed">{s.guarantee}</p>
+  <section class="bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Results" heading="Proof" />
+      <div class="mt-10 md:mt-12">
+        <TestimonialCard {...s.proof} />
       </div>
     </div>
   </section>
 
-  <section class="bg-navy-100 prose prose-lg max-w-3xl mx-auto px-4 py-6">
+  <!-- 8. Investment + 9. Guarantee, side by side: the price and the promise -->
+  <section class="bg-navy-100">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24 grid gap-5 lg:grid-cols-5 lg:gap-6">
+      <div class="invest on-navy-surface lg:col-span-3">
+        <p class="eyebrow">Investment</p>
+        <h2 class="sr-only">Investment</h2>
+        <p class="invest-range">{s.investmentRange}</p>
+        <p class="invest-note">{s.paymentPlansNote}</p>
+        <p class="invest-foot">
+          A book done wrong costs the same money twice.
+          <a href="/pricing-and-cost" class="arrow-link invest-link">See the full honest cost guide <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </p>
+        <p class="invest-disclaimer">
+          <a href="/disclaimer" class="underline underline-offset-2">{entity.incomeDisclaimerLine}</a>
+        </p>
+      </div>
+      <div class="guarantee lg:col-span-2">
+        <span class="guarantee-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" /><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </span>
+        <h2 class="guarantee-title">The guarantee</h2>
+        <p class="guarantee-text">{s.guarantee}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-50 prose prose-lg max-w-3xl mx-auto px-4 py-6">
     <Content />
   </section>
 
@@ -156,3 +160,280 @@ const { Content } = await render(entry);
   <!-- 11. CTA band -->
   <FinalDoorCTA secondaryLabel={s.cta.leadMagnetLabel} secondaryHref={s.cta.leadMagnetSlug} />
 </BaseLayout>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  /* ---------- Fit cards ---------- */
+  .fit-card {
+    padding: 1.75rem 1.5rem;
+    border-radius: 22px;
+  }
+  @media (min-width: 768px) {
+    .fit-card {
+      padding: 2.25rem;
+    }
+  }
+  .fit-title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+  .fit-list {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.4rem;
+  }
+  .fit-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    line-height: 1.5;
+  }
+  .fit-mark {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 999px;
+  }
+  /* "For you": the navy card, with the door glow and gold checks. */
+  .fit-yes {
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 90% 60% at 100% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: 0 30px 60px -30px rgba(8, 31, 51, 0.55);
+  }
+  .fit-yes .fit-title {
+    color: var(--color-gold-300);
+  }
+  .fit-yes .fit-mark {
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  /* "Not for you": deliberately quieter, a plain outlined card. */
+  .fit-no {
+    border: 1px solid var(--color-navy-100);
+    background: #fff;
+    color: var(--color-slate-500);
+  }
+  .fit-no .fit-title {
+    color: var(--color-navy-900);
+  }
+  .fit-no .fit-mark {
+    background: var(--color-navy-100);
+    color: var(--color-slate-500);
+  }
+
+  /* ---------- Deliverables ---------- */
+  .deliverable {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.4rem 1.4rem 1.5rem;
+    border-radius: 18px;
+  }
+  .deliverable-num {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 12px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .deliverable-text {
+    padding-top: 0.3rem;
+    line-height: 1.5;
+    color: var(--color-ink-900);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .deliverable:hover .deliverable-num {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+
+  /* ---------- Process timeline ---------- */
+  .process {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .process {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 5rem;
+      align-items: start;
+    }
+    .process-head {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+  .timeline {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+  }
+  /* The gold line the numbered nodes sit on. */
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 1.375rem;
+    top: 1.5rem;
+    bottom: 1.5rem;
+    width: 2px;
+    translate: -50% 0;
+    background: linear-gradient(to bottom, var(--color-gold-300), rgba(255, 217, 138, 0.2));
+  }
+  .timeline-step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .timeline-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    box-shadow: 0 0 0 5px var(--color-ivory-50);
+  }
+  .timeline-body {
+    flex: 1;
+    min-width: 0;
+    padding: 1.1rem 1.25rem 1.2rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: #fff;
+    transition: border-color var(--duration-base) var(--ease-hover), box-shadow var(--duration-base) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .timeline-step:hover .timeline-body {
+      border-color: var(--color-gold-300);
+      box-shadow: var(--shadow-md);
+    }
+  }
+  .timeline-title {
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--color-navy-900);
+  }
+  .timeline-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.65rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-gold-100);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-navy-700);
+  }
+  .timeline-time svg {
+    flex-shrink: 0;
+  }
+
+  /* ---------- Investment + guarantee ---------- */
+  .invest {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 80% 70% at 0% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: 0 30px 60px -30px rgba(8, 31, 51, 0.55);
+  }
+  .invest-range {
+    margin-top: 1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-gold-300);
+    text-wrap: balance;
+  }
+  .invest-note {
+    margin-top: 1rem;
+    max-width: 38rem;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+  .invest-foot {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(245, 241, 232, 0.12);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+  .invest-link {
+    font-weight: 600;
+    color: var(--color-gold-300);
+  }
+  .invest-disclaimer {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+  .guarantee {
+    padding: 2rem 1.5rem;
+    border: 2px solid var(--color-gold-300);
+    border-radius: 24px;
+    background: #fff;
+  }
+  @media (min-width: 768px) {
+    .invest,
+    .guarantee {
+      padding: 2.5rem;
+    }
+  }
+  .guarantee-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .guarantee-title {
+    margin-top: 1.25rem;
+    font-size: 1.5rem;
+  }
+  .guarantee-text {
+    margin-top: 0.75rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+</style>

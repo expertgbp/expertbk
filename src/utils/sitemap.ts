@@ -16,7 +16,10 @@ export type SitemapEntry = {
 export function buildUrlSet(site: string, entries: SitemapEntry[]): string {
   const urls = entries
     .map((e) => {
-      const loc = new URL(e.path, site).toString();
+      // Same trailing-slash form as each page's canonical URL (the build
+      // emits /path/index.html), so the sitemap never lists a URL that
+      // redirects to its own canonical.
+      const loc = new URL(e.path.endsWith("/") ? e.path : `${e.path}/`, site).toString();
       const lastmod = e.lastmod ? `<lastmod>${e.lastmod.toISOString().slice(0, 10)}</lastmod>` : "";
       const changefreq = e.changefreq ? `<changefreq>${e.changefreq}</changefreq>` : "";
       const priority = e.priority !== undefined ? `<priority>${e.priority.toFixed(1)}</priority>` : "";

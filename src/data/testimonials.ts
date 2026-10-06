@@ -14,10 +14,12 @@ export type VideoTestimonial = {
   youtubeId: string;
   name: string;
   bookTitle?: string;
+  /** YouTube has no 640px still for this upload: VideoThumb falls back to the 480px one. */
+  lowResThumb?: boolean;
 };
 
 export const videoTestimonials: VideoTestimonial[] = [
-  { youtubeId: "bWiP6zlPIxM", name: "Dana Monette" },
+  { youtubeId: "bWiP6zlPIxM", name: "Dana Monette", lowResThumb: true },
   { youtubeId: "F6fEzTgmRJU", name: "Annette Dhanasar", bookTitle: "Upward Ever" },
   { youtubeId: "wp_pjolLuOo", name: "Gavin Black", bookTitle: "Crop Burner" },
   { youtubeId: "RHHcipe2iSg", name: "Jay Wijesundara" },

@@ -273,10 +273,26 @@ export const legalLinks: NavLink[] = [
   { label: "Disclaimer", href: "/disclaimer" },
 ];
 
-export const primaryNav = [
+/**
+ * `promo` picks the featured card shown on the right of a header mega
+ * panel (copy lives in Header.astro so both promos stay in one place):
+ * "blueprint" for the free guide, "call" for the strategy call. Panels
+ * that already fill their width (For Experts' five columns) leave it off.
+ */
+export type PrimaryNavItem = {
+  label: string;
+  href?: string;
+  groups?: NavGroup[];
+  links?: NavLink[];
+  indexHref?: string;
+  seeAllLabel?: string;
+  promo?: "blueprint" | "call";
+};
+
+export const primaryNav: PrimaryNavItem[] = [
   { label: "For Experts", groups: professionGroups, indexHref: "/for", seeAllLabel: "See all professions" },
-  { label: "Your Book", groups: bookTypeGroups, indexHref: "/books", seeAllLabel: "See all book types" },
-  { label: "Services", links: serviceLinks, indexHref: "/services", seeAllLabel: "See all services" },
-  { label: "Resources", links: resourceLinks },
+  { label: "Your Book", groups: bookTypeGroups, indexHref: "/books", seeAllLabel: "See all book types", promo: "blueprint" },
+  { label: "Services", links: serviceLinks, indexHref: "/services", seeAllLabel: "See all services", promo: "call" },
+  { label: "Resources", links: resourceLinks, promo: "blueprint" },
   { label: "About", href: "/about" },
 ];

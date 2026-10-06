@@ -1,0 +1,75 @@
+---
+/**
+ * Objection-and-reframe pairs ("I don't have time" -> the honest answer)
+ * as a two-column grid of cards. Each card is numbered, quotes the
+ * objection in the serif, then answers it under a small "The honest
+ * answer" label. Built on the shared .card surface, so it picks up the
+ * site's hover lift, sheen and tilt with no extra code.
+ */
+interface Props {
+  items: { objection: string; reframe: string }[];
+  answerLabel?: string;
+}
+const { items, answerLabel = "The honest answer" } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+  {items.map((o, i) => (
+    <div class="card obstacle p-6 md:p-8">
+      <p class="obstacle-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</p>
+      <p class="obstacle-quote">&ldquo;{o.objection}&rdquo;</p>
+      <p class="obstacle-label">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        {answerLabel}
+      </p>
+      <p class="obstacle-answer">{o.reframe}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .obstacle {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+  }
+  .obstacle-num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-700);
+  }
+  .obstacle-quote {
+    margin-top: 0.75rem;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--color-navy-900);
+    text-wrap: balance;
+  }
+  .obstacle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-navy-100);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-navy-700);
+  }
+  .obstacle-label svg {
+    color: var(--color-gold-700);
+  }
+  .obstacle-answer {
+    margin-top: 0.6rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+</style>

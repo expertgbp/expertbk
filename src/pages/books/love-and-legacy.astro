@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import TestimonialCard from "../../components/TestimonialCard.astro";
+import PageHero from "../../components/PageHero.astro";
+import BookTypeHub from "../../components/BookTypeHub.astro";
 import FAQAccordion from "../../components/FAQAccordion.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
-import { entity } from "../../data/entity";
 
 const bookTypes = [
   {
@@ -23,6 +23,10 @@ const bookTypes = [
     body: "A faith-based book gets written as an act of stewardship, not a race. Pastors, ministry leaders, and people of deep personal faith write these to put a calling into a form others can carry. It asks for a patience the other book types here don't.",
   },
 ];
+
+// The hub's direct answer, shown in the hero.
+const answer =
+  "A love or legacy book is written to keep something that matters: a life, a lesson, a faith, a family's story. Memoirs, legacy books, and faith-based books share one rule: separate what happened from how it is told, so the book stays true and the people in it stay safe. Your deadline is real (an age, an anniversary, a promise), and the path is built around it, not around ours. You keep 100% of your rights and royalties, and every word is yours before it ships.";
 
 const faqs = [
   {
@@ -51,58 +55,19 @@ const faqs = [
     <BreadcrumbSchema items={[{ name: "Your Book", path: "/books" }, { name: "Love & Legacy Books", path: Astro.url.pathname }]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <p class="eyebrow mb-4">Love &amp; Legacy Books</p>
-      <h1 class="on-navy">Which Book Should You Write to Preserve a Story That Matters?</h1>
-      <p class="mt-6 text-lg leading-relaxed border-l-2 border-gold-300 pl-5 opacity-95">
-        A love or legacy book is written to keep something that matters: a life, a lesson, a faith, a family's
-        story. Memoirs, legacy books, and faith-based books share one rule: separate what happened from how it is
-        told, so the book stays true and the people in it stay safe. Your deadline is real (an age, an anniversary,
-        a promise), and the path is built around it, not around ours. You keep 100% of your rights and royalties,
-        and every word is yours before it ships.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/book-a-call" class="btn-primary" data-cta="hub-legacy-hero-call">Book a Free Book Strategy Call</a>
-        <a href="/free-blueprint" class="btn-secondary on-navy" data-cta="hub-legacy-hero-blueprint">Get the Expert Book Blueprint (free)</a>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Love & Legacy Books"
+    heading="Which Book Should You Write to Preserve a Story That Matters?"
+    answer={answer}
+    crumbs={[{ label: "Your Book", href: "/books" }, { label: "Love & Legacy Books" }]}
+    primaryLabel="Book a Free Book Strategy Call"
+    secondaryLabel="Get the Expert Book Blueprint (free)"
+    ctaId="hub-legacy-hero"
+  />
 
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14 space-y-10">
-      {bookTypes.map((b) => (
-        <div>
-          <h2 class="mb-3"><a href={b.href} class="hover:text-gold-500">{b.label}</a></h2>
-          <p class="leading-relaxed text-slate-500">{b.body}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <BookTypeHub hubHref="/books/love-and-legacy" types={bookTypes} />
 
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Proof from the path you're on</h2>
-      <TestimonialCard status="placeholder" placeholderNote="[TESTIMONIAL: pending permission]" />
-      <p class="mt-4 text-sm text-slate-500">
-        {entity.proofBank.rescueStat} &middot; {entity.proofBank.fastSaleStat}.
-        <a href="/disclaimer" class="underline">{entity.incomeDisclaimerLine}</a>
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-12 text-center">
-      <h2 class="mb-4">Not sure which is yours?</h2>
-      <p class="text-slate-500 leading-relaxed">
-        <a href="/guides/which-book-first" class="underline font-semibold">Which book should I write first?</a> walks
-        through the decision, or <a href="/start" class="underline font-semibold">start here</a> for a guided path
-        built around your answers.
-      </p>
-    </div>
-  </section>
-
-  <FAQAccordion faqs={faqs} heading="Love &amp; legacy book questions" />
+  <FAQAccordion faqs={faqs} heading="Love & legacy book questions" />
 
   <FinalDoorCTA />
 </BaseLayout>

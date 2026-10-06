@@ -1,41 +1,68 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CardGrid from "../../components/CardGrid.astro";
+import PageHero from "../../components/PageHero.astro";
+import JumpChips from "../../components/JumpChips.astro";
+import GroupSection from "../../components/GroupSection.astro";
+import IconCardGrid from "../../components/IconCardGrid.astro";
 import FinalDoorCTA from "../../components/FinalDoorCTA.astro";
-import { professionGroupKeys } from "../../data/nav";
+import { professionGroups, professionGroupKeys } from "../../data/nav";
 
 const all = (await getCollection("professions")).sort((a, b) => a.data.order - b.data.order);
-const groups: Record<string, typeof all> = Object.fromEntries(
-  professionGroupKeys.map((key) => [key, all.filter((p) => p.data.category === key)])
-);
-const groupLabels: Record<string, string> = {
-  health: "Health",
-  wealth: "Wealth",
-  relationships: "Relationships",
-  "leadership-and-career": "Leadership & Career",
-  "service-providers": "Service Providers",
-};
+
+// professionGroups (nav.ts) and professionGroupKeys are declared in the same
+// order, so the nav group at index i supplies the heading, description and
+// icon for the collection category at index i. Empty groups are dropped.
+const groups = professionGroupKeys
+  .map((key, i) => ({
+    key,
+    nav: professionGroups[i],
+    entries: all.filter((p) => p.data.category === key),
+  }))
+  .filter((g) => g.entries.length > 0);
+
+// Each profession's own icon, looked up by URL from the same nav data the
+// header menu uses.
+const iconByHref = new Map(professionGroups.flatMap((g) => g.items.map((item) => [item.href, item.icon] as const)));
+const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 <BaseLayout
   title="Built for Experts Like You"
   description="Pick your world: health, wealth, relationships, leadership and career, or service. Each path is built around your real calendar and voice."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 md:py-20 hero-enter">
-      <h1 class="on-navy">Built for experts like you</h1>
-      <p class="mt-4 text-lg opacity-90">Pick your world. The advice changes when the reader is you.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="For Experts"
+    heading="Built for experts like you"
+    lead="Pick your world. The advice changes when the reader is you."
+    crumbs={[{ label: "For Experts" }]}
+  >
+    <JumpChips
+      label="Jump to a field"
+      items={groups.map((g) => ({ label: g.nav.heading, href: `#${g.key}`, icon: g.nav.icon }))}
+    />
+  </PageHero>
 
-  {Object.entries(groups).map(([key, items]) => items.length > 0 && (
-    <section id={key} class="bg-ivory-50 border-t border-navy-100 scroll-mt-24">
-      <div class="mx-auto max-w-5xl px-4 py-14 md:py-16">
-        <h2 class="mb-8">{groupLabels[key]}</h2>
-        <CardGrid items={items.map((p) => ({ title: p.data.professionLabel, description: p.data.answerBlock.slice(0, 110) + "…", href: `/for/${p.id}` }))} />
-      </div>
-    </section>
+  {groups.map((g, i) => (
+    <GroupSection
+      id={g.key}
+      heading={g.nav.heading}
+      description={g.nav.description}
+      icon={g.nav.icon}
+      index={`${pad(i + 1)} / ${pad(groups.length)}`}
+      meta={`${g.entries.length} professions`}
+      tone={i % 2 === 0 ? "ivory" : "mist"}
+    >
+      <IconCardGrid
+        columns={2}
+        items={g.entries.map((p) => ({
+          title: p.data.professionLabel,
+          description: p.data.answerBlock.slice(0, 110) + "…",
+          href: `/for/${p.id}`,
+          icon: iconByHref.get(`/for/${p.id}`) ?? g.nav.icon,
+        }))}
+      />
+    </GroupSection>
   ))}
 
   <FinalDoorCTA

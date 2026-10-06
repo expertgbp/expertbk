@@ -1,18 +1,18 @@
 ---
 /**
- * Homepage-only credibility strip, sitting between the hero and TrustBar —
- * the one section GBP's own homepage (globalbookpublishing.com) has that
- * this site didn't (an "As Featured In" logo band). Two parts:
- *  1. A static row of the founders' real bestseller badges (facts already
- *     in entity.ts; badge use pre-approved in the
- *     writeexpertbook-brand-images skill).
- *  2. A continuously auto-scrolling logo marquee, real logo files (not
- *     AI-imitated) pulled directly from Wikimedia Commons, mirroring the
- *     same set of press/platform logos GBP's own real site displays there
- *     (Forbes, Udemy, Facebook) plus the retailers every published book
- *     goes out to (Amazon, Barnes & Noble, Apple Books, Kobo, Google Play
- *     Books). The list is duplicated once so the CSS animation can loop
- *     seamlessly (same technique as VideoTestimonialSlider's clone trick).
+ * Homepage-only credibility strip, sitting between the hero and TrustBar.
+ * Two parts, stacked and centered:
+ *  1. On top, the founders' two real bestseller badges (facts already in
+ *     entity.ts; badge use pre-approved in the writeexpertbook-brand-images
+ *     skill), drawn as navy pills with a gold star medal.
+ *  2. Below, edge to edge, a continuously scrolling row of logo tiles: real
+ *     logo files (not AI-imitated) pulled directly from Wikimedia Commons,
+ *     the press/platform logos GBP's own site displays (Forbes, Udemy,
+ *     Facebook) plus the retailers every published book goes out to
+ *     (Amazon, Barnes & Noble, Apple Books, Kobo, Google Play Books). Each
+ *     logo sits in its own tile so wordmarks and square app icons read as
+ *     one even set, and the row fades out at both edges. The list is
+ *     duplicated once so the CSS animation loops seamlessly.
  */
 import amazon from "../assets/images/logos/amazon.svg?url";
 import barnesNoble from "../assets/images/logos/barnes-noble.svg?url";
@@ -35,47 +35,132 @@ const logos = [
   { src: kobo, alt: "Kobo", tall: false },
   { src: googlePlayBooks, alt: "Google Play Books", tall: true },
 ];
-const track = [...logos, ...logos];
+// Six copies of the set, and the animation slides the row by exactly one
+// copy before looping. With only two copies, any screen wider than one copy
+// (about 1,470px) ran out of logos and showed a blank gap on the right;
+// six covers screens up to roughly 7,000px wide.
+const COPIES = 6;
+const track = Array.from({ length: COPIES }, (_, copy) => logos.map((logo) => ({ ...logo, copy }))).flat();
 ---
 
-<section class="as-seen-on bg-white border-b border-navy-100 pb-8">
-  <div class="mx-auto max-w-5xl px-4 pt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
-    {badges.map((b) => (
-      <span class="inline-flex items-center gap-1.5 rounded-full border border-gold-300 bg-gold-100/50 px-3.5 py-1 text-xs font-semibold tracking-wide text-navy-900">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="shrink-0 text-gold-500" aria-hidden="true">
-          <path d="M12 2l2.7 6.1 6.6.6-5 4.5 1.5 6.5L12 16.6 6.2 19.7l1.5-6.5-5-4.5 6.6-.6z" fill="currentColor" />
-        </svg>
-        {b}
-      </span>
-    ))}
+<section class="as-seen-on bg-white">
+  <div class="mx-auto max-w-7xl px-4 pt-10 md:pt-12">
+    <div class="seen-intro">
+      <ul class="seen-badges">
+        {badges.map((b) => (
+          <li class="seen-badge">
+            <span class="seen-badge-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l2.7 6.1 6.6.6-5 4.5 1.5 6.5L12 16.6 6.2 19.7l1.5-6.5-5-4.5 6.6-.6z" fill="currentColor" />
+              </svg>
+            </span>
+            {b}
+          </li>
+        ))}
+      </ul>
+      <p class="seen-label">Featured in, and published on</p>
+    </div>
   </div>
 
-  <p class="mt-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-    Featured in, and published on
-  </p>
-
-  <div class="logo-marquee mt-4" role="list" aria-label="As featured in and published on">
-    <div class="logo-track">
-      {track.map((logo) => (
-        <span class="logo-item" role="listitem">
-          <img src={logo.src} alt={logo.alt} loading="lazy" class:list={["logo-img", logo.tall && "logo-img-tall"]} />
-        </span>
-      ))}
+  <!-- Full width, outside the container, so the row runs edge to edge. -->
+  <div class="seen-row">
+    <div class="logo-marquee" role="list" aria-label="As featured in and published on">
+      <div class="logo-track">
+        {track.map((logo) => (
+          <span class="logo-item" role={logo.copy === 0 ? "listitem" : undefined} aria-hidden={logo.copy === 0 ? undefined : "true"}>
+            <img src={logo.src} alt={logo.copy === 0 ? logo.alt : ""} loading="lazy" class:list={["logo-img", logo.tall && "logo-img-tall"]} />
+          </span>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* ---------- Top: bestseller badges, then the label ---------- */
+  .seen-intro {
+    text-align: center;
+  }
+  .seen-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-slate-500);
+  }
+  .seen-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .seen-label {
+    margin-top: 1.75rem;
+  }
+  .seen-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.9rem 0.35rem 0.35rem;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: left;
+    color: var(--color-offwhite-100);
+  }
+  .seen-badge-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .seen-row {
+    padding: 1rem 0 2rem;
+  }
+
+  /* ---------- Below: logo tiles, edge to edge ---------- */
   .logo-marquee {
+    position: relative;
     overflow: hidden;
     padding-block: 0.5rem;
+  }
+  /* Tiles fade in and out at the edges instead of being cut off. Two white
+     gradient overlays, not a mask: a mask over a moving row has to be
+     re-rendered on every frame, an overlay costs nothing. */
+  .logo-marquee::before,
+  .logo-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 9%;
+    pointer-events: none;
+  }
+  .logo-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+  }
+  .logo-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
   }
   .logo-track {
     display: flex;
     align-items: center;
     width: max-content;
-    gap: clamp(2.25rem, 5vw, 3.5rem);
-    animation: logo-marquee 32s linear infinite;
+    gap: 1rem;
+    /* padding-right equals the gap, so the -50% loop point lines up. */
+    padding-right: 1rem;
+    animation: logo-marquee 36s linear infinite;
+    will-change: transform;
   }
   /* Pausing on hover/focus gives a person a way to stop and actually read
      one logo, per the site's own controllable-motion standard elsewhere
@@ -88,31 +173,49 @@ const track = [...logos, ...logos];
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    height: 2rem;
+    justify-content: center;
+    width: 10.5rem;
+    height: 4.5rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: var(--color-ivory-50);
+    transition: border-color var(--duration-base) var(--ease-hover), background-color var(--duration-base) var(--ease-hover),
+      transform var(--duration-base) var(--ease-out);
   }
   .logo-img {
-    height: 1.6rem;
+    height: 1.5rem;
     width: auto;
-    max-width: 7.5rem;
+    max-width: 7rem;
     object-fit: contain;
-    opacity: 0.82;
-    transition: opacity var(--duration-fast) var(--ease-hover);
   }
   /* Apple Books / Google Play Books ship as near-square app icons rather
      than wordmarks, so at the shared wordmark height they'd shrink to an
-     illegibly tiny glyph — give this pair a bit more height instead of
-     matching wordmark height exactly. */
+     illegibly tiny glyph: give this pair a bit more height. */
   .logo-img-tall {
-    height: 2rem;
+    height: 2.1rem;
   }
+  /* With a mouse, the row rests in quiet monochrome and each logo takes
+     its real colors when pointed at. Touch screens just show the colors. */
   @media (hover: hover) and (pointer: fine) {
+    .logo-img {
+      filter: grayscale(1);
+      opacity: 0.6;
+      transition: filter var(--duration-base) var(--ease-hover), opacity var(--duration-base) var(--ease-hover);
+    }
+    .logo-item:hover {
+      border-color: var(--color-gold-300);
+      background: #fff;
+      transform: translateY(-3px);
+    }
     .logo-item:hover .logo-img {
+      filter: none;
       opacity: 1;
     }
   }
   @keyframes logo-marquee {
     from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    /* one copy out of six */
+    to { transform: translateX(calc(-100% / 6)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .logo-track {
@@ -120,6 +223,12 @@ const track = [...logos, ...logos];
     }
     .logo-marquee {
       overflow-x: auto;
+    }
+  }
+  @media (max-width: 639px) {
+    .logo-item {
+      width: 8.75rem;
+      height: 4rem;
     }
   }
 </style>

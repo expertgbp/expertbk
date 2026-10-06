@@ -16,46 +16,18 @@ const colClass = {
 }[columns];
 ---
 
-<div class={`grid grid-cols-1 ${colClass} gap-4 md:gap-5`}>
-  {items.map((item, i) => (
-    <a
-      href={item.href}
-      class="stagger-card card p-5 flex flex-col gap-3 group"
-      style={`--stagger-i: ${i}`}
-    >
+<!-- Each card's scroll entrance (and the stagger across a row) comes from
+     src/scripts/reveal.ts, which treats every .card as one block. -->
+<div class={`grid grid-cols-1 ${colClass} gap-4 md:gap-6`}>
+  {items.map((item) => (
+    <a href={item.href} class="card arrow-link p-6 flex flex-col gap-3 group">
       <span class="door-rule pl-4 font-serif font-semibold text-lg leading-snug break-words text-navy-900 group-hover:text-navy-700">
         {item.title}
       </span>
       {item.description && <p class="text-sm text-slate-500 pl-4 leading-relaxed">{item.description}</p>}
-      <span class="pl-4 mt-auto pt-1 text-sm font-semibold text-navy-700 group-hover:text-gold-500">Read more &rarr;</span>
+      <span class="pl-4 mt-auto pt-1 text-sm font-semibold text-navy-700 group-hover:text-gold-500">
+        Read more <span class="arrow" aria-hidden="true">&rarr;</span>
+      </span>
     </a>
   ))}
 </div>
-
-<style>
-  /* Subtle per-card stagger, layered on top of the section-level `.reveal`
-     from src/scripts/reveal.ts. That script only toggles `.reveal`/
-     `.is-visible` on the ancestor <section>; it never touches these cards,
-     so this can't double-animate the same element. Cards stay hidden while
-     the ancestor is mid-reveal, then cascade in on a short, capped delay
-     once `.is-visible` lands. Progressive enhancement: without JS the
-     ancestor never gets `.reveal`, so these rules never match and cards
-     render normally. transform/opacity only, per the animate skill. */
-  @keyframes stagger-card-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  :global(.reveal) .stagger-card {
-    opacity: 0;
-  }
-  :global(.reveal.is-visible) .stagger-card {
-    animation: stagger-card-in var(--duration-base) var(--ease-out) both;
-    animation-delay: min(calc(var(--stagger-i, 0) * 45ms), 300ms);
-  }
-</style>

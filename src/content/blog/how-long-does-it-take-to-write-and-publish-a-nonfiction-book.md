@@ -1,7 +1,7 @@
 ---
 title: "How Long Does It Take to Write and Publish a Nonfiction Book?"
 description: "The real timeline for a nonfiction book, stage by stage, and what actually slows most professionals down along the way."
-heroImage: "/images/blog/how-long-does-it-take-to-write-and-publish-a-nonfiction-book.png"
+heroImage: "/images/blog/how-long-does-it-take-to-write-and-publish-a-nonfiction-book.webp"
 heroImageAlt: "A wall calendar with several months circled in gold marker, beside an hourglass with sand still falling, on a wooden desk"
 cluster: "Timeline"
 pillar: "where-to-start"
@@ -46,7 +46,7 @@ ctaVariant:
 Positioning, not writing. The first stage decides the one reader, the one promise, and the shelf this book competes on. Skipping this feels like progress, because pages get written, but it's the single biggest reason authors end up rewriting chapter three for months. Get this right first and the rest of the timeline shortens.
 
 <figure>
-  <img src="/images/blog/inline/timeline-stages.png" alt="A horizontal bar chart showing how long each stage takes: Positioning about 1 month, Manuscript 8 to 16 weeks, Editing and Launch 8 to 14 weeks" loading="lazy" />
+  <img src="/images/blog/inline/timeline-stages.webp" alt="A horizontal bar chart showing how long each stage takes: Positioning about 1 month, Manuscript 8 to 16 weeks, Editing and Launch 8 to 14 weeks" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Stage durations as described in this article; individual timelines vary by book length and editing passes needed.</figcaption>
 </figure>
 
@@ -75,7 +75,7 @@ Weeks 1 to 4 are positioning: naming the reader, the promise, and the competitiv
 "How long does this take" usually has three honest answers depending on the author's starting material and schedule, not one single number that applies to everyone.
 
 <figure>
-  <img src="/images/blog/inline/timeline-fast-vs-typical.png" alt="A three-column comparison graphic: Fast Track 6 Months, Typical 9 to 12 Months, Extended 18-Plus Months" loading="lazy" />
+  <img src="/images/blog/inline/timeline-fast-vs-typical.webp" alt="A three-column comparison graphic: Fast Track 6 Months, Typical 9 to 12 Months, Extended 18-Plus Months" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 A fast track, around 6 months, is realistic for an author who already has a clear outline, years of usable material like talks or blog posts, and a schedule that allows more frequent extraction sessions than the standard cadence. A typical timeline, 9 to 12 months, fits most working professionals: a full-time job or practice, a normal cadence of sessions, and a standard editing and design schedule. An extended timeline, 18 months or more, usually isn't a sign anything went wrong; it's what happens when an author's schedule genuinely only allows sessions once or twice a month, when a book needs an added technical or compliance review, or when the author deliberately chooses to slow down around a busy season in their own work. All three are legitimate outcomes of the same process. The variable is the author's starting point and calendar, not the quality of the work, and none of the three ranges skips a stage to get there; they simply move through the same stages at a different pace.
@@ -142,7 +142,7 @@ The honest way to think about compressing a timeline is to ask what's actually b
 If the timeline above feels abstract, here's what starting actually looks like in practice, broken into the handful of decisions that move a project from "someday" to a real calendar with a real launch date on it.
 
 <figure>
-  <img src="/images/blog/inline/timeline-checklist.png" alt="A checklist infographic titled Start This Month with four items: Name One Reader, Block Extraction Time, Set A Launch Date, Tell Someone" loading="lazy" />
+  <img src="/images/blog/inline/timeline-checklist.webp" alt="A checklist infographic titled Start This Month with four items: Name One Reader, Block Extraction Time, Set A Launch Date, Tell Someone" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Name one reader, even roughly, before anything else; you can sharpen it later, but a fuzzy first answer beats no answer. Block real time on your actual calendar for extraction sessions, the same way you'd block time for anything else that matters, since "whenever I find time" is how a book quietly becomes a decade-long someday. Set a rough launch date, even a season rather than an exact day, because a target date is what turns the stages above into a real schedule instead of an open-ended project. Tell someone, a colleague, a coach, a strategy call, since a book that only exists in your own head is the easiest kind of project to quietly let slide, and the easiest kind to actually finish once someone else is expecting to hear how it's going.

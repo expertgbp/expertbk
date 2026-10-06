@@ -1,0 +1,206 @@
+---
+/**
+ * The two proof-bank results as a pair of cards, used wherever a page
+ * shows proof (homepage Results band, every profession / book / service
+ * page). Built only from the two entity.ts proof-bank lines (rescueStat,
+ * fastSaleStat): the wide navy card shows the rescue as a before-to-after,
+ * the gold card is the single big number. Nothing here is page-specific
+ * and no number is typed in by hand apart from the ones those two lines
+ * already state.
+ *
+ * Works on both light and dark sections. Always follow it with the income
+ * disclaimer line (the `disclaimer` prop does that for you, on by default).
+ */
+import { entity } from "../data/entity";
+
+interface Props {
+  /** Render the linked income disclaimer under the cards. */
+  disclaimer?: boolean;
+  /** true when the cards sit on a navy section (lighter disclaimer text). */
+  dark?: boolean;
+}
+const { disclaimer = true, dark = false } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-5 lg:grid-cols-5">
+  <article class="proof-story lg:col-span-3">
+    <p class="proof-kicker">A stalled book</p>
+    <div class="proof-shift">
+      <div class="proof-from">
+        <p class="proof-from-num">15</p>
+        <p class="proof-from-label">sales in 15 months</p>
+      </div>
+      <div class="proof-track" aria-hidden="true">
+        <span class="proof-track-line"></span>
+        <span class="proof-track-pill">60 days</span>
+        <span class="proof-track-line"></span>
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </div>
+      <div class="proof-to">
+        <p class="proof-to-title">International bestseller</p>
+      </div>
+    </div>
+    <p class="proof-caption">{entity.proofBank.rescueStat}</p>
+  </article>
+
+  <article class="proof-number lg:col-span-2">
+    <p class="proof-kicker">Five days</p>
+    <p class="proof-number-value"><span data-count-up>1,000+</span></p>
+    <p class="proof-number-label">books sold</p>
+    <p class="proof-caption">{entity.proofBank.fastSaleStat}</p>
+  </article>
+</div>
+{disclaimer && (
+  <p class:list={["mt-6 text-sm", dark ? "opacity-70" : "text-slate-500"]}>
+    <a href="/disclaimer" class="underline underline-offset-2">{entity.incomeDisclaimerLine}</a>
+  </p>
+)}
+
+<style>
+  .proof-story,
+  .proof-number {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 1.75rem 1.5rem;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  @media (min-width: 768px) {
+    .proof-story,
+    .proof-number {
+      padding: 2.25rem 2.5rem;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .proof-story:hover,
+    .proof-number:hover {
+      transform: translateY(-4px);
+    }
+  }
+  .proof-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .proof-caption {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* The rescue: 15 sales, then 60 days, then a bestseller, left to right. */
+  .proof-story {
+    border: 1px solid rgba(255, 217, 138, 0.16);
+    color: var(--color-offwhite-100);
+    background: linear-gradient(135deg, var(--color-navy-700), var(--color-navy-800));
+  }
+  .proof-story .proof-kicker {
+    color: var(--color-gold-300);
+  }
+  .proof-story .proof-caption {
+    opacity: 0.7;
+  }
+  .proof-shift {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .proof-from-num {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.45;
+  }
+  .proof-from-label {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+  .proof-track {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-gold-300);
+  }
+  .proof-track-line {
+    flex: 1;
+    min-width: 1rem;
+    height: 0;
+    border-top: 2px dashed rgba(255, 217, 138, 0.45);
+  }
+  .proof-track-pill {
+    flex-shrink: 0;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255, 217, 138, 0.5);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .proof-track svg {
+    flex-shrink: 0;
+    margin-left: -0.5rem;
+  }
+  .proof-to-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 1.4rem + 1vw, 2.15rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-gold-300);
+  }
+  @media (min-width: 640px) {
+    .proof-shift {
+      flex-direction: row;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .proof-from,
+    .proof-to {
+      flex-shrink: 0;
+    }
+    .proof-track {
+      flex: 1;
+      min-width: 0;
+    }
+    /* "International" and "bestseller" on two lines, never clipped. */
+    .proof-to {
+      width: min-content;
+    }
+  }
+
+  /* The number: a gold surface. */
+  .proof-number {
+    background:
+      radial-gradient(ellipse 80% 70% at 100% 0%, rgba(255, 255, 255, 0.5), transparent 65%),
+      var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  .proof-number .proof-kicker {
+    opacity: 0.7;
+  }
+  .proof-number-value {
+    margin-top: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: clamp(3.75rem, 2.6rem + 4.5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .proof-number-label {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .proof-number .proof-caption {
+    opacity: 0.75;
+  }
+</style>

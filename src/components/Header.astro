@@ -1,165 +1,527 @@
 ---
-import { primaryNav } from "../data/nav";
+import { primaryNav, type PrimaryNavItem } from "../data/nav";
+import { entity } from "../data/entity";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+/** A nav item is "current" when the page is one of its links or lives under its index. */
+function isActive(item: PrimaryNavItem): boolean {
+  if (item.href) return path === item.href;
+  if (item.indexHref && (path === item.indexHref || path.startsWith(`${item.indexHref}/`))) return true;
+  const hrefs = [
+    ...(item.links ?? []).map((l) => l.href),
+    ...(item.groups ?? []).flatMap((g) => g.items.map((l) => l.href)),
+  ];
+  return hrefs.includes(path);
+}
+
+/**
+ * The featured card on the right of a mega panel. Copy reuses lines already
+ * on the site (FinalDoorCTA, the homepage Blueprint section), nothing new
+ * is claimed here.
+ */
+const promos = {
+  call: {
+    eyebrow: "Free strategy call",
+    heading: "Talk your book through with us",
+    body: "A real read on your idea, your positioning, and your path, whether or not we work together.",
+    label: "Book a Strategy Call",
+    href: "/book-a-call",
+    cta: "mega-promo-call",
+  },
+  blueprint: {
+    eyebrow: "Free guide",
+    heading: "The Expert Book Blueprint",
+    body: "How professionals structure a book around a full calendar, and what publishing actually costs.",
+    label: "Get the Free Blueprint",
+    href: "/free-blueprint",
+    cta: "mega-promo-blueprint",
+  },
+} as const;
+
+const chevron = '<path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
 ---
 
-<header class="sticky top-0 z-40 bg-navy-900 text-offwhite-100 border-b border-navy-700">
-  <div class="mx-auto max-w-7xl px-4">
-    <div class="flex items-center justify-between h-16 gap-4">
-      <a href="/" class="font-serif font-bold text-lg shrink-0">WriteExpertBook</a>
+<!-- Utility strip: scrolls away with the page (it sits above the sticky
+     header, not inside it), so it adds a line of proof at the top of every
+     page without making the pinned bar any taller. Facts from entity.ts. -->
+<div class="top-strip hidden md:block">
+  <div class="mx-auto max-w-7xl px-4 flex items-center justify-between gap-6">
+    <p class="top-strip-proof">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2l2.7 6.1 6.6.6-5 4.5 1.5 6.5L12 16.6 6.2 19.7l1.5-6.5-5-4.5 6.6-.6z" fill="currentColor" />
+      </svg>
+      Founded by USA Today and Wall Street Journal bestselling authors
+      <span class="top-strip-sep" aria-hidden="true"></span>
+      {entity.proofBank.authorsCount} authors in {entity.proofBank.countriesCount} countries
+    </p>
+    <div class="top-strip-links">
+      <a href="/case-studies">Case studies</a>
+      <a href="/pricing-and-cost">Pricing</a>
+      <a href="/contact">Talk to a real person</a>
+    </div>
+  </div>
+</div>
 
-      <nav class="hidden lg:flex items-center gap-1 text-sm">
-        {primaryNav.map((item) => (
-          "groups" in item || "links" in item ? (
-            <div class="relative group">
-              <button class="px-3 py-2 rounded hover:bg-navy-700 flex items-center gap-1" aria-haspopup="true">
-                {item.label}
-                <svg width="10" height="10" viewBox="0 0 10 10" class="mt-0.5" aria-hidden="true"><path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+<header class="site-header sticky top-0 z-40 bg-navy-900 text-offwhite-100" data-header>
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="site-bar flex items-stretch justify-between gap-4">
+      <a href="/" class="site-logo flex items-center gap-2.5 shrink-0" aria-label="WriteExpertBook home">
+        <span class="site-logo-mark" aria-hidden="true">
+          <!-- An open door with light behind it: the brand's "book as a door". -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M6 21V4.5a1 1 0 0 1 .8-1L15 2v20l-8.2-1.1a1 1 0 0 1-.8-1z" fill="currentColor" />
+            <path d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            <circle cx="12" cy="12.5" r="1.1" fill="var(--color-gold-300)" />
+          </svg>
+        </span>
+        <span class="site-logo-word">WriteExpert<span>Book</span></span>
+      </a>
+
+      <nav class="hidden lg:flex items-stretch text-[0.9375rem]" aria-label="Primary">
+        {primaryNav.map((item, idx) => {
+          const active = isActive(item);
+          if (item.href) {
+            return (
+              <a href={item.href} class="nav-trigger" data-active={active ? "" : undefined} aria-current={active ? "page" : undefined}>
+                <span class="nav-trigger-label">{item.label}</span>
+              </a>
+            );
+          }
+          const promo = item.promo ? promos[item.promo] : undefined;
+          const wide = Boolean(item.groups && item.groups.length >= 5);
+          return (
+            <div class="nav-item flex items-stretch" data-nav-item>
+              <button
+                type="button"
+                class="nav-trigger"
+                aria-expanded="false"
+                aria-controls={`mega-${idx}`}
+                data-active={active ? "" : undefined}
+              >
+                <span class="nav-trigger-label">{item.label}</span>
+                <svg width="10" height="10" viewBox="0 0 10 10" class="nav-chevron" aria-hidden="true" set:html={chevron} />
               </button>
-              <div class="mega-panel invisible opacity-0 -translate-y-1 origin-top group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-[opacity,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] fixed top-16 w-[min(94vw,64rem)] z-50">
-                <div class="mega-surface relative bg-white text-ink-900 rounded-xl border border-navy-100 shadow-2xl overflow-hidden">
+
+              <div id={`mega-${idx}`} class="mega-panel" data-mega-panel>
+                <div class:list={["mega-surface bg-white", wide || promo ? "mega-surface-wide" : "mega-surface-narrow"]}>
                   <span class="mega-top-accent" aria-hidden="true"></span>
-                  {"groups" in item && (
-                    <div class:list={["grid gap-x-8 gap-y-8 p-7", item.groups.length >= 5 ? "sm:grid-cols-3 lg:grid-cols-5" : "sm:grid-cols-3"]}>
-                      {item.groups.map((group, gi) => {
-                        const tint = gi % 2 === 0 ? "navy" : "gold";
-                        return (
-                          <div class="min-w-0">
+
+                  <div class:list={["mega-body", promo && "mega-body-with-promo"]}>
+                    {item.groups && (
+                      <div class="mega-groups" style={`--mega-cols:${item.groups.length}`}>
+                        {item.groups.map((group, gi) => (
+                          <div class="mega-col min-w-0" style={`--i:${gi}`}>
                             {group.headingHref ? (
-                              <a href={group.headingHref} class="mega-group-heading font-serif font-semibold text-base block hover:text-gold-500">{group.heading}</a>
+                              <a href={group.headingHref} class="mega-heading">
+                                <span class="mega-heading-icon" aria-hidden="true">
+                                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" set:html={group.icon ?? ""} />
+                                </span>
+                                <span>{group.heading}</span>
+                              </a>
                             ) : (
-                              <p class="mega-group-heading font-serif font-semibold text-base">{group.heading}</p>
+                              <p class="mega-heading">{group.heading}</p>
                             )}
-                            <ul class="mt-3 space-y-2 border-t border-navy-100 pt-3">
+                            <ul class="mega-list">
                               {group.items.map((link) => (
                                 <li>
-                                  <a href={link.href} class="mega-shine -mx-2 flex items-center gap-2.5 rounded-md px-2 py-1 text-[0.85rem] text-slate-500 hover:text-navy-900">
-                                    <span class:list={["flex h-6 w-6 shrink-0 items-center justify-center rounded-full", tint === "navy" ? "bg-navy-100 text-navy-700" : "bg-gold-100 text-navy-900"]} aria-hidden="true">
-                                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? group.icon ?? ""} />
+                                  <a href={link.href} class="mega-link" data-cta={`nav-${link.href.split("/").pop()}`}>
+                                    <span class="mega-link-icon" aria-hidden="true">
+                                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? group.icon ?? ""} />
                                     </span>
-                                    {link.label}
+                                    <span class="min-w-0">{link.label}</span>
                                   </a>
                                 </li>
                               ))}
                             </ul>
                           </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                  {"links" in item && (
-                    <div class="grid gap-x-6 gap-y-1 p-5 sm:grid-cols-2">
-                      {item.links.map((link, li) => (
-                        <a href={link.href} class="mega-link mega-shine relative flex items-start gap-3 rounded-lg p-3 hover:bg-ivory-50" data-cta={`nav-${link.href.split("/").pop()}`}>
-                          <span class:list={["flex h-9 w-9 shrink-0 items-center justify-center rounded-full", li % 2 === 0 ? "bg-navy-100 text-navy-700" : "bg-gold-100 text-navy-900"]} aria-hidden="true">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
-                          </span>
-                          <span class="min-w-0">
-                            <span class="block text-sm font-semibold text-ink-900">{link.label}</span>
-                            {link.description && <span class="block text-xs text-slate-500 leading-snug mt-0.5">{link.description}</span>}
-                          </span>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  {"indexHref" in item && item.indexHref && (
-                    <div class="border-t border-navy-100 px-7 py-3">
-                      <a href={item.indexHref} class="text-sm font-semibold text-navy-700 hover:text-gold-500">{("seeAllLabel" in item && item.seeAllLabel) || "See all"} &rarr;</a>
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
+
+                    {item.links && (
+                      <div class:list={["mega-tiles", item.links.length > 6 && "mega-tiles-3"]}>
+                        {item.links.map((link, li) => (
+                          <a href={link.href} class="mega-tile mega-col" style={`--i:${Math.floor(li / 2)}`} data-cta={`nav-${link.href.split("/").pop()}`}>
+                            <span class="mega-tile-icon" aria-hidden="true">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
+                            </span>
+                            <span class="min-w-0">
+                              <span class="mega-tile-label">{link.label}</span>
+                              {link.description && <span class="mega-tile-desc">{link.description}</span>}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
+                    {promo && (
+                      <aside class="mega-promo mega-col on-navy-surface" style="--i:3">
+                        <p class="eyebrow">{promo.eyebrow}</p>
+                        <p class="mega-promo-heading">{promo.heading}</p>
+                        <p class="mega-promo-body">{promo.body}</p>
+                        <a href={promo.href} class="btn-primary text-sm mt-auto" data-cta={promo.cta}>{promo.label}</a>
+                      </aside>
+                    )}
+                  </div>
+
+                  <div class="mega-foot">
+                    {item.indexHref ? (
+                      <a href={item.indexHref} class="arrow-link mega-foot-link">
+                        {item.seeAllLabel ?? "See all"} <span class="arrow" aria-hidden="true">&rarr;</span>
+                      </a>
+                    ) : (
+                      <a href="/start" class="arrow-link mega-foot-link">
+                        New here? Start here <span class="arrow" aria-hidden="true">&rarr;</span>
+                      </a>
+                    )}
+                    <p class="mega-foot-note">
+                      <svg width="14" height="14" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                        <circle cx="7.5" cy="7.5" r="7" stroke="currentColor" stroke-width="1.3" />
+                        <path d="M4.5 7.7l2 2 4-4.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      You keep 100% of your rights and royalties
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div class="nav-scrim invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-[var(--duration-base)] ease-[var(--ease-out)] fixed inset-x-0 top-16 bottom-0 z-30 bg-navy-900/45" aria-hidden="true"></div>
             </div>
-          ) : (
-            <a href={item.href} class="px-3 py-2 rounded hover:bg-navy-700">{item.label}</a>
-          )
-        ))}
+          );
+        })}
       </nav>
 
-      <div class="hidden lg:flex items-center gap-2 shrink-0">
-        <a href="/free-blueprint" class="btn-secondary text-sm" data-cta="header-blueprint">Get the Free Blueprint</a>
-        <a href="/book-a-call" class="btn-primary text-sm" data-cta="header-call">Book a Strategy Call</a>
+      <div class="hidden lg:flex items-center gap-1.5 shrink-0">
+        <a href="/free-blueprint" class="header-link hidden xl:inline-flex" data-cta="header-blueprint">
+          <svg width="15" height="15" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M8.5 2v9.5M4.5 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M2.5 13.5v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+          Free Blueprint
+        </a>
+        <a href="/book-a-call" class="btn-primary header-btn arrow-link" data-cta="header-call">
+          Book a Strategy Call
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
       </div>
 
-      <button id="mobile-nav-toggle" class="lg:hidden min-w-11 min-h-11 flex items-center justify-center -mr-1.5" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <button
+        id="mobile-nav-toggle"
+        type="button"
+        class="mobile-toggle lg:hidden self-center min-w-11 min-h-11 flex items-center justify-center -mr-1.5"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Open menu"
+      >
+        <span class="mobile-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
       </button>
     </div>
   </div>
 
-  <div id="mobile-nav" class="lg:hidden mobile-nav-panel border-t border-navy-700 bg-navy-900">
-    <div class="px-4 py-4 space-y-4 max-h-[70vh] overflow-y-auto">
-      {primaryNav.map((item) => (
-        <div>
-          {"href" in item ? (
-            <a href={item.href} class="block font-semibold py-2.5 min-h-11 flex items-center">{item.label}</a>
-          ) : (
-            <details>
-              <summary class="font-semibold py-2.5 min-h-11 flex items-center cursor-pointer">{item.label}</summary>
-              <div class="pl-3 pt-2 space-y-3">
-                {"groups" in item && item.groups.map((group) => (
-                  <div>
-                    {group.headingHref ? (
-                      <a href={group.headingHref} class="eyebrow mb-1 block hover:text-gold-300">{group.heading}</a>
-                    ) : (
-                      <p class="eyebrow mb-1">{group.heading}</p>
-                    )}
-                    <ul class="space-y-1">
-                      {group.items.map((link) => (<li><a href={link.href} class="text-sm opacity-90 inline-block py-1.5">{link.label}</a></li>))}
-                    </ul>
-                  </div>
-                ))}
-                {"links" in item && (
-                  <ul class="space-y-1">
-                    {item.links.map((link) => (<li><a href={link.href} class="text-sm opacity-90 inline-block py-1.5">{link.label}</a></li>))}
+  <!-- Dims the page under an open mega panel or the open mobile menu, so
+       the panel reads as a clear top layer over busy page content. -->
+  <div class="nav-scrim" data-nav-scrim aria-hidden="true"></div>
+
+  <div id="mobile-nav" class="mobile-nav-panel lg:hidden" data-mobile-nav>
+    <nav class="mobile-nav-scroll" aria-label="Mobile">
+      {primaryNav.map((item) =>
+        item.href ? (
+          <a href={item.href} class="mobile-nav-row">{item.label}</a>
+        ) : (
+          <details class="mobile-nav-group" name="mobile-nav">
+            <summary class="mobile-nav-row">
+              {item.label}
+              <svg width="12" height="12" viewBox="0 0 10 10" class="mobile-nav-chevron" aria-hidden="true" set:html={chevron} />
+            </summary>
+            <div class="mobile-nav-sub">
+              {item.groups?.map((group) => (
+                <div class="mobile-nav-block">
+                  {group.headingHref ? (
+                    <a href={group.headingHref} class="eyebrow mobile-nav-heading">{group.heading}</a>
+                  ) : (
+                    <p class="eyebrow mobile-nav-heading">{group.heading}</p>
+                  )}
+                  <ul class="mobile-nav-links">
+                    {group.items.map((link) => (
+                      <li>
+                        <a href={link.href} class="mobile-nav-link">
+                          <span class="mobile-nav-icon" aria-hidden="true">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? group.icon ?? ""} />
+                          </span>
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
-                )}
-              </div>
-            </details>
-          )}
-        </div>
-      ))}
-    </div>
+                </div>
+              ))}
+              {item.links && (
+                <ul class="mobile-nav-links">
+                  {item.links.map((link) => (
+                    <li>
+                      <a href={link.href} class="mobile-nav-link">
+                        <span class="mobile-nav-icon" aria-hidden="true">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" set:html={link.icon ?? ""} />
+                        </span>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {item.indexHref && (
+                <a href={item.indexHref} class="mobile-nav-all">{item.seeAllLabel ?? "See all"} &rarr;</a>
+              )}
+            </div>
+          </details>
+        )
+      )}
+    </nav>
   </div>
 </header>
 
+<!-- Mobile sticky dual CTA bar (brief 5.1). Its spacer lives at the very
+     end of the footer, so the bar never covers the last footer row. -->
+<div class="mobile-sticky-cta lg:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900 border-t border-navy-700 flex gap-2.5">
+  <a href="/free-blueprint" class="btn-secondary text-offwhite-100 flex-1 text-sm" data-cta="mobile-sticky-blueprint">Free Blueprint</a>
+  <a href="/book-a-call" class="btn-primary flex-1 text-sm" data-cta="mobile-sticky-call">Book a Call</a>
+</div>
+
 <style>
-  /* Mega panels are position:fixed (so they render above everything
-     regardless of ancestor stacking/overflow contexts) but that means
-     they have no reliable default horizontal position — a fixed element
-     with no `left` set falls back to an inconsistent, browser-dependent
-     "static position" guess, not the trigger's actual location. The
-     <script> below measures each trigger and sets `left` in JS instead,
-     clamped so the panel never overflows either edge of the viewport
-     (this is what broke before: the two widest panels, For Experts and
-     Your Book, could run past the right edge with no visible scrollbar
-     because <html> uses `overflow-x: clip` sitewide). */
-
-  /* Reserves 2 lines' worth of height for every group heading in a
-     grouped mega panel (For Experts, Your Book), regardless of whether
-     that particular heading actually wraps ("Leadership & Career" does,
-     the rest don't). Without this, the one column with a wrapping
-     heading pushes its description/list down while its neighbors don't,
-     breaking the row alignment across the whole panel. */
-  .mega-group-heading {
-    display: block;
-    min-height: 2.3rem;
+  /* ---------- Utility strip ---------- */
+  .top-strip {
+    background: var(--color-navy-900);
+    border-bottom: 1px solid rgba(245, 241, 232, 0.08);
+    color: rgba(245, 241, 232, 0.72);
+    font-size: 0.78rem;
+  }
+  .top-strip > div {
+    min-height: 2.25rem;
+  }
+  .top-strip-proof {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-strip-proof svg {
+    flex-shrink: 0;
+    color: var(--color-gold-300);
+  }
+  .top-strip-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+  }
+  .top-strip-links {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .top-strip-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    font-weight: 500;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .top-strip-links a:hover {
+      color: var(--color-gold-300);
+    }
   }
 
-  /* The dimmed backdrop behind an open mega panel: keeps the panel
-     reading as a clear top layer against a busy page (large serif
-     headline text, etc.) instead of visually blending into it. Sits
-     below the header's own z-40 stacking context by not overlapping the
-     header bar at all (top-16 = the header's own height), so the bar
-     itself always stays fully lit; only the page content below it dims. */
-  .nav-scrim {
+  /* ---------- Header bar ---------- */
+  /* One solid navy band, edge to edge: the bar and the strip around it are
+     the same surface (no inset panel in a second shade). */
+  .site-header {
+    border-bottom: 1px solid rgba(255, 217, 138, 0.14);
+    transition: box-shadow var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+  }
+  /* Once the page has scrolled, the band lifts off the content beneath it. */
+  .site-header[data-scrolled] {
+    border-bottom-color: rgba(255, 217, 138, 0.28);
+    box-shadow: 0 14px 34px -16px rgba(3, 12, 22, 0.8);
+  }
+  .site-bar {
+    height: 4.5rem;
+  }
+
+  /* Logo: a gold tile with an open-door glyph, then the wordmark with
+     "Book" picked out in gold. */
+  .site-logo-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 10px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .site-logo-word {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .site-logo-word span {
+    color: var(--color-gold-300);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .site-logo:hover .site-logo-mark {
+      transform: rotate(-6deg) scale(1.05);
+    }
+  }
+
+  /* Triggers fill the bar's full height, so the pointer travels from a
+     trigger down toward its panel without a dead strip inside the bar. */
+  .nav-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-inline: 0.9rem;
+    font-weight: 500;
+    color: rgba(245, 241, 232, 0.84);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .nav-trigger > * {
+    position: relative;
+  }
+  /* A soft pill behind the label: fades in on hover, stays on while that
+     trigger's panel is open. */
+  .nav-trigger::before {
+    content: "";
+    position: absolute;
+    inset: 1rem 0.15rem;
+    border-radius: 999px;
+    background: rgba(255, 217, 138, 0.12);
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity var(--duration-fast) var(--ease-hover), transform var(--duration-base) var(--ease-out);
+  }
+  /* A gold dot under the section the current page lives in. */
+  .nav-trigger::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.7rem;
+    width: 5px;
+    height: 5px;
+    margin-left: -2.5px;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+  .nav-trigger[data-active],
+  .nav-item[data-open] > .nav-trigger {
+    color: var(--color-offwhite-100);
+  }
+  .nav-trigger[data-active]::after {
+    opacity: 1;
+  }
+  .nav-item[data-open] > .nav-trigger::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .nav-chevron {
+    opacity: 0.7;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .nav-item[data-open] .nav-chevron {
+    transform: rotate(180deg);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-trigger:hover {
+      color: var(--color-offwhite-100);
+    }
+    .nav-trigger:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .header-btn {
+    font-size: 0.875rem;
+    padding: 0.6rem 1.1rem 0.6rem 1.2rem;
+    gap: 0.4rem;
+  }
+  .header-link {
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    padding-inline: 0.9rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-offwhite-100);
+    transition: color var(--duration-fast) var(--ease-hover), background-color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .header-link:hover {
+      color: var(--color-gold-300);
+      background: rgba(255, 217, 138, 0.1);
+    }
+  }
+
+  /* ---------- Mega panel ---------- */
+  /* Anchored to the header itself (the sticky bar is the containing
+     block), not to its trigger: every panel opens centered under the bar
+     at one consistent position, and can never run off either edge. */
+  .mega-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: 0.5rem 1rem 0;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
     pointer-events: none;
+    /* Exit is quicker than the entrance: the system gets out of the way fast. */
+    transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out), visibility 0s linear 120ms;
+  }
+  .nav-item[data-open] > .mega-panel,
+  .site-header:not([data-js]) .nav-item:hover > .mega-panel,
+  .site-header:not([data-js]) .nav-item:focus-within > .mega-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-out), visibility 0s;
+  }
+  /* Moving between two open panels swaps them instantly: only the first
+     open of a visit to the nav gets the entrance (the same rule as
+     neighboring tooltips, per the animate skill). */
+  .site-header[data-mega-instant] .mega-panel {
+    transition: none;
   }
 
-  /* A thin navy-gold-navy gradient bar across the top of every mega
-     panel — a static styling touch (not motion), the same restraint
-     principle as one signature button treatment: spend the "stylish"
-     budget in one deliberate place rather than decorating every edge. */
+  .mega-surface {
+    position: relative;
+    margin-inline: auto;
+    overflow: hidden;
+    color: var(--color-ink-900);
+    background: #fff;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -22px rgba(8, 31, 51, 0.5), 0 2px 6px -2px rgba(8, 31, 51, 0.12);
+  }
+  .mega-surface-wide {
+    max-width: 76rem;
+  }
+  .mega-surface-narrow {
+    max-width: 56rem;
+  }
   .mega-top-accent {
     position: absolute;
     inset: 0 0 auto 0;
@@ -167,144 +529,539 @@ import { primaryNav } from "../data/nav";
     background: linear-gradient(90deg, var(--color-navy-700), var(--color-gold-300) 50%, var(--color-navy-700));
   }
 
-  .mega-icon-badge {
-    box-shadow: inset 0 0 0 1px rgba(8, 31, 51, 0.06);
+  .mega-body {
+    display: grid;
+    gap: 1.75rem;
+    padding: 1.9rem 1.9rem 1.6rem;
+  }
+  @media (min-width: 1152px) {
+    .mega-body-with-promo {
+      grid-template-columns: minmax(0, 1fr) 17.5rem;
+    }
   }
 
-  /*
-    "3D shine" hover: the same one-shot diagonal sheen already used on
-    every .card sitewide (global.css), applied here to mega-menu links
-    instead of inventing a new hover effect. Gold-tinted, single sweep on
-    hover-enter (not a looping shimmer), transform/opacity-adjacent
-    (background-position + opacity only) so it stays in the site's
-    established low-motion tier.
-  */
-  .mega-shine {
-    position: relative;
-    overflow: hidden;
+  /* Columns cascade in on the first open (30-80ms stagger band). */
+  @keyframes mega-col-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
   }
-  .mega-shine::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(115deg, transparent 30%, rgba(255, 217, 138, 0.35) 48%, transparent 66%);
-    background-size: 250% 100%;
-    background-position: 150% 0;
-    opacity: 0;
-    pointer-events: none;
+  .nav-item[data-open] .mega-col {
+    animation: mega-col-in 320ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 35ms + 40ms);
   }
+  .site-header[data-mega-instant] .mega-col {
+    animation: none;
+  }
+
+  /* Grouped panels (For Experts, Your Book) */
+  .mega-groups {
+    display: grid;
+    grid-template-columns: repeat(var(--mega-cols, 3), minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .mega-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-navy-100);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-navy-900);
+    /* Two lines reserved, so a heading that wraps ("Leadership & Career")
+       doesn't push its list out of line with its neighbors'. */
+    min-height: 3.35rem;
+  }
+  .mega-heading-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 9px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .mega-list {
+    display: grid;
+    gap: 1px;
+  }
+  .mega-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-inline: -0.5rem;
+    padding: 0.42rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: var(--color-slate-500);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover);
+  }
+  .mega-link-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-top: -0.05rem;
+    border-radius: 999px;
+    background: var(--color-navy-100);
+    color: var(--color-navy-700);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover);
+  }
+
+  /* Tile panels (Services, Resources) */
+  .mega-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 0.75rem;
+    align-content: start;
+  }
+  @media (min-width: 1152px) {
+    .mega-tiles-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .mega-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 12px;
+    transition: background-color var(--duration-fast) var(--ease-hover);
+  }
+  .mega-tile-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 11px;
+    background: var(--color-navy-100);
+    color: var(--color-navy-700);
+    transition: background-color var(--duration-fast) var(--ease-hover), color var(--duration-fast) var(--ease-hover),
+      transform var(--duration-base) var(--ease-out);
+  }
+  .mega-tile-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-ink-900);
+  }
+  .mega-tile-desc {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--color-slate-500);
+  }
+
   @media (hover: hover) and (pointer: fine) {
-    .mega-shine::before {
-      transition: background-position var(--duration-slow) var(--ease-out), opacity var(--duration-fast) var(--ease-hover);
+    .mega-heading[href]:hover {
+      color: var(--color-navy-600);
     }
-    .mega-shine:hover::before {
-      background-position: -50% 0;
-      opacity: 1;
+    .mega-link:hover {
+      background: var(--color-ivory-50);
+      color: var(--color-navy-900);
+    }
+    .mega-link:hover .mega-link-icon,
+    .mega-tile:hover .mega-tile-icon {
+      background: var(--color-navy-900);
+      color: var(--color-gold-300);
+    }
+    .mega-tile:hover {
+      background: var(--color-ivory-50);
+    }
+    .mega-tile:hover .mega-tile-icon {
+      transform: translateY(-2px);
     }
   }
 
-  /* Mobile nav open/close: an accordion-style reveal, one of the few cases
-     where animating a layout property (max-height) is the accepted
-     exception, since there's no transform equivalent for "how much of a
-     variable-height panel is visible." Kept fast (tens-of-times-a-session
-     tier) and gated by the global prefers-reduced-motion rule. */
-  .mobile-nav-panel {
-    max-height: 0;
-    opacity: 0;
+  /* Featured card: the one navy surface in a white panel, so the panel
+     always ends on the page's main action. Hidden on narrower desktops,
+     where the links need the room. */
+  .mega-promo {
+    display: none;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
     overflow: hidden;
-    transition: max-height var(--duration-base) var(--ease-out),
-      opacity var(--duration-base) var(--ease-out);
+    padding: 1.4rem;
+    border-radius: 14px;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 90% 70% at 100% 0%, rgba(255, 217, 138, 0.22), transparent 65%),
+      var(--color-navy-900);
   }
-  .mobile-nav-panel.is-open {
-    max-height: 80vh;
-    opacity: 1;
+  @media (min-width: 1152px) {
+    .mega-promo {
+      display: flex;
+    }
+  }
+  .mega-promo-heading {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .mega-promo-body {
+    margin-bottom: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.8;
   }
 
-  /* Escape-to-close for the desktop dropdowns: these open on CSS
-     :focus-within, so a forced-closed override is needed while focus
-     returns to the trigger (otherwise :focus-within on the button would
-     immediately reopen the panel). Cleared once focus leaves the group. */
-  .group.force-closed > div {
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+  .mega-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding: 0.9rem 1.9rem;
+    border-top: 1px solid var(--color-navy-100);
+    background: var(--color-ivory-50);
+    font-size: 0.875rem;
+  }
+  .mega-foot-link {
+    font-weight: 600;
+    color: var(--color-navy-700);
+  }
+  .mega-foot-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--color-slate-500);
+  }
+  .mega-foot-note svg {
+    color: var(--color-gold-500);
+  }
+
+  /* ---------- Scrim ---------- */
+  .nav-scrim {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 100vh;
+    background: rgba(8, 31, 51, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 160ms var(--ease-out), visibility 0s linear 160ms;
+  }
+  .site-header[data-mega-open] .nav-scrim,
+  .site-header[data-mobile-open] .nav-scrim {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 220ms var(--ease-out), visibility 0s;
+  }
+  .site-header[data-mobile-open] .nav-scrim {
+    pointer-events: auto;
+  }
+
+  /* ---------- Mobile menu ---------- */
+  .mobile-toggle-bars {
+    position: relative;
+    display: block;
+    width: 22px;
+    height: 16px;
+  }
+  .mobile-toggle-bars span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-fast) var(--ease-hover);
+  }
+  .mobile-toggle-bars span:nth-child(1) { top: 0; }
+  .mobile-toggle-bars span:nth-child(2) { top: 7px; }
+  .mobile-toggle-bars span:nth-child(3) { top: 14px; }
+  .mobile-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .mobile-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .mobile-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* An overlay sheet under the bar (not an in-flow block: opening it no
+     longer shoves the whole page down). transform/opacity only. */
+  .mobile-nav-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: var(--color-navy-900);
+    border-top: 1px solid var(--color-navy-700);
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 30px 50px -20px rgba(3, 12, 22, 0.7);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out), visibility 0s linear 140ms;
+  }
+  .site-header[data-mobile-open] .mobile-nav-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 220ms var(--ease-out), transform 260ms var(--ease-out), visibility 0s;
+  }
+  .mobile-nav-scroll {
+    display: block;
+    /* --mobile-nav-max is set from JS on open (the bar's real bottom edge
+       plus the sticky CTA bar); the fallback covers the no-JS case. */
+    max-height: var(--mobile-nav-max, calc(100dvh - 8.5rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.5rem 1rem 1.25rem;
+  }
+  .mobile-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.25rem;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .mobile-nav-scroll > * + * {
+    border-top: 1px solid rgba(245, 241, 232, 0.1);
+  }
+  .mobile-nav-chevron {
+    flex-shrink: 0;
+    color: var(--color-gold-300);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .mobile-nav-group[open] .mobile-nav-chevron {
+    transform: rotate(180deg);
+  }
+  .mobile-nav-sub {
+    display: grid;
+    gap: 1.1rem;
+    padding: 0.25rem 0 1.25rem;
+  }
+  .mobile-nav-heading {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--color-gold-300);
+  }
+  .mobile-nav-links {
+    display: grid;
+    gap: 0 1rem;
+  }
+  @media (min-width: 480px) {
+    .mobile-nav-links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.75rem;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: rgba(245, 241, 232, 0.88);
+  }
+  .mobile-nav-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: var(--color-navy-700);
+    color: var(--color-gold-300);
+  }
+  .mobile-nav-all {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-gold-300);
   }
 
   /* Keyboard focus should be clearly visible against navy, matching the
      brand's gold accent rather than the browser default. */
   header a:focus-visible,
-  header button:focus-visible {
+  header button:focus-visible,
+  header summary:focus-visible {
     outline: 2px solid var(--color-gold-300);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 6px;
+  }
+  .nav-trigger:focus-visible {
+    outline-offset: -6px;
   }
 
   /* Safe-area aware sticky mobile CTA bar (notched phones: iOS home
      indicator etc., requires viewport-fit=cover, set in BaseLayout). */
   .mobile-sticky-cta {
     padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
-  }
-  .mobile-sticky-cta-spacer {
-    height: calc(3.5rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -10px 24px -14px rgba(3, 12, 22, 0.8);
   }
   /* Keep the two CTAs comfortably legible on the narrowest phones. */
-  @media (max-width: 360px) {
-    .mobile-sticky-cta .btn-primary,
-    .mobile-sticky-cta .btn-secondary {
-      padding-inline: 1rem;
-    }
+  .mobile-sticky-cta .btn-primary,
+  .mobile-sticky-cta .btn-secondary {
+    white-space: nowrap;
+    padding-inline: 0.75rem;
   }
 </style>
 
-<!-- Mobile sticky dual CTA bar (brief 5.1) -->
-<div class="mobile-sticky-cta lg:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900 border-t border-navy-700 flex gap-2">
-  <a href="/free-blueprint" class="btn-secondary text-offwhite-100 flex-1 text-sm" data-cta="mobile-sticky-blueprint">Free Blueprint</a>
-  <a href="/book-a-call" class="btn-primary flex-1 text-sm" data-cta="mobile-sticky-call">Book a Call</a>
-</div>
-<div class="mobile-sticky-cta-spacer lg:hidden" aria-hidden="true"></div>
-
 <script>
-  const toggle = document.getElementById("mobile-nav-toggle");
-  const panel = document.getElementById("mobile-nav");
-  toggle?.addEventListener("click", () => {
-    const isOpen = panel?.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", String(!!isOpen));
-  });
+  const header = document.querySelector<HTMLElement>("[data-header]");
 
-  // Desktop mega panels are position:fixed with no default `left`, so
-  // measure each trigger and set it in JS, clamped to the viewport. Kept
-  // close to the trigger (not viewport-centered) so the mouse never has
-  // to cross a dead zone between the button and the panel on the way
-  // down — that gap would break the CSS group-hover chain and close the
-  // menu before the pointer arrives.
-  function positionMegaPanels() {
-    document.querySelectorAll<HTMLElement>("header nav .group").forEach((group) => {
-      const trigger = group.querySelector<HTMLElement>("button");
-      const panel = group.querySelector<HTMLElement>(".mega-panel");
-      if (!trigger || !panel) return;
-      const margin = 16;
-      const triggerLeft = trigger.getBoundingClientRect().left;
-      const maxLeft = window.innerWidth - panel.offsetWidth - margin;
-      panel.style.left = `${Math.max(margin, Math.min(triggerLeft, maxLeft))}px`;
+  if (header) {
+    // Flags that JS is driving the menus, which switches off the CSS-only
+    // :hover/:focus-within fallback in the <style> above.
+    header.setAttribute("data-js", "");
+
+    /* ---------- Scrolled state ---------- */
+    const onScroll = () => header.toggleAttribute("data-scrolled", window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    /* ---------- Desktop mega menu ---------- */
+    const items = Array.from(header.querySelectorAll<HTMLElement>("[data-nav-item]"));
+    let openItem: HTMLElement | null = null;
+    let openedBy: "hover" | "click" | null = null;
+    let openTimer = 0;
+    let closeTimer = 0;
+
+    // Hover intent: a short pause before the first open (so a pointer just
+    // passing over the bar doesn't flash a panel), a slightly longer one
+    // before switching panels (so a diagonal move toward a far column of
+    // the open panel doesn't swap it for a neighbor), and a grace period
+    // before closing.
+    const OPEN_DELAY = 80;
+    const SWITCH_DELAY = 110;
+    const CLOSE_DELAY = 170;
+
+    const triggerOf = (item: HTMLElement) => item.querySelector<HTMLButtonElement>(":scope > button");
+
+    function setOpen(item: HTMLElement | null, by: "hover" | "click" | null = null) {
+      window.clearTimeout(openTimer);
+      window.clearTimeout(closeTimer);
+      if (item === openItem) return;
+      // Instant swap only when going panel-to-panel.
+      header!.toggleAttribute("data-mega-instant", Boolean(item && openItem));
+      if (openItem) {
+        openItem.removeAttribute("data-open");
+        triggerOf(openItem)?.setAttribute("aria-expanded", "false");
+      }
+      openItem = item;
+      openedBy = item ? by : null;
+      if (item) {
+        item.setAttribute("data-open", "");
+        triggerOf(item)?.setAttribute("aria-expanded", "true");
+      }
+      header!.toggleAttribute("data-mega-open", Boolean(item));
+    }
+
+    items.forEach((item) => {
+      const trigger = triggerOf(item);
+      if (!trigger) return;
+
+      item.addEventListener("pointerenter", (event) => {
+        if (event.pointerType !== "mouse") return;
+        window.clearTimeout(closeTimer);
+        if (openItem === item) return;
+        openTimer = window.setTimeout(() => setOpen(item, "hover"), openItem ? SWITCH_DELAY : OPEN_DELAY);
+      });
+      item.addEventListener("pointerleave", (event) => {
+        if (event.pointerType !== "mouse") return;
+        window.clearTimeout(openTimer);
+        closeTimer = window.setTimeout(() => setOpen(null), CLOSE_DELAY);
+      });
+
+      // Click (touch, pen, keyboard Enter/Space): a real toggle. A mouse
+      // click on a panel that hover already opened keeps it open instead
+      // of slamming it shut under the pointer.
+      trigger.addEventListener("click", () => {
+        if (openItem === item && openedBy === "click") setOpen(null);
+        else if (openItem === item) openedBy = "click";
+        else setOpen(item, "click");
+      });
+
+      trigger.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowDown") return;
+        event.preventDefault();
+        setOpen(item, "click");
+        item.querySelector<HTMLElement>("[data-mega-panel] a")?.focus();
+      });
+
+      // Tabbing out of the item (to the next trigger, or past the nav) closes it.
+      item.addEventListener("focusout", (event) => {
+        const next = event.relatedTarget as Node | null;
+        if (next && !item.contains(next) && openItem === item) setOpen(null);
+      });
     });
-  }
-  positionMegaPanels();
-  window.addEventListener("resize", positionMegaPanels);
 
-  // Desktop dropdowns: Escape returns focus to the trigger and closes the
-  // panel (see .force-closed in the <style> above for why a class is
-  // needed alongside :focus-within).
-  document.querySelectorAll<HTMLElement>("header nav .group").forEach((group) => {
-    group.addEventListener("keydown", (event) => {
+    /* ---------- Mobile menu ---------- */
+    const toggle = document.getElementById("mobile-nav-toggle");
+    const mobilePanel = header.querySelector<HTMLElement>("[data-mobile-nav]");
+    const stickyBar = document.querySelector<HTMLElement>(".mobile-sticky-cta");
+
+    function setMobile(open: boolean) {
+      if (!toggle || !mobilePanel) return;
+      if (open) {
+        const top = header!.getBoundingClientRect().bottom;
+        const bar = stickyBar?.offsetHeight ?? 0;
+        mobilePanel.style.setProperty("--mobile-nav-max", `${Math.max(240, window.innerHeight - top - bar - 8)}px`);
+      }
+      header!.toggleAttribute("data-mobile-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      // Stop the page scrolling behind the open sheet.
+      document.documentElement.style.overflowY = open ? "hidden" : "";
+    }
+    const mobileIsOpen = () => header.hasAttribute("data-mobile-open");
+
+    toggle?.addEventListener("click", () => setMobile(!mobileIsOpen()));
+    mobilePanel?.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) setMobile(false);
+    });
+
+    /* ---------- Shared dismissals ---------- */
+    header.querySelector("[data-nav-scrim]")?.addEventListener("click", () => {
+      setOpen(null);
+      setMobile(false);
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!header.contains(event.target as Node)) setOpen(null);
+    });
+    document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
-      group.classList.add("force-closed");
-      group.querySelector("button")?.focus();
-    });
-    group.addEventListener("focusout", (event) => {
-      const next = event.relatedTarget as Node | null;
-      if (!next || !group.contains(next)) {
-        group.classList.remove("force-closed");
+      if (openItem) {
+        const trigger = triggerOf(openItem);
+        setOpen(null);
+        trigger?.focus();
+      }
+      if (mobileIsOpen()) {
+        setMobile(false);
+        toggle?.focus();
       }
     });
-  });
+    // Crossing the lg breakpoint with a menu open would leave it stranded.
+    window.matchMedia("(min-width: 1024px)").addEventListener("change", () => {
+      setOpen(null);
+      setMobile(false);
+    });
+  }
 </script>

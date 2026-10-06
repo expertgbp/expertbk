@@ -1,7 +1,7 @@
 ---
 title: "Why LinkedIn Is the Highest-Leverage Platform for Your Nonfiction Book"
 description: "The 2026 engagement data on why LinkedIn, not Instagram or TikTok, is where a book actually turns into speaking invitations and client conversations."
-heroImage: "/images/blog/why-linkedin-is-the-highest-leverage-platform-for-your-book.png"
+heroImage: "/images/blog/why-linkedin-is-the-highest-leverage-platform-for-your-book.webp"
 heroImageAlt: "A smartphone on a wooden desk showing an abstract network graphic, beside a printed manuscript page covered in yellow highlighter marks and small sticky note flags"
 cluster: "Authority"
 pillar: "where-to-start"
@@ -48,7 +48,7 @@ ctaVariant:
 Thought leadership content on LinkedIn earns a [1.7x higher click-through rate and 1.6x higher engagement rate](https://www.leaders.social/linkedin-basics-training/linkedin-thought-leadership-content-building-authority-in-2026) than the average post on the platform. That's not a small edge. It means the exact kind of content a nonfiction book is built from, a real position, a real reframe, a real case, performs better on LinkedIn than almost anything else you could post there.
 
 <figure>
-  <img src="/images/blog/inline/why-linkedin-ctr-engagement.png" alt="Bar chart infographic showing thought leadership content on LinkedIn earns 1.7x the click-through rate and 1.6x the engagement rate compared to the average post" loading="lazy" />
+  <img src="/images/blog/inline/why-linkedin-ctr-engagement.webp" alt="Bar chart infographic showing thought leadership content on LinkedIn earns 1.7x the click-through rate and 1.6x the engagement rate compared to the average post" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Source: <a href="https://www.leaders.social/linkedin-basics-training/linkedin-thought-leadership-content-building-authority-in-2026">leaders.social, LinkedIn thought-leadership content performance, 2026</a>.</figcaption>
 </figure>
 
@@ -65,7 +65,7 @@ Not every book from our authors is a straightforward business title, and the log
 Here's the part that should change how you write your posts, not just where you post them. An independent analysis of over a million posts by the AI-detection firm Pangram Labs found that [more than 40% of long-form LinkedIn posts were flagged as fully AI-generated](https://www.pangram.com/blog/ai-in-your-feed) as of mid-2026, making LinkedIn the most AI-saturated of the major platforms studied. That means most of what your audience scrolls past already sounds the same.
 
 <figure>
-  <img src="/images/blog/inline/why-linkedin-ai-saturation.png" alt="Infographic showing over 40 percent of long-form LinkedIn posts are AI-generated, with a call-out that a real voice stands out against that background" loading="lazy" />
+  <img src="/images/blog/inline/why-linkedin-ai-saturation.webp" alt="Infographic showing over 40 percent of long-form LinkedIn posts are AI-generated, with a call-out that a real voice stands out against that background" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Source: <a href="https://www.pangram.com/blog/ai-in-your-feed">Pangram Labs, AI content detection study, 2026</a>.</figcaption>
 </figure>
 
@@ -104,7 +104,7 @@ This works because the two feed each other in both directions. Writing the book 
 You don't need a separate content strategy. The book itself is the content strategy, broken into smaller pieces. A practical way to think about it:
 
 <figure>
-  <img src="/images/blog/inline/why-linkedin-book-to-post-pipeline.png" alt="Four-step pipeline infographic: Book Idea, Draft the Post, Publish, Track What Lands" loading="lazy" />
+  <img src="/images/blog/inline/why-linkedin-book-to-post-pipeline.webp" alt="Four-step pipeline infographic: Book Idea, Draft the Post, Publish, Track What Lands" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Every chapter usually contains three to five ideas dense enough to stand alone as a post: a reframe, a client story (with permission and identifying details changed as needed), a mistake you see constantly, or a one-line answer to a question you get asked all the time. Pull one out, write it the way you'd explain it to a colleague over coffee, and publish it. Watching which of these actually land, more comments, more direct messages, more "can we talk about this" replies, tells you which parts of the book are your strongest material well before publication day.

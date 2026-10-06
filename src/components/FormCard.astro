@@ -1,0 +1,142 @@
+---
+/**
+ * The white card a form sits on when it shares a navy surface with its
+ * pitch (the homepage Blueprint section's model: pitch and check-marked
+ * points on the left, the form on its own white card on the right, so the
+ * gold submit button has something to stand out against).
+ *
+ * Built to drop into PageHero's `aside` slot on the form pages:
+ *   <PageHero ...>
+ *     <FormCard slot="aside" title="Get your free copy" note="...">
+ *       <LeadMagnetForm ... />
+ *     </FormCard>
+ *   </PageHero>
+ *
+ *   title / note   the short label strip above the form
+ *   icon           inner SVG markup (24x24 viewBox) for the navy icon tile
+ *   media slot     an image to show instead of the icon tile (the guide's
+ *                  cover on /free-blueprint). It stands out of the top of
+ *                  the strip at a tilt and squares up on hover.
+ *   default slot   the form itself. Nothing here touches its markup or
+ *                  submit handling (src/scripts/lead-form.ts); the card
+ *                  only lets the form fill it and widens the button.
+ */
+interface Props {
+  title?: string;
+  note?: string;
+  icon?: string;
+}
+const { title, note, icon } = Astro.props;
+const hasMedia = Astro.slots.has("media");
+---
+
+<div class="form-card">
+  {title && (
+    <div class:list={["form-card-head", hasMedia && "has-media"]}>
+      {hasMedia ? (
+        <slot name="media" />
+      ) : (
+        icon && (
+          <span class="form-card-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={icon} />
+          </span>
+        )
+      )}
+      <div>
+        <p class="form-card-title">{title}</p>
+        {note && <p class="form-card-note">{note}</p>}
+      </div>
+    </div>
+  )}
+  <slot />
+</div>
+
+<style>
+  .form-card {
+    container-type: inline-size;
+    position: relative;
+    max-width: 34rem; /* when the hero stacks (tablet), don't span the page */
+    padding: 1.5rem 1.25rem 1.75rem;
+    border-radius: 22px;
+    background: #fff;
+    color: var(--color-ink-900);
+    box-shadow: 0 30px 60px -28px rgba(3, 12, 22, 0.75);
+  }
+  @media (min-width: 640px) {
+    .form-card {
+      padding: 1.75rem 1.6rem 2rem;
+    }
+  }
+
+  .form-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem 0.75rem 0.75rem;
+    border-radius: 16px;
+    background: var(--color-gold-100);
+  }
+  .form-card-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 12px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .form-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-navy-900);
+  }
+  .form-card-note {
+    margin-top: 0.2rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--color-slate-500);
+  }
+
+  /* With a cover image: it stands out of the top of its strip and rests at
+     a tilt, then squares up when the card is hovered (same "turn to face
+     you" gesture as the homepage Blueprint card and the bookshelf covers). */
+  .form-card-head.has-media {
+    margin-top: 1.25rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+  .form-card-head.has-media :global(img) {
+    flex-shrink: 0;
+    width: 6.5rem;
+    height: auto;
+    margin: -1.75rem 0 -0.75rem -0.5rem;
+    filter: drop-shadow(0 12px 14px rgba(8, 31, 51, 0.3));
+    transform: rotate(-4deg);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .form-card:hover .form-card-head.has-media :global(img) {
+      transform: rotate(0deg) translateY(-4px) scale(1.04);
+    }
+  }
+
+  /* Inside the card the form fills the width and its button spans it. */
+  .form-card :global(form) {
+    max-width: none;
+  }
+  .form-card :global(button[type="submit"]) {
+    width: 100%;
+  }
+  /* In the hero's narrow right column, side-by-side fields (first name +
+     email) would be too tight to type in, so they stack. Keyed to the
+     card's own width, not the screen's. */
+  @container (max-width: 26rem) {
+    .form-card :global(form > .grid) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

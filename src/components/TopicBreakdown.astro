@@ -1,0 +1,289 @@
+---
+/**
+ * The long "row by row" explanation under a comparison table, as a set of
+ * numbered topic cards with a pinned contents rail on the left. Replaces a
+ * single narrow column of H2 + paragraph + H2 + paragraph, which read like
+ * a document, not a page.
+ *
+ * Each topic has one or more `parts` (its paragraphs, as HTML strings so
+ * they can carry inline links). When the parts are labelled, they're the
+ * two sides of a comparison and render side by side as two panels, the
+ * highlighted one in navy, instead of as two stacked paragraphs.
+ *
+ *   topics[].id     anchor for the rail link
+ *   topics[].icon   a key of pageIcons
+ *   tone            background: "mist" (navy-100, default), "ivory", "white"
+ *
+ * The rail is desktop-only: on phones the cards are already a single
+ * column and a second list of the same headings would only add scrolling.
+ */
+import { pageIcons, type PageIconName } from "./pageIcons";
+
+interface Part {
+  html: string;
+  label?: string;
+  highlighted?: boolean;
+}
+interface Topic {
+  id: string;
+  title: string;
+  icon?: PageIconName;
+  parts: Part[];
+}
+interface Props {
+  topics: Topic[];
+  eyebrow?: string;
+  tone?: "mist" | "ivory" | "white";
+}
+const { topics, eyebrow = "Row by row", tone = "mist" } = Astro.props;
+const bg = { ivory: "bg-ivory-50", mist: "bg-navy-100", white: "bg-white" }[tone];
+const num = (i: number) => String(i + 1).padStart(2, "0");
+---
+
+<section class={bg}>
+  <div class="tb mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <aside class="tb-rail">
+      <p class="eyebrow">{eyebrow}</p>
+      <nav class="tb-nav" aria-label={eyebrow}>
+        <ol>
+          {topics.map((t, i) => (
+            <li>
+              <a href={`#${t.id}`}>
+                <span class="tb-nav-num" aria-hidden="true">{num(i)}</span>
+                <span>{t.title}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+
+    <div class="tb-list">
+      {topics.map((t, i) => {
+        const versus = t.parts.some((p) => p.label);
+        return (
+          <article id={t.id} class="tb-topic" data-reveal="item">
+            <header class="tb-head">
+              <span class="tb-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={pageIcons[t.icon ?? "book"]} />
+              </span>
+              <div class="min-w-0">
+                <p class="tb-num" aria-hidden="true">{num(i)}</p>
+                <h2 class="tb-title">{t.title}</h2>
+              </div>
+            </header>
+            {versus ? (
+              <div class="tb-versus">
+                {t.parts.map((p) => (
+                  <div class:list={["tb-side", p.highlighted && "is-highlighted"]}>
+                    {p.label && <p class="tb-side-label">{p.label}</p>}
+                    <p class="tb-side-text" set:html={p.html} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="tb-text">
+                {t.parts.map((p) => <p set:html={p.html} />)}
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tb {
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 1024px) {
+    .tb {
+      grid-template-columns: 17rem minmax(0, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+    .tb-rail {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+  }
+
+  /* ---------- Rail ---------- */
+  .tb-nav {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .tb-nav {
+      display: block;
+      margin-top: 1.25rem;
+      border-top: 1px solid rgba(8, 31, 51, 0.12);
+    }
+  }
+  .tb-nav a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid rgba(8, 31, 51, 0.12);
+    font-size: 0.925rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover), transform var(--duration-fast) var(--ease-out);
+  }
+  .tb-nav-num {
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-500);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tb-nav a:hover {
+      color: var(--color-navy-900);
+      transform: translateX(4px);
+    }
+  }
+
+  /* ---------- Topic cards ---------- */
+  .tb-list {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .tb-topic {
+    scroll-margin-top: 6.5rem;
+    padding: 1.5rem 1.25rem 1.6rem;
+    border: 1px solid rgba(8, 31, 51, 0.08);
+    border-radius: 22px;
+    background: #fff;
+    transition: border-color var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  }
+  @media (min-width: 768px) {
+    .tb-topic {
+      padding: 2.25rem 2.5rem 2.4rem;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tb-topic:hover {
+      border-color: var(--color-gold-300);
+      box-shadow: var(--shadow-lg);
+    }
+    .tb-topic:hover .tb-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+  }
+  .tb-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .tb-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .tb-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-500);
+  }
+  /* An H2 for the outline, sized as a card title. */
+  .tb-title {
+    margin-top: 0.2rem;
+    font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem);
+    line-height: 1.2;
+  }
+  .tb-text,
+  .tb-versus {
+    margin-top: 1.4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .tb-text p,
+  .tb-side-text {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .tb-text p {
+    max-width: 68ch;
+  }
+  .tb-text p + p {
+    margin-top: 1rem;
+  }
+  .tb-topic :global(a) {
+    font-weight: 600;
+    color: var(--color-navy-700);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold-500);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .tb-side.is-highlighted :global(a) {
+    color: var(--color-gold-300);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tb-topic :global(a:hover) {
+      color: var(--color-gold-500);
+    }
+    .tb-side.is-highlighted :global(a:hover) {
+      color: var(--color-offwhite-100);
+    }
+  }
+
+  /* Two sides of a comparison, side by side from tablet up. */
+  .tb-versus {
+    display: grid;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .tb-versus {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .tb-side {
+    padding: 1.25rem 1.25rem 1.4rem;
+    border: 1px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: var(--color-ivory-50);
+  }
+  .tb-side-label {
+    margin-bottom: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-slate-500);
+  }
+  .tb-side-text {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  /* Our side: navy with the door glow, matching the comparison table's
+     highlighted card above it. */
+  .tb-side.is-highlighted {
+    border-color: transparent;
+    color: var(--color-offwhite-100);
+    background:
+      radial-gradient(ellipse 100% 60% at 100% 0%, rgba(255, 217, 138, 0.2), transparent 65%),
+      var(--color-navy-900);
+  }
+  .tb-side.is-highlighted .tb-side-label {
+    color: var(--color-gold-300);
+  }
+</style>

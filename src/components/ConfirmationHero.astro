@@ -1,0 +1,84 @@
+---
+/**
+ * The hero for the thank-you pages: the shared PageHero, with a gold check
+ * badge in place of the proof card. Calm on purpose: the visitor just did
+ * the thing, so this only confirms it.
+ *
+ * On desktop the badge sits in the right column inside two soft rings. On
+ * phones it moves above the heading, smaller and without the rings.
+ */
+import PageHero from "./PageHero.astro";
+
+interface Props {
+  heading: string;
+  lead: string;
+  eyebrow?: string;
+}
+const { heading, lead, eyebrow } = Astro.props;
+---
+
+<PageHero eyebrow={eyebrow} heading={heading} lead={lead}>
+  <div slot="aside" class="confirm-mark" aria-hidden="true">
+    <span class="confirm-ring">
+      <span class="confirm-badge">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </span>
+    </span>
+  </div>
+</PageHero>
+
+<style>
+  .confirm-mark {
+    display: flex;
+  }
+  .confirm-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+    box-shadow: 0 16px 34px -14px rgba(255, 217, 138, 0.55);
+  }
+  .confirm-badge svg {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  /* Phones: PageHero stacks the aside under the text. A confirmation reads
+     badge first, so lift it above the heading and close up the grid gap. */
+  @media (max-width: 1023px) {
+    :global(.page-hero-aside:has(.confirm-mark)) {
+      order: -1;
+      margin-bottom: -1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .confirm-mark {
+      justify-content: center;
+    }
+    /* Two rings around the badge: the door glow, drawn as a target. */
+    .confirm-ring {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 17rem;
+      height: 17rem;
+      border: 1px solid rgba(255, 217, 138, 0.16);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 217, 138, 0.14), transparent 68%);
+      box-shadow: inset 0 0 0 2.75rem rgba(27, 58, 102, 0.28), inset 0 0 0 calc(2.75rem + 1px) rgba(255, 217, 138, 0.2);
+    }
+    .confirm-badge {
+      width: 6.5rem;
+      height: 6.5rem;
+    }
+    .confirm-badge svg {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+</style>

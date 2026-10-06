@@ -1,10 +1,30 @@
 # Skills this project uses
 
 Per this account's standing rule, every website project declares which
-mandatory skills apply to it. All of these are installed once at the user
-level (`~/.claude/skills/` — see `~/.claude/CLAUDE.md` for the full 91-skill
-roster and source repos) rather than duplicated into this repo; this file is
-the project's explicit declaration, not a separate install.
+mandatory skills apply to it. As of 2026-10-01 the skills are installed in
+this repo itself, under `.claude/skills/` (126 skill folders plus the two
+project-local ones below), copied from a shallow clone of each source repo:
+
+| Source repo | Skills it provides here |
+|---|---|
+| `nextlevelbuilder/ui-ux-pro-max-skill` | `ui-ux-pro-max`, `design`, `design-system`, `ui-styling`, `brand`, `banner-design`, `slides` |
+| `emilkowalski/skills` | `emil-design-eng`, `animate`, `find-animation-opportunities`, `improve-animations`, `review-animations`, `animation-vocabulary`, `apple-design`, and others |
+| `Leonxlnx/taste-skill` | `taste-skill`, `taste-skill-v1`, `redesign-skill`, `soft-skill`, `minimalist-skill`, `brandkit`, `imagegen-frontend-web`, and others |
+| `pbakaus/impeccable` | `impeccable` |
+| `AgriciDaniel/claude-seo` | `seo`, `seo-audit`, `seo-technical`, `seo-schema`, `seo-geo`, `seo-page`, and the rest of the `seo-*` set |
+| `coreyhaines31/marketingskills` | `copywriting`, `cro`, `content-strategy`, `lead-magnets`, `schema`, and the rest of the marketing set |
+| `higgsfield-ai/skills` | the `higgsfield-*` set |
+| `wuyoscar/GPT-Image2-Skill` | `gpt-image`, `get-prompt-from-image` |
+
+Three duplicates were skipped because a skill of the same name was already
+copied from an earlier repo in that list: `seo-audit` (marketingskills'
+copy; claude-seo's is the one installed) and the `seo-image-gen` /
+`seo-dataforseo` extension copies. To update a skill, re-clone its repo and
+replace its folder. Nothing in these folders runs at build time and none of
+it ships to the site.
+
+For UI and motion work, `CLAUDE.md`'s "Skill priority" section still decides
+which of these to actually reach for.
 
 - **UI/UX and taste:** `impeccable`, `ui-ux-pro-max` (+ `design`,
   `design-system`, `ui-styling`), `taste-skill`. Use for any visual-quality,

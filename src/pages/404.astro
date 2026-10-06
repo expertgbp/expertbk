@@ -1,13 +1,112 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import IconLinkGrid from "../components/IconLinkGrid.astro";
+import { primaryNav, professionGroups, bookTypeGroups, serviceLinks, resourceLinks } from "../data/nav";
+
+// Quick links to the main sections, all read from src/data/nav.ts so this
+// page can never point at a section the header doesn't have. The three
+// header sections with an index page come first (their nav entries carry
+// no icon of their own, so each borrows one from inside its own menu),
+// then three of the Resources links, with their nav descriptions.
+const sectionIcons: Record<string, string | undefined> = {
+  "For Experts": professionGroups[2]?.icon,
+  "Your Book": bookTypeGroups[2]?.icon,
+  Services: serviceLinks[0]?.icon,
+};
+const mainSections = primaryNav
+  .filter((item) => item.indexHref && item.seeAllLabel)
+  .map((item) => ({
+    label: item.label,
+    href: item.indexHref as string,
+    description: item.seeAllLabel,
+    icon: sectionIcons[item.label],
+  }));
+const resourcePicks = ["/guides", "/case-studies", "/pricing-and-cost"]
+  .map((href) => resourceLinks.find((l) => l.href === href))
+  .filter((l): l is NonNullable<typeof l> => Boolean(l));
+const quickLinks = [...mainSections, ...resourcePicks];
 ---
 
 <BaseLayout title="Page Not Found" description="That page doesn't exist. Let's get you to the right place." noindex>
-  <section class="bg-navy-900 text-offwhite-100 min-h-[60vh] flex items-center">
-    <div class="w-full mx-auto max-w-xl px-4 py-24 text-center">
-      <h1 class="on-navy">That page doesn't exist.</h1>
-      <p class="mt-4 text-lg opacity-90">But your book still does. Let's find the right starting point.</p>
-      <a href="/start" class="btn-primary mt-8 inline-flex" data-cta="404-start">Start here &rarr;</a>
+  <PageHero
+    eyebrow="Error 404"
+    heading="That page doesn't exist."
+    lead="But your book still does. Let's find the right starting point."
+  >
+    <div class="mt-9">
+      <a href="/start" class="btn-primary arrow-link" data-cta="404-start">Start here <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+
+    <!-- The missing page, drawn as a door that opens onto nothing. -->
+    <div slot="aside" class="lost" aria-hidden="true">
+      <span class="lost-num">4</span>
+      <span class="lost-door">
+        <span class="lost-door-leaf"></span>
+      </span>
+      <span class="lost-num">4</span>
+    </div>
+  </PageHero>
+
+  <section class="bg-ivory-50">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Quick links" heading="Or go straight to a main section" />
+      <div class="mt-10 md:mt-12">
+        <IconLinkGrid items={quickLinks} columns={3} ctaPrefix="404" />
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .lost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.75rem 1.25rem;
+    border: 1px solid rgba(255, 217, 138, 0.2);
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(27, 58, 102, 0.75), rgba(12, 37, 64, 0.75));
+    box-shadow: 0 30px 60px -30px rgba(3, 12, 22, 0.9);
+  }
+  @media (min-width: 1024px) {
+    .lost {
+      padding: 2.75rem 1.5rem;
+    }
+  }
+  .lost-num {
+    font-family: var(--font-serif);
+    font-size: clamp(4.5rem, 3rem + 6vw, 6.5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-gold-300);
+  }
+  /* The "0" is a doorway: a gold frame with the door standing ajar. */
+  .lost-door {
+    position: relative;
+    flex-shrink: 0;
+    width: clamp(3rem, 2rem + 4vw, 4.25rem);
+    height: clamp(4.5rem, 3rem + 6vw, 6.5rem);
+    border: 3px solid var(--color-gold-300);
+    border-radius: 999px 999px 6px 6px;
+    background: radial-gradient(ellipse 90% 70% at 50% 100%, rgba(255, 217, 138, 0.35), transparent 75%);
+    perspective: 400px;
+  }
+  .lost-door-leaf {
+    position: absolute;
+    inset: 3px;
+    border-radius: 999px 999px 3px 3px;
+    background: var(--color-navy-600);
+    transform-origin: left center;
+    transform: rotateY(-38deg);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  /* The door swings a little wider when the card is hovered. */
+  @media (hover: hover) and (pointer: fine) {
+    .lost:hover .lost-door-leaf {
+      transform: rotateY(-62deg);
+    }
+  }
+</style>

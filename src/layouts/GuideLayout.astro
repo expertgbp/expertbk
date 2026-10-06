@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
 import FAQAccordion from "../components/FAQAccordion.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
@@ -20,16 +21,24 @@ const { Content } = await render(entry);
     <SpeakableSchema name={g.title} selectors={["article.prose > p:first-of-type"]} />
   </Fragment>
 
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
-      <p class="eyebrow mb-4">Guide &middot; {g.stage}</p>
-      <h1 class="on-navy">{g.title}</h1>
-      <p class="mt-4 text-lg opacity-90">{g.description}</p>
-      <p class="mt-6 text-xs opacity-60">Updated {g.updatedDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</p>
-    </div>
-  </section>
+  <!-- Same hero as every other inner page (breadcrumbs, eyebrow, door-glow,
+       proof card), with the "Updated" date as the meta line under the intro. -->
+  <PageHero
+    eyebrow={`Guide · ${g.stage}`}
+    heading={g.title}
+    lead={g.description}
+    crumbs={[{ label: "Guides", href: "/guides" }, { label: g.title }]}
+  >
+    <p class="guide-meta">
+      <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect x="2.5" y="3.5" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.4" />
+        <path d="M2.5 7h13M5.5 2v3M12.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+      <span>Updated <time datetime={g.updatedDate.toISOString().slice(0, 10)}>{g.updatedDate.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</time></span>
+    </p>
+  </PageHero>
 
-  <article class="prose bg-ivory-50 max-w-[68ch] mx-auto px-4 py-14 border-b border-navy-100">
+  <article class="prose bg-ivory-50 max-w-[68ch] mx-auto px-4 py-14 md:py-20 border-b border-navy-100">
     <Content />
   </article>
 
@@ -39,6 +48,24 @@ const { Content } = await render(entry);
 </BaseLayout>
 
 <style>
+  /* Meta line under the hero intro: a quiet pill, gold icon, off-white text. */
+  .guide-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid rgba(245, 241, 232, 0.18);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    color: rgba(245, 241, 232, 0.8);
+  }
+  .guide-meta svg {
+    flex-shrink: 0;
+    color: var(--color-gold-300);
+  }
+
   /*
     @tailwindcss/typography is installed and provides the base `.prose`
     styling; this block layers brand-specific colors/spacing on top of its
@@ -55,6 +82,8 @@ const { Content } = await render(entry);
     margin-bottom: 1rem;
     font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.75rem);
     color: var(--color-navy-900);
+    /* An in-page jump to a heading lands clear of the sticky header. */
+    scroll-margin-top: 6.5rem;
   }
   .prose :global(h2:first-child) {
     margin-top: 0;

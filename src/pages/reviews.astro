@@ -1,93 +1,231 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SplitSection from "../components/SplitSection.astro";
+import CheckList from "../components/CheckList.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
+
+// The two independent platforms. `icon` is the inner markup of a 24x24
+// line icon (a shield for BBB, a star for Trustpilot). `url` is empty
+// until the real profile link is confirmed in entity.ts.
+const platforms = [
+  {
+    name: "Better Business Bureau (BBB)",
+    body: "Our BBB profile, complaint history, and accreditation status, straight from BBB's own site.",
+    url: entity.bbbUrl,
+    linkLabel: "View our BBB profile",
+    cta: "reviews-bbb",
+    pending: "[NEEDS CONFIRMATION: BBB profile URL]",
+    icon: '<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8L14.5 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  {
+    name: "Trustpilot",
+    body: "Independent, unfiltered reviews from clients, good and bad, directly on Trustpilot's platform.",
+    url: entity.trustpilotUrl,
+    linkLabel: "View our Trustpilot profile",
+    cta: "reviews-trustpilot",
+    pending: "[NEEDS CONFIRMATION: Trustpilot profile URL]",
+    icon: '<path d="M12 3l2.6 5.6 6.1.6-4.6 4.2 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.6-4.2 6.1-.6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+  },
+];
+
+// The three things the "what we won't do" paragraph rules out, one per line.
+const wontDo = ["No invented quotes", "No rounded-up averages", "Nothing that isn't checkable the moment you click through"];
 ---
 
 <BaseLayout
   title="Reviews: Check Us on BBB and Trustpilot"
   description="We don't publish our own reviews. Here's where to read what real, independent third parties say about us."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16">
-      <p class="eyebrow mb-4">REVIEWS</p>
-      <h1 class="on-navy">Check us before you trust us</h1>
-      <p class="mt-4 text-lg opacity-90">
-        We won't put review quotes on this page ourselves. Reviews only mean something when you can trace
-        them back to an independent source, so that's exactly what this page links to.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="REVIEWS"
+    heading="Check us before you trust us"
+    lead="We won't put review quotes on this page ourselves. Reviews only mean something when you can trace them back to an independent source, so that's exactly what this page links to."
+    crumbs={[{ label: "Reviews" }]}
+  />
 
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2>Why we link out instead of quoting in</h2>
-      <p class="mt-4 leading-relaxed">
-        Anyone can put five stars and a nice sentence on their own homepage. That proves nothing. Real
-        reviews live on independent platforms where anyone, including someone who never gave us a dollar,
-        can leave an honest rating. This is where we're reviewed, and this is where you should go read them
-        directly, not just take our word for the summary.
-      </p>
-    </div>
-  </section>
+  <SplitSection eyebrow="Our rule" heading="Why we link out instead of quoting in">
+    <p>
+      Anyone can put five stars and a nice sentence on their own homepage. That proves nothing. Real
+      reviews live on independent platforms where anyone, including someone who never gave us a dollar,
+      can leave an honest rating. This is where we're reviewed, and this is where you should go read them
+      directly, not just take our word for the summary.
+    </p>
+  </SplitSection>
 
   <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-8">Where to find us</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="card bg-white p-6">
-          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-navy-100 text-navy-600 mb-4" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l1.8 1.8L14.5 10"/></svg>
-          </span>
-          <p class="font-serif font-semibold text-lg">Better Business Bureau (BBB)</p>
-          <p class="mt-2 text-sm text-slate-500">
-            Our BBB profile, complaint history, and accreditation status, straight from BBB's own site.
-          </p>
-          {entity.bbbUrl ? (
-            <a href={entity.bbbUrl} class="mt-4 inline-block font-semibold text-navy-700 hover:text-gold-500" data-cta="reviews-bbb" rel="noopener">
-              View our BBB profile &rarr;
-            </a>
-          ) : (
-            <p class="mt-4 text-sm italic text-slate-500">[NEEDS CONFIRMATION: BBB profile URL]</p>
-          )}
-        </div>
-        <div class="card bg-white p-6">
-          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-navy-100 text-navy-600 mb-4" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.2 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.6-4.2 6.1-.6z"/></svg>
-          </span>
-          <p class="font-serif font-semibold text-lg">Trustpilot</p>
-          <p class="mt-2 text-sm text-slate-500">
-            Independent, unfiltered reviews from clients, good and bad, directly on Trustpilot's platform.
-          </p>
-          {entity.trustpilotUrl ? (
-            <a href={entity.trustpilotUrl} class="mt-4 inline-block font-semibold text-navy-700 hover:text-gold-500" data-cta="reviews-trustpilot" rel="noopener">
-              View our Trustpilot profile &rarr;
-            </a>
-          ) : (
-            <p class="mt-4 text-sm italic text-slate-500">[NEEDS CONFIRMATION: Trustpilot profile URL]</p>
-          )}
-        </div>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="Independent platforms" heading="Where to find us" />
+      <div class="mt-10 md:mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+        {platforms.map((p) => (
+          <div class="card platform p-6 md:p-8">
+            <span class="platform-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" set:html={p.icon} />
+            </span>
+            <p class="platform-name">{p.name}</p>
+            <p class="platform-body">{p.body}</p>
+            <div class="platform-foot">
+              {p.url ? (
+                <a href={p.url} class="arrow-link platform-link" data-cta={p.cta} rel="noopener">
+                  {p.linkLabel} <span class="arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              ) : (
+                <p class="platform-pending">{p.pending}</p>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2>What we won't do on this page</h2>
-      <p class="mt-4 leading-relaxed">
-        We won't show a star rating or an aggregate score here until it's pulled directly from a real,
-        sourced set of reviews on BBB or Trustpilot. No invented quotes, no rounded-up averages, nothing
-        that isn't checkable the moment you click through.
-      </p>
-      <p class="mt-4 leading-relaxed">
-        Looking for author stories instead of third-party ratings? Those live on our
-        <a href="/case-studies" class="underline font-semibold">case studies page</a>, under the same rule:
-        real and permissioned, or clearly marked as pending. And if a claim anywhere on this site ever
-        mentions results or income, the honest context is always one click away on our
-        <a href="/disclaimer" class="underline font-semibold">disclaimer page</a>.
-      </p>
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <SectionHeading eyebrow="The ground rules" heading="What we won't do on this page" />
+      <div class="mt-10 md:mt-12 grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
+        <div class="rule-card rule-card-light" data-reveal="item">
+          <p>
+            We won't show a star rating or an aggregate score here until it's pulled directly from a real,
+            sourced set of reviews on BBB or Trustpilot.
+          </p>
+          <CheckList items={wontDo} class="mt-6" />
+        </div>
+        <div class="rule-card rule-card-gold" data-reveal="item">
+          <p>
+            Looking for author stories instead of third-party ratings? Those live on our{" "}
+            <a href="/case-studies">case studies page</a>, under the same rule:
+            real and permissioned, or clearly marked as pending.
+          </p>
+          <p>
+            And if a claim anywhere on this site ever
+            mentions results or income, the honest context is always one click away on our{" "}
+            <a href="/disclaimer">disclaimer page</a>.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
   <FinalDoorCTA />
 </BaseLayout>
+
+<style>
+  /* ---------- The two platforms ---------- */
+  .platform {
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+  }
+  .platform-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 18px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+    transition: background-color var(--duration-base) var(--ease-hover), color var(--duration-base) var(--ease-hover);
+  }
+  .platform-name {
+    margin-top: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-navy-900);
+  }
+  .platform-body {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-slate-500);
+  }
+  .platform-foot {
+    margin-top: auto;
+    padding-top: 1.5rem;
+  }
+  .platform-foot > * {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .platform-link {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    font-weight: 600;
+    color: var(--color-navy-700);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .platform-pending {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-slate-500);
+  }
+  /* The icon tile flips to gold with the card's own lift: color only. */
+  @media (hover: hover) and (pointer: fine) {
+    .platform:hover .platform-icon {
+      background: var(--color-gold-300);
+      color: var(--color-navy-900);
+    }
+    .platform-link:hover {
+      color: var(--color-gold-500);
+    }
+  }
+
+  /* ---------- The ground rules: a white card beside a gold one ---------- */
+  /* No navy card here on purpose: the navy final CTA card sits right below. */
+  .rule-card {
+    border-radius: 24px;
+    padding: 1.75rem 1.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  @media (min-width: 768px) {
+    .rule-card {
+      padding: 2.5rem;
+      font-size: 1.125rem;
+    }
+  }
+  .rule-card p + p {
+    margin-top: 1rem;
+  }
+  .rule-card-light {
+    position: relative;
+    border: 1px solid var(--color-navy-100);
+    background: #fff;
+  }
+  /* The door rule, down the card's left edge. */
+  .rule-card-light::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.75rem;
+    bottom: 1.75rem;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  .rule-card-gold {
+    border: 1px solid rgba(230, 184, 92, 0.45);
+    background:
+      radial-gradient(ellipse 60% 80% at 100% 0%, rgba(255, 255, 255, 0.7), transparent 65%),
+      var(--color-gold-100);
+  }
+  .rule-card-gold a {
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-gold-500);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .rule-card-gold a:hover {
+      color: var(--color-navy-600);
+    }
+  }
+</style>

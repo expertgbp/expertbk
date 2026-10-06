@@ -1,0 +1,300 @@
+---
+/**
+ * The layout for the legal pages (privacy, terms, disclaimer): the shared
+ * PageHero with no proof card, then a readable text column beside an
+ * "On this page" list that stays pinned on desktop. On phones the same
+ * list is a closed drawer above the text, so it never pushes the first
+ * paragraph off the screen.
+ *
+ *   heading    the page's H1
+ *   sections   { id, label } for every H2 in the body. The page gives each
+ *              H2 the matching id; this component does not touch the text.
+ *   updated    the "last updated" value, shown as a meta line in the hero
+ *   slot "notice"  the draft / legal-review note, shown as a callout
+ *   default slot   the legal text itself, exactly as written
+ */
+import PageHero from "./PageHero.astro";
+
+interface Props {
+  heading: string;
+  sections: { id: string; label: string }[];
+  updated?: string;
+}
+const { heading, sections, updated } = Astro.props;
+---
+
+<PageHero eyebrow="LEGAL" heading={heading} crumbs={[{ label: heading }]} aside="none">
+  {updated && (
+    <p class="legal-updated">
+      <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect x="2.5" y="3.5" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.4" />
+        <path d="M2.5 7h13M5.5 2v3M12.5 2v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+      <span>Last updated: {updated}</span>
+    </p>
+  )}
+</PageHero>
+
+<section class="bg-ivory-50">
+  <!-- Long-form text: it reads top to bottom, so it never fades in on scroll. -->
+  <div class="legal mx-auto max-w-6xl px-4 py-14 md:py-20" data-reveal="none">
+    <details class="legal-toc-mobile">
+      <summary>
+        On this page
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </summary>
+      <ol>
+        {sections.map((s) => (
+          <li><a href={`#${s.id}`}>{s.label}</a></li>
+        ))}
+      </ol>
+    </details>
+
+    <nav class="legal-toc" aria-label="On this page" data-legal-toc>
+      <p class="legal-toc-title">On this page</p>
+      <ol>
+        {sections.map((s, i) => (
+          <li>
+            <a href={`#${s.id}`}>
+              <span class="legal-toc-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <span>{s.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="legal-body">
+      {Astro.slots.has("notice") && (
+        <div class="legal-notice">
+          <span class="legal-notice-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l9.5 17h-19z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="M12 10v4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /><circle cx="12" cy="17.3" r="1" fill="currentColor" /></svg>
+          </span>
+          <div><slot name="notice" /></div>
+        </div>
+      )}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<script>
+  // Marks the section being read in the "On this page" list. A state
+  // change only (aria-current), no movement.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-legal-toc] a"));
+  if (links.length && "IntersectionObserver" in window) {
+    const setActive = (id: string) => {
+      links.forEach((link) => {
+        if (link.hash === `#${id}`) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      // A heading counts as "being read" while it sits in the upper part of the screen.
+      { rootMargin: "-15% 0px -65% 0px" }
+    );
+    links.forEach((link) => {
+      const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      if (heading) io.observe(heading);
+    });
+  }
+</script>
+
+<style>
+  .legal-updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid rgba(255, 217, 138, 0.28);
+    border-radius: 999px;
+    background: rgba(27, 58, 102, 0.42);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  .legal-updated svg {
+    flex-shrink: 0;
+    color: var(--color-gold-300);
+  }
+
+  .legal {
+    display: grid;
+    gap: 2rem;
+  }
+  .legal-toc {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .legal {
+      grid-template-columns: 16rem minmax(0, 1fr);
+      gap: 5rem;
+      align-items: start;
+    }
+    .legal-toc {
+      display: block;
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+    .legal-toc-mobile {
+      display: none;
+    }
+  }
+
+  /* ---------- "On this page", desktop ---------- */
+  .legal-toc-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold-500);
+  }
+  .legal-toc ol {
+    margin-top: 1rem;
+    border-left: 1px solid var(--color-navy-100);
+  }
+  .legal-toc a {
+    position: relative;
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.5rem 0 0.5rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--color-slate-500);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  /* The door rule marks the section being read. */
+  .legal-toc a::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+  .legal-toc a[aria-current] {
+    font-weight: 600;
+    color: var(--color-navy-900);
+  }
+  .legal-toc a[aria-current]::before {
+    opacity: 1;
+  }
+  .legal-toc-num {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.7;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-gold-500);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .legal-toc a:hover {
+      color: var(--color-navy-900);
+    }
+  }
+
+  /* ---------- "On this page", phones ---------- */
+  .legal-toc-mobile {
+    border: 1px solid var(--color-navy-100);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .legal-toc-mobile summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 3.25rem;
+    padding: 0 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-navy-900);
+    cursor: pointer;
+  }
+  .legal-toc-mobile summary svg {
+    color: var(--color-gold-500);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .legal-toc-mobile[open] summary svg {
+    transform: rotate(180deg);
+  }
+  .legal-toc-mobile ol {
+    padding: 0 1.1rem 0.6rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .legal-toc-mobile a {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    color: var(--color-navy-700);
+  }
+
+  /* ---------- The text ---------- */
+  .legal-body {
+    max-width: 44rem;
+    line-height: 1.75;
+  }
+  .legal-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 1.25rem 1.4rem;
+    border: 1px dashed var(--color-gold-500);
+    border-radius: 18px;
+    background: var(--color-gold-100);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+  .legal-notice-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 12px;
+    background: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+  /* Document-sized headings (the global H2 is sized for marketing
+     sections), each one opening a new block under a hairline. */
+  .legal-body :global(h2) {
+    font-size: clamp(1.35rem, 1.25rem + 0.5vw, 1.65rem);
+    scroll-margin-top: 7rem;
+  }
+  .legal-body :global(h2 ~ h2) {
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--color-navy-100);
+  }
+  .legal-body :global(a) {
+    text-decoration-color: var(--color-gold-500);
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .legal-body :global(code) {
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    background: var(--color-navy-100);
+    font-size: 0.875em;
+    overflow-wrap: anywhere;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .legal-body :global(a:hover) {
+      color: var(--color-navy-600);
+    }
+  }
+</style>

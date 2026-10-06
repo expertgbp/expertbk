@@ -1,80 +1,247 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { entity } from "../data/entity";
 
 const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | undefined;
+
+// "What happens on the call": the page's original three steps.
+const steps = [
+  "We hear your idea, your field, and where you're stuck: idea only, mid-draft, manuscript in hand, or published and not selling.",
+  "We give you a real, honest read on positioning: the one reader, the one promise, and whether the book as you have it will work.",
+  "If it's a fit, we show you the path and the investment. If it isn't, we tell you that too, and point you to what will help instead.",
+];
+
+// Initials stand in for the founders' headshots until real photos are
+// supplied (never an invented face), same as AuthorBox.
+const hostInitials = entity.founders.map((f) => f.shortName.split(" ").map((w) => w[0]).join(""));
 ---
 
 <BaseLayout
   title="Book a Free Book Strategy Call"
   description="One call. A real read on your idea, your positioning, and your path, whether or not we work together."
 >
-  <section class="bg-navy-900 text-offwhite-100">
-    <div class="mx-auto max-w-3xl px-4 py-16 text-center">
-      <p class="eyebrow mb-4">FREE, NO PITCH DECK</p>
-      <h1 class="on-navy">Book a Free Book Strategy Call</h1>
-      <p class="mt-4 text-lg opacity-90">
-        A real read on your idea, your positioning, and your path. Not a pitch. A verdict.
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-ivory-50">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">What happens on the call</h2>
-      <ol class="space-y-4">
-        <li class="flex gap-4 items-start">
-          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">1</span>
-          <p>We hear your idea, your field, and where you're stuck: idea only, mid-draft, manuscript in hand, or published and not selling.</p>
-        </li>
-        <li class="flex gap-4 items-start">
-          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">2</span>
-          <p>We give you a real, honest read on positioning: the one reader, the one promise, and whether the book as you have it will work.</p>
-        </li>
-        <li class="flex gap-4 items-start">
-          <span class="font-serif text-2xl leading-none font-bold text-gold-500 shrink-0">3</span>
-          <p>If it's a fit, we show you the path and the investment. If it isn't, we tell you that too, and point you to what will help instead.</p>
-        </li>
+  <!-- The promise on the left, what happens on the call as a numbered card
+       on the right, so the calendar can follow straight after the hero. -->
+  <PageHero
+    eyebrow="FREE, NO PITCH DECK"
+    heading="Book a Free Book Strategy Call"
+    lead="A real read on your idea, your positioning, and your path. Not a pitch. A verdict."
+    crumbs={[{ label: "Book a Call" }]}
+    primaryLabel="Pick a time"
+    primaryHref="#pick-a-time"
+    ctaId="book-a-call-hero"
+  >
+    <div slot="aside" class="call-steps">
+      <h2 class="call-steps-title">What happens on the call</h2>
+      <ol>
+        {steps.map((step, i) => (
+          <li>
+            <span class="call-step-num" aria-hidden="true">{i + 1}</span>
+            <p>{step}</p>
+          </li>
+        ))}
       </ol>
+    </div>
+  </PageHero>
 
-      <div class="mt-10 flex items-center gap-4">
-        <div class="w-16 h-16 rounded-full bg-navy-100 shrink-0" aria-hidden="true"></div>
-        <p class="text-sm text-slate-500">
-          Calls are with Sush Dutta or Ash Goel, or a senior member of their team.
-          <!-- [NEEDS CONFIRMATION: who specifically takes calls today, and current headshots] -->
-        </p>
+  <!-- The calendar on its own white card, who you'll be talking to beside it. -->
+  <section id="pick-a-time" class="pick-a-time bg-navy-100">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div class="booking">
+        <div class="booking-side">
+          <p class="eyebrow">Your call</p>
+          <h2 class="mt-3">Pick a time</h2>
+
+          <div class="host" data-reveal="item">
+            <div class="host-avatars" aria-hidden="true">
+              {hostInitials.map((initials) => <span class="host-avatar">{initials}</span>)}
+            </div>
+            <p class="host-note">
+              Calls are with Sush Dutta or Ash Goel, or a senior member of their team.
+              <!-- [NEEDS CONFIRMATION: who specifically takes calls today, and current headshots] -->
+            </p>
+          </div>
+        </div>
+
+        {bookingEmbedUrl ? (
+          <div class="booking-card overflow-hidden bg-white" data-reveal="item">
+            <iframe src={bookingEmbedUrl} title="Book a call" class="w-full min-h-[700px] border-0"></iframe>
+          </div>
+        ) : (
+          <div class="booking-card bg-white p-8 md:p-12 text-center" data-reveal="item">
+            <span class="booking-icon" aria-hidden="true">
+              <svg
+                class="h-7 w-7"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <rect x="3.5" y="5" width="17" height="15" rx="2"></rect>
+                <path d="M3.5 9.5h17M8 3v3M16 3v3"></path>
+              </svg>
+            </span>
+            <p class="text-slate-500">
+              {/* "in" stays on the <code> line: a line break straight after a
+                  closing inline tag loses the space between them. */}
+              The live calendar embed isn't wired up yet. Set
+              <code class="text-sm bg-navy-100 px-1.5 py-0.5 rounded break-all">PUBLIC_BOOKING_EMBED_URL</code> in
+              your environment to a Calendly (or similar) embed URL and this block will render it automatically.
+            </p>
+            <p class="mt-4 text-sm">
+              In the meantime: <a href="/contact" class="booking-contact arrow-link underline font-semibold">talk to a real person <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            </p>
+          </div>
+        )}
       </div>
     </div>
   </section>
-
-  <section class="bg-navy-100">
-    <div class="mx-auto max-w-3xl px-4 py-14">
-      <h2 class="mb-6">Pick a time</h2>
-      {bookingEmbedUrl ? (
-        <div class="card overflow-hidden bg-white">
-          <iframe src={bookingEmbedUrl} title="Book a call" class="w-full min-h-[700px] border-0"></iframe>
-        </div>
-      ) : (
-        <div class="card bg-white p-8 text-center">
-          <svg
-            class="mx-auto mb-4 h-10 w-10 text-navy-600"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            aria-hidden="true"
-          >
-            <rect x="3.5" y="5" width="17" height="15" rx="2"></rect>
-            <path d="M3.5 9.5h17M8 3v3M16 3v3"></path>
-          </svg>
-          <p class="text-slate-500">
-            The live calendar embed isn't wired up yet. Set <code class="text-sm bg-navy-100 px-1.5 py-0.5 rounded">PUBLIC_BOOKING_EMBED_URL</code>
-            in your environment to a Calendly (or similar) embed URL and this block will render it automatically.
-          </p>
-          <p class="mt-4 text-sm">
-            In the meantime: <a href="/contact" class="underline font-semibold">talk to a real person &rarr;</a>
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
 </BaseLayout>
+
+<style>
+  /* ---------- What happens on the call (hero, right column) ---------- */
+  /* Same glass card as PageHero's own proof card. */
+  .call-steps {
+    padding: 1.6rem;
+    border: 1px solid rgba(255, 217, 138, 0.2);
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(27, 58, 102, 0.75), rgba(12, 37, 64, 0.75));
+    box-shadow: 0 30px 60px -30px rgba(3, 12, 22, 0.9);
+  }
+  /* An h2 for the outline, set as the card's small gold kicker. */
+  .call-steps-title {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .call-steps ol {
+    display: grid;
+    gap: 1.1rem;
+    margin-top: 1.25rem;
+  }
+  .call-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .call-steps li + li {
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(245, 241, 232, 0.12);
+  }
+  .call-step-num {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: var(--color-gold-300);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-navy-900);
+  }
+
+  /* ---------- Pick a time ---------- */
+  /* The hero button jumps here; land clear of the sticky header. */
+  .pick-a-time {
+    scroll-margin-top: 4.5rem;
+  }
+  .booking {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .booking {
+      grid-template-columns: 19rem minmax(0, 1fr);
+      align-items: start;
+      gap: 4rem;
+    }
+    .booking-side {
+      position: sticky;
+      top: 6.5rem; /* clears the sticky header */
+    }
+  }
+  .host {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid rgba(8, 31, 51, 0.08);
+    border-radius: 18px;
+    background: #fff;
+  }
+  @media (min-width: 1024px) {
+    .host {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  .host-avatars {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .host-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    background: var(--color-navy-900);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-gold-300);
+  }
+  .host-avatar + .host-avatar {
+    margin-left: -0.7rem;
+  }
+  .host-note {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-slate-500);
+  }
+
+  .booking-card {
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+  }
+  .booking-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1.25rem;
+    border-radius: 18px;
+    background: var(--color-navy-900);
+    color: var(--color-gold-300);
+  }
+  .booking-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 2.75rem;
+    color: var(--color-navy-700);
+    text-decoration-color: var(--color-gold-500);
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .booking-contact:hover {
+      color: var(--color-gold-500);
+    }
+  }
+</style>

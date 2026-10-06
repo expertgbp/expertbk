@@ -1,0 +1,260 @@
+---
+/**
+ * The hero every inner page opens on (the homepage keeps its own HeroDoor).
+ * Navy, with the same door-glow as the homepage hero, laid out as two
+ * columns on desktop: the page's promise on the left, a proof card on the
+ * right, so no inner page opens on a bare block of text.
+ *
+ *   crumbs     breadcrumb trail above the eyebrow (last item = this page)
+ *   answer     the page's direct-answer block. Rendered with the
+ *              `.direct-answer` class the Speakable schema points at, so
+ *              keep using this prop for it rather than `lead`.
+ *   lead       a plain intro sentence, for pages with no answer block
+ *   aside      "proof" (default) shows the brand proof card; "none" drops
+ *              the right column and centers nothing: the text simply runs
+ *              wider. Pass a named `aside` slot to supply your own card.
+ *   default slot: anything extra under the CTA row (meta line, chips).
+ *
+ * Every number in the proof card comes from src/data/entity.ts.
+ */
+import { entity } from "../data/entity";
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lead?: string;
+  answer?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  ctaId?: string;
+  crumbs?: Crumb[];
+  aside?: "proof" | "none";
+  /** "wide" gives the right column 28rem instead of 22rem, for a form card. */
+  asideWidth?: "default" | "wide";
+}
+const {
+  eyebrow,
+  heading,
+  lead,
+  answer,
+  primaryLabel,
+  primaryHref = "/book-a-call",
+  secondaryLabel,
+  secondaryHref = "/free-blueprint",
+  ctaId = "page-hero",
+  crumbs,
+  aside = "proof",
+  asideWidth = "default",
+} = Astro.props;
+
+const hasAside = aside !== "none" || Astro.slots.has("aside");
+const stats = [
+  { value: entity.proofBank.authorsCount, label: "authors" },
+  { value: entity.proofBank.countriesCount, label: "countries" },
+  { value: entity.proofBank.studentsTaught, label: "students taught" },
+];
+---
+
+<section class="page-hero relative overflow-hidden bg-navy-900 text-offwhite-100">
+  <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+    <div class="absolute inset-y-0 right-[-10%] w-[60%] bg-gradient-to-l from-gold-300/20 via-gold-300/5 to-transparent"></div>
+    <div class="absolute -bottom-1/3 -left-1/4 h-[70%] w-[55%] rounded-full bg-navy-600/40 blur-3xl"></div>
+  </div>
+
+  <div class:list={["relative z-10 mx-auto max-w-6xl px-4 py-14 md:py-20 lg:py-24 grid gap-12 lg:items-center", hasAside && (asideWidth === "wide" ? "lg:grid-cols-[minmax(0,1fr)_28rem] lg:gap-14" : "lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16")]}>
+    <div class:list={["hero-enter min-w-0", !hasAside && "max-w-3xl"]}>
+      {crumbs && crumbs.length > 0 && (
+        <nav class="page-hero-crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            {crumbs.map((c, i) => (
+              <li>
+                <span aria-hidden="true">/</span>
+                {c.href && i < crumbs.length - 1 ? (
+                  <a href={c.href}>{c.label}</a>
+                ) : (
+                  <span aria-current={i === crumbs.length - 1 ? "page" : undefined}>{c.label}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
+      <h1 class="on-navy">{heading}</h1>
+      {lead && <p class="mt-6 max-w-2xl text-lg md:text-xl md:leading-relaxed opacity-90">{lead}</p>}
+      {answer && <p class="direct-answer page-hero-answer">{answer}</p>}
+      {primaryLabel && (
+        <div class="mt-9 flex flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:gap-4">
+          <a href={primaryHref} class="btn-primary btn-signature" data-cta={`${ctaId}-call`} data-magnetic>{primaryLabel}</a>
+          {secondaryLabel && (
+            <a href={secondaryHref} class="btn-secondary on-navy" data-cta={`${ctaId}-blueprint`}>{secondaryLabel}</a>
+          )}
+        </div>
+      )}
+      <slot />
+    </div>
+
+    {Astro.slots.has("aside") ? (
+      <div class="page-hero-aside"><slot name="aside" /></div>
+    ) : (
+      aside === "proof" && (
+        <aside class="page-hero-aside page-hero-proof" aria-label="Global Book Publishing at a glance">
+          <p class="page-hero-proof-kicker">{entity.legalName}, since {entity.founded}</p>
+          <dl class="page-hero-stats">
+            {stats.map((s) => (
+              <div>
+                <dd><span data-count-up>{s.value}</span></dd>
+                <dt>{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+          <ul class="page-hero-points">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="7" stroke="currentColor" stroke-width="1.3" /><path d="M4.5 7.7l2 2 4-4.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              You keep 100% of your rights and royalties
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="7" stroke="currentColor" stroke-width="1.3" /><path d="M4.5 7.7l2 2 4-4.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              Founded by USA Today and Wall Street Journal bestselling authors
+            </li>
+          </ul>
+        </aside>
+      )
+    )}
+  </div>
+</section>
+
+<style>
+  .page-hero-crumbs {
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .page-hero-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+  }
+  .page-hero-crumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(245, 241, 232, 0.6);
+  }
+  .page-hero-crumbs a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem; /* 44px touch target */
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  .page-hero-crumbs [aria-current="page"] {
+    color: var(--color-gold-300);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .page-hero-crumbs a:hover {
+      color: var(--color-offwhite-100);
+    }
+  }
+
+  /* The direct answer: a lit panel with the gold door rule down its left
+     edge, so the one paragraph that answers the page's question is the
+     first thing the eye lands on after the headline. */
+  .page-hero-answer {
+    position: relative;
+    max-width: 44rem;
+    margin-top: 1.75rem;
+    padding: 1.25rem 1.4rem 1.25rem 1.6rem;
+    border-radius: 0 16px 16px 0;
+    background: rgba(27, 58, 102, 0.42);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .page-hero-answer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-300);
+  }
+  @media (min-width: 768px) {
+    .page-hero-answer {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Right column: arrives a beat after the text, like the homepage photo. */
+  .page-hero-aside {
+    animation: page-hero-aside-in 800ms var(--ease-out) 200ms both;
+  }
+  @keyframes page-hero-aside-in {
+    from {
+      opacity: 0;
+      translate: 24px 0;
+    }
+  }
+  .page-hero-proof {
+    padding: 1.6rem;
+    border: 1px solid rgba(255, 217, 138, 0.2);
+    border-radius: 22px;
+    background: linear-gradient(160deg, rgba(27, 58, 102, 0.75), rgba(12, 37, 64, 0.75));
+    box-shadow: 0 30px 60px -30px rgba(3, 12, 22, 0.9);
+  }
+  .page-hero-proof-kicker {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .page-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(245, 241, 232, 0.12);
+  }
+  .page-hero-stats dd {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-gold-300);
+  }
+  .page-hero-stats dt {
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    opacity: 0.75;
+  }
+  .page-hero-stats > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .page-hero-points {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .page-hero-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .page-hero-points svg {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--color-gold-300);
+  }
+</style>

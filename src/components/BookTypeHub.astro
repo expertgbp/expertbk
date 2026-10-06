@@ -1,0 +1,115 @@
+---
+/**
+ * The body shared by the three book hub pages (/books/brand-and-business,
+ * /books/love-and-legacy, /books/other), between the hero and the FAQ:
+ * the hub's book types as icon cards, the proof block, and the "not sure
+ * which is yours?" card. The three pages differ only in their data, so the
+ * layout lives here once.
+ *
+ *   hubHref  this hub's own URL. Used to find its group in bookTypeGroups
+ *            (src/data/nav.ts), which supplies the intro line and each
+ *            book type's icon, so the hub and the header menu never drift.
+ *   types    the book types on this hub: label, href and the body copy
+ */
+import IconCardGrid from "./IconCardGrid.astro";
+import SectionHeading from "./SectionHeading.astro";
+import TestimonialCard from "./TestimonialCard.astro";
+import ProofCards from "./ProofCards.astro";
+import CalloutCard from "./CalloutCard.astro";
+import { bookTypeGroups } from "../data/nav";
+import { pageIcons } from "./pageIcons";
+
+interface Props {
+  hubHref: string;
+  types: { label: string; href: string; body: string }[];
+}
+const { hubHref, types } = Astro.props;
+const group = bookTypeGroups.find((g) => g.headingHref === hubHref);
+const iconFor = (href: string) => group?.items.find((item) => item.href === href)?.icon;
+---
+
+<!-- The book types in this hub -->
+<section class="bg-ivory-50">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="hub-intro">
+      {group?.icon && (
+        <span class="hub-intro-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" set:html={group.icon} />
+        </span>
+      )}
+      <div>
+        <p class="eyebrow">{types.length} book types</p>
+        {group?.description && <p class="hub-intro-text">{group.description}</p>}
+      </div>
+    </div>
+    <div class="mt-10 md:mt-12">
+      <IconCardGrid
+        headingTag="h2"
+        numbered
+        columns={types.length === 3 ? 3 : 2}
+        items={types.map((b) => ({ title: b.label, description: b.body, href: b.href, icon: iconFor(b.href) }))}
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Proof -->
+<section class="bg-navy-100">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <SectionHeading eyebrow="Proof" heading="Proof from the path you're on" />
+    <div class="mt-10 md:mt-12 grid gap-5">
+      <TestimonialCard status="placeholder" placeholderNote="[TESTIMONIAL: pending permission]" />
+      <ProofCards />
+    </div>
+  </div>
+</section>
+
+<!-- Not sure which is yours? -->
+<section class="bg-white">
+  <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
+    <CalloutCard tone="gold" eyebrow="Still deciding" heading="Not sure which is yours?" icon={pageIcons.compass}>
+      <p>
+        <a href="/guides/which-book-first">Which book should I write first?</a> walks through the decision, or <a href="/start">start here</a> for a guided path built around your answers.
+      </p>
+    </CalloutCard>
+  </div>
+</section>
+
+<style>
+  .hub-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .hub-intro {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+  .hub-intro-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 18px;
+    color: var(--color-gold-300);
+    background:
+      radial-gradient(ellipse 90% 90% at 100% 0%, rgba(255, 217, 138, 0.28), transparent 65%),
+      var(--color-navy-900);
+    box-shadow: var(--shadow-md);
+  }
+  .hub-intro-text {
+    max-width: 40rem;
+    margin-top: 0.5rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-navy-900);
+  }
+</style>

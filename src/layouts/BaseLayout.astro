@@ -1,4 +1,6 @@
 ---
+import { existsSync } from "node:fs";
+import path from "node:path";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -8,6 +10,12 @@ import AccessibilityWidget from "../components/AccessibilityWidget.astro";
 import OrganizationSchema from "../components/schema/OrganizationSchema.astro";
 import WebSiteSchema from "../components/schema/WebSiteSchema.astro";
 import { entity } from "../data/entity";
+// The two fonts every page needs for its first screen (body text and the
+// headline). Preloading them means they arrive with the HTML instead of
+// after the CSS has been parsed. Same files global.css references, so the
+// build emits one copy.
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import serifBoldFont from "@fontsource/source-serif-4/files/source-serif-4-latin-700-normal.woff2?url";
 
 interface Props {
   /** {Question or promise} — the "| WriteExpertBook" suffix is added here. */
@@ -41,7 +49,14 @@ const {
 } = Astro.props;
 const fullTitle = `${title} | ${entity.brandName}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site).toString();
+// Share image, in order of preference: one the page passed in (blog posts
+// pass their own hero), then this page's generated card
+// (public/images/og/<slug>.jpg, made by scripts/generate-og-images.mjs),
+// then the site-wide default.
+const ogSlug = Astro.url.pathname.split("/").filter(Boolean).join("-") || "home";
+const pageOgImage = `/images/og/${ogSlug}.jpg`;
+const hasPageOgImage = existsSync(path.join(process.cwd(), "public", pageOgImage));
+const resolvedOgImage = new URL(ogImage ?? (hasPageOgImage ? pageOgImage : "/images/og/default.jpg"), Astro.site).toString();
 ---
 
 <!doctype html>
@@ -50,6 +65,10 @@ const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#081F33" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Site summary for AI assistants" />
+    <link rel="preload" as="font" type="font/woff2" href={interFont} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={serifBoldFont} crossorigin />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -62,6 +81,7 @@ const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt ?? `${entity.brandName}: ${title}`} />
@@ -104,6 +124,7 @@ const resolvedOgImage = new URL(ogImage ?? "/images/og/default.jpg", Astro.site)
     <AccessibilityWidget />
     <script>
       import "../scripts/reveal";
+      import "../scripts/count-up";
       import "../scripts/cta-motion";
       import "../scripts/hero-particles";
       import "../scripts/card-tilt";

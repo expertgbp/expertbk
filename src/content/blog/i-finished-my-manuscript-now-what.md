@@ -1,7 +1,7 @@
 ---
 title: "I Finished My Manuscript. Now What? The 9 Steps Between Draft and Launch"
 description: "The nine steps between a finished manuscript and a real launch: editing, design, distribution, and the marketing most authors skip."
-heroImage: "/images/blog/i-finished-my-manuscript-now-what.png"
+heroImage: "/images/blog/i-finished-my-manuscript-now-what.webp"
 heroImageAlt: "A printed manuscript stack marked up with red editing pen and sticky note flags, resting on a wooden desk"
 cluster: "Launch"
 pillar: "manuscript-ready-now-what"
@@ -49,7 +49,7 @@ Before anything else, a developmental editor reads for structure: does the argum
 A real developmental edit comes back as a letter or annotated outline, not just margin comments: which chapters carry their weight, where the argument or story loses momentum, what a reader would need earlier than you gave it to them. If the "developmental edit" you're offered is really just a light copyedit with a different name, that's worth catching before you pay for the next stage on top of an unaddressed structural problem.
 
 <figure>
-  <img src="/images/blog/inline/manuscript-flow-edit.png" alt="Flat infographic showing phase one, Edit, as three numbered steps: 1 Developmental Edit, 2 Line and Copy Edit, 3 Positioning Check" loading="lazy" />
+  <img src="/images/blog/inline/manuscript-flow-edit.webp" alt="Flat infographic showing phase one, Edit, as three numbered steps: 1 Developmental Edit, 2 Line and Copy Edit, 3 Positioning Check" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 ## Step 2: Line and copy editing
@@ -69,7 +69,7 @@ This is the last checkpoint to catch that drift before design locks the book in 
 A cover has one job: to make the right reader stop scrolling. This isn't decoration. It's the single highest-leverage design decision in the entire process, tested against the genre shelf the book actually competes on, not judged in isolation on your own screen. A cover that "looks nice" to the author but doesn't read as a business book, memoir, or self-help title at a glance will lose readers before they ever open the page, because most buying decisions on a retail page happen in a couple of seconds.
 
 <figure>
-  <img src="/images/blog/inline/manuscript-flow-design.png" alt="Flat infographic showing phase two, Design and Setup, as three numbered steps: 4 Cover Design, 5 Interior Design, 6 ISBN and Metadata" loading="lazy" />
+  <img src="/images/blog/inline/manuscript-flow-design.webp" alt="Flat infographic showing phase two, Design and Setup, as three numbered steps: 4 Cover Design, 5 Interior Design, 6 ISBN and Metadata" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 A real cover process includes concepts tested against comparable titles already selling in your category, not just one designer's personal taste. Ask to see comparable covers in your genre before the first concept round starts, so the design has a real target instead of a guess.
@@ -91,7 +91,7 @@ This step is easy to underestimate because it looks like paperwork, not craft. I
 Real reviews take time to accumulate, and a launch without any is a launch without social proof. Advance reader copies (ARCs) go out before the public launch date specifically to build that early base, so the book has genuine reviews visible on day one instead of launching into an empty review section that makes even a great book look untested.
 
 <figure>
-  <img src="/images/blog/inline/manuscript-flow-launch.png" alt="Flat infographic showing phase three, Launch, as three numbered steps: 7 Advance Copies, 8 The Launch Plan, 9 After Launch Week" loading="lazy" />
+  <img src="/images/blog/inline/manuscript-flow-launch.webp" alt="Flat infographic showing phase three, Launch, as three numbered steps: 7 Advance Copies, 8 The Launch Plan, 9 After Launch Week" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Building an ARC list takes real lead time, usually four to eight weeks before launch, since reviewers need time to actually read the book before posting anything. Authors who skip this step, or start it too late, are the ones who launch to a review section with zero or one review, which quietly signals "untested" to every reader who lands on the page in the first critical weeks.

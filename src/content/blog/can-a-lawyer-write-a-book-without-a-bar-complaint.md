@@ -1,7 +1,7 @@
 ---
 title: "Can a Lawyer Write a Book Without a Bar Complaint? Ethics and Compliance Basics"
 description: "What lawyers need to check before publishing: client confidentiality, advertising rules, and the specific edits that keep a book bar-compliant."
-heroImage: "/images/blog/can-a-lawyer-write-a-book-without-a-bar-complaint.png"
+heroImage: "/images/blog/can-a-lawyer-write-a-book-without-a-bar-complaint.webp"
 heroImageAlt: "A redlined manuscript page marked with an editor's pen beside a CONFIDENTIAL rubber stamp, on a dark wood desk"
 cluster: "Compliance"
 pillar: "where-to-start"
@@ -55,7 +55,7 @@ That reshaping isn't just changing a name. A real composite changes the identify
 This gets built into editing as a specific, named pass, not assumed to happen on its own. Every anecdote that reads like a real matter gets flagged and checked: is this a composite, does it need a rewrite to remove an identifying detail, or does it need the client's actual sign-off because the story is distinctive enough that no amount of reshaping would fully obscure it. Privileged information and attorney work product get the same scrutiny; a story doesn't need to name a client to still be a confidentiality problem if it discloses strategy, settlement terms, or internal deliberations that were never meant to leave the file.
 
 <figure>
-  <img src="/images/blog/inline/lawyer.png" alt="A brass scale of justice statuette beside an open book and fountain pen on a wooden desk, with law books stacked in the background" loading="lazy" />
+  <img src="/images/blog/inline/lawyer.webp" alt="A brass scale of justice statuette beside an open book and fountain pen on a wooden desk, with law books stacked in the background" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Practice area changes what needs the most care here. A family law book has to protect minors and non-client family members who never agreed to anything. A criminal defense book has to think about co-defendants and victims, not just the client. A corporate or transactional book has to think about deal terms and counterparties who may still be identifiable from public filings even after names change. None of this is a reason to avoid writing about your work. It's a reason to have someone checking for it on purpose.
@@ -73,7 +73,7 @@ What we do on our side is build a compliance review into the editing and launch 
 A book that explains how a type of dispute generally works is informational. A book that tells a specific reader what to do about their specific case starts to look like legal advice, delivered without an attorney-client relationship, without the disclaimers, and without the context a real consultation would include.
 
 <figure>
-  <img src="/images/blog/inline/lawyer-advice-line.png" alt="A two-column infographic comparing Informational content (teaches the landscape, general patterns, no outcome promised) against Legal Advice (diagnoses one case, tells a reader what to do, requires a relationship)" loading="lazy" />
+  <img src="/images/blog/inline/lawyer-advice-line.webp" alt="A two-column infographic comparing Informational content (teaches the landscape, general patterns, no outcome promised) against Legal Advice (diagnoses one case, tells a reader what to do, requires a relationship)" loading="lazy" width="1400" height="933" decoding="async" />
   <figcaption>Most legal-professional books stay firmly in the left column by design.</figcaption>
 </figure>
 
@@ -86,7 +86,7 @@ A standard disclaimer belongs in the front matter either way: a plain statement 
 This is where a lot of the anxiety about "will this get me in trouble" actually gets resolved, one specific pass at a time, rather than left as a vague worry hanging over the whole project.
 
 <figure>
-  <img src="/images/blog/inline/lawyer-compliance-pipeline.png" alt="A five-step infographic pipeline: Draft, Composite Check, Advertising Review, Firm Sign-off, Launch" loading="lazy" />
+  <img src="/images/blog/inline/lawyer-compliance-pipeline.webp" alt="A five-step infographic pipeline: Draft, Composite Check, Advertising Review, Firm Sign-off, Launch" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 The draft comes first, written or extracted the normal way, without self-censoring every sentence for compliance while trying to also think clearly about the content. Trying to do both at once is how books never get finished. The composite check comes next: every client story, anecdote, or case reference gets reviewed specifically for identifiability, and anything that needs reshaping or explicit consent gets flagged here, before it's locked into a chapter you've already grown attached to. The advertising review checks the manuscript's language and the book's marketing copy against the claims your jurisdiction's rules actually restrict: outcome guarantees, specialization claims, comparative superiority claims. Firm sign-off, where applicable, happens before launch, not after a launch date is already public and hard to move. Launch itself includes the disclaimer language, the author bio, and the book description, all checked one more time as a set, since marketing copy is exactly where advertising-rule violations tend to slip in after the manuscript itself has already been cleared.
@@ -108,7 +108,7 @@ Same underlying compliance questions, genuinely different weight on each one, wh
 Whether you're working with us or building this alone, these are the questions worth having answered in writing before a manuscript goes anywhere near a printer.
 
 <figure>
-  <img src="/images/blog/inline/lawyer-questions.png" alt="A checklist infographic: Bar Rules Checked, Firm Policy Reviewed, Composite Cases Used, Disclaimer Drafted, Sample Chapter Reviewed" loading="lazy" />
+  <img src="/images/blog/inline/lawyer-questions.webp" alt="A checklist infographic: Bar Rules Checked, Firm Policy Reviewed, Composite Cases Used, Disclaimer Drafted, Sample Chapter Reviewed" loading="lazy" width="1400" height="933" decoding="async" />
 </figure>
 
 Have you actually read your bar's advertising and solicitation rules, or asked your bar's ethics hotline, rather than assuming a book is automatically exempt? Does your firm have an outside-publication or media policy, and have you cleared this specific project against it? Has every client story in the manuscript been confirmed as either a true composite or backed by written informed consent? Is there a disclaimer in the front matter, reviewed by counsel, stating this is general information and not legal advice? Has at least one sample chapter been reviewed by someone other than you, specifically for compliance, not just for prose quality? If any of these don't have a clear yes yet, that's useful information now, while it's still cheap to fix, not after the book is printed.

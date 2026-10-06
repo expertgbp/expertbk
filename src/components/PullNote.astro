@@ -1,0 +1,68 @@
+---
+/**
+ * A sentence worth pulling out of the paragraph it sat in: a gold-100 panel
+ * with the gold door rule down its left edge (the same shape as the hero's
+ * direct-answer panel, on a light surface).
+ *
+ *   label  optional small kicker above the text
+ * The default slot is the text itself. Links inside it are styled here.
+ */
+interface Props {
+  label?: string;
+  class?: string;
+}
+const { label, class: className } = Astro.props;
+---
+
+<div class:list={["pull-note", className]}>
+  {label && <p class="pull-note-label">{label}</p>}
+  <div class="pull-note-body"><slot /></div>
+</div>
+
+<style>
+  .pull-note {
+    position: relative;
+    padding: 1.4rem 1.5rem 1.4rem 1.75rem;
+    border-radius: 0 18px 18px 0;
+    background: var(--color-gold-100);
+    color: var(--color-ink-900);
+  }
+  @media (min-width: 768px) {
+    .pull-note {
+      padding: 1.75rem 2rem 1.75rem 2.25rem;
+    }
+  }
+  .pull-note::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--color-gold-500);
+  }
+  .pull-note-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-navy-700);
+  }
+  .pull-note-body :global(p + p) {
+    margin-top: 0.9rem;
+  }
+  .pull-note-body :global(a) {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-gold-500);
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pull-note-body :global(a:hover) {
+      color: var(--color-navy-600);
+    }
+  }
+</style>

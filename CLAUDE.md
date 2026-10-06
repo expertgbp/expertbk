@@ -134,16 +134,53 @@ as needed; `imagegen` is a backup engine only if `gpt-image` fails. Do not use `
   model, date, running API-call count). `design/raw-images/` (gitignored) holds
   uncompressed originals; the first 2-3 approved images per style go in
   `design/brand-references/` as references for later generations.
+- **Blog images:** drop a post's source PNGs into `public/images/blog/` (hero) and
+  `public/images/blog/inline/` (charts), then run `node scripts/optimize-blog-images.mjs`. It writes
+  the WebP files the site ships (`<post>.webp`, `<post>-800.webp`, plus `<post>-og.jpg` for social
+  shares), moves the PNG originals to `design/raw-images/blog/`, and rewrites the post's image
+  references with real width/height. Never reference a `.png` from a post.
+- **Share (Open Graph) images:** every page has its own 1200x630 card in `public/images/og/<slug>.jpg`,
+  made from the page's `<title>` by `node scripts/generate-og-images.mjs` (run after `npm run build`,
+  then build again). `BaseLayout` picks the page's card automatically and falls back to `default.jpg`.
+  Re-run it whenever a page title changes or a page is added.
 - **Before launch:** replace every `placeholder-*` cover in
   `src/assets/images/placeholder-covers/` with a real cover, or change the "Real books by
   real experts" heading until real covers are in.
 
+## Performance and SEO baseline (measured with Lighthouse on `astro preview`, 2026-10-01)
+
+Mobile: performance 96 on the homepage and 97 to 99 on every other page type tested; accessibility,
+best practices and SEO 100. Desktop: 100 across the board. What keeps it there:
+
+- All CSS is inlined (`build.inlineStylesheets: "always"` in `astro.config.mjs`); the two first-screen
+  fonts are preloaded in `BaseLayout`.
+- A hero `<h1>` must never start at `opacity: 0` (it is the largest paint): `.hero-enter > h1` slides
+  without fading. Don't wrap a headline in a fade.
+- Scripts that measure layout at startup (`reveal.ts`, `count-up.ts`, the testimonial slider, the
+  accessibility widget's lift) wait for `requestIdleCallback`. Keep new scripts to the same rule.
+- Hero particles are desktop-only. The footer, and the homepage's sections from the third down, use
+  `content-visibility: auto`.
+- Gold text on a light background uses `--color-gold-700` (gold-300/500 fail contrast there).
+  `.eyebrow` handles this itself; a custom navy card that holds an eyebrow needs the
+  `on-navy-surface` class so its eyebrow stays bright gold.
+- `/robots.txt`, `/llms.txt`, `/sitemap.xml` and the `sitemap-*.xml` set are generated routes in
+  `src/pages/`, not files in `public/`. `llms.txt` lists every collection entry automatically.
+
 ## Motion rules (project-specific, on top of the animate skill's general judgment)
 
-- Fade-up on scroll for sections (already: `src/scripts/reveal.ts`), a gentle tilt on `.card` hover
-  (already: `src/scripts/card-tilt.ts`), count-up animations for stat numbers, and the EPIC Publishing
-  Path timeline drawing in as it scrolls into view are the site's motion vocabulary — extend these
-  rather than inventing new patterns per page.
+- Fade-up on scroll (`src/scripts/reveal.ts`), a gentle tilt on `.card` hover
+  (`src/scripts/card-tilt.ts`), count-up animations for stat numbers (`src/scripts/count-up.ts`, opt in
+  with `data-count-up`), and the EPIC Publishing Path timeline drawing in as it scrolls into view
+  (`.draw-line`) are the site's motion vocabulary — extend these rather than inventing new patterns
+  per page.
+- `reveal.ts` works per block, not per section: it finds each heading, card, figure and row below the
+  fold on its own and staggers blocks that arrive together, so new sections get scroll entrances with
+  no extra code. Steer it with `data-reveal="none" | "item" | "children"` and `data-reveal-stagger`
+  (see the header comment in that file). It animates the standalone `translate`/`scale` properties,
+  never `transform`, so it can't fight the card tilt, the magnetic CTA, or a component's own hover.
+- The header mega menu (`src/components/Header.astro`) is JS-driven with hover intent, click and
+  keyboard support, and a CSS-only `:hover` fallback when JS is off. Panel content comes from
+  `src/data/nav.ts`; the featured card on the right is chosen per item with `promo: "blueprint" | "call"`.
 - UI animations stay under 300ms; scroll reveals can run longer but must never block reading.
 - Always respect `prefers-reduced-motion` (`gsap.matchMedia()` for anything GSAP-driven), and never
   break the site's "Stop animations" accessibility toggle (`src/scripts/accessibility-widget.ts`,
