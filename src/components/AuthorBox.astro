@@ -1,5 +1,8 @@
 ---
+import { Image, type ImageMetadata } from "astro:assets";
 import { entity } from "../data/entity";
+import sushPhoto from "../assets/images/founders/founder-sush-dutta.webp";
+import ashPhoto from "../assets/images/founders/founder-ash-goel.webp";
 
 interface Props {
   /** Must match one of entity.founders[].shortName (the blog schema's
@@ -12,22 +15,21 @@ const founder = entity.founders.find(
   (f) => f.shortName === authorName || f.name === authorName
 );
 
-const initials = (founder?.shortName ?? authorName)
-  .split(" ")
-  .map((w) => w[0])
-  .join("")
-  .toUpperCase();
+const founderPhotos: Record<string, ImageMetadata> = {
+  "Sush Dutta": sushPhoto,
+  "Ash Goel": ashPhoto,
+};
+const photo = founder ? founderPhotos[founder.shortName] : undefined;
 ---
 
-<!-- Initials avatar, not a stock or invented photo — see the founders
-     section on the homepage: "[Photo placeholder: real photo pending]".
-     Everything else here (name, title, credentials) is pulled straight
-     from src/data/entity.ts, never invented. Pattern adapted from a
-     reference site's author-box, which uses the same honest
-     initials-only avatar rather than a fabricated headshot. -->
+<!-- Real founder photo, not a stock or invented one. Everything else here
+     (name, title, credentials) is pulled straight from src/data/entity.ts,
+     never invented. -->
 {founder && (
   <aside class="author-box" aria-label={`About ${founder.shortName}`}>
-    <div class="author-box-avatar" aria-hidden="true">{initials}</div>
+    {photo && (
+      <Image src={photo} alt={founder.shortName} width={96} height={96} class="author-box-avatar" />
+    )}
     <div class="author-box-body">
       <p class="author-box-kicker">Written by</p>
       <a href="/about" class="author-box-name">{founder.shortName}</a>
@@ -58,14 +60,8 @@ const initials = (founder?.shortName ?? authorName)
     width: 3rem;
     height: 3rem;
     border-radius: 999px;
-    background: var(--color-navy-900);
-    color: var(--color-gold-300);
-    font-family: var(--font-serif);
-    font-weight: 700;
-    font-size: 1.05rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    object-fit: cover;
+    object-position: 50% 20%;
   }
   .author-box-kicker {
     font-size: 0.75rem;

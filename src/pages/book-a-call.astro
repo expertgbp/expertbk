@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
+import { Image } from "astro:assets";
 import { entity } from "../data/entity";
+import sushPhoto from "../assets/images/founders/founder-sush-dutta.webp";
+import ashPhoto from "../assets/images/founders/founder-ash-goel.webp";
 
 const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | undefined;
 
@@ -12,9 +15,7 @@ const steps = [
   "If it's a fit, we show you the path and the investment. If it isn't, we tell you that too, and point you to what will help instead.",
 ];
 
-// Initials stand in for the founders' headshots until real photos are
-// supplied (never an invented face), same as AuthorBox.
-const hostInitials = entity.founders.map((f) => f.shortName.split(" ").map((w) => w[0]).join(""));
+const hostPhotos = [sushPhoto, ashPhoto];
 ---
 
 <BaseLayout
@@ -55,7 +56,9 @@ const hostInitials = entity.founders.map((f) => f.shortName.split(" ").map((w) =
 
           <div class="host" data-reveal="item">
             <div class="host-avatars" aria-hidden="true">
-              {hostInitials.map((initials) => <span class="host-avatar">{initials}</span>)}
+              {hostPhotos.map((photo) => (
+                <Image src={photo} alt="" width={96} height={96} class="host-avatar" />
+              ))}
             </div>
             <p class="host-note">
               Calls are with Sush Dutta or Ash Goel, or a senior member of their team.
@@ -66,7 +69,15 @@ const hostInitials = entity.founders.map((f) => f.shortName.split(" ").map((w) =
 
         {bookingEmbedUrl ? (
           <div class="booking-card overflow-hidden bg-white" data-reveal="item">
-            <iframe src={bookingEmbedUrl} title="Book a call" class="w-full min-h-[700px] border-0"></iframe>
+            <iframe
+              src={bookingEmbedUrl}
+              title="Book a call"
+              id="msgsndr-calendar"
+              scrolling="no"
+              allow="payment"
+              class="w-full min-h-[700px] border-0"
+            ></iframe>
+            <script src="https://link.msgsndr.com/js/embed.js" is:inline></script>
           </div>
         ) : (
           <div class="booking-card bg-white p-8 md:p-12 text-center" data-reveal="item">
@@ -192,18 +203,12 @@ const hostInitials = entity.founders.map((f) => f.shortName.split(" ").map((w) =
     flex-shrink: 0;
   }
   .host-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 3rem;
     height: 3rem;
     border: 2px solid #fff;
     border-radius: 999px;
-    background: var(--color-navy-900);
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-gold-300);
+    object-fit: cover;
+    object-position: 50% 20%;
   }
   .host-avatar + .host-avatar {
     margin-left: -0.7rem;

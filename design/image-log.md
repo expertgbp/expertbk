@@ -14,6 +14,9 @@ the photographer + source instead. See
 | `src/assets/images/placeholder-covers/placeholder-therapist.webp` | Homepage bookshelf | AI-generated | "WHAT WE DON'T SAY" / "Elena Cross" (dummy) — photorealistic, cream bg, reading glasses on notebook / gpt-image-2 | 2026-09-28 |
 | `src/assets/images/placeholder-covers/placeholder-lawyer.webp` | Homepage bookshelf | AI-generated | "THE CASE FOR CLARITY" / "Marcus Hale" (dummy) — photorealistic, charcoal bg, gavel and tied document / gpt-image-2 | 2026-09-28 |
 | `src/assets/images/placeholder-covers/placeholder-executive.webp` | Homepage bookshelf | AI-generated | "LEADING WITHOUT A MAP" / "Patricia Cole" (dummy) — photorealistic, navy bg, wristwatch on leather portfolio / gpt-image-2 | 2026-09-28 |
+| `src/assets/images/founders/founders-duo.webp` | Homepage "Meet the founders" | Real photo, supplied by user (studio portrait of Sush Dutta and Ash Goel), center-cropped to square | n/a (real photo, not generated) | 2026-10-14 |
+| `src/assets/images/founders/founder-sush-dutta.webp` | About page, blog AuthorBox, Book a Call | Real photo, supplied by user, cropped from the same studio duo portrait | n/a (real photo, not generated) | 2026-10-14 |
+| `src/assets/images/founders/founder-ash-goel.webp` | About page, blog AuthorBox, Book a Call | Real photo, supplied by user, cropped from the same studio duo portrait | n/a (real photo, not generated) | 2026-10-14 |
 
 ## API call count
 

@@ -10,6 +10,8 @@ import FounderCard from "../components/FounderCard.astro";
 import FinalDoorCTA from "../components/FinalDoorCTA.astro";
 import { entity } from "../data/entity";
 import { stageIcons } from "../data/stage-icons";
+import sushPhoto from "../assets/images/founders/founder-sush-dutta.webp";
+import ashPhoto from "../assets/images/founders/founder-ash-goel.webp";
 
 const [sush, ash] = entity.founders;
 
@@ -93,6 +95,7 @@ const numbers = [
           jobTitle={sush.jobTitle}
           credentials={sush.credentials}
           photoLabel="[Photo placeholder: Sush Dutta, real photo pending]"
+          photo={sushPhoto}
         >
           <p>
             Sush co-built the EPIC Publishing Path and reads applications from prospective authors personally,
@@ -104,6 +107,7 @@ const numbers = [
           jobTitle={ash.jobTitle}
           credentials={ash.credentials}
           photoLabel="[Photo placeholder: Ash Goel, real photo pending]"
+          photo={ashPhoto}
         >
           <p>
             Ash has personally delivered {entity.proofBank.tedxAshSolo} TEDx talks, on top of the {entity.proofBank.tedxJoint} he and Sush have delivered together, and has taught alongside her
