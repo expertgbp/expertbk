@@ -28,7 +28,7 @@ const { name, jobTitle, credentials, photoLabel, photo } = Astro.props;
   {photo ? (
     <div class="founder-photo founder-photo-real">
       <span class="founder-photo-accent" aria-hidden="true"></span>
-      <Image src={photo} alt={`${name}, ${jobTitle}`} width={640} height={512} class="founder-photo-img" />
+      <Image src={photo} alt={`${name}, ${jobTitle}`} width={640} class="founder-photo-img" />
     </div>
   ) : (
     <div class="founder-photo" role="img" aria-label={photoLabel}>
