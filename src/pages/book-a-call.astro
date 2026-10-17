@@ -6,8 +6,6 @@ import { entity } from "../data/entity";
 import sushPhoto from "../assets/images/founders/founder-sush-dutta-headshot.webp";
 import ashPhoto from "../assets/images/founders/founder-ash-goel-headshot.webp";
 
-const bookingEmbedUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL as string | undefined;
-
 // "What happens on the call": the page's original three steps.
 const steps = [
   "We hear your idea, your field, and where you're stuck: idea only, mid-draft, manuscript in hand, or published and not selling.",
@@ -67,44 +65,17 @@ const hostPhotos = [sushPhoto, ashPhoto];
           </div>
         </div>
 
-        {bookingEmbedUrl ? (
-          <div class="booking-card overflow-hidden bg-white" data-reveal="item">
-            <iframe
-              src={bookingEmbedUrl}
-              title="Book a call"
-              id="msgsndr-calendar"
-              scrolling="no"
-              allow="payment"
-              class="w-full min-h-[700px] border-0"
-            ></iframe>
-            <script src="https://link.msgsndr.com/js/embed.js" is:inline></script>
-          </div>
-        ) : (
-          <div class="booking-card bg-white p-8 md:p-12 text-center" data-reveal="item">
-            <span class="booking-icon" aria-hidden="true">
-              <svg
-                class="h-7 w-7"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <rect x="3.5" y="5" width="17" height="15" rx="2"></rect>
-                <path d="M3.5 9.5h17M8 3v3M16 3v3"></path>
-              </svg>
-            </span>
-            <p class="text-slate-500">
-              {/* "in" stays on the <code> line: a line break straight after a
-                  closing inline tag loses the space between them. */}
-              The live calendar embed isn't wired up yet. Set
-              <code class="text-sm bg-navy-100 px-1.5 py-0.5 rounded break-all">PUBLIC_BOOKING_EMBED_URL</code> in
-              your environment to a Calendly (or similar) embed URL and this block will render it automatically.
-            </p>
-            <p class="mt-4 text-sm">
-              In the meantime: <a href="/contact" class="booking-contact arrow-link underline font-semibold">talk to a real person <span class="arrow" aria-hidden="true">&rarr;</span></a>
-            </p>
-          </div>
-        )}
+        {/* LeadConnector calendar widget. */}
+        <div class="booking-card overflow-hidden bg-white" data-reveal="item">
+          <iframe
+            src="https://api.leadconnectorhq.com/widget/booking/p5r9tz5Cocmvkdews8kD"
+            allow="payment"
+            style="width: 100%; min-height: 700px; border: none; overflow: hidden;"
+            scrolling="no"
+            id="p5r9tz5Cocmvkdews8kD_1792243005218"
+          ></iframe>
+          <script src="https://link.msgsndr.com/js/form_embed.js" is:inline></script>
+        </div>
       </div>
     </div>
   </section>
