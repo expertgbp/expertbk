@@ -49,6 +49,16 @@ see `~/.claude/CLAUDE.md` for the full roster) apply to this project.
   section 11 exactly). Match its structure, depth, and voice for every other collection entry.
 - Forms: `src/scripts/lead-form.ts` is the one submit handler every `[data-lead-form]` form uses
   (provider-agnostic — reads `PUBLIC_FORM_ENDPOINT_URL`). Reuse it; don't write a new handler per form.
+  `PUBLIC_FORM_ENDPOINT_URL` is set to `/api/submit-lead`, this project's own lead intake: a Cloudflare
+  Pages Function at `functions/api/submit-lead.js` (the site's only server-side code; everything else is
+  static). It upserts the submitter into GoHighLevel as a contact, then tags them via GHL's additive
+  `/contacts/{id}/tags` endpoint (never the `tags` field on `/contacts/upsert`, which replaces a contact's
+  whole tag list and would erase tags from a different form the same person submitted earlier) — the
+  `FORM_TAGS` map in that file keys each tag off a form's `formId`. Add a line there whenever a new form
+  ships. Reads `GHL_API_KEY`/`GHL_LOCATION_ID` from the Cloudflare Pages project's own environment
+  variables in production (`.env`'s copies have no effect there) or from `.dev.vars` for local
+  `wrangler pages dev` testing (plain `astro dev` does not run Pages Functions at all). Deliberately not
+  used for `/book-a-call`, which embeds GHL's own booking widget directly via `PUBLIC_BOOKING_EMBED_URL`.
 - Motion: `src/scripts/cta-motion.ts` is the site's one signature CTA interaction (magnetic pointer-pull
   on `[data-magnetic]`, currently the hero and FinalDoorCTA primary buttons only) and
   `src/scripts/hero-particles.ts` is the homepage-only hero particle field + beam parallax (gated behind
